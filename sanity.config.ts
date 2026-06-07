@@ -1,5 +1,5 @@
 import { defineConfig } from 'sanity';
-import { structureTool } from 'sanity/structure';
+import { deskTool } from 'sanity/desk';
 import { visionTool } from '@sanity/vision';
 import { postSchema } from './sanity/schemas/post';
 import { resourceSchema } from './sanity/schemas/resource';
@@ -8,11 +8,11 @@ export default defineConfig({
   name: 'maformationcivique',
   title: 'maformationcivique.fr — CMS',
 
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? 'uhc1m2kc',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production',
 
   plugins: [
-    structureTool({
+    deskTool({
       structure: (S) =>
         S.list()
           .title('Contenu')

@@ -1,7 +1,6 @@
-// Schéma Sanity — Article de blog
-// À importer dans votre sanity.config.ts quand vous créerez le studio
+import { defineType } from 'sanity';
 
-export const postSchema = {
+export const postSchema = defineType({
   name: 'post',
   title: 'Article',
   type: 'document',
@@ -10,14 +9,14 @@ export const postSchema = {
       name: 'title',
       title: 'Titre',
       type: 'string',
-      validation: (R: { required: () => unknown }) => R.required(),
+      
     },
     {
       name: 'slug',
       title: 'Slug (URL)',
       type: 'slug',
       options: { source: 'title', maxLength: 96 },
-      validation: (R: { required: () => unknown }) => R.required(),
+      
     },
     {
       name: 'excerpt',
@@ -98,7 +97,7 @@ export const postSchema = {
   preview: {
     select: { title: 'title', subtitle: 'category', media: 'coverImage' },
   },
-};
+});
 
 export const authorSchema = {
   name: 'author',

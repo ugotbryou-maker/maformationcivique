@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Conditions Générales d'Utilisation — maformationcivique.fr',
-  description: 'Conditions générales d'utilisation et de vente de maformationcivique.fr',
+  title: "Conditions Générales d'Utilisation — maformationcivique.fr",
+  description: "Conditions générales d'utilisation et de vente de maformationcivique.fr",
 };
 
 const LAST_UPDATE = '7 juin 2026';
@@ -122,7 +122,7 @@ export default function CguPage() {
               unique généré depuis son espace personnel. L&apos;offre de parrainage est la suivante :
             </p>
             <InfoBlock rows={[
-              ['Pour l'invité', 'Premier mois à 6,00 € TTC (au lieu de 12,00 €)'],
+              ["Pour l'invité", 'Premier mois à 6,00 € TTC (au lieu de 12,00 €)'],
               ['Pour le parrain', '1 mois offert dès que son filleul souscrit et règle son premier mois'],
               ['Limite', '5 parrainages maximum par compte'],
               ['Cumulable ?', 'Non — une seule offre de parrainage par souscription'],

@@ -2,12 +2,6 @@
 
 import Link from 'next/link';
 import { Shield, Star, Award, ArrowRight, Clock, CheckCircle, BookOpen } from 'lucide-react';
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Examens blancs — maformationcivique.fr',
-  description: 'Préparez votre examen civique avec des examens blancs adaptés à votre démarche : carte de séjour pluriannuelle, carte de résident ou naturalisation.',
-};
 
 const LEVELS = [
   {

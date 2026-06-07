@@ -35,7 +35,7 @@ function InscriptionForm() {
       password,
       options: {
         data: { name },
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+        emailRedirectTo: `${typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_APP_URL ?? 'https://maformationcivique.fr'}/auth/callback`,
       },
     });
 

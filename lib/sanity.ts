@@ -1,11 +1,16 @@
 import { createClient } from 'next-sanity';
 import imageUrlBuilder from '@sanity/image-url';
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SanityImageSource = any;
+
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? 'uhc1m2kc';
+const dataset   = process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production';
 
 export const sanityClient = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? '',
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production',
-  apiVersion: '2026-06-07',
+  projectId,
+  dataset,
+  apiVersion: '2024-01-01',
   useCdn: true,
 });
 
