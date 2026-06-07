@@ -260,7 +260,7 @@ const mod02: Module = {
       moduleSlug: 'droits',
       title: 'Les droits fondamentaux',
       duration: 12,
-      free: false,
+      free: true,
       content: `# Les droits fondamentaux en France
 
 Les droits fondamentaux sont les droits essentiels reconnus à toute personne humaine. Ils sont protégés par la Constitution française et les textes internationaux.
@@ -473,7 +473,7 @@ const mod03: Module = {
       moduleSlug: 'institutions',
       title: 'L\'État de droit et la séparation des pouvoirs',
       duration: 10,
-      free: false,
+      free: true,
       content: `# L'État de droit et la séparation des pouvoirs
 
 La France est un État de droit : cela signifie que l'État lui-même est soumis à des règles juridiques, que nul n'est au-dessus de la loi.
@@ -682,7 +682,7 @@ const mod04: Module = {
       moduleSlug: 'histoire',
       title: 'Les régimes politiques depuis 1789',
       duration: 14,
-      free: false,
+      free: true,
       content: `# Les régimes politiques français depuis 1789
 
 Depuis la Révolution française, la France a connu de nombreux régimes politiques. Cette instabilité a finalement conduit à l'établissement durable de la République.
@@ -928,7 +928,7 @@ const mod05: Module = {
       moduleSlug: 'vie-en-france',
       title: 'La santé et les droits sociaux',
       duration: 11,
-      free: false,
+      free: true,
       content: `# La santé et les droits sociaux en France
 
 La France possède l'un des systèmes de protection sociale les plus développés au monde. Ce système garantit à tous les résidents l'accès aux soins et à une protection contre les risques de la vie.

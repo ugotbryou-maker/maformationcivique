@@ -1,8 +1,10 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { modules } from '@/data/modules';
 import { lessonExercises } from '@/data/exercises';
 import { resolveArt } from '@/data/lesson-art';
+import { createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
 import { LessonExercise } from '@/components/app/LessonExercise';
 import {
   ChevronRight, ChevronLeft, Clock,
@@ -110,6 +112,40 @@ export default async function LessonPage({ params }: Props) {
     if (found) { lesson = found; mod = m; break; }
   }
   if (!lesson || !mod) notFound();
+
+  // ── Paywall serveur ───────────────────────────────────────────────────────
+  if (!lesson.free) {
+    let isPremium = false;
+    try {
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+      if (supabaseUrl && supabaseKey && !supabaseUrl.includes('placeholder')) {
+        const cookieStore = await cookies();
+        const supabase = createServerClient(supabaseUrl, supabaseKey, {
+          cookies: {
+            getAll() { return cookieStore.getAll(); },
+            setAll() {},
+          },
+        });
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { data } = await supabase
+            .from('users')
+            .select('plan')
+            .eq('id', user.id)
+            .single();
+          isPremium = data?.plan === 'premium';
+        }
+      }
+    } catch {
+      // Si Supabase non dispo (build/preview), on laisse passer
+      isPremium = true;
+    }
+    if (!isPremium) {
+      redirect(`/inscription?plan=premium&next=/lecon/${slug}`);
+    }
+  }
+  // ─────────────────────────────────────────────────────────────────────────
 
   const lessonIndex = mod.lessons.findIndex((l) => l.slug === slug);
   const nextLesson  = mod.lessons[lessonIndex + 1] ?? null;
