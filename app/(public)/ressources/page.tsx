@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import { getAllPosts, POST_CATEGORIES, type SanityPost } from '@/lib/sanity/queries';
 import { Clock, ArrowRight, BookOpen, Search } from 'lucide-react';
@@ -30,14 +32,6 @@ function PostCard({ post, featured = false }: { post: SanityPost; featured?: boo
         display: 'flex',
         flexDirection: 'column',
       }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 32px rgba(0,0,35,0.10)';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)';
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-        }}
       >
         {/* Cover image placeholder */}
         <div style={{

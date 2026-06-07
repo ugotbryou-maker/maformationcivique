@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextResponse } from 'next/server';
 import { anthropic, buildExplanationPrompt, type Lang } from '@/lib/anthropic';
 import { createServerSupabaseClient } from '@/lib/supabase-server';

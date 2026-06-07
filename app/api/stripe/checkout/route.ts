@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextResponse } from 'next/server';
 import { createCheckoutSession, type PlanKey } from '@/lib/stripe';
 import { createServerSupabaseClient } from '@/lib/supabase-server';

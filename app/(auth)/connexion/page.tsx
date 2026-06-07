@@ -1,12 +1,13 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 
-export default function ConnexionPage() {
+function ConnexionForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect') || '/dashboard';
@@ -194,5 +195,13 @@ export default function ConnexionPage() {
         </p>
       </form>
     </div>
+  );
+}
+
+export default function ConnexionPage() {
+  return (
+    <Suspense fallback={<div style={{ textAlign: 'center', padding: '40px' }}>Chargement…</div>}>
+      <ConnexionForm />
+    </Suspense>
   );
 }

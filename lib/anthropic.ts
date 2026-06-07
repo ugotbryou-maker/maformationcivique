@@ -1,7 +1,19 @@
 import Anthropic from '@anthropic-ai/sdk';
 
-export const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
+// Lazy init — évite le crash au build si ANTHROPIC_API_KEY absent
+let _anthropic: Anthropic | null = null;
+
+export function getAnthropic(): Anthropic {
+  if (_anthropic) return _anthropic;
+  _anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? '' });
+  return _anthropic;
+}
+
+/** @deprecated Use getAnthropic() instead */
+export const anthropic = new Proxy({} as Anthropic, {
+  get(_target, prop) {
+    return (getAnthropic() as unknown as Record<string | symbol, unknown>)[prop];
+  },
 });
 
 export type Lang = 'fr' | 'ar' | 'en' | 'pt';

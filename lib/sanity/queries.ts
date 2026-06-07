@@ -1,4 +1,4 @@
-import { sanityClient } from './client';
+import { getSanityClient } from './client';
 
 export interface SanityPost {
   _id: string;
@@ -32,7 +32,7 @@ export async function getAllPosts(): Promise<SanityPost[]> {
   }
 
   try {
-    return await sanityClient.fetch<SanityPost[]>(`
+    return await getSanityClient()?.fetch(`
       *[_type == "post"] | order(publishedAt desc) {
         _id,
         title,
@@ -59,7 +59,7 @@ export async function getPostBySlug(slug: string): Promise<SanityPost | null> {
   }
 
   try {
-    return await sanityClient.fetch<SanityPost>(`
+    return await getSanityClient()?.fetch(`
       *[_type == "post" && slug.current == $slug][0] {
         _id,
         title,
@@ -93,10 +93,11 @@ export async function getAllPostSlugs(): Promise<string[]> {
     return DEMO_POSTS.map((p) => p.slug.current);
   }
   try {
-    const results = await sanityClient.fetch<{ slug: { current: string } }[]>(
+    const results = await getSanityClient()?.fetch(
       `*[_type == "post"]{ slug }`
     );
-    return results.map((r) => r.slug.current);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (results ?? []).map((r: any) => r.slug.current);
   } catch {
     return DEMO_POSTS.map((p) => p.slug.current);
   }

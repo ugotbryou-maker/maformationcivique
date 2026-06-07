@@ -1,5 +1,7 @@
+export const dynamic = 'force-dynamic';
+
 import { NextResponse } from 'next/server';
-import { stripe } from '@/lib/stripe';
+import { getStripe } from '@/lib/stripe';
 import { createServerClient } from '@supabase/ssr';
 import type Stripe from 'stripe';
 
@@ -9,7 +11,7 @@ export async function POST(req: Request) {
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
+    event = getStripe().webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
   } catch {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
@@ -29,7 +31,7 @@ export async function POST(req: Request) {
 
       const customerId = session.customer as string;
       const subscriptionId = session.subscription as string;
-      const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+      const subscription = await getStripe().subscriptions.retrieve(subscriptionId);
       const subData = subscription as unknown as { current_period_end: number };
       const periodEnd = new Date(subData.current_period_end * 1000).toISOString();
 

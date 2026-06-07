@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
@@ -7,12 +9,12 @@ import { User, CreditCard, LogOut, Globe } from 'lucide-react';
 
 export default function ProfilPage() {
   const router = useRouter();
-  const supabase = createClient();
   const [profile, setProfile] = useState<{ name?: string; email?: string; plan?: string; lang?: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [portalLoading, setPortalLoading] = useState(false);
 
   useEffect(() => {
+    const supabase = createClient();
     async function load() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push('/connexion'); return; }
@@ -21,9 +23,10 @@ export default function ProfilPage() {
       setLoading(false);
     }
     load();
-  }, []);
+  }, [router]);
 
   const handleSignOut = async () => {
+    const supabase = createClient();
     await supabase.auth.signOut();
     router.push('/');
     router.refresh();

@@ -1,12 +1,13 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
 import { Eye, EyeOff, Mail, Lock, User, CheckCircle } from 'lucide-react';
 
-export default function InscriptionPage() {
+function InscriptionForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const plan = searchParams.get('plan');
@@ -301,5 +302,13 @@ export default function InscriptionPage() {
         </p>
       </form>
     </div>
+  );
+}
+
+export default function InscriptionPage() {
+  return (
+    <Suspense fallback={<div style={{ textAlign: 'center', padding: '40px' }}>Chargement…</div>}>
+      <InscriptionForm />
+    </Suspense>
   );
 }

@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 
 const footerLinks = {
@@ -106,13 +104,7 @@ export function Footer() {
                   <li key={link.label} style={{ marginBottom: '10px' }}>
                     <Link
                       href={link.href}
-                      style={{
-                        fontSize: 'var(--font-size-sm)',
-                        color: 'rgba(255,255,255,0.65)',
-                        transition: 'color 150ms ease-out',
-                      }}
-                      onMouseEnter={(e) => { e.currentTarget.style.color = '#FFFFFF'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; }}
+                      className="footer-link"
                     >
                       {link.label}
                     </Link>

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import { Shield, Star, Award, ArrowRight, Clock, CheckCircle, BookOpen } from 'lucide-react';
 import type { Metadata } from 'next';
