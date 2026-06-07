@@ -2,7 +2,11 @@
 
 import Link from 'next/link';
 import { modules } from '@/data/modules';
-import { BookOpen, Clock, Lock, ArrowRight } from 'lucide-react';
+import { BookOpen, Clock, Lock, ArrowRight, CheckCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+interface ModuleProgress { completed: number; total: number; percent: number; }
+type ProgressMap = Record<string, ModuleProgress>;
 
 const MODULE_CONFIG = [
   { slug: 'republique',    image: '/images/modules/republique.jpg',    color: '#DC2626', colorEnd: '#991B1B', position: 'center 8%'  },
@@ -13,6 +17,14 @@ const MODULE_CONFIG = [
 ];
 
 export function ModulesSection() {
+  const [progress, setProgress] = useState<ProgressMap>({});
+  useEffect(() => {
+    fetch('/api/progress/summary')
+      .then((r) => r.ok ? r.json() : {})
+      .then(setProgress)
+      .catch(() => {});
+  }, []);
+
   return (
     <section style={{ background: 'var(--color-off-white)', padding: '80px 0' }} id="modules">
       <div className="container" style={{ padding: '0 24px' }}>
@@ -42,6 +54,7 @@ export function ModulesSection() {
           {modules.map((mod) => {
             const config = MODULE_CONFIG.find((c) => c.slug === mod.slug) ?? MODULE_CONFIG[0];
             const totalDuration = mod.lessons.reduce((acc, l) => acc + l.duration, 0);
+            const prog = progress[mod.slug];
 
             return (
               <Link key={mod.id} href={`/module/${mod.slug}`} style={{ textDecoration: 'none' }}>
@@ -125,6 +138,19 @@ export function ModulesSection() {
                       }}>
                         {mod.title}
                       </h3>
+
+                      {/* Barre progression si connecté */}
+                      {prog && prog.completed > 0 && (
+                        <div style={{ marginBottom: '7px' }}>
+                          <div style={{ height: '3px', background: 'rgba(255,255,255,0.2)', borderRadius: '100px', overflow: 'hidden', marginBottom: '4px' }}>
+                            <div style={{ height: '100%', width: `${prog.percent}%`, background: prog.percent === 100 ? '#4ADE80' : 'rgba(255,255,255,0.85)', borderRadius: '100px' }} />
+                          </div>
+                          <span style={{ fontSize: '10px', color: prog.percent === 100 ? '#4ADE80' : 'rgba(255,255,255,0.75)', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                            {prog.percent === 100 ? <><CheckCircle size={10} /> Terminé</> : `${prog.completed}/${prog.total} leçons`}
+                          </span>
+                        </div>
+                      )}
+
                       <div style={{ display: 'flex', gap: '12px', alignItems: 'center', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', gap: '10px' }}>
                           {[

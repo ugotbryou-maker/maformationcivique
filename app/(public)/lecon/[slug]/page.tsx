@@ -6,6 +6,7 @@ import { resolveArt } from '@/data/lesson-art';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { LessonExercise } from '@/components/app/LessonExercise';
+import { LessonCompleteButton } from '@/components/app/LessonCompleteButton';
 import {
   ChevronRight, ChevronLeft, Clock,
   Flag, Scale, Map, Landmark, Shield, Globe,
@@ -371,23 +372,33 @@ export default async function LessonPage({ params }: Props) {
         </div>
       </div>
 
-      {/* ── NAVIGATION ────────────────────────────────────────────────────── */}
+      {/* ── TERMINER LA LEÇON + NAVIGATION ───────────────────────────────── */}
       <div className="container" style={{ padding: '36px 24px 64px' }}>
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
-          {prevLesson && (
-            <Link href={`/lecon/${prevLesson.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: '#fff', color: 'var(--color-text-secondary)', padding: '12px 20px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 500, textDecoration: 'none', border: 'var(--border-default)', boxShadow: 'var(--shadow-card)', minHeight: '48px' }}>
-              <ChevronLeft size={14} /> Leçon précédente
-            </Link>
-          )}
-          {nextLesson ? (
-            <Link href={`/lecon/${nextLesson.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'var(--color-blue-night)', color: '#fff', padding: '12px 26px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 600, textDecoration: 'none', boxShadow: 'var(--shadow-lg)', minHeight: '48px' }}>
-              Leçon suivante <ChevronRight size={14} />
-            </Link>
-          ) : (
-            <Link href={`/module/${mod.slug}/quiz`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'var(--color-red-france)', color: '#fff', padding: '12px 26px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 600, textDecoration: 'none', minHeight: '48px' }}>
-              Quiz du module <ChevronRight size={14} />
-            </Link>
-          )}
+        {/* Bouton complétion */}
+        <div style={{ marginBottom: '20px' }}>
+          <LessonCompleteButton
+            lessonSlug={lesson.slug}
+            nextSlug={nextLesson?.slug ?? null}
+            moduleSlug={mod.slug}
+          />
+        </div>
+
+        {/* Navigation prev/next */}
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+          <div>
+            {prevLesson && (
+              <Link href={`/lecon/${prevLesson.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: '#fff', color: 'var(--color-text-secondary)', padding: '10px 18px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 500, textDecoration: 'none', border: 'var(--border-default)', boxShadow: 'var(--shadow-card)', minHeight: '44px' }}>
+                <ChevronLeft size={14} /> Leçon précédente
+              </Link>
+            )}
+          </div>
+          <div>
+            {!nextLesson && (
+              <Link href={`/module/${mod.slug}/quiz`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'var(--color-red-france)', color: '#fff', padding: '10px 22px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 600, textDecoration: 'none', minHeight: '44px' }}>
+                Quiz du module <ChevronRight size={14} />
+              </Link>
+            )}
+          </div>
         </div>
       </div>
 
