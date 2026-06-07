@@ -10,30 +10,35 @@ const MODULE_CONFIG = [
     image: '/images/modules/republique.jpg',
     color: '#DC2626',
     colorEnd: '#991B1B',
+    position: 'center 25%', // Liberté guidant le peuple — visage central haut
   },
   {
     slug: 'droits',
     image: '/images/modules/Droits.png',
     color: '#002395',
     colorEnd: '#001A70',
+    position: 'center 35%', // Le vote — personnages au centre
   },
   {
     slug: 'institutions',
     image: '/images/modules/institutions.jpg',
     color: '#1E3A8A',
     colorEnd: '#1E40AF',
+    position: 'center 20%', // Sacre de Napoléon — scène haute
   },
   {
     slug: 'histoire',
     image: '/images/modules/histoire.jpg',
     color: '#065F46',
     colorEnd: '#059669',
+    position: 'center 30%', // Serment du Jeu de Paume — personnage central
   },
   {
     slug: 'vie-en-france',
     image: '/images/modules/vie-en-france.jpg',
     color: '#0E7490',
     colorEnd: '#0891B2',
+    position: 'center 40%', // Marché parisien — visages au centre
   },
 ];
 
@@ -67,7 +72,7 @@ export function ModuleList() {
                   inset: 0,
                   backgroundImage: `url(${config.image})`,
                   backgroundSize: 'cover',
-                  backgroundPosition: 'center',
+                  backgroundPosition: config.position ?? 'center',
                   transition: 'transform 400ms ease-out',
                 }}
                 className="module-card-img"
