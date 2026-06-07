@@ -6,6 +6,14 @@ import { ProgressBar } from '@/components/app/ProgressBar';
 import { ArrowLeft, Target, Shield, Star, Award, ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
 
+const MODULE_HERO = {
+  republique:   { image: '/images/modules/republique.jpg',   color: '#DC2626', colorEnd: '#991B1B', position: 'center 25%' },
+  droits:       { image: '/images/modules/Droits.png',        color: '#002395', colorEnd: '#001A70', position: 'center 35%' },
+  institutions: { image: '/images/modules/institutions.jpg', color: '#1E3A8A', colorEnd: '#1E40AF', position: 'center 20%' },
+  histoire:     { image: '/images/modules/histoire.jpg',     color: '#065F46', colorEnd: '#059669', position: 'center 30%' },
+  'vie-en-france': { image: '/images/modules/vie-en-france.jpg', color: '#0E7490', colorEnd: '#0891B2', position: 'center 40%' },
+} as const;
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
@@ -29,6 +37,10 @@ export default async function ModulePage({ params }: Props) {
   const mod = getModuleBySlug(slug);
   if (!mod) notFound();
 
+  const hero = MODULE_HERO[mod.slug as keyof typeof MODULE_HERO] ?? {
+    image: '', color: '#002395', colorEnd: '#001A70', position: 'center',
+  };
+
   return (
     <div style={{ minHeight: '80vh', padding: '40px 0 80px' }}>
       <div className="container" style={{ maxWidth: '720px' }}>
@@ -49,70 +61,90 @@ export default async function ModulePage({ params }: Props) {
           Tous les modules
         </Link>
 
-        {/* Module header */}
+        {/* Module header — peinture + overlay */}
         <div
           style={{
-            padding: '32px',
-            borderRadius: 'var(--radius-xl)',
-            background: 'var(--gradient-card)',
+            position: 'relative',
+            borderRadius: '20px',
+            overflow: 'hidden',
             marginBottom: '32px',
-            color: '#FFFFFF',
+            minHeight: '220px',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px' }}>
-            <div>
-              <span style={{ fontSize: '40px', fontWeight: 500, color: 'rgba(255,255,255,0.25)', display: 'block', lineHeight: 1, marginBottom: '12px' }}>
-                {mod.num}
-              </span>
-              <h1 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 500, color: '#FFFFFF', marginBottom: '8px' }}>
-                {mod.title}
-              </h1>
-              <p style={{ fontSize: 'var(--font-size-sm)', color: 'rgba(255,255,255,0.65)' }}>
-                {mod.subtitle}
-              </p>
-            </div>
-            {mod.freeAccess ? (
-              <span
-                style={{
-                  padding: '4px 12px',
-                  borderRadius: 'var(--radius-pill)',
-                  background: 'rgba(29,158,117,0.25)',
-                  border: '0.5px solid rgba(29,158,117,0.4)',
-                  fontSize: 'var(--font-size-xs)',
-                  color: '#6BDFB8',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                Accès gratuit
-              </span>
-            ) : (
-              <span
-                style={{
-                  padding: '4px 12px',
-                  borderRadius: 'var(--radius-pill)',
-                  background: 'rgba(255,255,255,0.1)',
-                  border: '0.5px solid rgba(255,255,255,0.2)',
-                  fontSize: 'var(--font-size-xs)',
-                  color: 'rgba(255,255,255,0.7)',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                Premium
-              </span>
-            )}
-          </div>
-
-          <div style={{ display: 'flex', gap: '24px', marginTop: '24px', flexWrap: 'wrap' }}>
-            {[
-              { val: mod.lessons.length.toString(), label: 'leçons' },
-              { val: mod.questionCount.toString(), label: 'questions' },
-              { val: `${mod.lessons.reduce((a, l) => a + l.duration, 0)} min`, label: 'de contenu' },
-            ].map(({ val, label }) => (
-              <div key={label}>
-                <span style={{ fontSize: 'var(--font-size-md)', fontWeight: 500, color: '#FFFFFF' }}>{val}</span>
-                <span style={{ fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.5)', marginLeft: '4px' }}>{label}</span>
+          {/* Image de fond */}
+          {hero.image && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: `url(${hero.image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: hero.position,
+            }} />
+          )}
+          {/* Overlay coloré */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: `linear-gradient(135deg, ${hero.color}F0 0%, ${hero.colorEnd}D0 100%)`,
+          }} />
+          {/* Contenu */}
+          <div style={{ position: 'relative', zIndex: 2, padding: '36px 32px' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px' }}>
+              <div>
+                <span style={{ fontSize: '48px', fontWeight: 700, color: 'rgba(255,255,255,0.2)', display: 'block', lineHeight: 1, marginBottom: '12px' }}>
+                  {mod.num}
+                </span>
+                <h1 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 600, color: '#FFFFFF', marginBottom: '8px' }}>
+                  {mod.title}
+                </h1>
+                <p style={{ fontSize: 'var(--font-size-sm)', color: 'rgba(255,255,255,0.7)' }}>
+                  {mod.subtitle}
+                </p>
               </div>
-            ))}
+              {mod.freeAccess ? (
+                <span style={{
+                  padding: '4px 14px',
+                  borderRadius: '100px',
+                  background: 'rgba(255,255,255,0.95)',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  color: hero.color,
+                  whiteSpace: 'nowrap',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                }}>
+                  Gratuit
+                </span>
+              ) : (
+                <span style={{
+                  padding: '4px 14px',
+                  borderRadius: '100px',
+                  background: 'rgba(255,255,255,0.15)',
+                  border: '1px solid rgba(255,255,255,0.3)',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  color: 'rgba(255,255,255,0.9)',
+                  whiteSpace: 'nowrap',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  backdropFilter: 'blur(4px)',
+                }}>
+                  Premium
+                </span>
+              )}
+            </div>
+            <div style={{ display: 'flex', gap: '24px', marginTop: '24px', flexWrap: 'wrap' }}>
+              {[
+                { val: mod.lessons.length.toString(), label: 'leçons' },
+                { val: mod.questionCount.toString(), label: 'questions' },
+                { val: `${mod.lessons.reduce((a, l) => a + l.duration, 0)} min`, label: 'de contenu' },
+              ].map(({ val, label }) => (
+                <div key={label}>
+                  <span style={{ fontSize: 'var(--font-size-md)', fontWeight: 600, color: '#FFFFFF' }}>{val}</span>
+                  <span style={{ fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.55)', marginLeft: '4px' }}>{label}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
