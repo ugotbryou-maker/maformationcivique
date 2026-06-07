@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const PROTECTED_PATHS = ['/dashboard', '/progression', '/profil'];
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'ugotbr.you@gmail.com';
 
 export async function middleware(request: NextRequest) {
   // Skip auth middleware if Supabase is not configured
@@ -41,6 +42,13 @@ export async function middleware(request: NextRequest) {
     url.pathname = '/connexion';
     url.searchParams.set('redirect', pathname);
     return NextResponse.redirect(url);
+  }
+
+  // Studio Sanity — réservé à l'admin
+  if (pathname.startsWith('/studio')) {
+    if (!user || user.email !== ADMIN_EMAIL) {
+      return NextResponse.redirect(new URL('/connexion', request.url));
+    }
   }
 
   if ((pathname === '/connexion' || pathname === '/inscription') && user) {
