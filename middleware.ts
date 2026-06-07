@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const PROTECTED_PATHS = ['/dashboard', '/examen', '/progression', '/profil'];
+const PROTECTED_PATHS = ['/dashboard', '/progression', '/profil'];
 
 export async function middleware(request: NextRequest) {
   // Skip auth middleware if Supabase is not configured
