@@ -10,7 +10,7 @@ const MODULE_CONFIG = [
     image: '/images/modules/republique.jpg',
     color: '#DC2626',
     colorEnd: '#991B1B',
-    position: 'center 25%', // Liberté guidant le peuple — visage central haut
+    position: 'center 8%', // Liberté guidant le peuple — cadrage sur le visage
   },
   {
     slug: 'droits',

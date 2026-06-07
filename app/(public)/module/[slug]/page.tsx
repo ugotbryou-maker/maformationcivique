@@ -7,7 +7,7 @@ import { ArrowLeft, Target, Shield, Star, Award, ArrowRight } from 'lucide-react
 import type { Metadata } from 'next';
 
 const MODULE_HERO = {
-  republique:   { image: '/images/modules/republique.jpg',   color: '#DC2626', colorEnd: '#991B1B', position: 'center 25%' },
+  republique:   { image: '/images/modules/republique.jpg',   color: '#DC2626', colorEnd: '#991B1B', position: 'center 8%' },
   droits:       { image: '/images/modules/Droits.png',        color: '#002395', colorEnd: '#001A70', position: 'center 35%' },
   institutions: { image: '/images/modules/institutions.jpg', color: '#1E3A8A', colorEnd: '#1E40AF', position: 'center 20%' },
   histoire:     { image: '/images/modules/histoire.jpg',     color: '#065F46', colorEnd: '#059669', position: 'center 30%' },
