@@ -215,78 +215,77 @@ export default async function ModulePage({ params }: Props) {
             Examens blancs
           </h2>
           <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginBottom: '20px' }}>
-            Choisissez votre démarche pour un examen blanc de 40 questions ciblées — 30 min, score requis 80%.
+            Choisissez votre démarche — 40 questions · 30 min · Score requis 80 %.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {[
               {
                 level: 'CSP',
                 label: 'Carte de séjour pluriannuelle',
-                desc: 'Niveau 1 — définitions et repères fondamentaux',
-                gradient: 'linear-gradient(135deg, #001A70 0%, #002395 100%)',
-                bg: '#E6EEF9',
-                color: '#002395',
+                difficulty: 'Niveau 1',
+                image: '/images/examen/csp.jpg',
+                imagePos: 'center 60%',
+                gFrom: 'rgba(0,26,112,0.82)',
+                gTo: 'rgba(0,35,149,0.72)',
                 Icon: Shield,
               },
               {
                 level: 'CR',
                 label: 'Carte de résident',
-                desc: 'Niveau 2 — application et mécanismes',
-                gradient: 'linear-gradient(135deg, #002395 0%, #0057A8 100%)',
-                bg: '#EFF6FF',
-                color: '#0057A8',
+                difficulty: 'Niveau 2',
+                image: '/images/examen/carte-resident.jpg',
+                imagePos: 'center 30%',
+                gFrom: 'rgba(0,35,149,0.80)',
+                gTo: 'rgba(0,87,168,0.70)',
                 Icon: Star,
               },
               {
                 level: 'NAT',
                 label: 'Naturalisation',
-                desc: 'Niveau 3 — culture générale et histoire approfondie',
-                gradient: 'linear-gradient(135deg, #9F1239 0%, #CC1A1A 100%)',
-                bg: '#FEF2F2',
-                color: '#CC1A1A',
+                difficulty: 'Niveau 3',
+                image: '/images/examen/naturalisation.jpg',
+                imagePos: 'center 40%',
+                gFrom: 'rgba(120,12,40,0.84)',
+                gTo: 'rgba(180,20,20,0.74)',
                 Icon: Award,
               },
-            ].map(({ level, label, desc, gradient, bg, color, Icon }) => (
-              <Link
-                key={level}
-                href={`/examen/${level}`}
-                style={{ textDecoration: 'none' }}
-              >
+            ].map(({ level, label, difficulty, image, imagePos, gFrom, gTo, Icon }) => (
+              <Link key={level} href={`/examen/${level}`} style={{ textDecoration: 'none', display: 'block' }}>
                 <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '16px',
-                  padding: '16px 20px',
-                  borderRadius: 'var(--radius-lg)',
-                  background: '#fff',
-                  border: `1.5px solid ${bg}`,
+                  position: 'relative',
+                  borderRadius: 16,
+                  overflow: 'hidden',
+                  minHeight: 80,
                   cursor: 'pointer',
-                  transition: 'box-shadow 150ms ease-out',
-                }}>
-                  {/* Icône */}
-                  <div style={{
-                    width: 44, height: 44, borderRadius: '50%',
-                    background: gradient,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    flexShrink: 0,
-                  }}>
-                    <Icon size={20} color="#fff" />
-                  </div>
-
-                  {/* Texte */}
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
-                      <span style={{
-                        fontSize: 11, fontWeight: 700, letterSpacing: '.06em',
-                        background: bg, color, padding: '2px 8px',
-                        borderRadius: 100,
-                      }}>{level}</span>
-                      <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--color-blue-night)' }}>{label}</span>
+                  transition: 'transform 260ms ease-out, box-shadow 260ms ease-out',
+                }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
+                    (e.currentTarget as HTMLDivElement).style.boxShadow = '0 10px 32px rgba(0,0,0,0.22)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
+                    (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
+                  }}
+                >
+                  {/* Photo */}
+                  <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: imagePos }} />
+                  {/* Overlay */}
+                  <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(140deg, ${gFrom} 0%, ${gTo} 100%)` }} />
+                  {/* Content */}
+                  <div style={{ position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', gap: 14, padding: '14px 18px' }}>
+                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(6px)', border: '1.5px solid rgba(255,255,255,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <Icon size={18} color="#fff" />
                     </div>
-                    <span style={{ fontSize: 12, color: '#64748B' }}>{desc} · 40 Q · 30 min</span>
+                    <div style={{ flex: 1 }}>
+                      <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>{difficulty}</span>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>{label}</div>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(0,8,40,0.5)', backdropFilter: 'blur(8px)', borderRadius: 10, padding: '7px 12px', border: '1px solid rgba(255,255,255,0.12)' }}>
+                      <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.85)' }}>40 Q · 30 min · 80%</span>
+                      <ArrowRight size={13} color="rgba(255,255,255,0.7)" />
+                    </div>
                   </div>
-
-                  <ArrowRight size={16} color="#94A3B8" />
                 </div>
               </Link>
             ))}
