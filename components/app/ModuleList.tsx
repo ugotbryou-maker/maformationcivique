@@ -13,7 +13,7 @@ const MODULE_CONFIG = [
   },
   {
     slug: 'droits',
-    image: '/images/modules/droits.jpg',
+    image: '/images/modules/Droits.png',
     color: '#002395',
     colorEnd: '#001A70',
   },
