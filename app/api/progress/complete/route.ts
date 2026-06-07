@@ -44,7 +44,7 @@ export async function POST(req: Request) {
 
     // Vérifier si déjà complétée
     const { data: existing } = await supabase
-      .from('user_progress')
+      .from('progression')
       .select('id, completed')
       .eq('user_id', user.id)
       .eq('lesson_slug', lessonSlug)
@@ -68,14 +68,13 @@ export async function POST(req: Request) {
 
     // Upsert progression
     await supabase
-      .from('user_progress')
+      .from('progression')
       .upsert({
         user_id: user.id,
         module_slug: moduleSlug,
         lesson_slug: lessonSlug,
         completed: true,
         completed_at: new Date().toISOString(),
-        xp_awarded: xpEarned,
       }, { onConflict: 'user_id,lesson_slug' });
 
     // Ajouter XP au profil
@@ -111,7 +110,7 @@ export async function POST(req: Request) {
 
     // Badge première leçon
     const { count: completedCount } = await supabase
-      .from('user_progress')
+      .from('progression')
       .select('*', { count: 'exact', head: true })
       .eq('user_id', user.id)
       .eq('completed', true);

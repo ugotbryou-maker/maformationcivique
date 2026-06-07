@@ -24,7 +24,7 @@ export default async function DashboardPage() {
     .single();
 
   const { data: progress } = await supabase
-    .from('user_progress')
+    .from('progression')
     .select('*')
     .eq('user_id', user.id);
 

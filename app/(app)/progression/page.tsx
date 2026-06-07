@@ -17,7 +17,7 @@ export default async function ProgressionPage() {
 
   const [profileRes, progressRes, resultsRes] = await Promise.all([
     supabase.from('users').select('*').eq('id', user.id).single(),
-    supabase.from('user_progress').select('*').eq('user_id', user.id),
+    supabase.from('progression').select('*').eq('user_id', user.id),
     supabase.from('quiz_results').select('*').eq('user_id', user.id),
   ]);
 

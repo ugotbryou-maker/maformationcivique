@@ -25,7 +25,7 @@ export async function GET() {
     if (!user) return NextResponse.json({});
 
     const { data: progress } = await supabase
-      .from('user_progress')
+      .from('progression')
       .select('module_slug, lesson_slug, completed')
       .eq('user_id', user.id)
       .eq('completed', true);
