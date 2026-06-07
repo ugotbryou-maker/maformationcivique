@@ -23,6 +23,20 @@ export default async function DashboardPage() {
     .eq('id', user.id)
     .single();
 
+  // Si la ligne n'existe pas encore (ancien compte ou bug d'inscription), on la crée
+  if (!profile) {
+    const meta = user.user_metadata;
+    await supabase.from('users').upsert({
+      id: user.id,
+      email: user.email,
+      name: meta?.name || meta?.full_name || '',
+      plan: 'free',
+      xp: 0,
+      streak_days: 0,
+      last_active: new Date().toISOString().slice(0, 10),
+    }, { onConflict: 'id', ignoreDuplicates: true });
+  }
+
   const { data: progress } = await supabase
     .from('progression')
     .select('*')

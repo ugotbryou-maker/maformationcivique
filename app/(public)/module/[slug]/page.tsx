@@ -1,9 +1,12 @@
+export const dynamic = 'force-dynamic';
+
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getModuleBySlug, modules } from '@/data/modules';
 import { LessonCard } from '@/components/app/LessonCard';
 import { ProgressBar } from '@/components/app/ProgressBar';
 import { ArrowLeft, Target, Shield, Star, Award, ArrowRight } from 'lucide-react';
+import { createServerSupabaseClient } from '@/lib/supabase-server';
 import type { Metadata } from 'next';
 
 const MODULE_HERO = {
@@ -36,6 +39,30 @@ export default async function ModulePage({ params }: Props) {
   const { slug } = await params;
   const mod = getModuleBySlug(slug);
   if (!mod) notFound();
+
+  // ── Auth : plan + progression ──────────────────────────────────────────────
+  let isPremiumUser = false;
+  let completedSlugs = new Set<string>();
+  try {
+    const supabase = await createServerSupabaseClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const [{ data: profile }, { data: progression }] = await Promise.all([
+        supabase.from('users').select('plan').eq('id', user.id).single(),
+        supabase
+          .from('progression')
+          .select('lesson_slug')
+          .eq('user_id', user.id)
+          .eq('module_slug', mod!.slug)
+          .eq('completed', true),
+      ]);
+      isPremiumUser = profile?.plan === 'premium';
+      completedSlugs = new Set(progression?.map((p: { lesson_slug: string }) => p.lesson_slug) ?? []);
+    }
+  } catch {
+    // Non connecté ou Supabase indisponible → valeurs par défaut
+  }
+  // ──────────────────────────────────────────────────────────────────────────
 
   const hero = MODULE_HERO[mod.slug as keyof typeof MODULE_HERO] ?? {
     image: '', color: '#002395', colorEnd: '#001A70', position: 'center',
@@ -172,7 +199,13 @@ export default async function ModulePage({ params }: Props) {
         </h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {mod.lessons.map((lesson, i) => (
-            <LessonCard key={lesson.id} lesson={lesson} index={i} isPremiumUser={false} />
+            <LessonCard
+                key={lesson.id}
+                lesson={lesson}
+                index={i}
+                isPremiumUser={isPremiumUser}
+                completed={completedSlugs.has(lesson.slug)}
+              />
           ))}
         </div>
 

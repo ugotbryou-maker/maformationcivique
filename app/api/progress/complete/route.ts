@@ -80,7 +80,7 @@ export async function POST(req: Request) {
     // Ajouter XP au profil
     const { data: profile } = await supabase
       .from('users')
-      .select('xp, streak_days, last_active')
+      .select('xp, streak_days, last_active, plan')
       .eq('id', user.id)
       .single();
 
@@ -100,10 +100,21 @@ export async function POST(req: Request) {
       streakDays = 1;
     }
 
+    // UPSERT (pas UPDATE) : garantit l'existence de la ligne même si l'inscription
+    // n'a pas créé la ligne (ex: ancien compte, bug transitoire)
     await supabase
       .from('users')
-      .update({ xp: newXp, streak_days: streakDays, last_active: today })
-      .eq('id', user.id);
+      .upsert(
+        {
+          id: user.id,
+          email: user.email,
+          xp: newXp,
+          streak_days: streakDays,
+          last_active: today,
+          plan: profile?.plan ?? 'free',
+        },
+        { onConflict: 'id' }
+      );
 
     // Vérifier badges à débloquer
     const newBadges: string[] = [];

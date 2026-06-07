@@ -30,7 +30,7 @@ function InscriptionForm() {
     setError(null);
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signUp({
+    const { data: signUpData, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -38,6 +38,19 @@ function InscriptionForm() {
         emailRedirectTo: `${typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_APP_URL ?? 'https://maformationcivique.fr'}/auth/callback`,
       },
     });
+
+    // Créer la ligne dans la table users (plan=free, xp=0...)
+    if (!error && signUpData.user) {
+      await supabase.from('users').upsert({
+        id: signUpData.user.id,
+        name,
+        email,
+        plan: 'free',
+        xp: 0,
+        streak_days: 0,
+        last_active: new Date().toISOString().slice(0, 10),
+      }, { onConflict: 'id' });
+    }
 
     if (error) {
       const msg = error.message.toLowerCase();
