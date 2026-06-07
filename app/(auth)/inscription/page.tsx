@@ -69,10 +69,10 @@ function InscriptionForm() {
         >
           <CheckCircle size={48} color="#1D9E75" style={{ margin: '0 auto 20px' }} />
           <h2 style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-text-primary)', marginBottom: '12px' }}>
-            Vérifiez vos emails !
+            Compte créé !
           </h2>
           <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginBottom: '24px', lineHeight: 1.6 }}>
-            Un lien de confirmation a été envoyé à <strong>{email}</strong>. Cliquez dessus pour activer votre compte.
+            Bienvenue ! Votre compte <strong>{email}</strong> est actif. Connectez-vous maintenant pour commencer votre formation.
           </p>
           <Link href="/connexion">
             <button
@@ -88,7 +88,7 @@ function InscriptionForm() {
                 fontFamily: 'var(--font-sans)',
               }}
             >
-              Retour à la connexion
+              Se connecter →
             </button>
           </Link>
         </div>
