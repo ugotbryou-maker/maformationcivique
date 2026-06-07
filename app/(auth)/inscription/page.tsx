@@ -40,10 +40,15 @@ function InscriptionForm() {
     });
 
     if (error) {
-      if (error.message.includes('already registered')) {
-        setError('Cet email est déjà utilisé. Connectez-vous à la place.');
+      const msg = error.message.toLowerCase();
+      if (msg.includes('already registered') || msg.includes('already been registered') || msg.includes('email') && msg.includes('exist')) {
+        setError('Cet email est déjà utilisé → connectez-vous à la place.');
+      } else if (msg.includes('password')) {
+        setError('Mot de passe trop faible (8 caractères minimum).');
+      } else if (msg.includes('rate limit') || msg.includes('too many')) {
+        setError('Trop de tentatives. Attendez quelques minutes.');
       } else {
-        setError('Une erreur est survenue. Veuillez réessayer.');
+        setError(`Erreur : ${error.message}`);
       }
       setLoading(false);
     } else {
