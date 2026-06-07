@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <clipPath id="shape">
+      <rect width="64" height="64" rx="13"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#shape)">
+    <rect x="0"    y="0" width="21.4" height="64" fill="#002395"/>
+    <rect x="21.4" y="0" width="21.2" height="64" fill="#F0F0F0"/>
+    <rect x="42.6" y="0" width="21.4" height="64" fill="#EF3340"/>
+    <rect x="0"    y="0" width="64"   height="64" fill="rgba(0,8,40,0.54)"/>
+  </g>
+  <text
+    x="32" y="37"
+    font-family="'Arial Black','Helvetica Neue',Arial,sans-serif"
+    font-size="20"
+    font-weight="900"
+    text-anchor="middle"
+    fill="white"
+    letter-spacing="1.5"
+  >MFC</text>
+  <text
+    x="32" y="50"
+    font-family="'Helvetica Neue',Arial,sans-serif"
+    font-size="9"
+    font-weight="400"
+    text-anchor="middle"
+    fill="rgba(255,255,255,0.65)"
+    letter-spacing="2.5"
+  >.fr</text>
+</svg>

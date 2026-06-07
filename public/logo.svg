@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" fill="none">
+  <!-- Badge tricolore -->
+  <defs>
+    <clipPath id="badge">
+      <rect x="0" y="8" width="64" height="64" rx="13"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#badge)">
+    <rect x="0"    y="8" width="21.4" height="64" fill="#002395"/>
+    <rect x="21.4" y="8" width="21.2" height="64" fill="#F0F0F0"/>
+    <rect x="42.6" y="8" width="21.4" height="64" fill="#EF3340"/>
+    <rect x="0"    y="8" width="64"   height="64" fill="rgba(0,8,40,0.54)"/>
+  </g>
+  <text
+    x="32" y="49"
+    font-family="'Arial Black','Helvetica Neue',Arial,sans-serif"
+    font-size="18"
+    font-weight="900"
+    text-anchor="middle"
+    fill="white"
+    letter-spacing="1"
+  >MFC</text>
+  <text
+    x="32" y="62"
+    font-family="'Helvetica Neue',Arial,sans-serif"
+    font-size="8"
+    font-weight="400"
+    text-anchor="middle"
+    fill="rgba(255,255,255,0.65)"
+    letter-spacing="2"
+  >.fr</text>
+
+  <!-- Wordmark -->
+  <text
+    x="82" y="46"
+    font-family="'Helvetica Neue',Arial,sans-serif"
+    font-size="22"
+    font-weight="400"
+    fill="#1A1A2E"
+    letter-spacing="-0.3"
+  >ma</text>
+  <text
+    x="111" y="46"
+    font-family="'Helvetica Neue',Arial,sans-serif"
+    font-size="22"
+    font-weight="700"
+    fill="#002395"
+    letter-spacing="-0.3"
+  >formation</text>
+  <text
+    x="277" y="46"
+    font-family="'Helvetica Neue',Arial,sans-serif"
+    font-size="22"
+    font-weight="400"
+    fill="#1A1A2E"
+    letter-spacing="-0.3"
+  >civique</text>
+  <text
+    x="372" y="46"
+    font-family="'Helvetica Neue',Arial,sans-serif"
+    font-size="22"
+    font-weight="700"
+    fill="#EF3340"
+    letter-spacing="-0.3"
+  >.fr</text>
+</svg>
