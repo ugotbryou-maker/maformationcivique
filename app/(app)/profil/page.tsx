@@ -5,13 +5,22 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
-import { User, CreditCard, LogOut, Globe } from 'lucide-react';
+import { User, CreditCard, LogOut, Lock, Eye, EyeOff, CheckCircle } from 'lucide-react';
 
 export default function ProfilPage() {
   const router = useRouter();
   const [profile, setProfile] = useState<{ name?: string; email?: string; plan?: string; lang?: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [portalLoading, setPortalLoading] = useState(false);
+
+  // Password change
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [pwdLoading, setPwdLoading] = useState(false);
+  const [pwdError, setPwdError] = useState<string | null>(null);
+  const [pwdSuccess, setPwdSuccess] = useState(false);
 
   useEffect(() => {
     const supabase = createClient();
@@ -40,6 +49,25 @@ export default function ProfilPage() {
       if (url) window.location.href = url;
     } finally {
       setPortalLoading(false);
+    }
+  };
+
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPwdError(null);
+    if (newPassword.length < 8) { setPwdError('8 caractères minimum.'); return; }
+    if (newPassword !== confirmPassword) { setPwdError('Les mots de passe ne correspondent pas.'); return; }
+    setPwdLoading(true);
+    const supabase = createClient();
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    setPwdLoading(false);
+    if (error) {
+      setPwdError('Erreur : ' + error.message);
+    } else {
+      setPwdSuccess(true);
+      setNewPassword('');
+      setConfirmPassword('');
+      setTimeout(() => setPwdSuccess(false), 4000);
     }
   };
 
@@ -188,6 +216,93 @@ export default function ProfilPage() {
             </button>
           </div>
         )}
+      </div>
+
+      {/* ── Changer mot de passe ── */}
+      <div
+        style={{
+          padding: '24px',
+          borderRadius: 'var(--radius-xl)',
+          background: 'var(--color-surface)',
+          border: 'var(--border-default)',
+          marginBottom: '16px',
+        }}
+      >
+        <h2 style={{ fontSize: 'var(--font-size-base)', fontWeight: 500, color: 'var(--color-text-primary)', marginBottom: '4px' }}>
+          Changer le mot de passe
+        </h2>
+        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', marginBottom: '20px' }}>
+          Choisissez un mot de passe d'au moins 8 caractères.
+        </p>
+
+        {pwdSuccess && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 16px', borderRadius: 'var(--radius-md)', background: '#E1F5EE', color: '#1D9E75', fontSize: 'var(--font-size-sm)', marginBottom: '16px' }}>
+            <CheckCircle size={16} />Mot de passe mis à jour !
+          </div>
+        )}
+        {pwdError && (
+          <div style={{ padding: '12px 16px', borderRadius: 'var(--radius-md)', background: 'var(--color-red-light)', border: '1px solid rgba(204,26,26,0.2)', fontSize: 'var(--font-size-sm)', color: 'var(--color-red-france)', marginBottom: '16px' }}>
+            {pwdError}
+          </div>
+        )}
+
+        <form onSubmit={handlePasswordChange} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          {/* Nouveau mdp */}
+          <div>
+            <label style={{ display: 'block', fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text-primary)', marginBottom: '6px' }}>
+              Nouveau mot de passe
+            </label>
+            <div style={{ position: 'relative' }}>
+              <Lock size={15} color="var(--color-text-muted)" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }} />
+              <input
+                type={showNew ? 'text' : 'password'}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+                autoComplete="new-password"
+                placeholder="••••••••"
+                style={{ width: '100%', padding: '11px 44px 11px 40px', borderRadius: 'var(--radius-md)', border: 'var(--border-default)', fontSize: 'var(--font-size-base)', color: 'var(--color-text-primary)', background: 'var(--color-off-white)', fontFamily: 'var(--font-sans)', outline: 'none', minHeight: '46px', boxSizing: 'border-box' }}
+                onFocus={(e) => { e.target.style.borderColor = 'var(--color-blue-france)'; }}
+                onBlur={(e) => { e.target.style.borderColor = 'var(--color-border)'; }}
+              />
+              <button type="button" onClick={() => setShowNew(!showNew)} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)', display: 'flex', padding: 4 }}>
+                {showNew ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
+            </div>
+          </div>
+
+          {/* Confirmer mdp */}
+          <div>
+            <label style={{ display: 'block', fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text-primary)', marginBottom: '6px' }}>
+              Confirmer le mot de passe
+            </label>
+            <div style={{ position: 'relative' }}>
+              <Lock size={15} color="var(--color-text-muted)" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }} />
+              <input
+                type={showConfirm ? 'text' : 'password'}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                autoComplete="new-password"
+                placeholder="••••••••"
+                style={{ width: '100%', padding: '11px 44px 11px 40px', borderRadius: 'var(--radius-md)', border: 'var(--border-default)', fontSize: 'var(--font-size-base)', color: 'var(--color-text-primary)', background: 'var(--color-off-white)', fontFamily: 'var(--font-sans)', outline: 'none', minHeight: '46px', boxSizing: 'border-box' }}
+                onFocus={(e) => { e.target.style.borderColor = 'var(--color-blue-france)'; }}
+                onBlur={(e) => { e.target.style.borderColor = 'var(--color-border)'; }}
+              />
+              <button type="button" onClick={() => setShowConfirm(!showConfirm)} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)', display: 'flex', padding: 4 }}>
+                {showConfirm ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={pwdLoading}
+            style={{ alignSelf: 'flex-start', padding: '11px 24px', borderRadius: 'var(--radius-pill)', background: pwdLoading ? 'var(--color-text-muted)' : 'var(--gradient-primary)', color: '#fff', border: 'none', fontSize: 'var(--font-size-sm)', fontWeight: 500, cursor: pwdLoading ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-sans)', minHeight: '44px' }}
+          >
+            {pwdLoading ? 'Mise à jour…' : 'Mettre à jour'}
+          </button>
+        </form>
       </div>
 
       {/* Déconnexion */}

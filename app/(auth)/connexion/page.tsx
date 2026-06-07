@@ -15,6 +15,7 @@ function ConnexionForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [remember, setRemember] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -164,6 +165,20 @@ function ConnexionForm() {
               {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
           </div>
+        </div>
+
+        {/* Se souvenir de moi */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px', marginTop: '-8px' }}>
+          <input
+            type="checkbox"
+            id="remember"
+            checked={remember}
+            onChange={(e) => setRemember(e.target.checked)}
+            style={{ width: 16, height: 16, accentColor: 'var(--color-blue-france)', cursor: 'pointer', flexShrink: 0 }}
+          />
+          <label htmlFor="remember" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', cursor: 'pointer', userSelect: 'none' }}>
+            Se souvenir de moi
+          </label>
         </div>
 
         <button
