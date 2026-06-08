@@ -42,9 +42,13 @@ export default async function ModulePage({ params }: Props) {
   let completedSlugs = new Set<string>();
   try {
     const supabase = await createServerSupabaseClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: authData, error: authError } = await supabase.auth.getUser();
+    if (authError) {
+      console.error('[module/page] getUser error:', authError.message);
+    }
+    const user = authData?.user ?? null;
     if (user) {
-      const [{ data: profile }, { data: progression }] = await Promise.all([
+      const [profileRes, progressionRes] = await Promise.all([
         supabase.from('users').select('plan').eq('id', user.id).single(),
         supabase
           .from('progression')
@@ -53,11 +57,20 @@ export default async function ModulePage({ params }: Props) {
           .eq('module_slug', mod!.slug)
           .eq('completed', true),
       ]);
-      isPremiumUser = profile?.plan === 'premium';
-      completedSlugs = new Set(progression?.map((p: { lesson_slug: string }) => p.lesson_slug) ?? []);
+      if (profileRes.error) {
+        console.error('[module/page] profile query error:', profileRes.error.message, profileRes.error.code);
+      }
+      if (progressionRes.error) {
+        console.error('[module/page] progression query error:', progressionRes.error.message);
+      }
+      isPremiumUser = profileRes.data?.plan === 'premium';
+      completedSlugs = new Set(
+        (progressionRes.data ?? []).map((p: { lesson_slug: string }) => p.lesson_slug)
+      );
     }
-  } catch {
+  } catch (err) {
     // Non connecté ou Supabase indisponible → valeurs par défaut
+    console.error('[module/page] caught exception:', err instanceof Error ? err.message : String(err));
   }
   // ──────────────────────────────────────────────────────────────────────────
 

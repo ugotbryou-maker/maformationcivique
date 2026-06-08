@@ -127,18 +127,26 @@ export default async function LessonPage({ params }: Props) {
             setAll() {},
           },
         });
-        const { data: { user } } = await supabase.auth.getUser();
+        const { data: authData, error: authError } = await supabase.auth.getUser();
+        if (authError) {
+          console.error('[lecon/page] getUser error:', authError.message);
+        }
+        const user = authData?.user ?? null;
         if (user) {
-          const { data } = await supabase
+          const { data, error: planError } = await supabase
             .from('users')
             .select('plan')
             .eq('id', user.id)
             .single();
+          if (planError) {
+            console.error('[lecon/page] plan query error:', planError.message, planError.code);
+          }
           isPremium = data?.plan === 'premium';
         }
       }
-    } catch {
+    } catch (err) {
       // Si Supabase non dispo (build/preview), on laisse passer
+      console.error('[lecon/page] caught exception:', err instanceof Error ? err.message : String(err));
       isPremium = true;
     }
     if (!isPremium) {
