@@ -23,6 +23,7 @@ export function Navbar() {
   const [langOpen, setLangOpen]   = useState(false);
   const [userOpen, setUserOpen]   = useState(false);
   const [user, setUser]           = useState<{ email?: string; name?: string } | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
   const userRef = useRef<HTMLDivElement>(null);
 
   /* ── Auth state ─────────────────────────────────────────────────── */
@@ -37,6 +38,7 @@ export function Navbar() {
       } else {
         setUser(null);
       }
+      setAuthLoading(false);
     }
     loadUser();
 
@@ -121,8 +123,10 @@ export function Navbar() {
             )}
           </div>
 
-          {/* ── CONNECTÉ : avatar + dropdown ── */}
-          {user ? (
+          {/* ── AUTH ZONE : skeleton pendant le chargement ── */}
+          {authLoading ? (
+            <div className="nav-desktop" style={{ width: 120, height: 36, borderRadius: 'var(--radius-pill)', background: 'var(--color-border)', opacity: 0.4, animation: 'navPulse 1.4s ease-in-out infinite' }} />
+          ) : user ? (
             <div ref={userRef} style={{ position: 'relative' }} className="nav-desktop">
               <button
                 onClick={() => setUserOpen(!userOpen)}
@@ -225,6 +229,7 @@ export function Navbar() {
       <style>{`
         @media (max-width: 768px) { .nav-desktop { display: none !important; } .nav-mobile { display: flex !important; } }
         @media (min-width: 769px) { .nav-mobile { display: none !important; } .nav-desktop { display: flex !important; } }
+        @keyframes navPulse { 0%,100% { opacity: 0.3; } 50% { opacity: 0.6; } }
       `}</style>
     </header>
   );

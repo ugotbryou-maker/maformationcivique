@@ -12,6 +12,7 @@ export default function ProfilPage() {
   const [profile, setProfile] = useState<{ name?: string; email?: string; plan?: string; lang?: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [portalLoading, setPortalLoading] = useState(false);
+  const [adminToggling, setAdminToggling] = useState(false);
 
   // Password change
   const [newPassword, setNewPassword] = useState('');
@@ -69,6 +70,16 @@ export default function ProfilPage() {
       setConfirmPassword('');
       setTimeout(() => setPwdSuccess(false), 4000);
     }
+  };
+
+  const handleAdminToggle = async () => {
+    setAdminToggling(true);
+    const res = await fetch('/api/admin/toggle-plan', { method: 'POST' });
+    const data = await res.json();
+    if (data.plan) {
+      setProfile((p) => p ? { ...p, plan: data.plan } : p);
+    }
+    setAdminToggling(false);
   };
 
   const handleUpgrade = async () => {
@@ -304,6 +315,50 @@ export default function ProfilPage() {
           </button>
         </form>
       </div>
+
+      {/* ── Zone admin (visible uniquement pour l'admin) ── */}
+      {profile?.email === 'ugotbr.you@gmail.com' && (
+        <div style={{
+          padding: '20px 24px',
+          borderRadius: 'var(--radius-xl)',
+          background: isPremium ? '#FFF7ED' : '#F0FDF4',
+          border: `1.5px solid ${isPremium ? '#FED7AA' : '#BBF7D0'}`,
+          marginBottom: '16px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 16,
+        }}>
+          <div>
+            <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: isPremium ? '#C2410C' : '#15803D', marginBottom: 3 }}>
+              🔧 Mode test admin
+            </p>
+            <p style={{ fontSize: 13, color: 'var(--color-text-muted)', margin: 0 }}>
+              Plan actuel : <strong>{isPremium ? 'Premium' : 'Gratuit'}</strong> — bascule sans paiement
+            </p>
+          </div>
+          <button
+            onClick={handleAdminToggle}
+            disabled={adminToggling}
+            style={{
+              padding: '9px 18px',
+              borderRadius: 'var(--radius-pill)',
+              background: isPremium ? '#EA580C' : '#16A34A',
+              color: '#fff',
+              border: 'none',
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: adminToggling ? 'wait' : 'pointer',
+              fontFamily: 'var(--font-sans)',
+              minHeight: 40,
+              opacity: adminToggling ? 0.7 : 1,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {adminToggling ? '…' : isPremium ? 'Repasser Gratuit' : 'Activer Premium'}
+          </button>
+        </div>
+      )}
 
       {/* Déconnexion */}
       <button
