@@ -29,7 +29,6 @@ const freePlan = {
 const premiumPlan = {
   name: 'Premium',
   price: '12€',
-  priceEarly: '9€',
   period: '/ mois',
   desc: 'Accès complet pour réussir votre examen',
   features: [
@@ -90,24 +89,18 @@ export function Pricing() {
           <PricingCard plan={premiumPlan} />
         </div>
 
-        {/* Note early adopter */}
+        {/* Note garantie */}
         <div
           style={{
             textAlign: 'center',
             marginTop: '32px',
-            padding: '16px 24px',
-            borderRadius: 'var(--radius-lg)',
-            background: 'rgba(239,65,53,0.06)',
-            border: '0.5px solid rgba(239,65,53,0.2)',
-            display: 'inline-block',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            width: 'fit-content',
+            display: 'flex',
+            justifyContent: 'center',
           }}
         >
-          <Zap size={14} style={{ display: 'inline', marginRight: '6px', color: 'var(--color-red-france)', verticalAlign: 'middle' }} />
-          <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>
-            <strong style={{ color: 'var(--color-red-france)' }}>Offre Early Adopter</strong> — 9€/mois au lieu de 12€, proposée automatiquement à J+30 après votre inscription gratuite.
+          <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Zap size={13} style={{ color: 'var(--color-blue-france)', flexShrink: 0 }} />
+            Sans engagement · Annulation à tout moment · Paiement sécurisé
           </span>
         </div>
 
@@ -124,7 +117,6 @@ export function Pricing() {
 }
 
 function PricingCard({ plan }: { plan: typeof freePlan | typeof premiumPlan }) {
-  const isPremium = 'priceEarly' in plan;
 
   return (
     <div
@@ -192,11 +184,6 @@ function PricingCard({ plan }: { plan: typeof freePlan | typeof premiumPlan }) {
           )}
         </div>
 
-        {isPremium && (
-          <p style={{ fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.45)', marginBottom: '8px' }}>
-            ou 9€/mois avec l'offre Early Adopter
-          </p>
-        )}
 
         <p
           style={{

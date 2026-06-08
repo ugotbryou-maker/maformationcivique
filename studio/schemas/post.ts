@@ -41,13 +41,26 @@ export const postSchema = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Titre de séjour (CSP)', value: 'titre-sejour' },
-          { title: 'Carte de résident (CR)', value: 'carte-resident' },
-          { title: 'Naturalisation (NAT)', value: 'naturalisation' },
-          { title: 'Vivre en France', value: 'vie-en-france' },
-          { title: 'Actualités', value: 'actualites' },
+          { title: '📋 Démarches', value: 'demarches' },
+          { title: '🇫🇷 Vie en France', value: 'vie-en-france' },
+          { title: '🎓 Examens & formation', value: 'examen' },
+          { title: '📰 Actualités', value: 'actualites' },
         ],
+        layout: 'radio',
       },
+    },
+    {
+      name: 'contentType',
+      title: 'Type de contenu',
+      type: 'string',
+      options: {
+        list: [
+          { title: '📄 Article', value: 'article' },
+          { title: '📖 Guide pratique', value: 'guide' },
+        ],
+        layout: 'radio',
+      },
+      description: 'Un guide pratique est un contenu structuré étape par étape. Un article est un décryptage ou une actualité.',
     },
     {
       name: 'coverImage',
@@ -95,7 +108,17 @@ export const postSchema = defineType({
     },
   ],
   preview: {
-    select: { title: 'title', subtitle: 'category', media: 'coverImage' },
+    select: { title: 'title', category: 'category', contentType: 'contentType', media: 'coverImage' },
+    prepare({ title, category, contentType, media }: { title: string; category: string; contentType: string; media: unknown }) {
+      const catLabels: Record<string, string> = {
+        'demarches': 'Démarches',
+        'vie-en-france': 'Vie en France',
+        'examen': 'Examens & formation',
+        'actualites': 'Actualités',
+      };
+      const typeLabel = contentType === 'guide' ? 'Guide' : 'Article';
+      return { title, subtitle: `${catLabels[category] ?? category} · ${typeLabel}`, media };
+    },
   },
 });
 

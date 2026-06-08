@@ -59,12 +59,22 @@ export default async function ArticlePage({ params }: Props) {
             <ArrowLeft size={14} /> Retour aux ressources
           </Link>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: '1rem' }}>
             <span style={{
               fontSize: 11, fontWeight: 700, letterSpacing: '.06em',
               background: 'rgba(255,255,255,0.2)', color: '#fff',
               padding: '3px 12px', borderRadius: 100,
-            }}>{cat.label}</span>
+            }}>{cat.icon} {cat.label}</span>
+            {post.contentType && (
+              <span style={{
+                fontSize: 11, fontWeight: 700, letterSpacing: '.06em',
+                background: post.contentType === 'guide' ? 'rgba(251,191,36,0.25)' : 'rgba(255,255,255,0.15)',
+                color: post.contentType === 'guide' ? '#FDE68A' : 'rgba(255,255,255,0.85)',
+                padding: '3px 12px', borderRadius: 100,
+              }}>
+                {post.contentType === 'guide' ? '📖 Guide pratique' : '📄 Article'}
+              </span>
+            )}
             <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)' }}>{formatDate(post.publishedAt)}</span>
             <span style={{ color: 'rgba(255,255,255,0.4)' }}>·</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: 'rgba(255,255,255,0.65)', fontSize: 13 }}>
