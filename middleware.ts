@@ -6,17 +6,23 @@ const PROTECTED_PATHS = ['/dashboard', '/progression', '/profil'];
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'ugotbr.you@gmail.com';
 
 export async function middleware(request: NextRequest) {
-  // Skip auth middleware if Supabase is not configured
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const pathname = request.nextUrl.pathname;
+
+  // ── Si Supabase non configuré : laisser passer sans vérification auth ──────
+  if (!supabaseUrl || !supabaseKey) {
     return NextResponse.next({ request });
   }
 
   let response = NextResponse.next({ request });
+  let user = null;
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    {
+  // ── Tout le bloc Supabase est protégé par try/catch ───────────────────────
+  // createServerClient ET getUser() peuvent lever des exceptions :
+  // JWT invalide, réseau instable, credentials incorrects…
+  try {
+    const supabase = createServerClient(supabaseUrl, supabaseKey, {
       cookies: {
         getAll() {
           return request.cookies.getAll();
@@ -29,20 +35,17 @@ export async function middleware(request: NextRequest) {
           );
         },
       },
-    }
-  );
+    });
 
-  let user = null;
-  try {
     const { data } = await supabase.auth.getUser();
     user = data.user;
   } catch {
-    // Supabase indisponible ou JWT invalide — on continue sans session
+    // Supabase indisponible ou credentials invalides — on continue sans session
+    // Les pages publiques restent accessibles, les pages protégées redirigent
   }
 
-  const pathname = request.nextUrl.pathname;
+  // ── Protection des pages connectées ───────────────────────────────────────
   const isProtected = PROTECTED_PATHS.some((p) => pathname.startsWith(p));
-
   if (isProtected && !user) {
     const url = request.nextUrl.clone();
     url.pathname = '/connexion';
@@ -50,13 +53,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Studio Sanity — réservé à l'admin
+  // ── Studio Sanity — réservé à l'admin ────────────────────────────────────
   if (pathname.startsWith('/studio')) {
     if (!user || user.email !== ADMIN_EMAIL) {
       return NextResponse.redirect(new URL('/connexion', request.url));
     }
   }
 
+  // ── Redirection si déjà connecté sur les pages auth ───────────────────────
   if ((pathname === '/connexion' || pathname === '/inscription') && user) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }

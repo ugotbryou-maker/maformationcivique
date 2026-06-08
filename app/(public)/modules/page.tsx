@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { modules } from '@/data/modules';
 import { ModuleList } from '@/components/app/ModuleList';
 import type { Metadata } from 'next';
