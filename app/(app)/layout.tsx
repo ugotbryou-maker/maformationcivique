@@ -2,17 +2,17 @@ import Link from 'next/link';
 import { BookOpen, LayoutDashboard, Trophy, TrendingUp, User } from 'lucide-react';
 
 const appNav = [
-  { icon: LayoutDashboard, label: 'Tableau de bord', href: '/dashboard' },
-  { icon: BookOpen,        label: 'Modules',          href: '/modules' },
-  { icon: Trophy,          label: 'Examens blancs',   href: '/examen' },
-  { icon: TrendingUp,      label: 'Progression',      href: '/progression' },
-  { icon: User,            label: 'Profil',           href: '/profil' },
+  { icon: LayoutDashboard, label: 'Dashboard',  href: '/dashboard' },
+  { icon: BookOpen,        label: 'Modules',    href: '/modules' },
+  { icon: Trophy,          label: 'Examens',    href: '/examen' },
+  { icon: TrendingUp,      label: 'Progression',href: '/progression' },
+  { icon: User,            label: 'Profil',     href: '/profil' },
 ];
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
-      {/* Sidebar — desktop */}
+    <div style={{ display: 'flex', minHeight: '100vh', overflowX: 'hidden' }}>
+      {/* Sidebar — desktop only */}
       <aside
         style={{
           width: '220px',
@@ -29,7 +29,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         }}
         className="app-sidebar"
       >
-        {/* Logo */}
         <Link
           href="/"
           style={{
@@ -72,7 +71,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main content */}
-      <main style={{ flex: 1, minWidth: 0 }}>
+      <main style={{ flex: 1, minWidth: 0, overflowX: 'hidden' }}>
         {/* Mobile topbar */}
         <div
           className="app-topbar"
@@ -81,10 +80,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             position: 'sticky',
             top: 0,
             zIndex: 50,
-            background: 'rgba(255,255,255,0.95)',
+            background: 'rgba(255,255,255,0.96)',
             backdropFilter: 'blur(12px)',
             borderBottom: 'var(--border-default)',
-            padding: '12px 24px',
+            padding: '12px 20px',
           }}
         >
           <Link href="/" style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', fontWeight: 500, color: 'var(--color-text-primary)' }}>
@@ -92,19 +91,85 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </Link>
         </div>
 
-        <div style={{ padding: '32px 32px 80px' }}>
+        {/* Page content — padding-bottom laisse de la place à la bottom nav mobile */}
+        <div style={{ padding: '32px 24px 100px' }} className="app-content">
           {children}
         </div>
       </main>
 
+      {/* ── Bottom nav — mobile only ───────────────────────────────────────── */}
+      <nav
+        className="app-bottom-nav"
+        style={{
+          display: 'none',
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          background: 'rgba(255,255,255,0.96)',
+          backdropFilter: 'blur(16px)',
+          borderTop: 'var(--border-default)',
+          height: '64px',
+          padding: '0 4px',
+        }}
+      >
+        {appNav.map(({ icon: Icon, label, href }) => (
+          <Link
+            key={href}
+            href={href}
+            className="bottom-nav-item"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '3px',
+              flex: 1,
+              height: '100%',
+              textDecoration: 'none',
+              color: 'var(--color-text-muted)',
+              fontSize: '10px',
+              fontWeight: 500,
+              minWidth: 0,
+              padding: '4px 2px',
+              transition: 'color 150ms ease-out',
+            }}
+          >
+            <Icon size={20} />
+            <span style={{ lineHeight: 1, letterSpacing: '-0.01em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '56px', textAlign: 'center' }}>
+              {label}
+            </span>
+          </Link>
+        ))}
+      </nav>
+
       <style>{`
+        /* ─── Responsive ─────────────────────────────────────────────────── */
         @media (max-width: 768px) {
-          .app-sidebar { display: none !important; }
-          .app-topbar { display: flex !important; align-items: center; }
+          .app-sidebar      { display: none !important; }
+          .app-topbar       { display: flex !important; align-items: center; }
+          .app-bottom-nav   { display: flex !important; }
+          .app-content      { padding: 20px 16px 100px !important; }
         }
+
+        /* ─── Sidebar hover ──────────────────────────────────────────────── */
         .app-nav-link:hover {
           background: var(--color-blue-light) !important;
           color: var(--color-blue-france) !important;
+        }
+
+        /* ─── Bottom nav active ──────────────────────────────────────────── */
+        .bottom-nav-item:hover,
+        .bottom-nav-item.active {
+          color: var(--color-blue-france) !important;
+        }
+
+        /* ─── Grids — éviter débordement sur mobile ──────────────────────── */
+        @media (max-width: 480px) {
+          .app-content > * {
+            min-width: 0;
+          }
         }
       `}</style>
     </div>
