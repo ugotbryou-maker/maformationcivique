@@ -32,7 +32,13 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  const { data: { user } } = await supabase.auth.getUser();
+  let user = null;
+  try {
+    const { data } = await supabase.auth.getUser();
+    user = data.user;
+  } catch {
+    // Supabase indisponible ou JWT invalide — on continue sans session
+  }
 
   const pathname = request.nextUrl.pathname;
   const isProtected = PROTECTED_PATHS.some((p) => pathname.startsWith(p));
