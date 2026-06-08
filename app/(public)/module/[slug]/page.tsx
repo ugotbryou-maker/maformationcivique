@@ -261,23 +261,14 @@ export default async function ModulePage({ params }: Props) {
               },
             ].map(({ level, label, difficulty, image, imagePos, gFrom, gTo, Icon }) => (
               <Link key={level} href={`/examen/${level}`} style={{ textDecoration: 'none', display: 'block' }}>
-                <div style={{
+                <div className="exam-card-hover" style={{
                   position: 'relative',
                   borderRadius: 16,
                   overflow: 'hidden',
                   minHeight: 80,
                   cursor: 'pointer',
                   transition: 'transform 260ms ease-out, box-shadow 260ms ease-out',
-                }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
-                    (e.currentTarget as HTMLDivElement).style.boxShadow = '0 10px 32px rgba(0,0,0,0.22)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
-                    (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
-                  }}
-                >
+                }}>
                   {/* Photo */}
                   <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: imagePos }} />
                   {/* Overlay */}
@@ -341,6 +332,13 @@ export default async function ModulePage({ params }: Props) {
           </div>
         )}
       </div>
+
+      <style>{`
+        .exam-card-hover:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 32px rgba(0,0,0,0.22);
+        }
+      `}</style>
     </div>
   );
 }
