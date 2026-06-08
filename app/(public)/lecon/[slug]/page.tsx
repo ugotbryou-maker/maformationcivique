@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { modules } from '@/data/modules';
@@ -99,9 +101,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {};
 }
 
-export function generateStaticParams() {
-  return modules.flatMap((m) => m.lessons.map((l) => ({ slug: l.slug })));
-}
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 export default async function LessonPage({ params }: Props) {
