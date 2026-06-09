@@ -317,7 +317,7 @@ export default function ProfilPage() {
       </div>
 
       {/* ── Zone admin (visible uniquement pour l'admin) ── */}
-      {profile?.email === 'ugotbr.you@gmail.com' && (
+      {profile?.email === (process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? 'tamburriniugo@gmail.com') && (
         <div style={{
           padding: '20px 24px',
           borderRadius: 'var(--radius-xl)',

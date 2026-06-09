@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const PROTECTED_PATHS = ['/dashboard', '/progression', '/profil'];
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'ugotbr.you@gmail.com';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'tamburriniugo@gmail.com';
 
 export async function middleware(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;

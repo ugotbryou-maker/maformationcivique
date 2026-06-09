@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'ugotbr.you@gmail.com';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'tamburriniugo@gmail.com';
 
 export async function POST() {
   try {
