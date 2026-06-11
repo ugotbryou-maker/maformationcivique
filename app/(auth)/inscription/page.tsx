@@ -41,6 +41,11 @@ function InscriptionForm() {
 
     // Créer la ligne dans la table users (plan=free, xp=0...)
     if (!error && signUpData.user) {
+      // Parrainage : si l'inscription vient d'un lien "Parrainer un proche"
+      // (?ref=<uuid-du-parrain>), on l'enregistre.
+      const ref = searchParams.get('ref');
+      const isUuid = ref ? /^[0-9a-f-]{36}$/i.test(ref) : false;
+
       await supabase.from('users').upsert({
         id: signUpData.user.id,
         name,
@@ -49,7 +54,19 @@ function InscriptionForm() {
         xp: 0,
         streak_days: 0,
         last_active: new Date().toISOString().slice(0, 10),
+        ...(isUuid && ref !== signUpData.user.id ? { referred_by: ref } : {}),
       }, { onConflict: 'id' });
+
+      // Email de bienvenue via Brevo (non bloquant)
+      fetch('/api/auth/welcome', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name }),
+      }).catch(() => { /* fail silently */ });
+
+      // Redirection vers l'onboarding
+      router.push('/onboarding');
+      return;
     }
 
     if (error) {
@@ -70,41 +87,13 @@ function InscriptionForm() {
   };
 
   if (success) {
+    // Le router.push('/onboarding') est déclenché juste avant setSuccess(true)
+    // Ce spinner s'affiche pendant la redirection (quelques ms)
     return (
-      <div style={{ width: '100%', maxWidth: '400px', textAlign: 'center' }}>
-        <div
-          style={{
-            background: 'var(--color-surface)',
-            borderRadius: 'var(--radius-xl)',
-            border: 'var(--border-default)',
-            padding: '48px 32px',
-          }}
-        >
-          <CheckCircle size={48} color="#1D9E75" style={{ margin: '0 auto 20px' }} />
-          <h2 style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-text-primary)', marginBottom: '12px' }}>
-            Compte créé !
-          </h2>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginBottom: '24px', lineHeight: 1.6 }}>
-            Bienvenue ! Votre compte <strong>{email}</strong> est actif. Connectez-vous maintenant pour commencer votre formation.
-          </p>
-          <Link href="/connexion">
-            <button
-              style={{
-                padding: '12px 24px',
-                borderRadius: 'var(--radius-pill)',
-                background: 'var(--gradient-primary)',
-                color: '#FFFFFF',
-                border: 'none',
-                fontSize: 'var(--font-size-base)',
-                fontWeight: 500,
-                cursor: 'pointer',
-                fontFamily: 'var(--font-sans)',
-              }}
-            >
-              Se connecter →
-            </button>
-          </Link>
-        </div>
+      <div style={{ width: '100%', maxWidth: '400px', textAlign: 'center', padding: '48px 32px' }}>
+        <div style={{ width: 32, height: 32, border: '3px solid var(--color-blue-light)', borderTopColor: 'var(--color-blue-france)', borderRadius: '50%', animation: 'spin 0.7s linear infinite', margin: '0 auto 16px' }} />
+        <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-sm)' }}>Préparation de votre espace…</p>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }

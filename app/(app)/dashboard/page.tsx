@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { modules } from '@/data/modules';
 import { ProgressBar } from '@/components/app/ProgressBar';
 import { XPBadge } from '@/components/app/XPBadge';
+import { ReferralCard } from '@/components/app/ReferralCard';
 import { getLevel, getLevelProgress, BADGES } from '@/lib/gamification';
 import { BookOpen, ChevronRight, Trophy, Target } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -46,6 +47,15 @@ export default async function DashboardPage() {
     .from('user_badges')
     .select('badge_slug')
     .eq('user_id', user.id);
+
+  // Parrainage : nombre de comptes créés avec le lien de cet utilisateur
+  const { count: referredCount } = await supabase
+    .from('users')
+    .select('*', { count: 'exact', head: true })
+    .eq('referred_by', user.id);
+
+  const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.maformationcivique.fr';
+  const referralLink = `${siteUrl.replace(/\/$/, '')}/inscription?ref=${user.id}`;
 
   const xp = profile?.xp ?? 0;
   const streak = profile?.streak_days ?? 0;
@@ -250,6 +260,9 @@ export default async function DashboardPage() {
           </div>
         </Link>
       </div>
+
+      {/* Parrainage */}
+      <ReferralCard referralLink={referralLink} referredCount={referredCount ?? 0} />
 
       {/* Badges */}
       <div

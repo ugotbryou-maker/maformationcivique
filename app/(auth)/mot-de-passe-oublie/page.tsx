@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { createClient } from '@/lib/supabase';
 import { Mail, ArrowLeft, CheckCircle } from 'lucide-react';
 
 export default function MotDePasseOubliePage() {
@@ -16,16 +15,26 @@ export default function MotDePasseOubliePage() {
     setLoading(true);
     setError(null);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
+    try {
+      const res = await fetch('/api/auth/send-reset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
 
-    if (error) {
-      setError('Une erreur est survenue. Vérifiez votre adresse email.');
-      setLoading(false);
-    } else {
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.error ?? 'Erreur réseau');
+      }
+
       setSent(true);
+    } catch (err) {
+      setError(
+        err instanceof Error && err.message !== 'Erreur réseau'
+          ? err.message
+          : 'Une erreur est survenue. Réessayez dans quelques instants.'
+      );
+      setLoading(false);
     }
   };
 

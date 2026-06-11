@@ -3,7 +3,8 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'tamburriniugo@gmail.com';
+const ADMIN_EMAILS = (process.env.ADMIN_EMAIL ?? 'tamburriniugo@gmail.com')
+  .split(',').map((e) => e.trim().toLowerCase());
 
 export async function POST() {
   try {
@@ -13,7 +14,7 @@ export async function POST() {
     if (!user) {
       return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
     }
-    if (user.email !== ADMIN_EMAIL) {
+    if (!ADMIN_EMAILS.includes(user.email?.toLowerCase() ?? '')) {
       return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
     }
 

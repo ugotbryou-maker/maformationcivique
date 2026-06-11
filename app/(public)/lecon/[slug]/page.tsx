@@ -9,6 +9,8 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { LessonExercise } from '@/components/app/LessonExercise';
 import { LessonCompleteButton } from '@/components/app/LessonCompleteButton';
+import { LessonEndQuiz, type QuizQuestion } from '@/components/app/LessonEndQuiz';
+import { questions as allQuestions } from '@/data/questions';
 import {
   ChevronRight, ChevronLeft, Clock,
   Flag, Scale, Map, Landmark, Shield, Globe,
@@ -89,6 +91,49 @@ function parseKeyPoint(kp: string): { title: string; desc: string } {
   return { title: kp, desc: '' };
 }
 
+// ── Rendu d'un bloc de texte (paragraphe) ──────────────────────────────────
+// Un même "paragraphe" markdown (séparé par \n\n) peut mélanger des phrases
+// de contexte et une liste à puces (lignes "- "). On découpe alors en
+// sous-blocs successifs (texte / liste / texte / ...) pour ne RIEN perdre :
+// auparavant, dès qu'une ligne "- " était détectée, tout le paragraphe était
+// rendu comme une simple <ul> et les phrases d'introduction/conclusion
+// disparaissaient purement et simplement de la page.
+function renderParagraphBlocks(para: string, color: string, key: number) {
+  const lines = para.split('\n').filter((l) => l.trim() !== '');
+  const blocks: { type: 'text' | 'list'; lines: string[] }[] = [];
+
+  for (const line of lines) {
+    const isBullet = line.trimStart().startsWith('- ');
+    const current = blocks[blocks.length - 1];
+    const blockType = isBullet ? 'list' : 'text';
+    if (current && current.type === blockType) {
+      current.lines.push(line);
+    } else {
+      blocks.push({ type: blockType, lines: [line] });
+    }
+  }
+
+  return blocks.map((block, k) => {
+    if (block.type === 'list') {
+      return (
+        <ul key={`${key}-${k}`} style={{ listStyle: 'none', margin: '0 0 10px' }}>
+          {block.lines.map((item, idx) => (
+            <li key={idx} style={{ display: 'flex', gap: '8px', padding: '3px 0', fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', lineHeight: 1.65 }}>
+              <span style={{ color, fontWeight: 700, flexShrink: 0, marginTop: '1px' }}>·</span>
+              {item.replace(/^\s*-\s+/, '').replace(/\*\*(.*?)\*\*/g, '$1')}
+            </li>
+          ))}
+        </ul>
+      );
+    }
+    return (
+      <p key={`${key}-${k}`} style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', lineHeight: 1.72, margin: '0 0 10px' }}>
+        {block.lines.join(' ').replace(/\*\*(.*?)\*\*/g, '$1')}
+      </p>
+    );
+  });
+}
+
 // ── Metadata ─────────────────────────────────────────────────────────────────
 interface Props { params: Promise<{ slug: string }>; searchParams: Promise<{ module?: string }> }
 
@@ -161,6 +206,18 @@ export default async function LessonPage({ params }: Props) {
   const sections    = parseContent(lesson.content);
   const art         = resolveArt(slug, mod.slug);
   const exercises   = lessonExercises[slug] ?? [];
+
+  // Quiz de fin de leçon — on mappe les IDs vers les données complètes
+  const lessonQuizQuestions: QuizQuestion[] = (lesson.quizIds ?? [])
+    .map((id) => allQuestions.find((q) => q.id === id))
+    .filter((q): q is NonNullable<typeof q> => q !== undefined)
+    .map((q) => ({
+      id:          q.id,
+      question:    q.question,
+      options:     q.options,
+      answer:      q.answer,
+      explanation: q.explanation,
+    }));
   const totalDuration = mod.lessons.reduce((a, l) => a + l.duration, 0);
 
   return (
@@ -224,9 +281,9 @@ export default async function LessonPage({ params }: Props) {
 
             {/* Carte module — bleu */}
             <div style={{ background: 'var(--gradient-primary)', borderRadius: 'var(--radius-lg)', padding: '20px', color: '#fff' }}>
-              <p style={{ fontSize: 'var(--font-size-xs)', opacity: 0.65, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Ce module</p>
-              <h3 style={{ fontSize: 'var(--font-size-base)', fontWeight: 700, marginBottom: '10px', lineHeight: 1.3 }}>{mod.title}</h3>
-              <div style={{ display: 'flex', gap: '10px', marginBottom: '14px', opacity: 0.75, fontSize: 'var(--font-size-xs)' }}>
+              <p style={{ fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.7)', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Ce module</p>
+              <h3 style={{ fontSize: 'var(--font-size-base)', fontWeight: 700, marginBottom: '10px', lineHeight: 1.3, color: '#fff' }}>{mod.title}</h3>
+              <div style={{ display: 'flex', gap: '10px', marginBottom: '14px', color: 'rgba(255,255,255,0.85)', fontSize: 'var(--font-size-xs)' }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><BookOpen size={11} /> {mod.lessons.length} leçons</span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><Clock size={11} /> {totalDuration} min</span>
               </div>
@@ -283,24 +340,23 @@ export default async function LessonPage({ params }: Props) {
                       </div>
 
                       {/* Corps du paragraphe */}
-                      {section.body.split('\n\n').filter(Boolean).map((para, j) => {
-                        const isList = para.split('\n').some((l) => l.startsWith('- '));
-                        if (isList) return (
-                          <ul key={j} style={{ listStyle: 'none', margin: '0 0 10px' }}>
-                            {para.split('\n').filter((l) => l.startsWith('- ')).map((item, k) => (
-                              <li key={k} style={{ display: 'flex', gap: '8px', padding: '3px 0', fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', lineHeight: 1.65 }}>
-                                <span style={{ color, fontWeight: 700, flexShrink: 0, marginTop: '1px' }}>·</span>
-                                {item.replace(/^- /, '').replace(/\*\*(.*?)\*\*/g, '$1')}
-                              </li>
-                            ))}
-                          </ul>
-                        );
-                        return (
-                          <p key={j} style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', lineHeight: 1.72, margin: '0 0 10px' }}>
-                            {para.replace(/\*\*(.*?)\*\*/g, '$1')}
-                          </p>
-                        );
-                      })}
+                      {section.body.split('\n\n').filter(Boolean).map((para, j) => renderParagraphBlocks(para, color, j))}
+
+                      {/* Image d'illustration mi-leçon — après la 1ère section */}
+                      {i === 0 && art.url && (
+                        <figure style={{ margin: '20px 0 0', borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: 'var(--border-default)' }}>
+                          <img
+                            src={art.url}
+                            alt={art.alt}
+                            style={{ display: 'block', width: '100%', maxHeight: '320px', objectFit: 'cover', objectPosition: 'center 25%' }}
+                          />
+                          {art.credit && (
+                            <figcaption style={{ padding: '8px 14px', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', fontStyle: 'italic', background: 'var(--color-off-white)' }}>
+                              {art.credit}
+                            </figcaption>
+                          )}
+                        </figure>
+                      )}
 
                       {/* Exercice inline si dispo */}
                       {exercise && <LessonExercise exercise={exercise} />}
@@ -378,6 +434,19 @@ export default async function LessonPage({ params }: Props) {
           </div>
         </div>
       </div>
+
+      {/* ── QUIZ DE FIN DE LEÇON ─────────────────────────────────────────── */}
+      {lessonQuizQuestions.length > 0 && (
+        <div className="container" style={{ padding: '0 24px' }}>
+          <h2 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 700, color: 'var(--color-text-primary)', marginBottom: '4px', marginTop: '40px' }}>
+            Testez vos connaissances
+          </h2>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', marginBottom: '0' }}>
+            {lessonQuizQuestions.length} question{lessonQuizQuestions.length > 1 ? 's' : ''} sur cette leçon · Seuil de réussite 80%
+          </p>
+          <LessonEndQuiz questions={lessonQuizQuestions} lessonTitle={lesson.title} />
+        </div>
+      )}
 
       {/* ── TERMINER LA LEÇON + NAVIGATION ───────────────────────────────── */}
       <div className="container" style={{ padding: '36px 24px 64px' }}>

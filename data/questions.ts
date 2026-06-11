@@ -538,6 +538,18 @@ export const questions: Question[] = [
     difficulty: 'moyen',
     tags: ['répudiation', 'mariage', 'égalité femmes-hommes'],
   },
+  {
+    id: 'Q-DD-011',
+    moduleSlug: 'droits',
+    themeSlug: 'droits-fondamentaux',
+    level: ['CR', 'NAT'],
+    question: "Depuis la révision constitutionnelle de mars 2024, quel droit est garanti par la Constitution française ?",
+    options: { A: "Le droit au logement opposable", B: "La liberté garantie aux femmes de recourir à l'IVG (interruption volontaire de grossesse)", C: "Le droit à un revenu universel", D: "Le droit de vote dès 16 ans" },
+    answer: 'B',
+    explanation: "Depuis le 8 mars 2024, la Constitution française garantit la liberté des femmes de recourir à l'interruption volontaire de grossesse (IVG). La France est le premier pays au monde à inscrire ce droit dans sa Constitution.",
+    difficulty: 'moyen',
+    tags: ['IVG', 'égalité femmes-hommes', 'constitution'],
+  },
 
   // ── Devoirs ────────────────────────────────────────────────────────────────
   {

@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const PROTECTED_PATHS = ['/dashboard', '/progression', '/profil'];
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'tamburriniugo@gmail.com';
+const ADMIN_EMAILS = (process.env.ADMIN_EMAIL ?? 'tamburriniugo@gmail.com')
+  .split(',').map((e) => e.trim().toLowerCase());
 
 export async function middleware(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -55,7 +56,7 @@ export async function middleware(request: NextRequest) {
 
   // ── Studio Sanity — réservé à l'admin ────────────────────────────────────
   if (pathname.startsWith('/studio')) {
-    if (!user || user.email !== ADMIN_EMAIL) {
+    if (!user || !ADMIN_EMAILS.includes(user.email?.toLowerCase() ?? '')) {
       return NextResponse.redirect(new URL('/connexion', request.url));
     }
   }

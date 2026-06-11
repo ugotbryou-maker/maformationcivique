@@ -25,7 +25,10 @@ export async function GET(request: Request) {
 
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(`${origin}/dashboard`);
+      // Si intent=reset → rediriger vers la page de nouveau mot de passe
+      const intent = searchParams.get('intent');
+      const redirectTo = intent === 'reset' ? '/reset-password' : '/dashboard';
+      return NextResponse.redirect(`${origin}${redirectTo}`);
     }
   }
 

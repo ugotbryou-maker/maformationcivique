@@ -138,36 +138,40 @@ export default async function ModulePage({ params }: Props) {
                   {mod.subtitle}
                 </p>
               </div>
-              {mod.freeAccess ? (
-                <span style={{
-                  padding: '4px 14px',
-                  borderRadius: '100px',
-                  background: 'rgba(255,255,255,0.95)',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  color: hero.color,
-                  whiteSpace: 'nowrap',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                }}>
-                  Gratuit
-                </span>
-              ) : (
-                <span style={{
-                  padding: '4px 14px',
-                  borderRadius: '100px',
-                  background: 'rgba(255,255,255,0.15)',
-                  border: '1px solid rgba(255,255,255,0.3)',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  color: 'rgba(255,255,255,0.9)',
-                  whiteSpace: 'nowrap',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  backdropFilter: 'blur(4px)',
-                }}>
-                  Premium
-                </span>
+              {/* Une fois abonné Premium, l'utilisateur a accès à tout : on n'affiche
+                  plus la mention "Gratuit"/"Premium" qui n'a plus de sens pour lui. */}
+              {!isPremiumUser && (
+                mod.freeAccess ? (
+                  <span style={{
+                    padding: '4px 14px',
+                    borderRadius: '100px',
+                    background: 'rgba(255,255,255,0.95)',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    color: hero.color,
+                    whiteSpace: 'nowrap',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                  }}>
+                    Gratuit
+                  </span>
+                ) : (
+                  <span style={{
+                    padding: '4px 14px',
+                    borderRadius: '100px',
+                    background: 'rgba(255,255,255,0.15)',
+                    border: '1px solid rgba(255,255,255,0.3)',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    color: 'rgba(255,255,255,0.9)',
+                    whiteSpace: 'nowrap',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    backdropFilter: 'blur(4px)',
+                  }}>
+                    Premium
+                  </span>
+                )
               )}
             </div>
             <div style={{ display: 'flex', gap: '24px', marginTop: '24px', flexWrap: 'wrap' }}>
@@ -293,8 +297,8 @@ export default async function ModulePage({ params }: Props) {
           </div>
         </div>
 
-        {/* CTA si premium requis */}
-        {!mod.freeAccess && (
+        {/* CTA si premium requis (masqué pour les abonnés Premium) */}
+        {!mod.freeAccess && !isPremiumUser && (
           <div
             style={{
               marginTop: '32px',

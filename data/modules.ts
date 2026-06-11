@@ -102,10 +102,13 @@ L'école publique est un espace laïque par excellence. La loi du 15 mars 2004 i
 La laïcité protège toutes les religions et les non-croyants de manière égale. Elle n'est pas une lutte contre la religion, mais la garantie que l'État ne favorise ni ne défavorise aucune croyance. Chaque citoyen peut pratiquer sa religion librement dans la sphère privée.
 
 ## Applications concrètes
-- Les agents de l'État doivent faire preuve de neutralité religieuse dans leur service
+La laïcité ne reste pas un principe abstrait : elle se traduit très concrètement dans le fonctionnement quotidien des services publics. Ainsi :
+- Les agents de l'État doivent faire preuve de neutralité religieuse dans l'exercice de leurs fonctions
 - Les locaux publics ne peuvent afficher de symboles religieux
 - Les cérémonies officielles sont non confessionnelles
-- Les programmes scolaires sont établis indépendamment de toute considération religieuse`,
+- Les programmes scolaires sont établis indépendamment de toute considération religieuse
+
+Ce cadre s'impose à l'État et à ses agents, mais pas aux usagers : un patient à l'hôpital, un parent d'élève ou toute personne accueillie dans un service public reste libre d'exprimer ses convictions religieuses, dans le respect de l'ordre public et du bon fonctionnement du service.`,
       keyPoints: [
         'Laïcité — inscrite à l\'article 1er de la Constitution de 1958',
         'Loi de 1905 — séparation des Églises et de l\'État, texte fondateur',
@@ -127,26 +130,21 @@ La laïcité protège toutes les religions et les non-croyants de manière égal
 La devise « Liberté, Égalité, Fraternité » est au cœur de l'identité républicaine française. Inscrite dans la Constitution, elle résume les valeurs fondamentales sur lesquelles repose la vie en société.
 
 ## La Liberté
-La liberté est la première valeur républicaine. Elle comprend plusieurs dimensions :
-- La liberté individuelle : personne ne peut être arrêté arbitrairement
-- La liberté d'expression : le droit de penser et de s'exprimer librement
-- La liberté de conscience : le droit de croire ou de ne pas croire
-- La liberté de réunion et d'association
-Ces libertés sont garanties par la Déclaration des droits de l'homme et du citoyen de 1789 et par la Constitution.
+La liberté est la première valeur républicaine, et sans doute celle à laquelle les Français sont le plus attachés. Elle ne se résume pas à une formule abstraite : elle recouvre plusieurs libertés concrètes, garanties par la Déclaration des droits de l'homme et du citoyen de 1789 puis par la Constitution.
+
+La liberté individuelle, d'abord, signifie que nul ne peut être arrêté ou détenu arbitrairement : toute privation de liberté doit être justifiée par la loi et contrôlée par un juge. La liberté d'expression garantit à chacun le droit de penser, de s'exprimer et de communiquer ses opinions, y compris lorsqu'elles dérangent. La liberté de conscience protège le droit de croire, de changer de religion ou de n'en avoir aucune. Enfin, la liberté de réunion et d'association permet de se rassembler, de manifester pacifiquement et de créer ou rejoindre des associations.
+
+Ces libertés ne sont pas sans limites : elles s'arrêtent là où commencent celles d'autrui, et la loi peut les encadrer pour protéger l'ordre public.
 
 ## L'Égalité
-L'égalité signifie que tous les citoyens ont les mêmes droits et sont soumis aux mêmes lois. Elle se décline en plusieurs formes :
-- L'égalité devant la loi : la loi est la même pour tous
-- L'égalité des droits : hommes et femmes ont les mêmes droits
-- L'égalité des chances : l'État doit permettre à chacun de réaliser son potentiel
-- L'égalité devant l'impôt et les charges publiques
+L'égalité est le principe selon lequel tous les citoyens ont les mêmes droits et sont soumis aux mêmes lois, quelle que soit leur origine, leur sexe, leur religion ou leur situation sociale.
+
+Devant la loi, d'abord : un même texte s'applique de la même façon à tous, sans privilège ni distinction de naissance ou de fortune — un héritage direct de la Révolution française, qui a aboli les privilèges de l'Ancien Régime. Entre les femmes et les hommes, ensuite : la Constitution garantit depuis 1946 l'égalité des droits dans tous les domaines, même si des écarts persistent encore dans les faits, notamment en matière de salaires. L'égalité des chances vise, elle, à corriger les inégalités de départ : l'école publique et gratuite, les bourses d'études ou les aides sociales doivent permettre à chacun de réussir selon son mérite et ses efforts, quel que soit son milieu d'origine. Enfin, l'égalité devant l'impôt veut que chacun contribue aux charges publiques en fonction de ses capacités, à travers par exemple un impôt sur le revenu progressif.
 
 ## La Fraternité
-La fraternité est le lien qui unit les membres de la nation. Elle se traduit par :
-- La solidarité nationale : système de protection sociale, aide aux plus démunis
-- La lutte contre les discriminations et le racisme
-- Le devoir d'assistance entre citoyens
-- L'accueil et l'intégration des personnes étrangères
+La fraternité est sans doute la plus concrète des trois valeurs : c'est le lien de solidarité qui unit les membres de la nation, par-delà leurs différences.
+
+Elle prend d'abord la forme d'un vaste système de protection sociale — Sécurité sociale, allocations familiales, minima sociaux — financé collectivement pour venir en aide aux plus démunis, aux malades, aux chômeurs ou aux personnes âgées. Elle implique aussi la lutte contre les discriminations et le racisme : la loi française punit sévèrement toute distinction fondée sur l'origine, la religion, le sexe ou le handicap. Au quotidien, la fraternité se manifeste également par un devoir d'assistance entre citoyens — porter secours à une personne en danger est d'ailleurs une obligation légale en France. Enfin, elle se traduit par l'accueil et l'accompagnement des personnes étrangères qui choisissent de vivre en France et de s'y intégrer, dans un esprit d'ouverture et de respect mutuel.
 
 ## La devise dans la pratique
 Ces trois valeurs ne sont pas séparées : elles se complètent et s'équilibrent. La liberté sans égalité deviendrait privilège ; l'égalité sans liberté deviendrait uniformité ; la fraternité sans liberté ni égalité ne serait que compassion. Ensemble, elles forment le fondement de la République.`,
@@ -272,33 +270,21 @@ Trois grands textes constituent le "bloc de constitutionnalité" en France :
 - La **Charte de l'environnement** de 2004 : les droits environnementaux
 
 ## Les droits civils et politiques
-Ces droits, issus de 1789, protègent l'individu face au pouvoir :
-- La liberté d'aller et venir
-- La liberté d'expression et de la presse
-- La liberté de conscience et de religion
-- Le droit à un procès équitable
-- Le droit de propriété
-- La présomption d'innocence
+Ces droits, issus de la Déclaration de 1789, protègent avant tout l'individu face au pouvoir de l'État. Ils garantissent la liberté d'aller et venir, la liberté d'expression et de la presse, ainsi que la liberté de conscience et de religion — chacun pouvant croire, ne pas croire ou changer de religion sans que l'État n'intervienne. Sur le plan judiciaire, toute personne a droit à un procès équitable devant un tribunal indépendant, et bénéficie de la présomption d'innocence tant qu'elle n'a pas été reconnue coupable. Le droit de propriété, enfin, protège la possession légitime de ses biens contre toute confiscation arbitraire.
 
 ## Les droits économiques et sociaux
-Le Préambule de 1946 reconnaît des droits plus collectifs :
-- Le droit au travail et à une rémunération équitable
-- Le droit à la protection de la santé
-- Le droit à l'éducation
-- Le droit à la protection sociale (retraite, chômage, famille)
-- Le droit au logement décent
+Le Préambule de la Constitution de 1946 reconnaît des droits plus collectifs, qui engagent la solidarité nationale. Chacun a ainsi droit au travail et à une rémunération équitable, ainsi qu'à la protection de sa santé. L'éducation est garantie gratuitement à tous les enfants, quel que soit leur milieu d'origine. La protection sociale — retraite, assurance chômage, prestations familiales — assure un filet de sécurité tout au long de la vie, et le droit à un logement décent complète cet ensemble de garanties.
 
 ## La dignité humaine
-La dignité de la personne humaine est un principe fondamental. Elle interdit :
-- La torture et les traitements inhumains ou dégradants
-- L'esclavage et le travail forcé
-- Toute atteinte au corps humain sans consentement
-Le Conseil constitutionnel reconnaît la dignité humaine comme une valeur constitutionnelle depuis 1994.
+La dignité de la personne humaine est un principe fondamental, reconnu par le Conseil constitutionnel comme une valeur constitutionnelle depuis 1994. Elle interdit absolument la torture et les traitements inhumains ou dégradants, l'esclavage et le travail forcé, ainsi que toute atteinte au corps humain réalisée sans le consentement de la personne concernée. Contrairement à la plupart des droits, la dignité humaine ne peut faire l'objet d'aucune dérogation, même dans les circonstances les plus exceptionnelles.
 
 ## Les acteurs de la protection des droits
+Plusieurs institutions veillent concrètement au respect de ces droits :
 - Le **Défenseur des droits** : autorité indépendante qui défend les droits des citoyens face aux administrations
 - Le **Conseil constitutionnel** : vérifie que les lois respectent la Constitution
-- La **Cour européenne des droits de l'homme** : juridiction internationale (Strasbourg)`,
+- La **Cour européenne des droits de l'homme** : juridiction internationale (Strasbourg)
+
+Tout citoyen peut, gratuitement et sans avocat, saisir le Défenseur des droits en cas de litige avec une administration ou de discrimination.`,
       keyPoints: [
         'Bloc de constitutionnalité — DDHC 1789, Préambule 1946, Charte environnement 2004',
         'Droits civils et politiques — liberté, expression, conscience, procès équitable',
@@ -320,27 +306,21 @@ Le Conseil constitutionnel reconnaît la dignité humaine comme une valeur const
 La citoyenneté française confère des droits et des devoirs spécifiques. Elle est le lien juridique et politique entre un individu et la République.
 
 ## Qu'est-ce que la citoyenneté ?
-La citoyenneté française s'acquiert par :
-- La **naissance** : si l'un des parents est français (droit du sang)
-- Le **droit du sol** : naissance sur le territoire français dans certaines conditions
-- La **naturalisation** : après une période de résidence légale (généralement 5 ans)
-- Le **mariage** : après 4 ans de vie commune avec un conjoint français
+La citoyenneté française peut s'acquérir de plusieurs manières. Le cas le plus fréquent est la **naissance** : un enfant est français si l'un de ses parents l'est, en application du droit du sang. Le **droit du sol** permet aussi à un enfant né en France de parents étrangers de devenir français, sous certaines conditions de résidence. La **naturalisation**, quant à elle, s'adresse aux personnes étrangères installées durablement en France : elle est généralement accessible après cinq années de résidence régulière, sous réserve de remplir des conditions d'intégration, de ressources et de maîtrise de la langue française. Enfin, le **mariage** avec un conjoint français ouvre droit à la nationalité après quatre ans de vie commune.
 
 ## Le droit de vote
-Le droit de vote est le droit civique fondamental. Pour voter en France, il faut :
-- Avoir la nationalité française
-- Être âgé de 18 ans ou plus
-- Être inscrit sur les listes électorales
-- Ne pas avoir perdu ses droits civiques
-Les étrangers résidents en France ont le droit de vote aux élections municipales et européennes (ressortissants UE).
+Le droit de vote est le droit civique fondamental : il permet à chaque citoyen de participer directement à la vie démocratique du pays. Pour voter en France, il faut réunir plusieurs conditions : avoir la nationalité française, être âgé d'au moins 18 ans, être inscrit sur les listes électorales de sa commune, et ne pas avoir été privé de ses droits civiques par une décision de justice. Une exception notable concerne les ressortissants de l'Union européenne résidant en France : sans être français, ils peuvent voter et être élus aux élections municipales et européennes.
 
 ## Les élections en France
+La vie démocratique française rythme plusieurs scrutins, à des fréquences différentes :
 - **Présidentielle** : tous les 5 ans, au suffrage universel direct (2 tours)
 - **Législatives** : tous les 5 ans, pour élire les 577 députés de l'Assemblée nationale
 - **Sénatoriales** : tous les 6 ans, au suffrage universel indirect
 - **Européennes** : tous les 5 ans, pour élire les eurodéputés français
 - **Municipales** : tous les 6 ans, pour élire les conseils municipaux
 - **Référendum** : vote direct des citoyens sur une question précise
+
+Les élections présidentielle et législatives ont généralement lieu la même année, ce qui permet au président élu de disposer d'une majorité parlementaire pour gouverner.
 
 ## La perte des droits civiques
 Un citoyen peut perdre ses droits civiques suite à une condamnation pénale. Cette peine complémentaire est décidée par un tribunal.`,
@@ -355,7 +335,7 @@ Un citoyen peut perdre ses droits civiques suite à une condamnation pénale. Ce
     },
     {
       id: 'les-02-03',
-      slug: 'egalite-dignite-libertés',
+      slug: 'egalite-dignite-libertes',
       moduleSlug: 'droits',
       title: 'Égalité, dignité et libertés individuelles',
       duration: 9,
@@ -365,35 +345,16 @@ Un citoyen peut perdre ses droits civiques suite à une condamnation pénale. Ce
 La République française garantit à chacun des droits fondamentaux liés à sa personne. Ces droits protègent les individus dans leur vie quotidienne.
 
 ## L'égalité entre les femmes et les hommes
-L'égalité entre les femmes et les hommes est un principe constitutionnel depuis 1999. Elle se traduit par :
-- L'égalité salariale : à travail égal, salaire égal
-- La parité en politique : les partis doivent présenter autant de femmes que d'hommes
-- La protection contre les violences conjugales
-- Le droit à l'IVG (Interruption volontaire de grossesse), inscrit dans la Constitution en 2024
-La France a été l'un des premiers pays au monde à inscrire le droit à l'avortement dans sa Constitution.
+L'égalité entre les femmes et les hommes est un principe constitutionnel depuis 1999, et l'une des priorités affichées des politiques publiques françaises. Elle repose sur l'égalité salariale — à travail égal, salaire égal — même si des écarts de rémunération subsistent encore en pratique. En politique, la parité impose aux partis de présenter autant de femmes que d'hommes aux élections, sous peine de sanctions financières. La loi protège également contre les violences conjugales, par des dispositifs comme l'éviction du conjoint violent ou l'ordonnance de protection. Enfin, depuis mars 2024, la France est devenue le premier pays au monde à inscrire la liberté de recourir à l'IVG (interruption volontaire de grossesse) directement dans sa Constitution — une avancée saluée comme historique.
 
 ## La lutte contre les discriminations
-La loi interdit toute discrimination fondée sur :
-- L'origine, la nationalité, l'ethnie ou la race
-- Le sexe ou l'orientation sexuelle
-- La religion ou les convictions
-- L'âge, le handicap ou l'état de santé
-- La situation familiale ou le lieu de résidence
-Le Défenseur des droits peut être saisi en cas de discrimination.
+La loi française interdit toute discrimination, c'est-à-dire toute différence de traitement injustifiée, fondée sur des critères précisément définis : l'origine, la nationalité, l'ethnie ou la race ; le sexe ou l'orientation sexuelle ; la religion ou les convictions ; l'âge, le handicap ou l'état de santé ; ou encore la situation familiale et le lieu de résidence. Discriminer une personne sur l'un de ces critères — pour un emploi, un logement ou l'accès à un service — constitue un délit pénalement sanctionné. Toute personne qui s'estime victime d'une discrimination peut saisir gratuitement le Défenseur des droits, qui peut enquêter, proposer une médiation ou orienter vers la justice.
 
 ## La liberté du corps
-Chaque personne a le droit de disposer librement de son corps. Cela inclut :
-- Le consentement obligatoire pour tout acte médical
-- L'interdiction des mutilations génitales féminines
-- La protection contre les violences physiques et sexuelles
-- La liberté du mariage : nul ne peut être contraint à se marier
+Chaque personne a le droit de disposer librement de son corps, un principe qui irrigue plusieurs aspects de la vie quotidienne. Aucun acte médical, aucune intervention chirurgicale ni aucun traitement ne peut être pratiqué sans le consentement libre et éclairé de la personne concernée. Les mutilations génitales féminines, qui portent durablement atteinte au corps des femmes et des filles, sont strictement interdites et constituent un crime. La loi protège également chacun contre les violences physiques et sexuelles, qu'elles surviennent dans l'espace public ou dans la sphère privée. Enfin, la liberté du mariage est garantie : nul ne peut être contraint d'épouser une personne contre sa volonté, et un mariage forcé peut être annulé par un juge.
 
 ## Les libertés au sein du couple
-La loi garantit les libertés individuelles au sein du couple :
-- Le droit au divorce
-- L'interdiction des mariages forcés
-- La protection contre les violences conjugales (25% des féminicides ont lieu dans ce cadre)
-- L'égalité des droits entre époux`,
+La loi garantit à chacun des époux ou partenaires des libertés individuelles qui ne disparaissent pas avec la vie commune. Le mariage n'est jamais définitif : le droit au divorce permet de mettre fin à une union, par consentement mutuel ou à la demande d'un seul des époux. Les mariages forcés, lorsque l'un des conjoints n'a pas consenti librement à l'union, sont interdits et peuvent être annulés. Face aux violences conjugales — qui sont à l'origine d'environ un quart des féminicides commis chaque année en France — la loi prévoit des dispositifs de protection rapide. Enfin, l'égalité des droits entre époux s'applique à la gestion du foyer, des biens communs et de l'autorité parentale.`,
       keyPoints: [
         'Égalité H/F — principe constitutionnel depuis 1999, parité en politique',
         'Droit à l\'IVG — inscrit dans la Constitution française en 2024',
@@ -415,18 +376,10 @@ La loi garantit les libertés individuelles au sein du couple :
 Vivre en France implique non seulement des droits, mais aussi des obligations. Ces devoirs sont la contrepartie de la protection offerte par la République.
 
 ## Les obligations légales
-Toute personne résidant en France doit respecter les lois françaises :
-- **Scolarisation obligatoire** : de 3 à 16 ans pour tous les enfants résidant en France
-- **Déclaration des revenus** : obligation fiscale pour tous les résidents
-- **Respect de l'ordre public** : interdiction de tout acte troublant la paix sociale
-- **Respect des lois et règlements** : ignorance de la loi n'est pas une excuse
+Vivre en France implique de respecter l'ensemble des lois et règlements en vigueur — l'ignorance de la loi n'étant jamais une excuse valable. Cela commence dès l'enfance avec la scolarisation obligatoire, qui s'impose à tous les enfants résidant en France de 3 à 16 ans, quelle que soit leur nationalité. À l'âge adulte, chaque résident doit déclarer ses revenus chaque année à l'administration fiscale, même lorsqu'il n'est pas imposable. Plus largement, chacun doit respecter l'ordre public : aucun acte ne doit troubler la paix sociale, la sécurité ou la tranquillité d'autrui.
 
 ## Le devoir de respecter les principes républicains
-Toute personne en France doit respecter :
-- La séparation des pouvoirs et l'autorité de l'État
-- La laïcité et la neutralité de l'espace public
-- L'égalité entre les femmes et les hommes
-- L'interdiction de toute violence physique ou psychologique
+Au-delà des lois, vivre en France suppose d'adhérer aux grands principes qui structurent la société. Cela signifie reconnaître la séparation des pouvoirs et l'autorité de l'État, qui garantissent le bon fonctionnement des institutions. Cela implique aussi de respecter la laïcité et la neutralité de l'espace public, ainsi que l'égalité entre les femmes et les hommes dans tous les domaines de la vie sociale. Enfin, toute forme de violence physique ou psychologique envers autrui est strictement interdite et sévèrement punie par la loi.
 
 ## Les obligations liées au titre de séjour
 Les étrangers en France ont des obligations spécifiques :
@@ -527,19 +480,10 @@ La justice française est indépendante. Elle comprend :
 La France est une démocratie représentative : les citoyens élisent des représentants qui exercent le pouvoir en leur nom.
 
 ## Les principes de la démocratie
-Une démocratie repose sur :
-- Le **suffrage universel** : tous les citoyens peuvent voter (hommes et femmes depuis 1944)
-- La **pluralité des partis** : plusieurs partis politiques peuvent se former librement
-- La **liberté de la presse** : les médias peuvent critiquer le pouvoir
-- L'**alternance politique** : le pouvoir peut changer de mains par les élections
+Une démocratie repose sur plusieurs principes indissociables. Le suffrage universel garantit que tous les citoyens peuvent voter — un acquis relativement récent en France, puisque les femmes n'ont obtenu ce droit qu'en 1944. La pluralité des partis permet à plusieurs courants politiques de se former librement et de proposer des projets de société différents. La liberté de la presse autorise les médias à informer librement et, le cas échéant, à critiquer le pouvoir en place sans craindre de représailles. Enfin, l'alternance politique assure que le pouvoir peut changer de mains de façon pacifique, au gré des résultats électoraux.
 
 ## Le droit de vote en France
-Caractéristiques du vote en France :
-- **Universel** : tous les citoyens français majeurs peuvent voter
-- **Égal** : une personne = une voix
-- **Secret** : le vote est confidentiel
-- **Libre** : nul ne peut contraindre une personne à voter d'une certaine façon
-- **Direct** pour la plupart des élections, **indirect** pour le Sénat
+En France, le vote répond à cinq grandes caractéristiques. Il est universel : tous les citoyens français majeurs peuvent voter, sans condition de fortune ou de diplôme. Il est égal : chaque électeur dispose d'une seule voix, qui compte exactement comme celle de tous les autres. Il est secret : personne ne peut savoir pour qui un électeur a voté, ce qui le protège de toute pression. Il est libre : nul ne peut contraindre une personne à voter d'une certaine façon. Enfin, il est direct pour la plupart des élections — les électeurs choisissent eux-mêmes leurs représentants — mais indirect pour le Sénat, dont les membres sont élus par des grands électeurs.
 
 ## Le système des deux tours
 Pour les élections présidentielles et législatives, la France utilise le scrutin à deux tours :
@@ -556,10 +500,7 @@ En France, les principaux courants politiques sont :
 La loi garantit le pluralisme politique et interdit les partis qui prônent la violence.
 
 ## Comment voter une loi ?
-1. Initiative : gouvernement (projet de loi) ou parlement (proposition de loi)
-2. Vote à l'Assemblée nationale
-3. Vote au Sénat
-4. En cas de désaccord : commission mixte paritaire, puis vote final à l'Assemblée`,
+Le vote d'une loi suit un parcours précis, appelé la navette parlementaire. Tout commence par une initiative : le texte peut être déposé par le Gouvernement — on parle alors de projet de loi — ou par un parlementaire, et l'on parle alors de proposition de loi. Le texte est ensuite examiné et voté par l'Assemblée nationale, puis transmis au Sénat qui l'examine et le vote à son tour. Si les deux chambres ne parviennent pas à un accord sur un texte identique, une commission mixte paritaire est réunie pour tenter de trouver un compromis ; en dernier recours, c'est l'Assemblée nationale qui a le dernier mot et adopte le texte définitif.`,
       keyPoints: [
         'Suffrage universel — tous les citoyens français majeurs depuis 1944 (femmes)',
         'Vote : universel, égal, secret, libre et direct',
@@ -581,13 +522,7 @@ La loi garantit le pluralisme politique et interdit les partis qui prônent la v
 La Ve République, fondée en 1958, organise les pouvoirs publics en France selon un système semi-présidentiel unique en Europe.
 
 ## Le Président de la République
-Le Président est le chef de l'État. Il est élu au suffrage universel direct pour un mandat de 5 ans (quinquennat), renouvelable une fois. Ses pouvoirs :
-- Nomme le Premier ministre
-- Préside le Conseil des ministres
-- Est le chef des armées
-- Peut dissoudre l'Assemblée nationale
-- Peut consulter les citoyens par référendum
-- Représente la France à l'étranger
+Le Président est le chef de l'État. Il est élu au suffrage universel direct pour un mandat de cinq ans (le quinquennat), renouvelable une fois. Ses pouvoirs sont étendus : il nomme le Premier ministre et préside le Conseil des ministres, où se prennent les décisions les plus importantes du Gouvernement. En tant que chef des armées, il dispose de l'autorité ultime sur la défense nationale, y compris sur la dissuasion nucléaire. Il peut également dissoudre l'Assemblée nationale et provoquer de nouvelles élections législatives, ou consulter directement les citoyens par référendum sur une question importante. Enfin, il représente la France à l'étranger, lors des sommets internationaux et dans ses relations avec les autres chefs d'État.
 
 ## Le Gouvernement
 Le Premier ministre est le chef du Gouvernement. Il est nommé par le Président. Il dirige l'action du Gouvernement, assure l'exécution des lois et dispose du pouvoir réglementaire. Les ministres sont nommés sur proposition du Premier ministre.
@@ -598,11 +533,7 @@ Le Parlement français est bicaméral (deux chambres) :
 - **Le Sénat** : 348 sénateurs, élus pour 6 ans au suffrage universel indirect (par les élus locaux). Représente les collectivités territoriales.
 
 ## Les collectivités territoriales
-La France est organisée en plusieurs niveaux :
-- **Les communes** : 35 000 communes, dirigées par un maire élu
-- **Les départements** : 101 (dont 5 outre-mer), dirigés par un conseil départemental
-- **Les régions** : 18 (dont 5 outre-mer), dirigées par un conseil régional
-- **Les intercommunalités** : regroupements de communes
+La France est organisée en plusieurs niveaux de collectivités, chacune disposant de compétences propres. À la base, environ 35 000 communes sont dirigées par un maire élu, qui gère notamment l'état civil, les écoles primaires et l'urbanisme local. Au niveau intermédiaire, 101 départements (dont 5 outre-mer) sont administrés par un conseil départemental, compétent en particulier en matière d'action sociale et de collèges. Les 18 régions (dont 5 outre-mer), dirigées par un conseil régional, ont en charge le développement économique, les lycées et les transports régionaux. Enfin, de nombreuses communes se regroupent au sein d'intercommunalités, afin de mutualiser certains services comme la collecte des déchets ou les transports en commun.
 
 ## Le Conseil constitutionnel
 Le Conseil constitutionnel veille à la conformité des lois à la Constitution. Il est composé de 9 membres nommés pour 9 ans (3 par le Président, 3 par l'Assemblée, 3 par le Sénat). Depuis 2010, les citoyens peuvent saisir le Conseil via la Question prioritaire de constitutionnalité (QPC).`,
@@ -826,11 +757,7 @@ Après la guerre, la France co-fonde les Nations Unies (1945) et participe à la
 La France est un pays de taille moyenne en Europe, mais qui bénéficie d'une grande diversité géographique, tant dans sa métropole que dans ses territoires d'outre-mer.
 
 ## Le territoire métropolitain
-La France métropolitaine est située en Europe occidentale. Elle couvre 551 500 km². On l'appelle l'"Hexagone" en raison de sa forme approximative. Elle est bordée par :
-- Au nord : la Manche et la mer du Nord (Belgique, Luxembourg)
-- À l'est : l'Allemagne, la Suisse, l'Italie
-- Au sud : la mer Méditerranée, l'Espagne, Monaco
-- À l'ouest : l'océan Atlantique
+La France métropolitaine est située en Europe occidentale et couvre 551 500 km², ce qui en fait le plus grand pays de l'Union européenne par sa superficie. On la surnomme l'"Hexagone" en raison de sa forme géométrique approximative, délimitée par six côtés. Au nord, elle est bordée par la Manche et la mer du Nord, faisant face à la Belgique et au Luxembourg. À l'est, elle partage des frontières terrestres avec l'Allemagne, la Suisse et l'Italie. Au sud, la mer Méditerranée la sépare de l'Afrique du Nord, tandis qu'elle est voisine de l'Espagne et de la principauté de Monaco. À l'ouest enfin, l'océan Atlantique lui offre une large façade maritime.
 
 ## Les fleuves et reliefs principaux
 Cinq grands fleuves traversent la France :
@@ -842,9 +769,7 @@ Cinq grands fleuves traversent la France :
 Les massifs montagneux : les Alpes (Mont Blanc : 4 808 m — plus haut sommet d'Europe occidentale), les Pyrénées, le Massif central, les Vosges.
 
 ## Les régions françaises
-La France métropolitaine est divisée en 13 régions depuis 2016. Quelques grandes régions :
-- Île-de-France (Paris) : 12 millions d'habitants
-- Auvergne-Rhône-Alpes, Provence-Alpes-Côte d'Azur, Nouvelle-Aquitaine...
+Depuis 2016, la France métropolitaine est divisée en 13 régions, plus grandes et moins nombreuses qu'auparavant. L'Île-de-France, autour de Paris, est de loin la plus peuplée avec environ 12 millions d'habitants — près d'un Français sur cinq. Parmi les autres grandes régions figurent l'Auvergne-Rhône-Alpes, autour de Lyon, la Provence-Alpes-Côte d'Azur, qui borde la Méditerranée, ou encore la Nouvelle-Aquitaine, la plus étendue de métropole, qui s'étend de Bordeaux jusqu'aux Pyrénées.
 
 ## L'outre-mer français
 La France possède des territoires dans le monde entier :
@@ -934,28 +859,16 @@ const mod05: Module = {
 La France possède l'un des systèmes de protection sociale les plus développés au monde. Ce système garantit à tous les résidents l'accès aux soins et à une protection contre les risques de la vie.
 
 ## La Sécurité sociale
-Créée en 1945, la Sécurité sociale protège tous les assurés sociaux contre :
-- La maladie et les accidents (Assurance Maladie)
-- La vieillesse (Assurance Retraite)
-- Les accidents du travail et maladies professionnelles
-- La maternité, paternité et famille
-Elle est financée par les cotisations sociales des employeurs et des salariés.
+Créée en 1945 à la Libération, la Sécurité sociale constitue le socle de la protection sociale française : elle couvre tous les assurés sociaux contre les grands risques de la vie. Elle prend en charge la maladie et les accidents via l'Assurance Maladie, garantit un revenu à la retraite via l'Assurance Retraite, couvre les accidents du travail et les maladies professionnelles, et accompagne les familles à travers les prestations liées à la maternité, à la paternité et à l'éducation des enfants. L'ensemble de ce système est financé par les cotisations sociales prélevées sur les salaires, payées à la fois par les employeurs et par les salariés.
 
 ## L'Assurance Maladie — la CPAM
-La Caisse Primaire d'Assurance Maladie (CPAM) rembourse tout ou partie des frais médicaux. En France :
-- Les consultations chez le médecin sont remboursées à 70%
-- Les médicaments sont remboursés selon leur importance thérapeutique
-- La Complémentaire Santé Solidaire (CSS) aide les personnes à faibles revenus
+La Caisse Primaire d'Assurance Maladie (CPAM) rembourse tout ou partie des frais médicaux engagés par les assurés. En règle générale, les consultations chez le médecin sont remboursées à hauteur de 70 % du tarif conventionné, le reste pouvant être pris en charge par une mutuelle. Les médicaments sont remboursés à des taux variables selon leur importance thérapeutique, allant des traitements les plus essentiels aux médicaments de confort. Pour les personnes aux revenus les plus modestes, la Complémentaire Santé Solidaire (CSS) permet de bénéficier d'une couverture complémentaire gratuite ou à très faible coût, garantissant un accès aux soins sans avance de frais.
 
 ## Le médecin traitant et le parcours de soins
 Chaque personne doit choisir un médecin traitant (médecin généraliste de référence). Pour être bien remboursé, il faut passer par ce médecin avant de consulter un spécialiste. C'est le parcours de soins coordonnés.
 
 ## Les allocations familiales
-La Caisse d'Allocations Familiales (CAF) verse des aides aux familles :
-- Les allocations familiales (à partir de 2 enfants)
-- L'aide personnalisée au logement (APL)
-- La prestation d'accueil du jeune enfant (PAJE)
-- Le RSA (Revenu de Solidarité Active) pour les personnes sans ressources
+La Caisse d'Allocations Familiales (CAF) verse de nombreuses aides destinées à soutenir les familles et les personnes aux revenus modestes. Les allocations familiales, versées sans condition de ressources à partir de deux enfants à charge, en sont l'exemple le plus connu. L'aide personnalisée au logement (APL) réduit le montant du loyer pour les ménages modestes, qu'ils soient locataires ou accédants à la propriété. La prestation d'accueil du jeune enfant (PAJE) accompagne les familles dès la naissance ou l'adoption d'un enfant. Enfin, le revenu de solidarité active (RSA) garantit un minimum de ressources aux personnes sans emploi ou disposant de très faibles revenus.
 
 ## Les retraites
 Le système de retraite français est fondé sur la solidarité entre générations (répartition). Les actifs d'aujourd'hui financent les retraites d'aujourd'hui. L'âge légal de départ à la retraite est de **64 ans** (depuis la réforme de 2023).`,
@@ -980,25 +893,15 @@ Le système de retraite français est fondé sur la solidarité entre générati
 L'école et le travail sont deux piliers de l'intégration dans la société française. Comprendre ces systèmes est essentiel pour s'y épanouir.
 
 ## Le système éducatif français
-L'école est obligatoire de 3 à 16 ans pour tous les enfants résidant en France, quelle que soit leur nationalité. Le système comprend :
-- **Maternelle** (3–6 ans) : école maternelle
-- **Élémentaire** (6–11 ans) : CP au CM2
-- **Collège** (11–15 ans) : 6ème à 3ème, brevet des collèges
-- **Lycée** (15–18 ans) : baccalauréat
-- **Enseignement supérieur** : universités, grandes écoles
+L'école est obligatoire de 3 à 16 ans pour tous les enfants résidant en France, quelle que soit leur nationalité. Le parcours scolaire commence par l'école maternelle, de 3 à 6 ans, puis se poursuit à l'école élémentaire, du CP au CM2, de 6 à 11 ans. Vient ensuite le collège, de la 6ème à la 3ème (11 à 15 ans), sanctionné par le brevet des collèges, puis le lycée, de la seconde à la terminale (15 à 18 ans), qui se conclut par le baccalauréat. Au-delà, l'enseignement supérieur regroupe les universités et les grandes écoles.
 
-L'école publique est gratuite et laïque. Les frais de cantine et d'activités périscolaires peuvent être aidés.
+L'école publique est gratuite et laïque. Les frais de cantine et d'activités périscolaires peuvent être pris en charge ou allégés selon les revenus de la famille.
 
 ## Le baccalauréat
 Le "bac" est le diplôme national qui sanctionne la fin des études secondaires. Il permet l'accès à l'enseignement supérieur. Il existe plusieurs séries : générale, technologique, professionnelle.
 
 ## Le droit du travail
-En France, le droit du travail protège les salariés :
-- Le **SMIC** (Salaire Minimum Interprofessionnel de Croissance) fixe le salaire minimum légal
-- La durée légale du travail est de **35 heures par semaine**
-- Les congés payés : **5 semaines minimum** par an
-- Le contrat de travail peut être en CDI (durée indéterminée) ou CDD (durée déterminée)
-- En cas de licenciement abusif, le salarié peut saisir le Conseil des prud'hommes
+En France, le droit du travail offre aux salariés un cadre protecteur parmi les plus complets d'Europe. Le SMIC (salaire minimum interprofessionnel de croissance) fixe un salaire minimum légal en dessous duquel aucun employeur ne peut rémunérer un salarié. La durée légale du travail est fixée à 35 heures par semaine, et chaque salarié bénéficie d'au moins cinq semaines de congés payés par an. Le contrat de travail peut prendre la forme d'un CDI (contrat à durée indéterminée), la norme la plus protectrice, ou d'un CDD (contrat à durée déterminée), réservé à des situations précises et limité dans le temps. En cas de licenciement jugé abusif, le salarié peut saisir le Conseil des prud'hommes, la juridiction spécialisée dans les litiges entre employeurs et salariés.
 
 ## Pôle Emploi (France Travail)
 Pôle Emploi (rebaptisé "France Travail" en 2024) accompagne les demandeurs d'emploi. Les chômeurs peuvent bénéficier de l'assurance chômage (ARE) s'ils ont suffisamment cotisé.
@@ -1026,10 +929,7 @@ La France dispose d'un large système d'apprentissage permettant d'acquérir un 
 Se loger et accomplir ses démarches administratives sont des étapes essentielles pour s'installer en France. Des aides et services existent pour faciliter ces démarches.
 
 ## Le logement en France
-Les principales formes de logement sont :
-- **La location** : locataire verse un loyer mensuel, protégé par la loi (loi du 6 juillet 1989)
-- **La propriété** : achat d'un bien immobilier, souvent financé par un prêt bancaire
-- **Le logement social (HLM)** : logements à loyer modéré gérés par des organismes publics
+En France, plusieurs solutions permettent de se loger. La location reste la plus répandue : le locataire verse un loyer mensuel au propriétaire, dans un cadre fortement protecteur fixé par la loi du 6 juillet 1989, qui encadre notamment les conditions de résiliation et de révision du loyer. La propriété, accessible le plus souvent grâce à un prêt immobilier remboursé sur quinze à vingt-cinq ans, reste un objectif important pour de nombreux ménages français. Enfin, le logement social — couramment appelé HLM (habitation à loyer modéré) — est géré par des organismes publics ou semi-publics et propose des loyers réduits aux ménages dont les revenus ne dépassent pas certains plafonds.
 
 ## L'aide au logement (APL)
 La CAF verse l'Aide Personnalisée au Logement (APL) aux personnes à revenus modestes. Pour en bénéficier : le logement doit être la résidence principale et remplir certaines conditions de superficie.
@@ -1042,6 +942,8 @@ Les étrangers résidant en France doivent effectuer plusieurs démarches en pr�
 - Demande ou renouvellement de titre de séjour
 - Déclaration de changement d'adresse
 - Demande de naturalisation
+
+La plupart de ces démarches peuvent désormais être engagées en ligne, via le site de l'Administration Numérique pour les Étrangers en France (ANEF), ce qui réduit le besoin de se déplacer physiquement en préfecture.
 
 ## La carte nationale d'identité et le passeport
 Les citoyens français peuvent obtenir une carte nationale d'identité (CNI) et un passeport auprès de leur mairie. Ces documents permettent de circuler en Europe (CNI suffit pour la zone Schengen) et dans le monde (passeport).
@@ -1069,17 +971,10 @@ Le site **service-public.fr** regroupe toutes les informations et formulaires ad
 La France est une société diverse, où différentes formes familiales coexistent, protégées par la loi. La solidarité et le vivre ensemble sont des valeurs centrales.
 
 ## Les formes de vie en couple
-La loi française reconnaît plusieurs formes d'union :
-- **Le mariage** : contrat officiel devant l'officier d'état civil (mairie). Il est ouvert aux couples hétérosexuels et homosexuels depuis 2013 (mariage pour tous).
-- **Le PACS** (Pacte Civil de Solidarité) : contrat entre deux personnes, créé en 1999. Plus flexible que le mariage.
-- **Le concubinage** (union libre) : vie commune sans contrat officiel.
+La loi française reconnaît plusieurs formes d'union, à choisir librement selon les besoins et les souhaits de chacun. Le mariage est le contrat le plus solennel : il est célébré devant l'officier d'état civil, à la mairie, et ouvert depuis 2013 aux couples de même sexe comme aux couples de sexe différent — c'est la loi dite du « mariage pour tous ». Le PACS (pacte civil de solidarité), créé en 1999, est un contrat plus souple conclu entre deux personnes : il ouvre des droits communs, notamment fiscaux et sociaux, tout en restant plus simple à rompre que le mariage. Enfin, le concubinage, ou union libre, désigne une vie commune sans aucun contrat officiel ; il offre moins de protections juridiques, mais reste une forme de vie de couple pleinement reconnue.
 
 ## Les droits des enfants
-En France, l'intérêt supérieur de l'enfant est le principe fondamental :
-- Tout enfant a droit à l'éducation, à la santé et à la protection
-- Les châtiments corporels sont interdits
-- En cas de séparation des parents, l'autorité parentale est généralement partagée
-- L'enfant né en France de parents étrangers peut acquérir la nationalité française à 18 ans
+En France, l'intérêt supérieur de l'enfant constitue le principe fondamental qui guide toutes les décisions le concernant. Tout enfant a droit à l'éducation, à la santé et à la protection, quelle que soit sa situation familiale ou celle de ses parents. Les châtiments corporels, y compris au sein de la famille, sont interdits par la loi depuis 2019. En cas de séparation des parents, l'autorité parentale est en principe partagée entre les deux parents, dans l'intérêt de l'enfant. Enfin, un enfant né en France de parents étrangers peut, sous certaines conditions, acquérir la nationalité française à sa majorité, à 18 ans.
 
 ## L'immigration et la diversité
 La France est historiquement un pays d'immigration. Des vagues successives (Italiens, Polonais, Espagnols, Portugais, Maghrébins, Africains, Asiatiques...) ont contribué à sa richesse culturelle. La loi interdit toute discrimination liée à l'origine.

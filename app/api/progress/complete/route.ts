@@ -67,7 +67,7 @@ export async function POST(req: Request) {
     const xpEarned = XP_REWARDS.lesson_completed; // 50 XP
 
     // Upsert progression
-    await supabase
+    const { error: progressionError } = await supabase
       .from('progression')
       .upsert({
         user_id: user.id,
@@ -76,6 +76,16 @@ export async function POST(req: Request) {
         completed: true,
         completed_at: new Date().toISOString(),
       }, { onConflict: 'user_id,lesson_slug' });
+
+    if (progressionError) {
+      // Erreur critique : si l'écriture échoue (table/contrainte/RLS manquante),
+      // la progression et les badges ne pourront jamais se mettre à jour.
+      console.error('[progress/complete] upsert progression error:', progressionError.message, progressionError.code, progressionError.details);
+      return NextResponse.json({
+        error: 'Impossible d\'enregistrer la progression',
+        debug: progressionError.message,
+      }, { status: 500 });
+    }
 
     // Ajouter XP au profil
     const { data: profile } = await supabase

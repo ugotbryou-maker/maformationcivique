@@ -317,7 +317,9 @@ export default function ProfilPage() {
       </div>
 
       {/* ── Zone admin (visible uniquement pour l'admin) ── */}
-      {profile?.email === (process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? 'tamburriniugo@gmail.com') && (
+      {(process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? 'tamburriniugo@gmail.com')
+          .split(',').map((e) => e.trim().toLowerCase())
+          .includes((profile?.email ?? '').toLowerCase()) && (
         <div style={{
           padding: '20px 24px',
           borderRadius: 'var(--radius-xl)',
