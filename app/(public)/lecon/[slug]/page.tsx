@@ -11,6 +11,7 @@ import { LessonExercise } from '@/components/app/LessonExercise';
 import { LessonCompleteButton } from '@/components/app/LessonCompleteButton';
 import { LessonEndQuiz, type QuizQuestion } from '@/components/app/LessonEndQuiz';
 import { questions as allQuestions } from '@/data/questions';
+import { renderInline } from '@/lib/markdown';
 import {
   ChevronRight, ChevronLeft, Clock,
   Flag, Scale, Map, Landmark, Shield, Globe,
@@ -101,15 +102,6 @@ function parseKeyPoint(kp: string): { title: string; desc: string } {
 // Découpe une chaîne contenant des marqueurs **gras** en fragments texte /
 // <strong> mis en valeur avec la couleur de la section, pour donner du relief
 // visuel au texte (au lieu de simplement supprimer les marqueurs).
-function renderInline(text: string, color: string, keyPrefix: string) {
-  const parts = text.split(/\*\*(.+?)\*\*/g);
-  return parts.map((part, i) =>
-    i % 2 === 1
-      ? <strong key={`${keyPrefix}-b${i}`} style={{ fontWeight: 700, color }}>{part}</strong>
-      : <span key={`${keyPrefix}-t${i}`}>{part}</span>
-  );
-}
-
 function renderParagraphBlocks(para: string, color: string, key: number) {
   const lines = para.split('\n').filter((l) => l.trim() !== '');
   const blocks: { type: 'text' | 'list'; lines: string[] }[] = [];

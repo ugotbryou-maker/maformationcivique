@@ -43,6 +43,15 @@ export async function POST(req: Request) {
           sub_end_at: periodEnd,
         })
         .eq('id', userId);
+
+      // Si une réduction parrainage a été appliquée, on marque le compte
+      // pour ne pas pouvoir la réutiliser sur un futur abonnement.
+      if ((session.total_details?.amount_discount ?? 0) > 0) {
+        await supabase
+          .from('users')
+          .update({ referral_discount_used: true })
+          .eq('id', userId);
+      }
       break;
     }
 

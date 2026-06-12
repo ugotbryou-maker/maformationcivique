@@ -35,13 +35,40 @@ export const STRIPE_PLANS = {
 
 export type PlanKey = keyof typeof STRIPE_PLANS;
 
+/** Identifiant du coupon "parrainage" — -20% sur la 1ère échéance */
+export const REFERRAL_COUPON_ID = 'PARRAINAGE20';
+
+/**
+ * Récupère le coupon de parrainage, ou le crée s'il n'existe pas encore
+ * (idempotent — appelable à chaque checkout sans risque de doublon).
+ */
+export async function ensureReferralCoupon(): Promise<string> {
+  try {
+    await stripe.coupons.retrieve(REFERRAL_COUPON_ID);
+    return REFERRAL_COUPON_ID;
+  } catch {
+    const coupon = await stripe.coupons.create({
+      id: REFERRAL_COUPON_ID,
+      percent_off: 20,
+      duration: 'once',
+      name: 'Parrainage — -20% le 1er mois',
+    });
+    return coupon.id;
+  }
+}
+
 export async function createCheckoutSession(
   userId: string,
   userEmail: string,
   planKey: PlanKey = 'premium_monthly',
-  appUrl: string
+  appUrl: string,
+  applyReferralDiscount = false
 ) {
   const plan = STRIPE_PLANS[planKey];
+
+  const discountFields = applyReferralDiscount
+    ? { discounts: [{ coupon: await ensureReferralCoupon() }] }
+    : { allow_promotion_codes: true };
 
   const session = await stripe.checkout.sessions.create({
     customer_email: userEmail,
@@ -55,7 +82,7 @@ export async function createCheckoutSession(
     mode: 'subscription',
     success_url: `${appUrl}/dashboard?upgraded=1`,
     cancel_url: `${appUrl}/#tarifs`,
-    allow_promotion_codes: true,
+    ...discountFields,
     subscription_data: {
       metadata: { userId },
     },

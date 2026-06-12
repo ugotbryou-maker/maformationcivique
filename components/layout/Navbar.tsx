@@ -10,8 +10,9 @@ import { useRouter } from 'next/navigation';
 const navLinks = [
   { num: '01', label: 'Modules',       href: '/modules' },
   { num: '02', label: 'Examens blancs', href: '/examen' },
-  { num: '03', label: 'Ressources',    href: '/ressources' },
-  { num: '04', label: 'Tarifs',        href: '/#tarifs' },
+  { num: '03', label: 'Fiches',        href: '/fiches' },
+  { num: '04', label: 'Ressources',    href: '/ressources' },
+  { num: '05', label: 'Tarifs',        href: '/#tarifs' },
 ];
 
 const langs = ['FR', 'AR', 'EN', 'PT'];

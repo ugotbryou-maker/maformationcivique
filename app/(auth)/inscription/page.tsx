@@ -126,6 +126,24 @@ function InscriptionForm() {
         </div>
       )}
 
+      {searchParams.get('ref') && /^[0-9a-f-]{36}$/i.test(searchParams.get('ref') ?? '') && (
+        <div
+          style={{
+            padding: '12px 16px',
+            borderRadius: 'var(--radius-md)',
+            background: '#FEF2F2',
+            border: '1px solid #FECACA',
+            fontSize: 'var(--font-size-sm)',
+            color: '#B91C1C',
+            marginBottom: '20px',
+            textAlign: 'center',
+            fontWeight: 500,
+          }}
+        >
+          🎁 Vous avez été invité(e) par un proche — profitez de <strong>-20% sur le premier mois</strong> de l'offre Premium !
+        </div>
+      )}
+
       <form
         onSubmit={handleSubmit}
         style={{

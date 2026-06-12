@@ -70,7 +70,7 @@ export function ReferralCard({ referralLink, referredCount = 0 }: Props) {
           <p style={{ fontSize: 'var(--font-size-sm)', color: 'rgba(255,255,255,0.85)', marginBottom: '16px', lineHeight: 1.5 }}>
             {referredCount > 0
               ? `${referredCount} proche${referredCount > 1 ? 's' : ''} inscrit${referredCount > 1 ? 's' : ''} grâce à vous. Merci, continuez !`
-              : 'Une personne de votre entourage prépare aussi son titre de séjour ou sa naturalisation ? Partagez votre lien, c’est gratuit pour commencer.'}
+              : 'Une personne de votre entourage prépare aussi son titre de séjour ou sa naturalisation ? Partagez votre lien : il/elle bénéficiera de -20% sur son premier mois Premium.'}
           </p>
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             <button

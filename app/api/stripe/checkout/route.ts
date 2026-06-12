@@ -15,12 +15,22 @@ export async function POST(req: Request) {
   const { planKey } = await req.json() as { planKey?: PlanKey };
   const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
 
+  // Parrainage : -20% sur le 1er mois si l'utilisateur a été parrainé
+  // et n'a pas encore profité de la réduction.
+  const { data: profile } = await supabase
+    .from('users')
+    .select('referred_by, referral_discount_used')
+    .eq('id', user.id)
+    .single();
+  const applyReferralDiscount = !!profile?.referred_by && !profile?.referral_discount_used;
+
   try {
     const session = await createCheckoutSession(
       user.id,
       user.email!,
       planKey ?? 'premium_monthly',
-      appUrl
+      appUrl,
+      applyReferralDiscount
     );
     return NextResponse.json({ url: session.url });
   } catch (err) {
