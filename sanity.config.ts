@@ -1,7 +1,6 @@
 import { defineConfig } from 'sanity';
 import { deskTool } from 'sanity/desk';
 import { postSchema, authorSchema } from './sanity/schemas/post';
-import { resourceSchema } from './sanity/schemas/resource';
 
 export default defineConfig({
   // Studio embarqué dans Next.js, servi sur /studio (cf. app/studio/[[...tool]])
@@ -22,9 +21,6 @@ export default defineConfig({
               .title('📝 Articles de blog')
               .child(S.documentTypeList('post').title('Articles')),
             S.listItem()
-              .title('📚 Ressources & guides')
-              .child(S.documentTypeList('resource').title('Ressources')),
-            S.listItem()
               .title('👤 Auteurs')
               .child(S.documentTypeList('author').title('Auteurs')),
           ]),
@@ -35,6 +31,6 @@ export default defineConfig({
   ],
 
   schema: {
-    types: [postSchema, authorSchema, resourceSchema],
+    types: [postSchema, authorSchema],
   },
 });

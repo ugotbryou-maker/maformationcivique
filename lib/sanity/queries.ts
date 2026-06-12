@@ -1,4 +1,4 @@
-import { getSanityClient } from './client';
+import { getSanityClient, SANITY_CONFIGURED } from './client';
 
 export interface SanityPost {
   _id: string;
@@ -76,7 +76,7 @@ function normalizePost(post: SanityPost & { category: string }): SanityPost {
 
 // ── Tous les articles ──────────────────────────────────────────────────────
 export async function getAllPosts(): Promise<SanityPost[]> {
-  if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) return DEMO_POSTS;
+  if (!SANITY_CONFIGURED) return DEMO_POSTS;
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const raw: any[] = await getSanityClient()?.fetch(`
@@ -94,7 +94,7 @@ export async function getAllPosts(): Promise<SanityPost[]> {
 
 // ── Un article par slug ────────────────────────────────────────────────────
 export async function getPostBySlug(slug: string): Promise<SanityPost | null> {
-  if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
+  if (!SANITY_CONFIGURED) {
     return DEMO_POSTS.find((p) => p.slug.current === slug) ?? null;
   }
   try {
@@ -114,7 +114,7 @@ export async function getPostBySlug(slug: string): Promise<SanityPost | null> {
 
 // ── Slugs statiques ────────────────────────────────────────────────────────
 export async function getAllPostSlugs(): Promise<string[]> {
-  if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
+  if (!SANITY_CONFIGURED) {
     return DEMO_POSTS.map((p) => p.slug.current);
   }
   try {
