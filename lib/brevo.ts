@@ -25,8 +25,8 @@ export async function sendEmail(options: SendEmailOptions): Promise<void> {
 
   const payload = {
     sender: options.from ?? {
-      name: 'maformationcivique.fr',
-      email: 'noreply@maformationcivique.fr',
+      name: 'Ma Formation Civique',
+      email: 'contact@maformationcivique.fr',
     },
     to: options.to,
     subject: options.subject,
