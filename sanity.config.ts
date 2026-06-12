@@ -1,10 +1,11 @@
 import { defineConfig } from 'sanity';
 import { deskTool } from 'sanity/desk';
-import { visionTool } from '@sanity/vision';
-import { postSchema } from './sanity/schemas/post';
+import { postSchema, authorSchema } from './sanity/schemas/post';
 import { resourceSchema } from './sanity/schemas/resource';
 
 export default defineConfig({
+  // Studio embarqué dans Next.js, servi sur /studio (cf. app/studio/[[...tool]])
+  basePath: '/studio',
   name: 'maformationcivique',
   title: 'maformationcivique.fr — CMS',
 
@@ -23,12 +24,17 @@ export default defineConfig({
             S.listItem()
               .title('📚 Ressources & guides')
               .child(S.documentTypeList('resource').title('Ressources')),
+            S.listItem()
+              .title('👤 Auteurs')
+              .child(S.documentTypeList('author').title('Auteurs')),
           ]),
     }),
-    visionTool(),
+    // visionTool() retiré : @sanity/vision^5 nécessite sanity^4/5 + React 19,
+    // incompatibles avec sanity@3.99 / React 18 utilisés ici. Le desk tool
+    // (édition des articles) ne nécessite pas Vision (playground GROQ).
   ],
 
   schema: {
-    types: [postSchema, resourceSchema],
+    types: [postSchema, authorSchema, resourceSchema],
   },
 });
