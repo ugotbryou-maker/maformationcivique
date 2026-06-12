@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getPostBySlug, getAllPostSlugs, POST_CATEGORIES } from '@/lib/sanity/queries';
-import { Clock, ArrowLeft, ArrowRight, Tag, BookOpen } from 'lucide-react';
+import { urlFor } from '@/lib/sanity/client';
+import { ArticleBody } from '@/components/app/ArticleBody';
+import { Clock, ArrowLeft, ArrowRight, Tag, BookOpen, HelpCircle } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const revalidate = 3600;
@@ -104,10 +106,7 @@ export default async function ArticlePage({ params }: Props) {
             {/* Si article Sanity avec PortableText */}
             {post.body ? (
               <div style={{ fontSize: 16, lineHeight: 1.8, color: '#374151' }}>
-                {/* PortableText renderer — à ajouter quand Sanity sera connecté */}
-                <p style={{ color: '#94A3B8', fontStyle: 'italic' }}>
-                  Contenu complet disponible une fois Sanity connecté.
-                </p>
+                <ArticleBody value={post.body} accentColor={cat.color} />
               </div>
             ) : (
               /* Fallback pour articles de démo */
@@ -145,7 +144,70 @@ export default async function ArticlePage({ params }: Props) {
                 </div>
               </div>
             )}
+
+            {/* Auteur — signal E-E-A-T (Expertise/Authority) */}
+            {post.author?.name && (
+              <div style={{
+                marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid #E2E8F0',
+                display: 'flex', alignItems: 'flex-start', gap: 12,
+              }}>
+                {post.author.avatar ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={(urlFor(post.author.avatar) as { width?: (n: number) => { url: () => string } })?.width?.(48)?.url?.() ?? ''}
+                    alt={post.author.name}
+                    style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+                  />
+                ) : (
+                  <div style={{
+                    width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
+                    background: 'var(--gradient-primary)', color: '#fff',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 16, fontWeight: 700,
+                  }}>
+                    {post.author.name[0]?.toUpperCase()}
+                  </div>
+                )}
+                <div>
+                  <p style={{ margin: 0, fontSize: 13, color: '#94A3B8' }}>Écrit par</p>
+                  <p style={{ margin: '2px 0 4px', fontSize: 15, fontWeight: 700, color: '#1A1A2E' }}>{post.author.name}</p>
+                  {post.author.bio && (
+                    <p style={{ margin: 0, fontSize: 13, color: '#64748B', lineHeight: 1.6 }}>{post.author.bio}</p>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
+
+          {/* FAQ — signal E-E-A-T / rich snippet Google */}
+          {post.faq && post.faq.length > 0 && (
+            <div style={{
+              marginTop: '1.5rem',
+              background: '#fff', borderRadius: 20,
+              border: '1.5px solid #E2E8F0',
+              padding: '2.5rem',
+            }}>
+              <h2 style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                fontSize: 20, fontWeight: 800, color: '#1A1A2E', margin: '0 0 1.25rem',
+              }}>
+                <HelpCircle size={20} color={cat.color} />
+                Questions fréquentes
+              </h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                {post.faq.map((item, i) => (
+                  <div key={i}>
+                    <p style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 700, color: '#1A1A2E' }}>
+                      {item.question}
+                    </p>
+                    <p style={{ margin: 0, fontSize: 14, lineHeight: 1.7, color: '#64748B' }}>
+                      {item.answer}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Sidebar */}
@@ -209,6 +271,28 @@ export default async function ArticlePage({ params }: Props) {
           </Link>
         </div>
       </div>
+
+      {/* Rich snippet FAQ — Google Search */}
+      {post.faq && post.faq.length > 0 && (
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: post.faq.map((item) => ({
+                '@type': 'Question',
+                name: item.question,
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: item.answer,
+                },
+              })),
+            }),
+          }}
+        />
+      )}
     </div>
   );
 }

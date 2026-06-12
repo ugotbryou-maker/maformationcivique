@@ -28,6 +28,8 @@ export function getSanityClient() {
 export function urlFor(source: any) {
   if (!SANITY_CONFIGURED) return { url: () => '' };
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const imageUrlBuilder = require('@sanity/image-url');
+  const mod = require('@sanity/image-url');
+  // Interop ESM/CJS : selon le bundler, l'export par défaut peut être sous `.default`
+  const imageUrlBuilder = typeof mod === 'function' ? mod : mod.default;
   return imageUrlBuilder(getSanityClient()).image(source);
 }

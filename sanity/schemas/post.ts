@@ -85,6 +85,28 @@ export const postSchema = defineType({
       ],
     },
     {
+      name: 'faq',
+      title: 'FAQ (questions fréquentes)',
+      description:
+        "Pour le SEO et le E-E-A-T Google : 3 à 6 questions que se posent vos lecteurs sur ce sujet. " +
+        "Affichées en bas de l'article et éligibles au rich snippet FAQ dans les résultats Google.",
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'faqItem',
+          title: 'Question',
+          fields: [
+            { name: 'question', title: 'Question', type: 'string' },
+            { name: 'answer', title: 'Réponse', type: 'text', rows: 4 },
+          ],
+          preview: {
+            select: { title: 'question', subtitle: 'answer' },
+          },
+        },
+      ],
+    },
+    {
       name: 'seo',
       title: 'SEO',
       type: 'object',

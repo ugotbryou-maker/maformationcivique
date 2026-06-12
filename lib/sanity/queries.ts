@@ -16,9 +16,11 @@ export interface SanityPost {
   author?: {
     name: string;
     avatar?: { asset: { _ref: string } };
+    bio?: string;
   };
   tags?: string[];
   body?: unknown; // PortableText
+  faq?: { question: string; answer: string }[];
   seo?: {
     metaTitle?: string;
     metaDescription?: string;
@@ -101,7 +103,7 @@ export async function getPostBySlug(slug: string): Promise<SanityPost | null> {
       *[_type == "post" && slug.current == $slug][0] {
         _id, title, slug, excerpt, publishedAt, readingTime,
         category, contentType, coverImage,
-        author->{ name, avatar }, tags, body, seo
+        author->{ name, avatar, bio }, tags, body, faq, seo
       }
     `, { slug });
     return raw ? normalizePost(raw) : null;
