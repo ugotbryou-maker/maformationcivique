@@ -122,9 +122,9 @@ export const lessonArt: Record<string, ArtInfo> = {
     baseBg: 'linear-gradient(135deg, #1F2937 0%, #374151 100%)',
   },
   'geographie-france': {
-    url: '/images/modules/Caillebotte_Rue_de_Paris.jpg',
-    alt: 'Rue de Paris par temps de pluie — Gustave Caillebotte, 1877',
-    credit: 'Caillebotte, 1877 — Art Institute of Chicago · Domaine public',
+    url: 'https://upload.wikimedia.org/wikipedia/commons/3/39/Mont_Blanc_and_Dome_du_Gouter.jpg',
+    alt: 'Le Mont Blanc et le Dôme du Goûter — point culminant de la France et de l\'Europe occidentale',
+    credit: 'Photographie du Mont Blanc · Wikimedia Commons, domaine public',
     baseBg: 'linear-gradient(135deg, #064E3B 0%, #0891B2 100%)',
   },
   'france-europe-monde': {

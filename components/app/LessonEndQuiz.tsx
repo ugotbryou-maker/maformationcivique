@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { CheckCircle, XCircle, ChevronRight, RotateCcw, Trophy, HelpCircle } from 'lucide-react';
+import { CheckCircle, XCircle, ChevronRight, RotateCcw, Trophy, HelpCircle, Zap } from 'lucide-react';
 
 export interface QuizQuestion {
   id: string;
@@ -14,15 +14,17 @@ export interface QuizQuestion {
 interface Props {
   questions: QuizQuestion[];
   lessonTitle: string;
+  lessonSlug: string;
 }
 
 const LABELS: Record<string, string> = { A: 'A', B: 'B', C: 'C', D: 'D' };
 
-export function LessonEndQuiz({ questions, lessonTitle }: Props) {
+export function LessonEndQuiz({ questions, lessonTitle, lessonSlug }: Props) {
   const [idx, setIdx]           = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [score, setScore]       = useState(0);
   const [phase, setPhase]       = useState<'quiz' | 'results'>('quiz');
+  const [xpEarned, setXpEarned] = useState<number | null>(null);
 
   const q      = questions[idx];
   const isLast = idx === questions.length - 1;
@@ -35,7 +37,21 @@ export function LessonEndQuiz({ questions, lessonTitle }: Props) {
   };
 
   const handleNext = () => {
-    if (isLast) { setPhase('results'); return; }
+    if (isLast) {
+      setPhase('results');
+      // Crédite l'XP du quiz côté serveur (idempotent — un seul crédit/leçon)
+      // `score` est déjà à jour : handleSelect() l'a incrémenté lors du clic
+      // précédent (sélection de la réponse), avant ce clic sur "Voir mon score".
+      fetch('/api/quiz/lesson-result', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lessonSlug, score, total }),
+      })
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => { if (data && !data.alreadyAwarded) setXpEarned(data.xpEarned); })
+        .catch(() => { /* non bloquant */ });
+      return;
+    }
     setIdx((i) => i + 1);
     setSelected(null);
   };
@@ -87,6 +103,18 @@ export function LessonEndQuiz({ questions, lessonTitle }: Props) {
               ? '✅ Leçon maîtrisée — bien joué !'
               : '📖 Relisez la leçon et réessayez !'}
           </p>
+          {xpEarned !== null && xpEarned > 0 && (
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+              marginTop: '12px', padding: '6px 14px',
+              borderRadius: 'var(--radius-pill)',
+              background: 'rgba(255,255,255,0.18)',
+              color: '#fff', fontSize: 'var(--font-size-xs)', fontWeight: 600,
+            }}>
+              <Zap size={13} color="#FACC15" fill="#FACC15" />
+              +{xpEarned} XP
+            </div>
+          )}
         </div>
 
         {/* Score bar */}

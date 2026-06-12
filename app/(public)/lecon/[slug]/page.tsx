@@ -98,6 +98,18 @@ function parseKeyPoint(kp: string): { title: string; desc: string } {
 // auparavant, dès qu'une ligne "- " était détectée, tout le paragraphe était
 // rendu comme une simple <ul> et les phrases d'introduction/conclusion
 // disparaissaient purement et simplement de la page.
+// Découpe une chaîne contenant des marqueurs **gras** en fragments texte /
+// <strong> mis en valeur avec la couleur de la section, pour donner du relief
+// visuel au texte (au lieu de simplement supprimer les marqueurs).
+function renderInline(text: string, color: string, keyPrefix: string) {
+  const parts = text.split(/\*\*(.+?)\*\*/g);
+  return parts.map((part, i) =>
+    i % 2 === 1
+      ? <strong key={`${keyPrefix}-b${i}`} style={{ fontWeight: 700, color }}>{part}</strong>
+      : <span key={`${keyPrefix}-t${i}`}>{part}</span>
+  );
+}
+
 function renderParagraphBlocks(para: string, color: string, key: number) {
   const lines = para.split('\n').filter((l) => l.trim() !== '');
   const blocks: { type: 'text' | 'list'; lines: string[] }[] = [];
@@ -120,7 +132,7 @@ function renderParagraphBlocks(para: string, color: string, key: number) {
           {block.lines.map((item, idx) => (
             <li key={idx} style={{ display: 'flex', gap: '8px', padding: '3px 0', fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', lineHeight: 1.65 }}>
               <span style={{ color, fontWeight: 700, flexShrink: 0, marginTop: '1px' }}>·</span>
-              {item.replace(/^\s*-\s+/, '').replace(/\*\*(.*?)\*\*/g, '$1')}
+              <span>{renderInline(item.replace(/^\s*-\s+/, ''), color, `${key}-${k}-${idx}`)}</span>
             </li>
           ))}
         </ul>
@@ -128,7 +140,7 @@ function renderParagraphBlocks(para: string, color: string, key: number) {
     }
     return (
       <p key={`${key}-${k}`} style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', lineHeight: 1.72, margin: '0 0 10px' }}>
-        {block.lines.join(' ').replace(/\*\*(.*?)\*\*/g, '$1')}
+        {renderInline(block.lines.join(' '), color, `${key}-${k}`)}
       </p>
     );
   });
@@ -158,45 +170,46 @@ export default async function LessonPage({ params }: Props) {
   }
   if (!lesson || !mod) notFound();
 
-  // ── Paywall serveur ───────────────────────────────────────────────────────
-  if (!lesson.free) {
-    let isPremium = false;
-    try {
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-      if (supabaseUrl && supabaseKey && !supabaseUrl.includes('placeholder')) {
-        const cookieStore = await cookies();
-        const supabase = createServerClient(supabaseUrl, supabaseKey, {
-          cookies: {
-            getAll() { return cookieStore.getAll(); },
-            setAll() {},
-          },
-        });
-        const { data: authData, error: authError } = await supabase.auth.getUser();
-        if (authError) {
-          console.error('[lecon/page] getUser error:', authError.message);
-        }
-        const user = authData?.user ?? null;
-        if (user) {
-          const { data, error: planError } = await supabase
-            .from('users')
-            .select('plan')
-            .eq('id', user.id)
-            .single();
-          if (planError) {
-            console.error('[lecon/page] plan query error:', planError.message, planError.code);
-          }
-          isPremium = data?.plan === 'premium';
-        }
+  // ── Statut Premium (utilisé pour le paywall ET pour masquer les badges
+  // "Gratuit"/"Premium" qui n'ont plus de sens pour un abonné) ───────────────
+  let isPremium = false;
+  try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (supabaseUrl && supabaseKey && !supabaseUrl.includes('placeholder')) {
+      const cookieStore = await cookies();
+      const supabase = createServerClient(supabaseUrl, supabaseKey, {
+        cookies: {
+          getAll() { return cookieStore.getAll(); },
+          setAll() {},
+        },
+      });
+      const { data: authData, error: authError } = await supabase.auth.getUser();
+      if (authError) {
+        console.error('[lecon/page] getUser error:', authError.message);
       }
-    } catch (err) {
-      // Si Supabase non dispo (build/preview), on laisse passer
-      console.error('[lecon/page] caught exception:', err instanceof Error ? err.message : String(err));
-      isPremium = true;
+      const user = authData?.user ?? null;
+      if (user) {
+        const { data, error: planError } = await supabase
+          .from('users')
+          .select('plan')
+          .eq('id', user.id)
+          .single();
+        if (planError) {
+          console.error('[lecon/page] plan query error:', planError.message, planError.code);
+        }
+        isPremium = data?.plan === 'premium';
+      }
     }
-    if (!isPremium) {
-      redirect(`/inscription?plan=premium&next=/lecon/${slug}`);
-    }
+  } catch (err) {
+    // Si Supabase non dispo (build/preview), on laisse passer
+    console.error('[lecon/page] caught exception:', err instanceof Error ? err.message : String(err));
+    isPremium = !lesson.free ? true : isPremium;
+  }
+
+  // ── Paywall serveur ───────────────────────────────────────────────────────
+  if (!lesson.free && !isPremium) {
+    redirect(`/inscription?plan=premium&next=/lecon/${slug}`);
   }
   // ─────────────────────────────────────────────────────────────────────────
 
@@ -259,7 +272,8 @@ export default async function LessonPage({ params }: Props) {
             <span style={{ display: 'flex', alignItems: 'center', gap: '4px', background: '#fff', color: 'var(--color-text-muted)', padding: '3px 10px', borderRadius: 'var(--radius-pill)', fontSize: 'var(--font-size-xs)', border: 'var(--border-default)' }}>
               <Clock size={11} /> {lesson.duration} min
             </span>
-            {lesson.free && <span style={{ background: '#F0FDF4', color: '#16A34A', padding: '3px 10px', borderRadius: 'var(--radius-pill)', fontSize: 'var(--font-size-xs)', fontWeight: 500 }}>Gratuit</span>}
+            {/* Une fois abonné Premium, la mention "Gratuit" n'a plus de sens : on la masque. */}
+            {lesson.free && !isPremium && <span style={{ background: '#F0FDF4', color: '#16A34A', padding: '3px 10px', borderRadius: 'var(--radius-pill)', fontSize: 'var(--font-size-xs)', fontWeight: 500 }}>Gratuit</span>}
           </div>
 
           {/* Titre + sous-titre */}
@@ -444,7 +458,7 @@ export default async function LessonPage({ params }: Props) {
           <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', marginBottom: '0' }}>
             {lessonQuizQuestions.length} question{lessonQuizQuestions.length > 1 ? 's' : ''} sur cette leçon · Seuil de réussite 80%
           </p>
-          <LessonEndQuiz questions={lessonQuizQuestions} lessonTitle={lesson.title} />
+          <LessonEndQuiz questions={lessonQuizQuestions} lessonTitle={lesson.title} lessonSlug={lesson.slug} />
         </div>
       )}
 
