@@ -8,11 +8,16 @@ import { createClient } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 
 const navLinks = [
-  { num: '01', label: 'Modules',       href: '/modules' },
+  { num: '01', label: 'Modules',        href: '/modules' },
   { num: '02', label: 'Examens blancs', href: '/examen' },
-  { num: '03', label: 'Fiches',        href: '/fiches' },
-  { num: '04', label: 'Ressources',    href: '/ressources' },
-  { num: '05', label: 'Tarifs',        href: '/#tarifs' },
+  { num: '04', label: 'Tarifs',         href: '/#tarifs' },
+];
+
+// Regroupées sous un menu déroulant "Ressources" (03) pour libérer un
+// emplacement dans la nav principale (futur projet "Langue").
+const resourcesLinks = [
+  { label: 'Articles & guides', href: '/ressources', description: 'Démarches, vie en France, actualités' },
+  { label: 'Fiches bonus',      href: '/fiches',      description: 'Grandes figures & grands lieux de France' },
 ];
 
 const langs = ['FR', 'AR', 'EN', 'PT'];
@@ -23,9 +28,12 @@ export function Navbar() {
   const [lang, setLang]           = useState('FR');
   const [langOpen, setLangOpen]   = useState(false);
   const [userOpen, setUserOpen]   = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
   const [user, setUser]           = useState<{ email?: string; name?: string } | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const userRef = useRef<HTMLDivElement>(null);
+  const resourcesRef = useRef<HTMLDivElement>(null);
 
   /* ── Auth state ─────────────────────────────────────────────────── */
   useEffect(() => {
@@ -54,11 +62,14 @@ export function Navbar() {
     return () => subscription.unsubscribe();
   }, []);
 
-  /* ── Close user dropdown on outside click ───────────────────────── */
+  /* ── Close user / resources dropdowns on outside click ───────────── */
   useEffect(() => {
     function onOutside(e: MouseEvent) {
       if (userRef.current && !userRef.current.contains(e.target as Node)) {
         setUserOpen(false);
+      }
+      if (resourcesRef.current && !resourcesRef.current.contains(e.target as Node)) {
+        setResourcesOpen(false);
       }
     }
     document.addEventListener('mousedown', onOutside);
@@ -94,7 +105,45 @@ export function Navbar() {
 
         {/* Nav links — desktop */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flex: 1 }} className="nav-desktop">
-          {navLinks.map((link) => (
+          {navLinks.slice(0, 2).map((link) => (
+            <Link key={link.num} href={link.href} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', transition: 'all 200ms ease-out', minHeight: '36px' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--color-blue-light)'; e.currentTarget.style.color = 'var(--color-blue-france)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--color-text-secondary)'; }}
+            >
+              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', fontWeight: 500 }}>{link.num}</span>
+              {link.label}
+            </Link>
+          ))}
+
+          {/* Ressources — dropdown (regroupe Articles & Fiches) */}
+          <div ref={resourcesRef} style={{ position: 'relative' }}>
+            <button
+              onClick={() => setResourcesOpen(!resourcesOpen)}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', color: resourcesOpen ? 'var(--color-blue-france)' : 'var(--color-text-secondary)', background: resourcesOpen ? 'var(--color-blue-light)' : 'transparent', border: 'none', cursor: 'pointer', transition: 'all 200ms ease-out', minHeight: '36px', fontFamily: 'var(--font-sans)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--color-blue-light)'; e.currentTarget.style.color = 'var(--color-blue-france)'; }}
+              onMouseLeave={(e) => { if (!resourcesOpen) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--color-text-secondary)'; } }}
+            >
+              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', fontWeight: 500 }}>03</span>
+              Ressources
+              <ChevronDown size={13} style={{ opacity: 0.5, transform: resourcesOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 200ms' }} />
+            </button>
+
+            {resourcesOpen && (
+              <div style={{ position: 'absolute', top: 'calc(100% + 8px)', left: 0, background: 'var(--color-surface)', border: 'var(--border-default)', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-lg)', minWidth: '240px', overflow: 'hidden', zIndex: 200 }}>
+                {resourcesLinks.map((item) => (
+                  <Link key={item.href} href={item.href} onClick={() => setResourcesOpen(false)} style={{ display: 'block', padding: '12px 16px', textDecoration: 'none', transition: 'background 150ms' }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--color-blue-light)'; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; }}
+                  >
+                    <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)' }}>{item.label}</div>
+                    <div style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 2 }}>{item.description}</div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {navLinks.slice(2).map((link) => (
             <Link key={link.num} href={link.href} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', transition: 'all 200ms ease-out', minHeight: '36px' }}
               onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--color-blue-light)'; e.currentTarget.style.color = 'var(--color-blue-france)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--color-text-secondary)'; }}
@@ -197,7 +246,35 @@ export function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div style={{ borderTop: '0.5px solid var(--color-border)', background: 'var(--color-surface)', padding: '16px 24px 24px' }}>
-          {navLinks.map((link) => (
+          {navLinks.slice(0, 2).map((link) => (
+            <Link key={link.num} href={link.href} onClick={() => setMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 0', borderBottom: '0.5px solid var(--color-border)', fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)' }}>
+              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', fontWeight: 500 }}>{link.num}</span>
+              {link.label}
+            </Link>
+          ))}
+
+          {/* Ressources — accordéon (Articles & Fiches) */}
+          <button
+            onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '10px', padding: '12px 0', borderBottom: '0.5px solid var(--color-border)', fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', background: 'transparent', border: 'none', fontFamily: 'var(--font-sans)', cursor: 'pointer' }}
+          >
+            <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', fontWeight: 500 }}>03</span>
+              Ressources
+            </span>
+            <ChevronDown size={16} style={{ opacity: 0.5, transform: mobileResourcesOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 200ms' }} />
+          </button>
+          {mobileResourcesOpen && (
+            <div style={{ paddingLeft: '24px', borderBottom: '0.5px solid var(--color-border)' }}>
+              {resourcesLinks.map((item) => (
+                <Link key={item.href} href={item.href} onClick={() => { setMenuOpen(false); setMobileResourcesOpen(false); }} style={{ display: 'block', padding: '10px 0', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {navLinks.slice(2).map((link) => (
             <Link key={link.num} href={link.href} onClick={() => setMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 0', borderBottom: '0.5px solid var(--color-border)', fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)' }}>
               <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', fontWeight: 500 }}>{link.num}</span>
               {link.label}
