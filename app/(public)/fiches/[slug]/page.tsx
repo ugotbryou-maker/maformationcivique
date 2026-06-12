@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
 import { fiches, getFiche } from '@/data/fiches';
@@ -41,14 +42,13 @@ export default async function FichePage({ params }: Props) {
         padding: '40px 0',
       }}>
         {fiche.image && (
-          <img
+          <Image
             src={fiche.image}
             alt={fiche.imageAlt}
+            fill
+            sizes="100vw"
+            priority
             style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
               objectFit: 'cover',
               objectPosition: 'center 25%',
               mixBlendMode: 'soft-light',

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import type { Fiche } from '@/data/fiches';
 
@@ -29,15 +30,18 @@ export function FicheCard({ fiche }: Props) {
           cursor: 'pointer',
         }}
       >
-        {/* Image de fond */}
-        <div
+        {/* Image de fond — next/image : redimensionnée et optimisée
+            (les sources Wikimedia originales pèsent jusqu'à 10-18 Mo,
+            ce qui causait des saccades/"clipping" au scroll sur /fiches) */}
+        <Image
+          src={fiche.image}
+          alt=""
+          fill
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 220px"
           className="fiche-card-img"
           style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: `url(${fiche.image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center 22%',
+            objectFit: 'cover',
+            objectPosition: 'center 22%',
             transition: 'transform 400ms ease-out',
           }}
         />
