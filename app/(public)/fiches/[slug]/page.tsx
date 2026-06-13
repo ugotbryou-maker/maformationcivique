@@ -101,6 +101,45 @@ export default async function FichePage({ params }: Props) {
 
       {/* ── Contenu ──────────────────────────────────────────────────── */}
       <div className="container" style={{ padding: '40px 24px 64px' }}>
+
+        {/* Repères clés — dates, œuvres / actions principales, classements... */}
+        <div className="fiche-facts" style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${fiche.facts.length}, 1fr)`,
+          gap: '12px',
+          marginBottom: '32px',
+        }}>
+          {fiche.facts.map((fact, i) => (
+            <div key={i} style={{
+              background: '#fff',
+              borderRadius: 'var(--radius-lg)',
+              border: 'var(--border-default)',
+              boxShadow: 'var(--shadow-card)',
+              padding: '14px 16px',
+              borderTop: `3px solid ${i % 2 === 0 ? fiche.color : fiche.colorEnd}`,
+            }}>
+              <div style={{
+                fontSize: 'var(--font-size-xs)',
+                fontWeight: 700,
+                color: 'var(--color-text-muted)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                marginBottom: '4px',
+              }}>
+                {fact.label}
+              </div>
+              <div style={{
+                fontSize: 'var(--font-size-sm)',
+                fontWeight: 600,
+                color: 'var(--color-text-primary)',
+                lineHeight: 1.4,
+              }}>
+                {fact.value}
+              </div>
+            </div>
+          ))}
+        </div>
+
         <div className="fiche-grid" style={{ display: 'grid', gap: '32px', gridTemplateColumns: '1.6fr 1fr', alignItems: 'start' }}>
 
           {/* Paragraphe */}
@@ -188,6 +227,14 @@ export default async function FichePage({ params }: Props) {
       <style>{`
         @media (max-width: 760px) {
           .fiche-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .fiche-facts {
+            grid-template-columns: 1fr 1fr !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .fiche-facts {
             grid-template-columns: 1fr !important;
           }
         }

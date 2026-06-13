@@ -19,6 +19,8 @@ export interface Fiche {
   colorEnd: string;
   paragraph: string;
   keyPoints: string[];
+  /** Repères chiffrés affichés en grille (dates, œuvres, actions, classements...) */
+  facts: { label: string; value: string }[];
 }
 
 export const fiches: Fiche[] = [
@@ -34,11 +36,17 @@ export const fiches: Fiche[] = [
     credit: 'Honoré Daumier, 1848 — Musée d\'Orsay · Domaine public',
     color: '#002395',
     colorEnd: '#CC1A1A',
-    paragraph: 'Marianne est la **figure allégorique de la République française**, apparue pendant la Révolution. Elle représente la **Liberté** et la Nation elle-même. Son buste trône dans toutes les mairies de France, sur les pièces de monnaie et les timbres-poste. Plusieurs femmes célèbres ont prêté leurs traits à Marianne au fil des décennies — Brigitte Bardot, Catherine Deneuve, Laetitia Casta ou encore Sophie Marceau.',
+    paragraph: 'Marianne est la **figure allégorique de la République française** : elle incarne à la fois la **Liberté** et la Nation tout entière. Son nom vient de l\'association de deux prénoms très répandus au XVIIIe siècle, *Marie* et *Anne*, choisis par les révolutionnaires pour représenter le peuple. Coiffée du **bonnet phrygien**, symbole des esclaves affranchis dans l\'Antiquité, elle apparaît dès la Révolution sur les sceaux de l\'État avant de devenir, sous la **IIIe République**, l\'emblème officiel du régime. Son buste trône aujourd\'hui dans toutes les mairies de France, sa silhouette orne les pièces de monnaie, les timbres-poste et le logo des institutions publiques. Depuis les années 1970, des femmes connues prêtent régulièrement leurs traits à son visage officiel — Brigitte Bardot, Catherine Deneuve, Laetitia Casta, Sophie Marceau ou encore Inès de La Fressange — perpétuant une tradition qui fait de Marianne un symbole vivant, renouvelé à chaque génération.',
     keyPoints: [
       '1792 — Apparition de Marianne comme symbole de la République naissante',
       'Présente dans toutes les mairies de France, sur les timbres et les pièces',
       'Incarne la Liberté et l\'unité nationale, au-delà des clivages politiques',
+    ],
+    facts: [
+      { label: 'Origine du nom', value: 'Prénoms populaires Marie + Anne, XVIIIe siècle' },
+      { label: 'Symbole porté', value: 'Bonnet phrygien (liberté)' },
+      { label: 'Présence officielle', value: 'Mairies, timbres, monnaie, institutions' },
+      { label: 'Visages célèbres', value: 'Bardot, Deneuve, Casta, Marceau...' },
     ],
   },
   {
@@ -52,11 +60,17 @@ export const fiches: Fiche[] = [
     credit: 'Photographie, vers 1920 · Domaine public',
     color: '#0E7490',
     colorEnd: '#002395',
-    paragraph: 'Née en Pologne, naturalisée française, **Marie Curie** a consacré sa vie à l\'étude de la **radioactivité**, un phénomène qu\'elle a découvert et nommé avec son mari Pierre Curie. Elle est la **première femme professeure** à la Sorbonne et reste, à ce jour, la seule personne à avoir reçu deux prix Nobel scientifiques dans deux disciplines différentes.',
+    paragraph: 'Née **Maria Skłodowska** à Varsovie, **Marie Curie** s\'installe à Paris en 1891 pour étudier à la Sorbonne, où elle rencontre le physicien Pierre Curie. Ensemble, ils étudient un rayonnement mystérieux émis par certains minerais et **découvrent deux nouveaux éléments chimiques en 1898 : le polonium**, nommé en hommage à son pays natal, **et le radium**. Elle invente le terme « radioactivité » pour décrire ce phénomène. Devenue veuve en 1906, elle reprend la chaire de Pierre Curie et devient ainsi la **première femme professeure de la Sorbonne**. Pendant la Première Guerre mondiale, elle développe des unités radiologiques mobiles — surnommées les « petites Curies » — pour soigner les soldats blessés sur le front. Sa fille, Irène Joliot-Curie, recevra elle aussi un prix Nobel de chimie en 1935, perpétuant une dynastie scientifique unique.',
     keyPoints: [
       '1903 — Prix Nobel de physique, pour ses travaux sur la radioactivité',
       '1911 — Prix Nobel de chimie, pour la découverte du radium et du polonium',
       '1995 — Entrée au Panthéon, première femme honorée pour ses propres mérites',
+    ],
+    facts: [
+      { label: 'Naissance – Mort', value: '1867 – 1934' },
+      { label: 'Nom de naissance', value: 'Maria Skłodowska (Pologne)' },
+      { label: 'Découvertes majeures', value: 'Polonium et radium (1898)' },
+      { label: 'Distinctions', value: '2 prix Nobel — physique (1903) et chimie (1911)' },
     ],
   },
   {
@@ -70,11 +84,17 @@ export const fiches: Fiche[] = [
     credit: 'Étienne Carjat, 1876 · Domaine public',
     color: '#7C3AED',
     colorEnd: '#001A70',
-    paragraph: '**Victor Hugo** est l\'une des plus grandes figures de la littérature française — poète, romancier et dramaturge, auteur des *Misérables* et de *Notre-Dame de Paris*. Engagé en politique, il s\'oppose au coup d\'État de Napoléon III et s\'exile pendant **19 ans**. Défenseur infatigable des libertés, de l\'école pour tous et de l\'abolition de la peine de mort, il devient une conscience morale de la nation.',
+    paragraph: 'Poète, romancier et dramaturge, **Victor Hugo** s\'impose dès les années 1830 comme le chef de file du **mouvement romantique** français, notamment avec la pièce *Hernani* (1830), dont la première provoque une véritable bataille entre classiques et romantiques. Il publie ensuite ses œuvres les plus célèbres, *Notre-Dame de Paris* (1831) et *Les Misérables* (1862), fresques sociales qui dénoncent la misère et l\'injustice. Élu député, il s\'oppose ouvertement au coup d\'État de Napoléon III en 1851 et doit s\'exiler pendant **19 ans**, principalement sur les îles anglo-normandes de Jersey puis Guernesey, où il continue d\'écrire et de dénoncer le régime. De retour triomphal à Paris en 1870, il devient sénateur et poursuit ses combats : dès *Le Dernier Jour d\'un condamné* (1829), il milite pour l\'**abolition de la peine de mort**, et il défend l\'instruction gratuite pour tous. À sa mort en 1885, ses funérailles nationales rassemblent près de **deux millions de personnes** dans les rues de Paris avant son entrée au Panthéon.',
     keyPoints: [
       '1862 — Publication des Misérables',
       '1851–1870 — Exil politique de 19 ans, opposant à Napoléon III',
       '1885 — Funérailles nationales et entrée au Panthéon',
+    ],
+    facts: [
+      { label: 'Naissance – Mort', value: '1802 – 1885' },
+      { label: 'Œuvres majeures', value: 'Notre-Dame de Paris, Les Misérables' },
+      { label: 'Exil politique', value: '19 ans (1851–1870), îles anglo-normandes' },
+      { label: 'Combats', value: 'Abolition de la peine de mort, école pour tous' },
     ],
   },
   {
@@ -88,11 +108,17 @@ export const fiches: Fiche[] = [
     credit: 'Libération de Paris, août 1944 · Domaine public',
     color: '#001A70',
     colorEnd: '#0057A8',
-    paragraph: 'Le 18 juin 1940, le général **Charles de Gaulle** lance depuis Londres un appel à poursuivre le combat contre l\'occupant nazi, fondant la **Résistance française**. Chef du gouvernement provisoire à la Libération, il revient au pouvoir en 1958 et fonde la **Ve République**, dont il devient le premier président. Il incarne aujourd\'hui la figure de l\'État et de l\'unité nationale dans les moments de crise.',
+    paragraph: 'Officier de carrière né à Lille en 1890, le général **Charles de Gaulle** refuse la défaite de juin 1940 et rejoint Londres, où il lance le **18 juin 1940** son célèbre appel à la radio (BBC) pour poursuivre le combat — acte fondateur de la **France libre** et de la Résistance. Chef du Gouvernement provisoire à la Libération, il défile sur les Champs-Élysées le 26 août 1944 avant de démissionner en 1946, en désaccord avec le régime parlementaire de la **IVe République**. Rappelé au pouvoir en 1958 lors de la crise algérienne, il fait adopter par référendum une nouvelle Constitution qui fonde la **Ve République** et devient son premier président élu, en poste de 1959 à 1969. Il quitte la présidence après l\'échec d\'un référendum sur la régionalisation en 1969 et meurt l\'année suivante. De Gaulle reste la figure de référence de l\'État fort, de l\'indépendance nationale et de l\'unité du pays dans les moments de crise.',
     keyPoints: [
       '18 juin 1940 — Appel de Londres, naissance de la Résistance',
       '25 août 1944 — Libération de Paris',
       '1958 — Fondation de la Ve République, premier président élu',
+    ],
+    facts: [
+      { label: 'Naissance – Mort', value: '1890 – 1970' },
+      { label: 'Action fondatrice', value: 'Appel du 18 juin 1940 (BBC, Londres)' },
+      { label: 'Fonctions', value: 'Chef de la France libre, président (1959–1969)' },
+      { label: 'Héritage', value: 'Fondateur de la Ve République' },
     ],
   },
   {
@@ -106,11 +132,17 @@ export const fiches: Fiche[] = [
     credit: 'Photographie, 1984 · Domaine public',
     color: '#CC1A1A',
     colorEnd: '#7C3AED',
-    paragraph: 'Rescapée des camps de la mort, **Simone Veil** devient ministre de la Santé en 1974. L\'année suivante, elle porte devant une Assemblée nationale très hostile la loi qui **légalise l\'avortement (IVG)** en France — la « loi Veil ». Première présidente du Parlement européen, elle restera une figure majeure de l\'engagement pour les droits des femmes et la construction européenne.',
+    paragraph: 'Née Simone Jacob à Nice en 1927, **Simone Veil** est arrêtée avec sa famille en 1944 et déportée à seize ans vers les camps d\'**Auschwitz-Birkenau puis de Bergen-Belsen** ; elle est l\'une des rares survivantes de sa famille. Devenue magistrate, elle est nommée ministre de la Santé en 1974 par Valéry Giscard d\'Estaing. L\'année suivante, elle défend pendant des heures, devant une **Assemblée nationale très majoritairement masculine et hostile**, le projet de loi qui **dépénalise et encadre l\'avortement (IVG)** — la « loi Veil », adoptée le 17 janvier 1975. En 1979, elle devient la **première présidente du Parlement européen**, fonction qu\'elle occupe jusqu\'en 1982. Elle sera ensuite à nouveau ministre, membre du Conseil constitutionnel puis de l\'Académie française. À sa mort en 2017, elle entre au **Panthéon en 2018** avec son mari Antoine Veil, devenant l\'une des rares femmes honorées pour l\'ensemble de son parcours.',
     keyPoints: [
       '1975 — Adoption de la loi Veil légalisant l\'IVG',
       '1979–1982 — Première présidente du Parlement européen',
       '2018 — Entrée au Panthéon avec son mari Antoine Veil',
+    ],
+    facts: [
+      { label: 'Naissance – Mort', value: '1927 – 2017' },
+      { label: 'Parcours', value: 'Survivante de la Shoah (Auschwitz, Bergen-Belsen)' },
+      { label: 'Action principale', value: 'Loi Veil sur l\'IVG, 17 janvier 1975' },
+      { label: 'Distinction', value: '1re présidente du Parlement européen (1979–1982)' },
     ],
   },
   {
@@ -124,11 +156,17 @@ export const fiches: Fiche[] = [
     credit: 'Portrait officiel · Domaine public',
     color: '#065F46',
     colorEnd: '#001A70',
-    paragraph: 'Préfet avant-guerre, **Jean Moulin** rejoint la Résistance dès 1940. Envoyé à Londres par de Gaulle, il parvient à unifier les différents mouvements de résistance français au sein du **Conseil National de la Résistance (CNR)** en 1943. Arrêté par la Gestapo à Caluire, il est torturé par Klaus Barbie sans jamais parler, et meurt en déportation. Il symbolise le sacrifice et l\'unité de la Résistance.',
+    paragraph: 'Plus jeune préfet de France, nommé en Eure-et-Loir en 1939, **Jean Moulin** refuse en 1940 de signer un document de propagande allemande accusant à tort des soldats sénégalais de l\'armée française — un geste de résistance qui lui vaut d\'être arrêté et torturé une première fois. Révoqué par le régime de Vichy, il rejoint Londres en 1941 et devient le **délégué du général de Gaulle** pour la zone non occupée. Sa mission est immense : unifier les différents réseaux de résistance, souvent rivaux, en un mouvement cohérent. Il y parvient le **27 mai 1943** en créant le **Conseil National de la Résistance (CNR)**, qui rassemble pour la première fois mouvements de résistance et partis politiques sous l\'autorité de la France libre. Quelques semaines plus tard, le 21 juin 1943, il est arrêté par la Gestapo lors d\'une réunion à **Caluire**, près de Lyon. Torturé par Klaus Barbie sans jamais livrer d\'informations, il meurt pendant son transfert vers l\'Allemagne. En 1964, ses cendres sont transférées au Panthéon lors d\'une cérémonie marquée par le discours d\'**André Malraux**, qui fait de Jean Moulin le symbole du sacrifice et de l\'unité de la Résistance française.',
     keyPoints: [
       '1943 — Création du Conseil National de la Résistance (CNR)',
       'Arrêté et torturé par la Gestapo, ne révèle aucun secret',
       '1964 — Transfert de ses cendres au Panthéon, discours d\'André Malraux',
+    ],
+    facts: [
+      { label: 'Naissance – Mort', value: '1899 – 1943' },
+      { label: 'Mission', value: 'Délégué de de Gaulle, unification de la Résistance' },
+      { label: 'Action principale', value: 'Création du CNR, 27 mai 1943' },
+      { label: 'Postérité', value: 'Panthéon depuis 1964 (discours de Malraux)' },
     ],
   },
   {
@@ -142,11 +180,17 @@ export const fiches: Fiche[] = [
     credit: 'Portrait anonyme, XVIIIe siècle · Wikimedia Commons, domaine public',
     color: '#9F1239',
     colorEnd: '#002395',
-    paragraph: 'Pendant la Révolution française, **Olympe de Gouges** publie en 1791 sa **Déclaration des droits de la femme et de la citoyenne**, en réponse à la Déclaration des droits de l\'homme et du citoyen de 1789, qui ne mentionnait pas les femmes. Pionnière du féminisme et engagée contre l\'esclavage, elle est guillotinée en 1793 pendant la Terreur pour ses positions politiques.',
+    paragraph: 'Née Marie Gouze à Montauban en 1748, **Olympe de Gouges** s\'installe à Paris où elle devient une femme de lettres reconnue, auteure de pièces de théâtre engagées — dont *L\'Esclavage des Noirs* (1785), l\'une des premières œuvres françaises à dénoncer la traite et l\'esclavage. En **septembre 1791**, deux ans après la Déclaration des droits de l\'homme et du citoyen qui ne mentionne pas les femmes, elle publie sa **Déclaration des droits de la femme et de la citoyenne**, affirmant dès son article premier que « la femme naît libre et demeure égale à l\'homme en droits ». Elle y réclame l\'égalité civile, politique et juridique entre les sexes, des décennies avant les premiers mouvements féministes organisés. Pendant la Terreur, elle critique ouvertement la dérive autoritaire de Robespierre et de la Convention. Arrêtée, elle est guillotinée le **3 novembre 1793**. Longtemps oubliée, elle est aujourd\'hui reconnue comme une pionnière du féminisme et de l\'abolitionnisme français.',
     keyPoints: [
       '1791 — Déclaration des droits de la femme et de la citoyenne',
       'Une des premières voix françaises pour l\'abolition de l\'esclavage',
       'Pionnière des combats pour l\'égalité entre femmes et hommes',
+    ],
+    facts: [
+      { label: 'Naissance – Mort', value: '1748 – 1793' },
+      { label: 'Œuvre majeure', value: 'Déclaration des droits de la femme et de la citoyenne (1791)' },
+      { label: 'Autres combats', value: 'Abolition de l\'esclavage (dès 1785)' },
+      { label: 'Sort', value: 'Guillotinée pendant la Terreur, 1793' },
     ],
   },
   {
@@ -160,11 +204,17 @@ export const fiches: Fiche[] = [
     credit: 'Portrait officiel, vers 1885 · Domaine public',
     color: '#0057A8',
     colorEnd: '#CC1A1A',
-    paragraph: 'Ministre de l\'Instruction publique sous la IIIe République, **Jules Ferry** porte les lois de 1881 et 1882 qui rendent l\'école primaire **gratuite, laïque et obligatoire** pour tous les enfants, filles et garçons. Ces lois fondatrices créent l\'école républicaine moderne et restent au cœur du modèle éducatif français.',
+    paragraph: 'Avocat et journaliste opposant au Second Empire, **Jules Ferry** participe à la défense de Paris pendant le siège de 1870-1871 avant de devenir l\'une des grandes figures politiques de la **IIIe République**. Comme ministre de l\'Instruction publique, il fait adopter deux lois fondatrices : celle du **16 juin 1881**, qui rend l\'**école primaire gratuite**, et celle du **28 mars 1882**, qui rend l\'instruction **obligatoire et laïque** pour les enfants de 6 à 13 ans, garçons et filles. Ces lois posent les bases de l\'**école républicaine** telle qu\'on la connaît encore aujourd\'hui, conçue comme un outil d\'émancipation et d\'unité nationale. Jules Ferry est aussi, à la même époque, l\'artisan d\'une politique d\'expansion coloniale très controversée, qui fait l\'objet de débats encore vifs aujourd\'hui sur son héritage. Il meurt en 1893, peu après avoir échoué à se faire élire à la présidence de la République.',
     keyPoints: [
       '1881 — Loi rendant l\'école primaire gratuite',
       '1882 — Loi rendant l\'instruction obligatoire et laïque de 6 à 13 ans',
       'Fondateur de l\'école républicaine telle qu\'on la connaît aujourd\'hui',
+    ],
+    facts: [
+      { label: 'Naissance – Mort', value: '1832 – 1893' },
+      { label: 'Lois majeures', value: 'École gratuite (1881), obligatoire et laïque (1882)' },
+      { label: 'Héritage', value: 'Fondateur de l\'école républicaine' },
+      { label: 'Contexte', value: 'Figure controversée de l\'expansion coloniale' },
     ],
   },
 
@@ -180,11 +230,17 @@ export const fiches: Fiche[] = [
     credit: 'Photographie · Wikimedia Commons, domaine public',
     color: '#002395',
     colorEnd: '#0057A8',
-    paragraph: 'Construite par **Gustave Eiffel** pour l\'Exposition universelle de 1889, la **Tour Eiffel** culmine à 330 mètres et reste le monument le plus emblématique de la France. D\'abord critiquée par de nombreux artistes parisiens, elle est aujourd\'hui le **monument payant le plus visité au monde**, symbole de Paris et de la France à l\'international.',
+    paragraph: 'Conçue par les ingénieurs de l\'entreprise de **Gustave Eiffel** pour l\'**Exposition universelle de 1889**, organisée pour célébrer le centenaire de la Révolution française, la Tour Eiffel culmine à **330 mètres** et reste, près de 140 ans plus tard, le monument le plus emblématique du pays. Son projet suscite à l\'époque une vive polémique : un « Manifeste des artistes » dénonce cette « tour de fer » comme une atteinte au paysage parisien. Conçue à l\'origine comme une structure temporaire, démontable après vingt ans, elle est finalement conservée grâce à son utilité pour les transmissions radio et militaires. Repeinte tous les sept ans avec environ 60 tonnes de peinture, elle accueille aujourd\'hui près de **7 millions de visiteurs par an**, ce qui en fait le **monument payant le plus visité au monde**, et demeure le symbole universel de Paris et de la France.',
     keyPoints: [
       '1889 — Inauguration pour l\'Exposition universelle',
       '330 mètres de hauteur, structure entièrement métallique',
       'Monument payant le plus visité au monde',
+    ],
+    facts: [
+      { label: 'Construction', value: '1887 – 1889 (Exposition universelle)' },
+      { label: 'Hauteur', value: '330 mètres' },
+      { label: 'Conception', value: 'Entreprise de Gustave Eiffel' },
+      { label: 'Statut', value: 'Monument payant le plus visité au monde (~7M visiteurs/an)' },
     ],
   },
   {
@@ -198,11 +254,17 @@ export const fiches: Fiche[] = [
     credit: 'Photographie, juin 2010 · Wikimedia Commons, domaine public',
     color: '#7C3AED',
     colorEnd: '#CC1A1A',
-    paragraph: 'Ancienne résidence des rois de France, le **Château de Versailles** symbolise la **monarchie absolue** voulue par Louis XIV, qui y installe la cour en 1682. Sa célèbre **Galerie des Glaces** a vu la signature de traités historiques, dont le traité de Versailles en 1919. Classé au patrimoine mondial de l\'UNESCO, c\'est aujourd\'hui un des monuments les plus visités de France.',
+    paragraph: 'À l\'origine un simple pavillon de chasse, le **Château de Versailles** est transformé en résidence royale par **Louis XIV**, qui y installe la cour et le gouvernement en **1682**, faisant de Versailles le centre du pouvoir et le symbole de la **monarchie absolue** à la française. Les architectes Le Vau et Mansart, ainsi que le paysagiste Le Nôtre pour les jardins, créent un ensemble dont le faste est imité dans toute l\'Europe. C\'est aussi à Versailles que se réunissent les **États généraux de 1789**, point de départ de la Révolution française : en octobre de la même année, une marche populaire contraint la famille royale à quitter le château pour Paris, marquant la fin de son rôle de résidence royale. Sa célèbre **Galerie des Glaces** entre ensuite dans l\'histoire diplomatique : c\'est là qu\'est proclamé l\'Empire allemand en 1871, puis signé le **traité de Versailles** en 1919, qui met fin à la Première Guerre mondiale. Classé au patrimoine mondial de l\'UNESCO depuis 1979, le château accueille aujourd\'hui plusieurs millions de visiteurs chaque année.',
     keyPoints: [
       '1682–1789 — Résidence officielle des rois de France',
       '1919 — Signature du traité de Versailles dans la Galerie des Glaces',
       'Classé au patrimoine mondial de l\'UNESCO',
+    ],
+    facts: [
+      { label: 'Résidence royale', value: '1682 – 1789' },
+      { label: 'Architectes', value: 'Le Vau, Mansart, jardins par Le Nôtre' },
+      { label: 'Événement clé', value: 'Traité de Versailles, 1919 (Galerie des Glaces)' },
+      { label: 'Classement', value: 'UNESCO depuis 1979' },
     ],
   },
   {
@@ -216,11 +278,17 @@ export const fiches: Fiche[] = [
     credit: 'Photographie · Wikimedia Commons, domaine public',
     color: '#0E7490',
     colorEnd: '#001A70',
-    paragraph: 'Îlot rocheux surmonté d\'une abbaye fondée au **VIIIe siècle**, le **Mont-Saint-Michel** est l\'un des sites les plus visités de France. Entouré de marées spectaculaires parmi les plus fortes d\'Europe, il est classé au **patrimoine mondial de l\'UNESCO** depuis 1979 et reste un symbole fort du patrimoine religieux et architectural français.',
+    paragraph: 'Selon la légende, l\'archange Michel serait apparu en songe à l\'évêque Aubert au **VIIIe siècle**, qui fait construire un premier sanctuaire au sommet de cet îlot rocheux. Une abbaye bénédictine s\'y développe ensuite tout au long du Moyen Âge, faisant du Mont-Saint-Michel un haut lieu de **pèlerinage** réputé pour son architecture gothique audacieuse, bâtie à flanc de rocher. Transformé en prison après la Révolution, il est restauré comme monument historique à partir de 1874. Le site est entouré de **marées parmi les plus fortes d\'Europe**, avec un marnage pouvant dépasser 14 mètres, qui isolaient autrefois le mont à chaque grande marée. Une digue construite au XIXe siècle avait progressivement envasé la baie ; un nouveau pont-passerelle, inauguré en 2014, a permis de **rendre au Mont son caractère maritime**. Classé au patrimoine mondial de l\'UNESCO depuis 1979, il accueille aujourd\'hui environ trois millions de visiteurs par an.',
     keyPoints: [
       'VIIIe siècle — Fondation de l\'abbaye',
       '1979 — Classement au patrimoine mondial de l\'UNESCO',
       'Un des monuments les plus visités de France',
+    ],
+    facts: [
+      { label: 'Fondation', value: 'VIIIe siècle (légende de l\'archange Michel)' },
+      { label: 'Particularité', value: 'Marées parmi les plus fortes d\'Europe (>14 m)' },
+      { label: 'Classement', value: 'UNESCO depuis 1979' },
+      { label: 'Fréquentation', value: '~3 millions de visiteurs/an' },
     ],
   },
   {
@@ -234,11 +302,17 @@ export const fiches: Fiche[] = [
     credit: 'Photographie · Wikimedia Commons, domaine public',
     color: '#001A70',
     colorEnd: '#CC1A1A',
-    paragraph: 'Ancien palais des rois de France, le **Louvre** devient un **musée** en 1793, en pleine Révolution, pour rendre les œuvres royales accessibles à tous. C\'est aujourd\'hui le **plus grand musée d\'art du monde**, qui abrite notamment *La Joconde* de Léonard de Vinci. Sa célèbre pyramide de verre, conçue par l\'architecte I. M. Pei, a été inaugurée en 1989.',
+    paragraph: 'D\'abord forteresse construite à la fin du XIIe siècle sous Philippe Auguste, le **Louvre** devient résidence royale avant d\'être transformé en **musée public** le 10 août 1793, en pleine Révolution, pour que les collections royales et confisquées soient accessibles à tous les citoyens. Napoléon Bonaparte enrichit considérablement les collections — parfois grâce à des œuvres rapportées de ses campagnes militaires. Aujourd\'hui, le Louvre est le **plus grand musée d\'art du monde**, avec environ 35 000 œuvres exposées sur près de 480 000 conservées, parmi lesquelles *La Joconde* de Léonard de Vinci, la *Vénus de Milo* ou la *Victoire de Samothrace*. Sa célèbre **pyramide de verre**, conçue par l\'architecte sino-américain I. M. Pei et inaugurée en 1989, a d\'abord suscité une forte controverse avant de devenir elle-même un symbole de Paris, marquant l\'entrée principale du musée.',
     keyPoints: [
       '1793 — Ouverture du Louvre comme musée public',
       'Plus grand musée d\'art du monde',
       '1989 — Inauguration de la pyramide de verre',
+    ],
+    facts: [
+      { label: 'Origine', value: 'Forteresse (~1190), puis palais royal' },
+      { label: 'Musée depuis', value: '1793 (Révolution française)' },
+      { label: 'Collection', value: '~35 000 œuvres exposées (La Joconde, Vénus de Milo...)' },
+      { label: 'Pyramide', value: '1989, architecte I. M. Pei' },
     ],
   },
   {
@@ -252,11 +326,17 @@ export const fiches: Fiche[] = [
     credit: 'Photographie, 2015 · Wikimedia Commons, domaine public',
     color: '#CC1A1A',
     colorEnd: '#001A70',
-    paragraph: 'Chef-d\'œuvre de l\'art gothique construit entre **1163 et 1345**, **Notre-Dame de Paris** est l\'un des monuments religieux les plus célèbres au monde. Gravement endommagée par un incendie en **avril 2019**, elle a fait l\'objet d\'un vaste chantier de restauration international et a rouvert ses portes en **décembre 2024**.',
+    paragraph: 'La construction de **Notre-Dame de Paris** débute en **1163** sous l\'impulsion de l\'évêque Maurice de Sully et s\'achève environ 180 ans plus tard, vers 1345, faisant de la cathédrale l\'un des chefs-d\'œuvre de l\'**architecture gothique**. Elle est le théâtre de grands événements nationaux, comme le sacre de Napoléon Ier en 1804. Tombée en partie en ruine au début du XIXe siècle, elle doit notamment son sauvetage au roman de Victor Hugo, *Notre-Dame de Paris* (1831), qui relance l\'intérêt du public et conduit à sa restauration par l\'architecte Viollet-le-Duc. Avant 2019, elle était le **monument le plus visité d\'Europe**, avec environ 12 millions de visiteurs par an. Le **15 avril 2019**, un incendie détruit sa flèche et une grande partie de sa toiture, provoquant une vague d\'émotion internationale. Un chantier de restauration exceptionnel, financé par des dons venus du monde entier, permet sa **réouverture en décembre 2024**, cinq ans après le sinistre.',
     keyPoints: [
       '1163–1345 — Construction de la cathédrale',
       'Avril 2019 — Incendie majeur de la toiture et de la flèche',
       'Décembre 2024 — Réouverture après restauration',
+    ],
+    facts: [
+      { label: 'Construction', value: '1163 – 1345 (gothique)' },
+      { label: 'Événement historique', value: 'Sacre de Napoléon Ier, 1804' },
+      { label: 'Incendie', value: '15 avril 2019 (flèche, toiture)' },
+      { label: 'Réouverture', value: 'Décembre 2024' },
     ],
   },
   {
@@ -270,11 +350,17 @@ export const fiches: Fiche[] = [
     credit: 'Photographie, château de Chambord · Wikimedia Commons, domaine public',
     color: '#065F46',
     colorEnd: '#0E7490',
-    paragraph: 'Le long de la Loire s\'égrène un ensemble exceptionnel de châteaux construits ou agrandis aux **XVe et XVIe siècles**, à l\'apogée de la **Renaissance française**. Chambord, Chenonceau ou Amboise comptent parmi les plus célèbres. La Vallée de la Loire est aujourd\'hui classée au patrimoine mondial de l\'UNESCO pour la richesse de son architecture et de ses paysages.',
+    paragraph: 'Aux XVe et XVIe siècles, les rois de France et la noblesse délaissent peu à peu les forteresses médiévales pour construire le long de la Loire des résidences inspirées de la **Renaissance italienne**. Le **château de Chambord**, débuté en 1519 sur ordre de François Ier, est le plus emblématique : son célèbre **escalier à double révolution**, dont la conception est parfois attribuée à Léonard de Vinci, permet à deux personnes de monter et descendre sans jamais se croiser. Le **château de Chenonceau**, surnommé le « château des dames » pour avoir été marqué par plusieurs femmes influentes, enjambe la rivière du Cher avec sa célèbre galerie. À **Amboise**, Léonard de Vinci, invité par François Ier à la fin de sa vie, est inhumé dans la chapelle Saint-Hubert. En reconnaissance de cette concentration exceptionnelle de châteaux, jardins et paysages, le **Val de Loire** est inscrit au patrimoine mondial de l\'UNESCO depuis l\'an 2000.',
     keyPoints: [
       'XVe–XVIe siècle — Âge d\'or de la Renaissance française',
       'Chambord, Chenonceau, Amboise parmi les plus célèbres',
       'Vallée de la Loire classée au patrimoine mondial de l\'UNESCO',
+    ],
+    facts: [
+      { label: 'Période', value: 'XVe – XVIe siècle (Renaissance française)' },
+      { label: 'Château phare', value: 'Chambord (1519), escalier à double révolution' },
+      { label: 'Autres sites', value: 'Chenonceau, Amboise (tombeau de Léonard de Vinci)' },
+      { label: 'Classement', value: 'UNESCO — Val de Loire depuis 2000' },
     ],
   },
   {
@@ -288,11 +374,17 @@ export const fiches: Fiche[] = [
     credit: 'Photographie, 2013 · Wikimedia Commons, domaine public',
     color: '#1E3A8A',
     colorEnd: '#9F1239',
-    paragraph: 'En **1916**, la ville de **Verdun** est le théâtre d\'une des batailles les plus meurtrières de la Première Guerre mondiale, qui fait environ 300 000 morts. L\'**ossuaire de Douaumont** rassemble aujourd\'hui les restes de combattants non identifiés. En 1984, la poignée de main entre François Mitterrand et Helmut Kohl à Verdun est devenue le symbole de la **réconciliation franco-allemande**.',
+    paragraph: 'Lancée par l\'armée allemande le **21 février 1916** dans l\'objectif déclaré d\'« saigner à blanc » l\'armée française, la **bataille de Verdun** dure près de dix mois et devient l\'un des affrontements les plus meurtriers de la Première Guerre mondiale, avec environ **300 000 morts** et plusieurs centaines de milliers de blessés. Le fort de Douaumont change plusieurs fois de mains au prix de pertes énormes, tandis que la « Voie Sacrée » permet d\'acheminer en continu hommes et matériel vers le front. Le mot d\'ordre « **on ne passe pas** » devient le symbole de la résistance française. Construit dans les années 1920-1930, l\'**ossuaire de Douaumont** rassemble les restes d\'environ 130 000 soldats français et allemands non identifiés, devenant l\'un des principaux lieux de mémoire de la Grande Guerre. En 1984, la poignée de main entre le président François Mitterrand et le chancelier allemand Helmut Kohl, recueillis devant l\'ossuaire, est devenue une image emblématique de la **réconciliation franco-allemande** au sein de l\'Europe.',
     keyPoints: [
       '1916 — Bataille de Verdun, environ 300 000 morts',
       'Ossuaire de Douaumont — lieu de mémoire majeur',
       '1984 — Poignée de main Mitterrand-Kohl, symbole de réconciliation',
+    ],
+    facts: [
+      { label: 'Bataille', value: '21 février – décembre 1916' },
+      { label: 'Bilan', value: '~300 000 morts' },
+      { label: 'Lieu de mémoire', value: 'Ossuaire de Douaumont (~130 000 soldats)' },
+      { label: 'Symbole', value: 'Réconciliation franco-allemande (1984)' },
     ],
   },
   {
@@ -306,11 +398,17 @@ export const fiches: Fiche[] = [
     credit: 'Photographie, 2016 · Wikimedia Commons, domaine public',
     color: '#9F1239',
     colorEnd: '#0057A8',
-    paragraph: 'À l\'origine une église, le **Panthéon** devient pendant la Révolution un temple laïque destiné à honorer les grandes personnalités de la Nation, selon la devise inscrite sur son fronton : **« Aux grands hommes, la patrie reconnaissante »**. Voltaire, Victor Hugo, Marie Curie, Jean Moulin ou encore Simone Veil y reposent aujourd\'hui.',
+    paragraph: 'Commandé par Louis XV pour remplacer l\'ancienne abbaye Sainte-Geneviève, l\'édifice est conçu par l\'architecte **Soufflot** et achevé vers 1790. Dès 1791, en pleine Révolution, l\'Assemblée constituante décide d\'en faire un **temple laïque** destiné à recevoir les cendres des grands hommes de la Nation, selon la devise inscrite sur son fronton : « **Aux grands hommes, la patrie reconnaissante** ». Au cours du XIXe siècle, l\'édifice change plusieurs fois de fonction, alternant entre église et Panthéon civil, avant de devenir définitivement laïque en 1885, à l\'occasion des funérailles nationales de **Victor Hugo**. C\'est aussi sous sa coupole que le physicien Léon Foucault réalise en 1851 sa célèbre expérience du pendule, démontrant la rotation de la Terre. Une centaine de personnalités y reposent aujourd\'hui, parmi lesquelles Voltaire, Rousseau, Victor Hugo, Marie Curie, Jean Moulin ou Simone Veil — même si les femmes y restent encore largement minoritaires.',
     keyPoints: [
       'Devise : « Aux grands hommes, la patrie reconnaissante »',
       'Accueille les cendres de Voltaire, Hugo, Curie, Moulin, Veil...',
       'Ancienne église transformée en nécropole laïque dès la Révolution',
+    ],
+    facts: [
+      { label: 'Architecte', value: 'Soufflot (commande de Louis XV)' },
+      { label: 'Devise', value: '« Aux grands hommes, la patrie reconnaissante »' },
+      { label: 'Personnalités', value: 'Voltaire, Hugo, Curie, Moulin, Veil...' },
+      { label: 'Statut depuis', value: '1885 (funérailles de Victor Hugo)' },
     ],
   },
 ];
