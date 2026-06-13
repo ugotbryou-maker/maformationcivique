@@ -30,34 +30,30 @@ export interface SanityPost {
 // ── Catégories ─────────────────────────────────────────────────────────────
 export const POST_CATEGORIES: Record<
   SanityPost['category'],
-  { label: string; color: string; bg: string; icon: string; description: string }
+  { label: string; color: string; bg: string; description: string }
 > = {
   'demarches':    {
     label: 'Démarches',
     color: '#002395',
     bg: '#E6EEF9',
-    icon: '📋',
     description: 'Titre de séjour, carte de résident, naturalisation',
   },
   'vie-en-france': {
     label: 'Vie en France',
     color: '#059669',
     bg: '#F0FDF4',
-    icon: '🇫🇷',
     description: 'Culture, droits, vie quotidienne',
   },
   'examen': {
     label: 'Examens & formation',
     color: '#CC1A1A',
     bg: '#FEF2F2',
-    icon: '🎓',
     description: 'Méthodes, conseils et préparation',
   },
   'actualites': {
     label: 'Actualités',
     color: '#7C3AED',
     bg: '#F5F3FF',
-    icon: '📰',
     description: 'Lois, décrets, nouveautés 2026',
   },
 };

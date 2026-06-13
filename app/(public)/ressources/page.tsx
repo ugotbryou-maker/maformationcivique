@@ -2,7 +2,9 @@ export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { Library } from 'lucide-react';
 import { getAllPosts, POST_CATEGORIES } from '@/lib/sanity/queries';
+import { CATEGORY_ICONS } from '@/components/app/PostUI';
 import RessourcesGrid from './RessourcesGrid';
 
 export const metadata: Metadata = {
@@ -17,7 +19,7 @@ export default async function RessourcesPage() {
   const catStats = Object.entries(POST_CATEGORIES).map(([key, cat]) => ({
     key,
     label: cat.label,
-    icon: cat.icon,
+    Icon: CATEGORY_ICONS[key as keyof typeof CATEGORY_ICONS],
     color: cat.color,
     bg: cat.bg,
     count: posts.filter((p) => p.category === key).length,
@@ -39,7 +41,7 @@ export default async function RessourcesPage() {
               background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.9)',
               fontSize: '12px', fontWeight: 500, letterSpacing: '0.04em',
             }}>
-              📚 {posts.length} ressources disponibles
+              <Library size={13} /> {posts.length} ressources disponibles
             </span>
           </div>
 
@@ -71,7 +73,7 @@ export default async function RessourcesPage() {
             gap: '12px',
             maxWidth: '760px',
           }}>
-            {catStats.map(({ key, label, icon, count }) => (
+            {catStats.map(({ key, label, Icon, count }) => (
               <div key={key} style={{
                 background: 'rgba(255,255,255,0.10)',
                 border: '1px solid rgba(255,255,255,0.18)',
@@ -81,7 +83,13 @@ export default async function RessourcesPage() {
                 alignItems: 'center',
                 gap: '10px',
               }}>
-                <span style={{ fontSize: '20px', flexShrink: 0 }}>{icon}</span>
+                <div style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  width: '34px', height: '34px', borderRadius: '8px', flexShrink: 0,
+                  background: 'rgba(255,255,255,0.12)',
+                }}>
+                  <Icon size={17} color="#fff" />
+                </div>
                 <div>
                   <div style={{ fontSize: '13px', fontWeight: 600, color: '#fff', lineHeight: 1.3 }}>
                     {label}

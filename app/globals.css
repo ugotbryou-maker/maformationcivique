@@ -143,3 +143,42 @@ button {
 .footer-link:hover {
   color: #FFFFFF;
 }
+
+/* ── Blog /ressources ──────────────────────────────────────────────────── */
+
+/* Article vedette + liste "derniers articles" */
+.blog-featured-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 28px;
+  align-items: stretch;
+}
+
+/* Grille de cartes d'articles */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* Page article : image de couverture + colonne méta */
+.article-media-row {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 28px;
+  align-items: stretch;
+}
+
+.article-meta-card {
+  background: #fff;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem;
+}
+
+@media (max-width: 860px) {
+  .blog-featured-grid,
+  .article-media-row {
+    grid-template-columns: 1fr;
+  }
+}
