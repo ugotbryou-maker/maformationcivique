@@ -1,10 +1,9 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { ADMIN_EMAILS } from '@/lib/admin';
 
-const PROTECTED_PATHS = ['/dashboard', '/progression', '/profil'];
-const ADMIN_EMAILS = (process.env.ADMIN_EMAIL ?? 'tamburriniugo@gmail.com')
-  .split(',').map((e) => e.trim().toLowerCase());
+const PROTECTED_PATHS = ['/dashboard', '/progression', '/profil', '/cabinet'];
 
 export async function middleware(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -54,8 +53,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // ── Studio Sanity — réservé à l'admin ────────────────────────────────────
-  if (pathname.startsWith('/studio')) {
+  // ── Studio Sanity + back-office admin — réservés à l'admin ───────────────
+  if (pathname.startsWith('/studio') || pathname.startsWith('/admin')) {
     if (!user || !ADMIN_EMAILS.includes(user.email?.toLowerCase() ?? '')) {
       return NextResponse.redirect(new URL('/connexion', request.url));
     }

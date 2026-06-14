@@ -2,7 +2,7 @@
  * POST /api/auth/onboarding
  * Sauvegarde les réponses d'onboarding en DB + sync attributs Brevo.
  *
- * Body: { demarche, langue_niveau, accompagne }
+ * Body: { demarche, langue_niveau, accompagne, telephone? }
  */
 
 export const dynamic = 'force-dynamic';
@@ -14,12 +14,13 @@ interface OnboardingPayload {
   demarche:      'CSP' | 'carte_resident' | 'naturalisation';
   langue_niveau: 'A2' | 'B1_B2' | 'besoin_examen' | 'ne_sait_pas';
   accompagne:    boolean;
+  telephone?:    string | null;
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json() as Partial<OnboardingPayload>;
-    const { demarche, langue_niveau, accompagne } = body;
+    const { demarche, langue_niveau, accompagne, telephone } = body;
 
     if (!demarche || !langue_niveau) {
       return NextResponse.json({ error: 'Champs requis manquants' }, { status: 400 });
@@ -33,12 +34,14 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Sauvegarde en DB ────────────────────────────────────────────────────
+    const cleanTelephone = telephone?.trim() || null;
     const { error: dbError } = await supabase
       .from('users')
       .update({
         demarche,
         langue_niveau,
         accompagne:       accompagne ?? false,
+        telephone:        cleanTelephone,
         onboarding_done:  true,
       })
       .eq('id', user.id);
@@ -80,6 +83,7 @@ export async function POST(req: NextRequest) {
               LANGUE_NIVEAU: LANGUE_LABELS[langue_niveau] ?? langue_niveau,
               ACCOMPAGNE:    accompagne ? 'Oui' : 'Non',
               PLAN:          'free', // sera mis à jour par le webhook Stripe
+              ...(cleanTelephone ? { SMS: cleanTelephone } : {}),
             },
           }),
         });

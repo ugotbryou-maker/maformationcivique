@@ -10,6 +10,7 @@ import { cookies } from 'next/headers';
 import { LessonExercise } from '@/components/app/LessonExercise';
 import { LessonCompleteButton } from '@/components/app/LessonCompleteButton';
 import { LessonEndQuiz, type QuizQuestion } from '@/components/app/LessonEndQuiz';
+import { FreeLessonSignupModal } from '@/components/app/FreeLessonSignupModal';
 import { questions as allQuestions } from '@/data/questions';
 import { renderInline } from '@/lib/markdown';
 import {
@@ -165,6 +166,7 @@ export default async function LessonPage({ params }: Props) {
   // ── Statut Premium (utilisé pour le paywall ET pour masquer les badges
   // "Gratuit"/"Premium" qui n'ont plus de sens pour un abonné) ───────────────
   let isPremium = false;
+  let isLoggedIn = false;
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -181,6 +183,7 @@ export default async function LessonPage({ params }: Props) {
         console.error('[lecon/page] getUser error:', authError.message);
       }
       const user = authData?.user ?? null;
+      isLoggedIn = !!user;
       if (user) {
         const { data, error: planError } = await supabase
           .from('users')
@@ -483,6 +486,9 @@ export default async function LessonPage({ params }: Props) {
           </div>
         </div>
       </div>
+
+      {/* ── POP-UP INSCRIPTION (visiteurs non connectés, leçons gratuites) ── */}
+      {lesson.free && !isLoggedIn && <FreeLessonSignupModal />}
 
       <style>{`
         .lesson-layout { grid-template-columns: 260px 1fr; }

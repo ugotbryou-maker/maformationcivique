@@ -1,16 +1,17 @@
 'use client';
 
 import { Suspense } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
-import { Eye, EyeOff, Mail, Lock, User, CheckCircle } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, CheckCircle, Building2 } from 'lucide-react';
 
 function InscriptionForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const plan = searchParams.get('plan');
+  const inviteToken = searchParams.get('invite_token');
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -19,6 +20,21 @@ function InscriptionForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [cabinetInvite, setCabinetInvite] = useState<{ cabinet_name: string; role: string } | null>(null);
+
+  // ── Invitation cabinet (?invite_token=) : on récupère le nom du cabinet
+  // pour afficher un bandeau de bienvenue avant l'inscription. ────────────
+  useEffect(() => {
+    if (!inviteToken) return;
+    fetch(`/api/cabinet/invite/${inviteToken}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.valid) {
+          setCabinetInvite({ cabinet_name: data.cabinet_name, role: data.role });
+        }
+      })
+      .catch(() => { /* invitation invalide ou expirée — on ignore */ });
+  }, [inviteToken]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,6 +80,20 @@ function InscriptionForm() {
         body: JSON.stringify({ email, name }),
       }).catch(() => { /* fail silently */ });
 
+      // Invitation cabinet (?invite_token=) : associe le compte au cabinet
+      // et active l'accès Premium offert.
+      if (inviteToken) {
+        try {
+          await fetch('/api/cabinet/redeem-invite', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: inviteToken }),
+          });
+        } catch {
+          // Non bloquant — l'utilisateur garde un compte gratuit si ça échoue
+        }
+      }
+
       // Redirection vers l'onboarding
       router.push('/onboarding');
       return;
@@ -108,6 +138,29 @@ function InscriptionForm() {
           Module 1 + 20 questions offertes, sans carte bancaire.
         </p>
       </div>
+
+      {cabinetInvite && (
+        <div
+          style={{
+            display: 'flex', alignItems: 'flex-start', gap: '10px',
+            padding: '12px 16px',
+            borderRadius: 'var(--radius-md)',
+            background: 'var(--color-blue-light)',
+            border: 'var(--border-default)',
+            fontSize: 'var(--font-size-sm)',
+            color: 'var(--color-text-secondary)',
+            marginBottom: '20px',
+          }}
+        >
+          <Building2 size={18} color="var(--color-blue-france)" style={{ flexShrink: 0, marginTop: '1px' }} />
+          <span>
+            Vous rejoignez <strong>{cabinetInvite.cabinet_name}</strong> —{' '}
+            {cabinetInvite.role === 'admin'
+              ? 'créez votre accès administrateur cabinet.'
+              : 'accès Premium offert, sans carte bancaire.'}
+          </span>
+        </div>
+      )}
 
       {plan === 'premium' && (
         <div

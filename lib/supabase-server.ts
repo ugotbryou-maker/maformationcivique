@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://placeholder.supabase.co';
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? 'placeholder';
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
 
 /**
  * Client Supabase pour les Server Components (lecture seule).
@@ -26,5 +27,22 @@ export async function createServerSupabaseClient() {
         setAll() {},
       },
     }
+  );
+}
+
+/**
+ * Client Supabase "service role" — bypass RLS, à utiliser UNIQUEMENT dans
+ * des Route Handlers (API routes) pour des opérations serveur-à-serveur
+ * (création de cabinets, invitations, rédemption, etc.).
+ * Ne jamais exposer ce client ou la clé au navigateur.
+ */
+export function createServiceRoleClient() {
+  if (!SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error('SUPABASE_SERVICE_ROLE_KEY is not set');
+  }
+  return createServerClient(
+    SUPABASE_URL,
+    SUPABASE_SERVICE_ROLE_KEY,
+    { cookies: { getAll: () => [], setAll: () => {} } }
   );
 }

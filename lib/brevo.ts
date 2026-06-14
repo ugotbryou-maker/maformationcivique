@@ -100,6 +100,57 @@ export function resetPasswordTemplate(resetLink: string): string {
   `.trim();
 }
 
+export function cabinetInviteTemplate(cabinetName: string, inviteLink: string, role: 'admin' | 'member'): string {
+  const intro = role === 'admin'
+    ? `<strong>${cabinetName}</strong> a été enregistré comme partenaire de maformationcivique.fr. Vous avez été désigné(e) administrateur de l'espace cabinet : vous pourrez y inviter vos clients et suivre leur progression.`
+    : `<strong>${cabinetName}</strong> vous offre un accès Premium complet à maformationcivique.fr pour préparer votre examen civique.`;
+
+  const cta = role === 'admin'
+    ? 'Créer mon accès administrateur →'
+    : 'Créer mon compte Premium →';
+
+  return `
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /></head>
+<body style="margin:0;padding:0;background:#f8f9fb;font-family:Arial,sans-serif;">
+  <div style="max-width:520px;margin:40px auto;background:#fff;border-radius:16px;border:1px solid #e5e7eb;overflow:hidden;">
+
+    <div style="background:linear-gradient(135deg,#002395 0%,#CC1A1A 100%);padding:28px 32px;text-align:center;">
+      <p style="margin:0;font-size:22px;font-weight:700;color:#fff;">🇫🇷 maformationcivique.fr</p>
+    </div>
+
+    <div style="padding:36px 32px;">
+      <h1 style="margin:0 0 16px;font-size:20px;font-weight:600;color:#111827;">
+        Vous êtes invité(e) sur maformationcivique.fr
+      </h1>
+      <p style="margin:0 0 24px;color:#6b7280;line-height:1.65;font-size:15px;">
+        ${intro}
+      </p>
+
+      <div style="text-align:center;margin:32px 0;">
+        <a href="${inviteLink}"
+           style="display:inline-block;padding:14px 32px;background:linear-gradient(135deg,#002395,#CC1A1A);color:#fff;text-decoration:none;border-radius:100px;font-weight:600;font-size:15px;">
+          ${cta}
+        </a>
+      </div>
+
+      <p style="margin:0;color:#9ca3af;font-size:13px;line-height:1.6;">
+        Ce lien est valable 30 jours. Si vous ne vous attendiez pas à cet email, vous pouvez l'ignorer.
+      </p>
+    </div>
+
+    <div style="padding:20px 32px;border-top:1px solid #f3f4f6;text-align:center;">
+      <p style="margin:0;color:#d1d5db;font-size:12px;">
+        maformationcivique.fr · La préparation au test civique en France
+      </p>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim();
+}
+
 export function welcomeEmailTemplate(name: string): string {
   return `
 <!DOCTYPE html>

@@ -52,6 +52,7 @@ export default function OnboardingPage() {
   const [demarche,    setDemarche]    = useState<Demarche | null>(null);
   const [langue,      setLangue]      = useState<LangueNiveau | null>(null);
   const [accompagne,  setAccompagne]  = useState(false);
+  const [telephone,   setTelephone]   = useState('');
   const [saving,      setSaving]      = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
@@ -63,7 +64,12 @@ export default function OnboardingPage() {
       await fetch('/api/auth/onboarding', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ demarche, langue_niveau: langue, accompagne }),
+        body: JSON.stringify({
+          demarche,
+          langue_niveau: langue,
+          accompagne,
+          telephone: telephone.trim() || null,
+        }),
       });
     } catch {
       // Non bloquant — on avance quand même
@@ -301,6 +307,37 @@ export default function OnboardingPage() {
           <span style={{ fontSize: 'var(--font-size-sm)', color: accompagne ? '#15803D' : 'var(--color-text-secondary)', fontWeight: accompagne ? 500 : 400 }}>
             Je suis déjà accompagné par une association ou un avocat
           </span>
+        </div>
+
+        {/* Téléphone (optionnel) */}
+        <div style={{ marginBottom: '28px' }}>
+          <label
+            htmlFor="onboarding-telephone"
+            style={{ display: 'block', fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text-primary)', marginBottom: '8px' }}
+          >
+            Numéro de téléphone <span style={{ color: 'var(--color-text-muted)', fontWeight: 400 }}>(optionnel)</span>
+          </label>
+          <input
+            id="onboarding-telephone"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            placeholder="06 12 34 56 78"
+            value={telephone}
+            onChange={(e) => setTelephone(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '15px 18px',
+              borderRadius: 'var(--radius-lg)',
+              background: 'var(--color-surface)',
+              border: 'var(--border-default)',
+              fontSize: 'var(--font-size-sm)',
+              color: 'var(--color-text-primary)',
+              fontFamily: 'var(--font-sans)',
+              boxShadow: 'var(--shadow-card)',
+              boxSizing: 'border-box',
+            }}
+          />
         </div>
 
         <div style={{ display: 'flex', gap: '10px' }}>

@@ -1,7 +1,9 @@
 import Link from 'next/link';
-import { BookOpen, LayoutDashboard, Trophy, TrendingUp, User } from 'lucide-react';
+import { BookOpen, LayoutDashboard, Trophy, TrendingUp, User, Building2 } from 'lucide-react';
+import { createServerSupabaseClient } from '@/lib/supabase-server';
+import { isAdminEmail } from '@/lib/admin';
 
-const appNav = [
+const baseNav = [
   { icon: LayoutDashboard, label: 'Dashboard',  href: '/dashboard' },
   { icon: BookOpen,        label: 'Modules',    href: '/modules' },
   { icon: Trophy,          label: 'Examens',    href: '/examen' },
@@ -9,7 +11,28 @@ const appNav = [
   { icon: User,            label: 'Profil',     href: '/profil' },
 ];
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+export default async function AppLayout({ children }: { children: React.ReactNode }) {
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  let appNav = baseNav;
+
+  if (user) {
+    const { data: profile } = await supabase
+      .from('users')
+      .select('cabinet_id, cabinet_role')
+      .eq('id', user.id)
+      .single();
+
+    if (profile?.cabinet_id && profile.cabinet_role === 'admin') {
+      appNav = [...baseNav, { icon: Building2, label: 'Cabinet', href: '/cabinet' }];
+    }
+
+    if (isAdminEmail(user.email)) {
+      appNav = [...appNav, { icon: Building2, label: 'Admin', href: '/admin/cabinets' }];
+    }
+  }
+
   return (
     <div style={{ display: 'flex', minHeight: '100vh', overflowX: 'hidden' }}>
       {/* Sidebar — desktop only */}
