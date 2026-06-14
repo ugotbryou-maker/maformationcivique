@@ -41,8 +41,9 @@ export function FicheCard({ fiche }: Props) {
           className="fiche-card-img"
           style={{
             objectFit: 'cover',
-            objectPosition: 'center 22%',
+            objectPosition: fiche.cardImagePosition ?? 'center 22%',
             transition: 'transform 400ms ease-out',
+            ...({ '--img-scale': fiche.cardImageScale ?? 1 } as React.CSSProperties),
           }}
         />
 
@@ -134,8 +135,11 @@ export function FicheCard({ fiche }: Props) {
       </article>
 
       <style>{`
+        .fiche-card-img {
+          transform: scale(var(--img-scale, 1));
+        }
         .fiche-card:hover .fiche-card-img {
-          transform: scale(1.05);
+          transform: scale(calc(var(--img-scale, 1) * 1.05));
         }
         .fiche-card {
           transition: box-shadow 300ms ease-out, transform 300ms ease-out;

@@ -21,6 +21,18 @@ export interface Fiche {
   keyPoints: string[];
   /** Repères chiffrés affichés en grille (dates, œuvres, actions, classements...) */
   facts: { label: string; value: string }[];
+  /**
+   * Recadrage personnalisé de l'image — utile quand la photo source a un
+   * cadrage (panorama, ciel dominant...) qui ne correspond pas bien aux
+   * formats d'affichage par défaut.
+   * - card*  : vignette portrait de /fiches (défaut object-position 'center 22%')
+   * - hero*  : bandeau large de la page détail (défaut object-position 'center 25%')
+   * Scale > 1 effectue un zoom (recadrage plus serré) sur la zone ciblée.
+   */
+  cardImagePosition?: string;
+  cardImageScale?: number;
+  heroImagePosition?: string;
+  heroImageScale?: number;
 }
 
 export const fiches: Fiche[] = [
@@ -226,10 +238,14 @@ export const fiches: Fiche[] = [
     subtitle: 'Paris · Construite en 1889',
     tag: 'Monument',
     image: '/images/modules/tour-eiffel.jpg',
-    imageAlt: 'La Tour Eiffel à Paris',
+    imageAlt: 'La Tour Eiffel vue depuis le Champ-de-Mars, à travers des branches en fleurs',
     credit: 'Photographie · Wikimedia Commons, domaine public',
     color: '#002395',
     colorEnd: '#0057A8',
+    // Sur le bandeau large (desktop), le recadrage par défaut (haut de la photo)
+    // ne montre que les branches en fleurs avec un fin pilier en arrière-plan.
+    // On recentre sur le bas de l'image pour révéler les arches emblématiques.
+    heroImagePosition: 'center 100%',
     paragraph: 'Conçue par les ingénieurs de l\'entreprise de **Gustave Eiffel** pour l\'**Exposition universelle de 1889**, organisée pour célébrer le centenaire de la Révolution française, la Tour Eiffel culmine à **330 mètres** et reste, près de 140 ans plus tard, le monument le plus emblématique du pays. Son projet suscite à l\'époque une vive polémique : un « Manifeste des artistes » dénonce cette « tour de fer » comme une atteinte au paysage parisien. Conçue à l\'origine comme une structure temporaire, démontable après vingt ans, elle est finalement conservée grâce à son utilité pour les transmissions radio et militaires. Repeinte tous les sept ans avec environ 60 tonnes de peinture, elle accueille aujourd\'hui près de **7 millions de visiteurs par an**, ce qui en fait le **monument payant le plus visité au monde**, et demeure le symbole universel de Paris et de la France.',
     keyPoints: [
       '1889 — Inauguration pour l\'Exposition universelle',
@@ -298,10 +314,16 @@ export const fiches: Fiche[] = [
     subtitle: 'Paris · Musée depuis 1793',
     tag: 'Monument',
     image: '/images/modules/le-louvre.jpg',
-    imageAlt: 'Le musée du Louvre et sa pyramide',
+    imageAlt: 'Le musée du Louvre et sa pyramide, vue de nuit',
     credit: 'Photographie · Wikimedia Commons, domaine public',
     color: '#001A70',
     colorEnd: '#CC1A1A',
+    // Photo panoramique de nuit : ~40% de ciel uni en haut. On recadre et on
+    // zoome sur la pyramide illuminée pour éviter une vignette quasi unie.
+    cardImagePosition: 'center 88%',
+    cardImageScale: 1.85,
+    heroImagePosition: 'center 80%',
+    heroImageScale: 1.4,
     paragraph: 'D\'abord forteresse construite à la fin du XIIe siècle sous Philippe Auguste, le **Louvre** devient résidence royale avant d\'être transformé en **musée public** le 10 août 1793, en pleine Révolution, pour que les collections royales et confisquées soient accessibles à tous les citoyens. Napoléon Bonaparte enrichit considérablement les collections — parfois grâce à des œuvres rapportées de ses campagnes militaires. Aujourd\'hui, le Louvre est le **plus grand musée d\'art du monde**, avec environ 35 000 œuvres exposées sur près de 480 000 conservées, parmi lesquelles *La Joconde* de Léonard de Vinci, la *Vénus de Milo* ou la *Victoire de Samothrace*. Sa célèbre **pyramide de verre**, conçue par l\'architecte sino-américain I. M. Pei et inaugurée en 1989, a d\'abord suscité une forte controverse avant de devenir elle-même un symbole de Paris, marquant l\'entrée principale du musée.',
     keyPoints: [
       '1793 — Ouverture du Louvre comme musée public',

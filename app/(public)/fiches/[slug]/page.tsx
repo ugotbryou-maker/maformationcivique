@@ -50,7 +50,8 @@ export default async function FichePage({ params }: Props) {
             priority
             style={{
               objectFit: 'cover',
-              objectPosition: 'center 25%',
+              objectPosition: fiche.heroImagePosition ?? 'center 25%',
+              transform: fiche.heroImageScale ? `scale(${fiche.heroImageScale})` : undefined,
               mixBlendMode: 'soft-light',
               opacity: 0.9,
             }}
