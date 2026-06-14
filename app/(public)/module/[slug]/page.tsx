@@ -3,9 +3,10 @@ export const dynamic = 'force-dynamic';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getModuleBySlug, modules } from '@/data/modules';
+import { moduleQuizzes } from '@/data/exercises';
 import { LessonCard } from '@/components/app/LessonCard';
 import { ProgressBar } from '@/components/app/ProgressBar';
-import { ArrowLeft, Target, Shield, Star, Award, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Target, Shield, Star, Award, ArrowRight, Trophy } from 'lucide-react';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import type { Metadata } from 'next';
 
@@ -77,6 +78,8 @@ export default async function ModulePage({ params }: Props) {
   const hero = MODULE_HERO[mod.slug as keyof typeof MODULE_HERO] ?? {
     image: '', color: '#002395', colorEnd: '#001A70', position: 'center',
   };
+
+  const moduleQuizQuestions = moduleQuizzes[mod.slug] ?? [];
 
   return (
     <div style={{ minHeight: '80vh', padding: '40px 0 80px' }}>
@@ -223,6 +226,39 @@ export default async function ModulePage({ params }: Props) {
           ))}
         </div>
 
+        {/* Quiz du module — questions ciblées sur l'ensemble du thème */}
+        {moduleQuizQuestions.length > 0 && (
+          <Link href={`/module/${mod.slug}/quiz`} style={{ textDecoration: 'none', display: 'block', marginTop: '14px' }}>
+            <div className="module-quiz-card" style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
+              padding: '16px 20px',
+              borderRadius: 'var(--radius-lg)',
+              background: `linear-gradient(135deg, ${hero.color} 0%, ${hero.colorEnd} 100%)`,
+              boxShadow: 'var(--shadow-card)',
+              transition: 'transform 200ms ease-out, box-shadow 200ms ease-out',
+            }}>
+              <div style={{
+                width: '40px', height: '40px', borderRadius: 'var(--radius-md)',
+                background: 'rgba(255,255,255,0.18)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+              }}>
+                <Trophy size={18} color="#fff" />
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontSize: 'var(--font-size-base)', fontWeight: 600, color: '#fff', marginBottom: '2px' }}>
+                  Quiz du module
+                </p>
+                <span style={{ fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.8)' }}>
+                  {moduleQuizQuestions.length} questions · seuil de réussite 80%
+                </span>
+              </div>
+              <ArrowRight size={16} color="rgba(255,255,255,0.9)" style={{ flexShrink: 0 }} />
+            </div>
+          </Link>
+        )}
+
         {/* Examens blancs — 3 niveaux */}
         <div style={{ marginTop: '40px' }}>
           <h2 style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-primary)', marginBottom: '8px' }}>
@@ -339,6 +375,10 @@ export default async function ModulePage({ params }: Props) {
 
       <style>{`
         .exam-card-hover:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 32px rgba(0,0,0,0.22);
+        }
+        .module-quiz-card:hover {
           transform: translateY(-2px);
           box-shadow: 0 10px 32px rgba(0,0,0,0.22);
         }
