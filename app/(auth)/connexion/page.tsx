@@ -25,12 +25,25 @@ function ConnexionForm() {
     setError(null);
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
       setError('Email ou mot de passe incorrect.');
       setLoading(false);
     } else {
+      // Redirect cabinet admins directly to their dashboard
+      if (data.user) {
+        const { data: profile } = await supabase
+          .from('users')
+          .select('cabinet_role')
+          .eq('id', data.user.id)
+          .single();
+        if (profile?.cabinet_role === 'admin') {
+          router.push('/cabinet');
+          router.refresh();
+          return;
+        }
+      }
       router.push(redirect);
       router.refresh();
     }

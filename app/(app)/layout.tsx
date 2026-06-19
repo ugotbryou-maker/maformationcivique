@@ -167,7 +167,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         ))}
       </nav>
 
-      <style>{`
+      <style suppressHydrationWarning>{`
         /* ─── Responsive ─────────────────────────────────────────────────── */
         @media (max-width: 768px) {
           .app-sidebar      { display: none !important; }

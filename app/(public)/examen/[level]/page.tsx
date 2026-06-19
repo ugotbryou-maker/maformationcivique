@@ -1,14 +1,15 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
   ChevronRight, ChevronLeft, Clock, CheckCircle, XCircle,
   Trophy, AlertCircle, Mail, ArrowRight, RotateCcw, Home,
-  Shield, Star, Award,
+  Shield, Star, Award, Zap,
 } from 'lucide-react';
 import { getExamQuestions, type Question, type ExamLevel } from '@/data/questions';
+import { BADGES } from '@/lib/gamification';
 
 // ── Config niveaux ────────────────────────────────────────────────────────────
 const LEVEL_CONFIG: Record<ExamLevel, {
@@ -70,6 +71,9 @@ export default function ExamPage() {
   const [timerActive, setTimerActive] = useState(false);
   const [email, setEmail] = useState('');
   const [emailSent, setEmailSent] = useState(false);
+  const [xpEarned, setXpEarned] = useState<number | null>(null);
+  const [newBadges, setNewBadges] = useState<string[]>([]);
+  const examResultSent = useRef(false);
 
   // Charger les questions
   useEffect(() => {
@@ -119,6 +123,27 @@ export default function ExamPage() {
   const score = questions.reduce((acc, q, i) => acc + (selected[i] === q.answer ? 1 : 0), 0);
   const pct = questions.length > 0 ? Math.round((score / questions.length) * 100) : 0;
   const passed = pct >= (config?.passScore ?? 80);
+
+  // Crédite l'XP de l'examen (utilisateurs connectés uniquement — silencieux
+  // et sans erreur visible pour les visiteurs anonymes, idempotent côté
+  // serveur : un seul crédit par niveau d'examen et par utilisateur)
+  useEffect(() => {
+    if (phase !== 'result' || examResultSent.current || questions.length === 0) return;
+    examResultSent.current = true;
+    fetch('/api/exam/result', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ level, score, total: questions.length }),
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && !data.alreadyAwarded) {
+          setXpEarned(data.xpEarned);
+          setNewBadges(data.newBadges ?? []);
+        }
+      })
+      .catch(() => { /* non bloquant */ });
+  }, [phase, level, score, questions.length]);
 
   const formatTime = (s: number) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
   const timeWarning = timeLeft < 300; // 5 min
@@ -397,6 +422,38 @@ export default function ExamPage() {
           <div style={{ fontSize: 14, opacity: .8 }}>
             {score} bonnes réponses sur {questions.length} · Score requis : {config.passScore}%
           </div>
+
+          {xpEarned !== null && xpEarned > 0 && (
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              marginTop: 14, padding: '6px 14px',
+              borderRadius: 100,
+              background: 'rgba(255,255,255,0.18)',
+              color: '#fff', fontSize: 13, fontWeight: 700,
+            }}>
+              <Zap size={14} color="#FACC15" fill="#FACC15" />
+              +{xpEarned} XP
+            </div>
+          )}
+
+          {newBadges.length > 0 && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginTop: 10 }}>
+              {newBadges.map((slug) => {
+                const badge = BADGES.find((b) => b.slug === slug);
+                if (!badge) return null;
+                return (
+                  <div key={slug} style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 6,
+                    padding: '6px 12px', borderRadius: 100,
+                    background: 'rgba(255,255,255,0.18)',
+                    color: '#fff', fontSize: 12, fontWeight: 600,
+                  }}>
+                    <span style={{ fontSize: 14 }}>{badge.icon}</span> {badge.label}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Lead gen card */}
@@ -510,6 +567,9 @@ export default function ExamPage() {
               setCurrent(0);
               setEmail('');
               setEmailSent(false);
+              setXpEarned(null);
+              setNewBadges([]);
+              examResultSent.current = false;
               const qs = getExamQuestions(level, 40);
               setQuestions(qs);
             }}

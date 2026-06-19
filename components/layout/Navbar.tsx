@@ -227,8 +227,8 @@ export function Navbar() {
           ) : (
             /* ── NON CONNECTÉ ── */
             <>
-              <Link href="/connexion" className="nav-desktop">
-                <Button variant="ghost" size="sm">Connexion</Button>
+              <Link href="/partenaires" className="nav-desktop">
+                <Button variant="ghost" size="sm">Je suis partenaire</Button>
               </Link>
               <Link href="/inscription" className="nav-desktop">
                 <Button variant="primary" size="sm">S'inscrire — gratuit</Button>
@@ -292,8 +292,8 @@ export function Navbar() {
               </>
             ) : (
               <>
-                <Link href="/connexion" onClick={() => setMenuOpen(false)}>
-                  <Button variant="ghost" size="md" fullWidth>Connexion</Button>
+                <Link href="/partenaires" onClick={() => setMenuOpen(false)}>
+                  <Button variant="ghost" size="md" fullWidth>Je suis partenaire</Button>
                 </Link>
                 <Link href="/inscription" onClick={() => setMenuOpen(false)}>
                   <Button variant="primary" size="md" fullWidth>S'inscrire — gratuit</Button>

@@ -94,8 +94,20 @@ function InscriptionForm() {
         }
       }
 
-      // Redirection vers l'onboarding
-      router.push('/onboarding');
+      // Si l'utilisateur est un admin ou membre cabinet, on bypass l'onboarding
+      const { data: profile } = await supabase
+        .from('users')
+        .select('cabinet_role')
+        .eq('id', signUpData.user.id)
+        .single();
+
+      if (profile?.cabinet_role === 'admin') {
+        router.push('/cabinet');
+      } else if (profile?.cabinet_role === 'member') {
+        router.push('/dashboard');
+      } else {
+        router.push('/onboarding');
+      }
       return;
     }
 
