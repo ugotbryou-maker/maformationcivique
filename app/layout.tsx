@@ -1,11 +1,18 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
+const BASE_URL = 'https://maformationcivique.fr';
+
 export const metadata: Metadata = {
-  title: 'maformationcivique.fr — Préparez votre examen civique',
+  metadataBase: new URL(BASE_URL),
+  title: {
+    default: 'maformationcivique.fr — Préparez votre examen civique',
+    template: '%s | maformationcivique.fr',
+  },
   description: 'La plateforme de préparation à la formation civique obligatoire pour les ressortissants étrangers en France. 177 questions, 5 modules, examens blancs chronométrés.',
-  keywords: ['formation civique', 'examen civique', 'naturalisation', 'carte de résident', 'France', 'e-learning'],
+  keywords: ['formation civique', 'examen civique', 'naturalisation', 'carte de résident', 'France', 'e-learning', 'OFII', 'intégration'],
   authors: [{ name: 'maformationcivique.fr' }],
+  alternates: { canonical: BASE_URL },
   icons: {
     icon: '/icon.svg',
     shortcut: '/icon.svg',
@@ -13,19 +20,20 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'maformationcivique.fr — Préparez votre examen civique',
-    description: 'La plateforme de préparation à la formation civique obligatoire. 177 questions officielles, 5 modules thématiques, IA pédagogique.',
-    url: 'https://maformationcivique.fr',
+    description: 'La plateforme de préparation à la formation civique obligatoire. 177 questions officielles, 5 modules thématiques, examens blancs chronométrés.',
+    url: BASE_URL,
     siteName: 'maformationcivique.fr',
     locale: 'fr_FR',
     type: 'website',
-    images: [{ url: '/logo.svg', width: 400, height: 80, alt: 'maformationcivique.fr' }],
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'maformationcivique.fr' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'maformationcivique.fr — Préparez votre examen civique',
-    description: 'Formation civique en ligne : 177 questions officielles, 5 modules, examens blancs.',
+    description: 'Formation civique en ligne : 177 questions officielles, 5 modules, examens blancs chronométrés.',
+    images: ['/opengraph-image'],
   },
-  robots: { index: true, follow: true },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
 };
 
 export default function RootLayout({

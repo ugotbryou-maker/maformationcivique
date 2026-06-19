@@ -144,6 +144,38 @@ export default function CguPage() {
             </p>
           </Section>
 
+          {/* ── ARTICLE 4bis — Cabinet partenaire ── */}
+          <Section num="4bis" title="Offre cabinet partenaire (B2B)">
+            <h3>Accès via invitation cabinet</h3>
+            <p>
+              Certains utilisateurs accèdent à la plateforme via l&apos;invitation d&apos;un cabinet
+              partenaire (cabinet d&apos;avocats, association d&apos;aide à l&apos;intégration ou tout autre
+              structure ayant souscrit une licence cabinet). Dans ce cas, l&apos;accès Premium est
+              offert par le cabinet et ne donne lieu à aucun paiement de la part de l&apos;utilisateur.
+            </p>
+            <h3>Droits de l&apos;administrateur cabinet</h3>
+            <p>
+              L&apos;administrateur du cabinet dispose d&apos;un accès limité aux données des utilisateurs
+              qu&apos;il a invités : pourcentage de progression global, modules complétés, et génération
+              d&apos;attestations de suivi. Il ne peut pas accéder aux réponses détaillées, aux données
+              de paiement, ni modifier le contenu pédagogique de l&apos;utilisateur.
+            </p>
+            <h3>Résiliation et révocation</h3>
+            <p>
+              L&apos;administrateur cabinet peut révoquer l&apos;accès d&apos;un utilisateur à tout moment.
+              En cas de révocation, le compte de l&apos;utilisateur est automatiquement repassé en offre
+              gratuite. L&apos;utilisateur conserve son historique de progression. En cas de non-renouvellement
+              de la licence cabinet, l&apos;éditeur peut mettre fin aux accès Premium des membres
+              associés, avec un préavis de 15 jours par email.
+            </p>
+            <h3>Responsabilité du cabinet</h3>
+            <p>
+              Le cabinet partenaire s&apos;engage à n&apos;inviter que des personnes ayant consenti à recevoir
+              cet accès. Il est responsable de l&apos;usage des fonctionnalités d&apos;invitation et d&apos;attestation
+              dans le respect du RGPD et de la présente politique de confidentialité.
+            </p>
+          </Section>
+
           {/* ── ARTICLE 5 ── */}
           <Section num="5" title="Modalités de paiement et facturation">
             <p>

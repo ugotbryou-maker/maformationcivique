@@ -27,8 +27,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const mod = getModuleBySlug(slug);
   if (!mod) return {};
   return {
-    title: `${mod.title} — maformationcivique.fr`,
-    description: `${mod.subtitle}. ${mod.questionCount} questions, ${mod.lessons.length} leçons.`,
+    title: `${mod.title} — Formation civique`,
+    description: `${mod.subtitle}. ${mod.questionCount ?? ''} questions officielles réparties en ${mod.lessons.length} leçons interactives. Préparez votre examen civique.`,
+    alternates: { canonical: `https://maformationcivique.fr/module/${slug}` },
+    openGraph: {
+      title: `${mod.title} — maformationcivique.fr`,
+      description: `${mod.subtitle}. ${mod.lessons.length} leçons, questions officielles.`,
+      url: `https://maformationcivique.fr/module/${slug}`,
+      type: 'article',
+    },
   };
 }
 
@@ -81,8 +88,23 @@ export default async function ModulePage({ params }: Props) {
 
   const moduleQuizQuestions = moduleQuizzes[mod.slug] ?? [];
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: mod.title,
+    description: mod.subtitle,
+    provider: { '@type': 'Organization', name: 'maformationcivique.fr', url: 'https://maformationcivique.fr' },
+    url: `https://maformationcivique.fr/module/${mod.slug}`,
+    hasCourseInstance: mod.lessons.map((l) => ({
+      '@type': 'CourseInstance',
+      name: l.title,
+      url: `https://maformationcivique.fr/lecon/${l.slug}`,
+    })),
+  };
+
   return (
     <div style={{ minHeight: '80vh', padding: '40px 0 80px' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="container" style={{ maxWidth: '720px' }}>
         {/* Breadcrumb */}
         <Link

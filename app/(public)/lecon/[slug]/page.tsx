@@ -146,7 +146,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   for (const mod of modules) {
     const lesson = mod.lessons.find((l) => l.slug === slug);
-    if (lesson) return { title: `${lesson.title} — maformationcivique.fr`, description: lesson.keyPoints.slice(0, 3).join(' · ') };
+    if (lesson) {
+      const description = lesson.keyPoints?.slice(0, 3).join(' · ') ?? `Leçon sur ${lesson.title} — formation civique officielle française.`;
+      return {
+        title: `${lesson.title} — Formation civique`,
+        description,
+        alternates: { canonical: `https://maformationcivique.fr/lecon/${slug}` },
+        openGraph: {
+          title: `${lesson.title} — maformationcivique.fr`,
+          description,
+          url: `https://maformationcivique.fr/lecon/${slug}`,
+          type: 'article',
+        },
+      };
+    }
   }
   return {};
 }
@@ -228,8 +241,26 @@ export default async function LessonPage({ params }: Props) {
     }));
   const totalDuration = mod.lessons.reduce((a, l) => a + l.duration, 0);
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LearningResource',
+    name: lesson.title,
+    description: lesson.keyPoints?.slice(0, 3).join(' · ') ?? lesson.title,
+    url: `https://maformationcivique.fr/lecon/${lesson.slug}`,
+    educationalLevel: 'beginner',
+    inLanguage: 'fr',
+    isPartOf: {
+      '@type': 'Course',
+      name: mod.title,
+      url: `https://maformationcivique.fr/module/${mod.slug}`,
+    },
+    provider: { '@type': 'Organization', name: 'maformationcivique.fr', url: 'https://maformationcivique.fr' },
+    timeRequired: `PT${lesson.duration}M`,
+  };
+
   return (
     <div style={{ background: '#F0F0F0', minHeight: '100vh', position: 'relative' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* ── ZONE HERO — fond #F0F0F0 + watermark ─────────────────────────── */}
       <div style={{ background: '#F0F0F0', position: 'relative', overflow: 'hidden' }}>
