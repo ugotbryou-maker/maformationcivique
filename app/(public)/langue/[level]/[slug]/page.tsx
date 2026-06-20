@@ -10,6 +10,7 @@ import { a2Modules, b1Modules, b2Modules, transversalModules, examenModules } fr
 import type { LangModule, LangLesson } from '@/data/langue/types';
 import { renderLangMarkdown } from '@/lib/langue-markdown';
 import { LangLessonQuiz } from '@/components/app/LangLessonQuiz';
+import { isAdminEmail } from '@/lib/admin';
 
 const LEVEL_COLOR: Record<string, string> = {
   a2: '#002395', b1: '#0057A8', b2: '#CC1A1A', transversal: '#7C3AED', examens: '#CC1A1A',
@@ -81,6 +82,9 @@ export default async function LangueLessonPage({ params }: Props) {
       if (user) {
         const { data: profile } = await supabase.from('users').select('plan').eq('id', user.id).single();
         hasAccess = profile?.plan === 'premium' || profile?.plan === 'langue' || profile?.plan === 'bundle';
+        // Admin (même liste que /studio et /admin) : accès total au contenu
+        // langue sans dépendre du plan, pour pouvoir QA tout le contenu en continu.
+        if (isAdminEmail(user.email)) hasAccess = true;
       }
     }
   } catch {

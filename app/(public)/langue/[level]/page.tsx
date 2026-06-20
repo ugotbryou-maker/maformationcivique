@@ -8,6 +8,7 @@ import type { Metadata } from 'next';
 import { Lock, CheckCircle, Clock, ChevronRight, ListChecks, BookOpen } from 'lucide-react';
 import { a2Modules, b1Modules, b2Modules, transversalModules, examenModules } from '@/data/langue';
 import type { LangModule } from '@/data/langue/types';
+import { isAdminEmail } from '@/lib/admin';
 
 const LEVEL_DATA: Record<string, { title: string; subtitle: string; color: string; bg: string; gradient: string; modules: LangModule[] }> = {
   a2: { title: 'A2 — Découverte', subtitle: 'Carte de séjour pluriannuelle / OFII', color: '#002395', bg: '#E6EEF9', gradient: 'linear-gradient(135deg, #001A70 0%, #002395 100%)', modules: a2Modules },
@@ -49,6 +50,7 @@ export default async function LangueLevelPage({ params }: Props) {
       if (user) {
         const { data: profile } = await supabase.from('users').select('plan').eq('id', user.id).single();
         hasAccess = profile?.plan === 'premium' || profile?.plan === 'langue' || profile?.plan === 'bundle';
+        if (isAdminEmail(user.email)) hasAccess = true;
       }
     }
   } catch {
