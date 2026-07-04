@@ -35,7 +35,7 @@ export const a2VieQuotidienne: LangModule = {
 
 **Agent :** Et quelle est votre adresse en France ?
 
-**Samir :** J'habite au 23, rue des Lilas, à Lyon, dans le 3ème arrondissement.
+**Samir :** J'habite au 23, rue des Lilas, à Lyon, dans le 3ème arrondissement. Le code postal est 69003.
 
 **Agent :** Parfait. Quelle est votre profession ?
 
@@ -43,11 +43,54 @@ export const a2VieQuotidienne: LangModule = {
 
 **Agent :** Depuis combien de temps êtes-vous en France ?
 
-**Samir :** Je suis arrivé en France il y a deux ans, en septembre 2022.
+**Samir :** Je suis arrivé en France il y a deux ans, en septembre 2022. Je suis en France depuis deux ans.
+
+**Agent :** Vous avez un numéro de téléphone et une adresse email ?
+
+**Samir :** Oui. Mon numéro est le 06 12 34 56 78. Mon email est samir.benali@email.com.
 
 **Agent :** Très bien, monsieur Benali. Voici le formulaire à remplir. Vous avez une pièce d'identité ?
 
-**Samir :** Oui, voici mon passeport.`,
+**Samir :** Oui, voici mon passeport.
+
+**Agent :** Merci. Vous devez aussi apporter deux photos d'identité et un justificatif de domicile. Avez-vous une facture EDF ou une quittance de loyer ?
+
+**Samir :** J'ai une quittance de loyer de ce mois-ci.
+
+**Agent :** Parfait, c'est suffisant. Je vous donne un récépissé et votre rendez-vous est confirmé pour le 15 du mois prochain.
+
+---
+
+### Vocabulaire clé — Se présenter à l'administration
+
+| Français | Sens / Explication |
+|---|---|
+| Je m'appelle | Mon prénom et nom sont... |
+| Je suis né(e) le... | Date de naissance |
+| J'habite au / à | Adresse de domicile |
+| Mon code postal | Le numéro à 5 chiffres de la ville |
+| Je suis technicien(ne) | Ma profession (sans article) |
+| Depuis deux ans | J'ai commencé il y a 2 ans et c'est toujours le cas |
+| Il y a deux ans | L'événement passé a eu lieu deux ans avant |
+| Une pièce d'identité | Passeport, carte nationale d'identité, titre de séjour |
+| Un justificatif de domicile | Facture EDF, quittance de loyer (moins de 3 mois) |
+| Un récépissé | Document provisoire remis en attendant la décision |
+
+---
+
+### Situation 2 : Au téléphone avec une administration
+
+*Samir appelle la préfecture pour vérifier son dossier.*
+
+**Standardiste :** Préfecture du Rhône, bonjour.
+
+**Samir :** Bonjour. Je suis Samir Benali, né le 14 mars 1988. Je voudrais savoir où en est mon dossier.
+
+**Standardiste :** Votre numéro de dossier, s'il vous plaît ?
+
+**Samir :** C'est le 69-2024-00458.
+
+**Standardiste :** Un instant... Votre dossier est en cours de traitement. Vous recevrez une réponse dans 3 semaines.`,
 
       linguisticPoint: `## Point linguistique : Se présenter — les formules essentielles
 
@@ -61,17 +104,43 @@ export const a2VieQuotidienne: LangModule = {
 | Vous | êtes | avez |
 | Ils/Elles | sont | ont |
 
-### Formules de présentation
-- **Je m'appelle** + prénom + nom *(se présenter)*
-- **Je suis** + nationalité / profession *(identité)*
-- **J'habite à** + ville / **J'habite au** + numéro, rue + ville
-- **Je suis né(e) le** + date + **à** + ville
-- **Je travaille dans / chez** + lieu de travail
+### Formules de présentation — tableau complet
+| Formule | Exemple | Usage |
+|---|---|---|
+| **Je m'appelle** + prénom + nom | Je m'appelle Samir Benali | se présenter |
+| **Je suis** + nationalité | Je suis algérien | identité |
+| **Je suis** + profession | Je suis technicien | profession (sans article) |
+| **J'habite au** + adresse | J'habite au 23, rue des Lilas | adresse |
+| **Je suis né(e) le** + date | Je suis né le 14 mars 1988 | date de naissance |
+| **Je suis né(e) à** + ville | Je suis né à Alger | lieu de naissance |
+| **Je travaille chez / dans** + lieu | Je travaille dans une entreprise | emploi |
+| **Je suis en France depuis** + durée | Je suis en France depuis 2 ans | durée de présence |
 
 ### Nationalités courantes (masculin / féminin)
-- Algérien / Algérienne — Marocain / Marocaine — Tunisien / Tunisienne
-- Sénégalais / Sénégalaise — Malien / Malienne — Congolais / Congolaise
-- Roumain / Roumaine — Portugais / Portugaise — Turc / Turque`,
+| Pays | Masculin | Féminin |
+|---|---|---|
+| Algérie | Algérien | Algérienne |
+| Maroc | Marocain | Marocaine |
+| Tunisie | Tunisien | Tunisienne |
+| Sénégal | Sénégalais | Sénégalaise |
+| Mali | Malien | Malienne |
+| Congo | Congolais | Congolaise |
+| Roumanie | Roumain | Roumaine |
+| Portugal | Portugais | Portugaise |
+| Turquie | Turc | Turque |
+| Côte d'Ivoire | Ivoirien | Ivoirienne |
+
+### Depuis vs Il y a — la différence fondamentale
+| Structure | Temps verbal | Sens | Exemple |
+|---|---|---|---|
+| **depuis** + durée | présent | action qui dure encore | Je suis en France **depuis** 2 ans |
+| **il y a** + durée | passé composé | événement passé terminé | Je suis arrivé **il y a** 2 ans |
+
+### Erreurs fréquentes à éviter
+- ❌ *Je suis un médecin* → ✅ **Je suis médecin** (pas d'article avec la profession après être)
+- ❌ *Je suis arrivé depuis 2 ans* → ✅ **Je suis arrivé il y a 2 ans**
+- ❌ *Je m'appelle s'appelle Samir* → ✅ **Je m'appelle Samir**
+- ❌ *Mon adresse est 23 rue des Lilas* → ✅ **J'habite au 23, rue des Lilas**`,
 
       keyPoints: [
         'Je m\'appelle + Je suis né(e) le + J\'habite au = formule de présentation complète',
@@ -295,37 +364,98 @@ Ahmed est le mari de Fatima. Il travaille comme chauffeur de taxi. Fatima, elle,
 
 En France, la famille proche de Fatima, c'est son mari et ses enfants. Ses parents et ses frères et sœurs habitent encore au Maroc. Sa belle-mère habite à Lyon chez sa belle-sœur.
 
-Quand Fatima parle de sa famille à l'assistante sociale, elle dit : "Ma famille en France, c'est mon mari et mes deux enfants. Ma fille est née en France, mais mon fils est né au Maroc."`,
+Quand Fatima parle de sa famille à l'assistante sociale, elle dit : "Ma famille en France, c'est mon mari et mes deux enfants. Ma fille est née en France, mais mon fils est né au Maroc."
+
+---
+
+### Vocabulaire clé — La famille
+
+| Mot | Exemple dans un contexte |
+|---|---|
+| le mari / la femme | Mon mari s'appelle Ahmed. |
+| le père / la mère | Sa mère habite encore au Maroc. |
+| le fils aîné | Karim est le fils aîné de Fatima. |
+| la fille cadette | Nadia est la fille cadette, elle a 5 ans. |
+| la belle-mère | La belle-mère de Fatima habite à Lyon. |
+| la belle-sœur | Elle habite chez sa belle-sœur. |
+| s'occuper des enfants | Fatima reste à la maison pour s'occuper des enfants. |
+| l'assistante sociale | Elle aide les familles dans leurs démarches. |
+
+---
+
+### Dialogue : Fatima parle de sa famille à l'administration
+
+*Fatima est à la CAF pour une demande d'allocations.*
+
+**Agent CAF :** Madame, vous avez des enfants à charge ?
+
+**Fatima :** Oui, j'ai deux enfants. Mon fils Karim a 8 ans et ma fille Nadia a 5 ans.
+
+**Agent :** Ils habitent avec vous en France ?
+
+**Fatima :** Oui, tous les deux. Ma fille est née ici, à Paris. Mon fils est né au Maroc mais il vit avec nous depuis 3 ans.
+
+**Agent :** Votre mari travaille ?
+
+**Fatima :** Oui, il est chauffeur de taxi. Moi, je ne travaille pas pour l'instant — je m'occupe des enfants.
+
+**Agent :** Avez-vous des proches qui habitent avec vous ?
+
+**Fatima :** Non, nous sommes juste nous quatre dans l'appartement. Ma belle-mère habite à Lyon.`,
 
       linguisticPoint: `## Point linguistique : Le vocabulaire de la famille et les adjectifs possessifs
 
 ### La famille — vocabulaire essentiel
 | Masculin | Féminin | Relation |
 |---|---|---|
-| le mari / l'époux | la femme / l'épouse | couple |
-| le père | la mère | parents |
+| le mari / l'époux | la femme / l'épouse | couple marié |
+| le père | la mère | parents directs |
 | le fils | la fille | enfants |
 | le frère | la sœur | fratrie |
 | le grand-père | la grand-mère | grands-parents |
-| le beau-père | la belle-mère | beaux-parents |
-| le beau-frère | la belle-sœur | beaux-frères/sœurs |
+| le beau-père | la belle-mère | parents du conjoint |
+| le beau-frère | la belle-sœur | frère/sœur du conjoint |
 | l'oncle | la tante | famille élargie |
-| le neveu | la nièce | neveux/nièces |
-| le cousin | la cousine | cousins |
+| le neveu | la nièce | enfants frère/sœur |
+| le cousin | la cousine | enfants oncle/tante |
+| le petit-fils | la petite-fille | enfants de vos enfants |
 
-### Adjectifs possessifs
-| | masc. sing. | fém. sing. | pluriel |
+### Adjectifs possessifs — tableau complet
+| Personne | Masculin sing. | Féminin sing. | Pluriel |
 |---|---|---|---|
 | Je | **mon** | **ma** | **mes** |
 | Tu | **ton** | **ta** | **tes** |
 | Il/Elle | **son** | **sa** | **ses** |
+| Nous | **notre** | **notre** | **nos** |
+| Vous | **votre** | **votre** | **vos** |
+| Ils/Elles | **leur** | **leur** | **leurs** |
 
-**Attention :** devant une voyelle : *mon amie, ton école, son idée* (même si féminin)
+**Règle spéciale :** devant une voyelle ou h muet → toujours **mon/ton/son** même au féminin
+- ❌ *ma amie* → ✅ **mon amie**
+- ❌ *ma école* → ✅ **mon école**
+- ❌ *ta histoire* → ✅ **ton histoire**
 
 ### L'aîné et le cadet
 - L'enfant **aîné(e)** = le plus grand (le premier né)
-- L'enfant **cadet/cadette** = le plus jeune (le dernier né)
-- L'enfant **unique** = fils ou fille sans frère ni sœur`,
+- L'enfant **cadet/cadette** = le plus jeune (ou le dernier né)
+- L'enfant **unique** = fils ou fille sans frère ni sœur
+- **Mes frères et sœurs** = la fratrie (siblings)
+
+### Situation familiale dans les formulaires
+| Terme administratif | Signification |
+|---|---|
+| Célibataire | Non marié(e), sans partenaire officiel |
+| Marié(e) | Uni(e) par le mariage |
+| Pacsé(e) | Uni(e) par un PACS (Pacte Civil de Solidarité) |
+| Divorcé(e) | Ancien mariage dissous par le tribunal |
+| Séparé(e) | Marié(e) mais ne vivant plus ensemble |
+| Veuf / Veuve | Dont le conjoint est décédé |
+| Enfant à charge | Enfant dont vous êtes financièrement responsable |
+
+### Erreurs fréquentes à éviter
+- ❌ *Mon sœur* → ✅ **Ma sœur** (sœur est féminin)
+- ❌ *Sa amie* → ✅ **Son amie** (voyelle → mon/ton/son)
+- ❌ *Leur enfants* → ✅ **Leurs enfants** (pluriel → leurs)`,
 
       keyPoints: [
         'Le mari / la femme — le père / la mère — le fils / la fille (accords en genre)',
@@ -551,37 +681,89 @@ Quand Fatima parle de sa famille à l'assistante sociale, elle dit : "Ma famille
 
 **Mohamed :** On mange ensemble vers 8 heures. Je bois toujours du café, les enfants mangent des céréales avec du lait.
 
-**Professeur :** Et après ?
+**Professeur :** Et après le petit-déjeuner ?
 
 **Mohamed :** J'accompagne mes enfants à l'école à 8h45. L'école commence à 9 heures moins le quart. Ensuite, je vais au travail en métro. J'arrive au bureau vers 9h30.
 
-**Professeur :** Et le soir ?
+**Professeur :** Vous travaillez jusqu'à quelle heure ?
 
-**Mohamed :** Je quitte le travail à 18h. Je récupère les enfants à l'école vers 18h30. On rentre à la maison, on dîne ensemble à 19h30. Les enfants font leurs devoirs et se couchent à 21 heures. Moi, je me couche vers 23 heures.`,
+**Mohamed :** Je travaille de 9h30 à 18h00. Je fais une pause déjeuner de 30 minutes à midi et demi. Je mange souvent à la cantine de l'entreprise.
+
+**Professeur :** Et le soir, que faites-vous ?
+
+**Mohamed :** Je quitte le travail à 18h. Je récupère les enfants à l'école vers 18h30. On rentre à la maison ensemble. Ma femme prépare le dîner — on mange à 19h30.
+
+**Professeur :** Et après le dîner ?
+
+**Mohamed :** Les enfants font leurs devoirs de 20h à 21h. Moi, je les aide parfois. Ils se couchent à 21 heures. Ma femme et moi, on regarde la télévision ou on lit. Je me couche vers 23 heures.
+
+---
+
+### Vocabulaire clé — La journée et la routine
+
+| Activité | Heure habituelle | Verbe |
+|---|---|---|
+| Se lever | 6h30 - 7h30 | se lever (pronominal) |
+| Le petit-déjeuner | 7h00 - 8h00 | prendre / manger |
+| Aller au travail / à l'école | 8h00 - 9h00 | aller (en métro, à pied...) |
+| Le déjeuner / la pause | 12h00 - 13h30 | déjeuner / manger |
+| Récupérer les enfants | 16h30 - 18h30 | récupérer / chercher |
+| Le dîner | 19h00 - 20h00 | dîner |
+| Faire les devoirs | 17h00 - 20h00 | faire |
+| Se coucher | 21h00 - 23h00 | se coucher (pronominal) |`,
 
       linguisticPoint: `## Point linguistique : La routine — verbes pronominaux et expressions de temps
 
-### Les verbes pronominaux de la routine
-| Infinitif | Je | Il/Elle |
+### Les verbes pronominaux de la routine — conjugaison complète
+| Infinitif | Je | Tu | Il/Elle | Nous | Vous | Ils/Elles |
+|---|---|---|---|---|---|---|
+| se lever | me lève | te lèves | se lève | nous levons | vous levez | se lèvent |
+| se préparer | me prépare | te prépares | se prépare | nous préparons | vous préparez | se préparent |
+| se coucher | me couche | te couches | se couche | nous couchons | vous couchez | se couchent |
+| se réveiller | me réveille | te réveilles | se réveille | nous réveillons | vous réveillez | se réveillent |
+| se laver | me lave | te laves | se lave | nous lavons | vous lavez | se lavent |
+| s'habiller | m'habille | t'habilles | s'habille | nous habillons | vous habillez | s'habillent |
+
+**Forme négative des pronominaux :**
+- Je **ne me** lève **pas** tôt.
+- Tu **ne te** couches **pas** à minuit.
+- Il **ne se** prépare **pas** vite.
+
+### Exprimer l'heure — système complet
+| Heure digitale | Expression courante | Autre formule |
 |---|---|---|
-| se lever | je **me** lève | il **se** lève |
-| se préparer | je **me** prépare | elle **se** prépare |
-| se doucher | je **me** douche | il **se** douche |
-| se coucher | je **me** couche | elle **se** couche |
-| se réveiller | je **me** réveille | il **se** réveille |
+| 7h00 | sept heures | sept heures du matin |
+| 7h15 | sept heures et quart | sept heures quinze |
+| 7h30 | sept heures et demie | sept heures trente |
+| 7h45 | huit heures moins le quart | sept heures quarante-cinq |
+| 12h00 | midi | douze heures |
+| 13h00 | une heure de l'après-midi | treize heures |
+| 18h00 | six heures du soir | dix-huit heures |
+| 24h00 | minuit | zéro heure |
 
-**Forme négative :** Je **ne me** lève **pas** tard. / Il **ne se** couche **pas** tôt.
+### Articulateurs chronologiques (ordre du récit)
+| Articulateur | Sens | Exemple |
+|---|---|---|
+| **D'abord** | en premier | D'abord, je prends ma douche |
+| **Ensuite / Puis** | après ça | Ensuite, je prends le petit-déjeuner |
+| **Après** | plus tard | Après, j'accompagne les enfants |
+| **Finalement / Enfin** | à la fin | Enfin, je me couche |
+| **Vers** | approximation | vers 8 heures (≈ 8h) |
+| **À** | heure précise | à 9h exactement |
+| **De ... à ...** | durée | de 9h à 18h |
 
-### Exprimer l'heure
-- **7h00** = sept heures
-- **7h15** = sept heures et quart
-- **7h30** = sept heures et demie
-- **7h45** = huit heures moins le quart
-- **12h00** = midi
-- **24h00** = minuit
+### Les repas français — noms et horaires habituels
+| Repas | Horaire habituel | Ce qu'on mange |
+|---|---|---|
+| Le petit-déjeuner | 7h - 9h | café, tartines, céréales |
+| Le déjeuner | 12h - 14h | plat chaud, salade |
+| Le goûter | 16h - 17h | pour les enfants (gâteau, fruit) |
+| Le dîner | 19h - 21h | repas principal en famille |
 
-### Articulateurs chronologiques
-D'abord → Ensuite / Puis → Après → Enfin / Finalement`,
+### Erreurs fréquentes
+- ❌ *Je me lève à 7 heures moins quart* → ✅ **moins le quart**
+- ❌ *Je coche à 23h* → ✅ **Je me couche à 23h** (verbe pronominal)
+- ❌ *Je vais au travail avec le métro* → ✅ **en métro**`,
 
       keyPoints: [
         'Verbes pronominaux : se lever (je me lève), se coucher (je me couche)',
@@ -803,27 +985,68 @@ D'abord → Ensuite / Puis → Après → Enfin / Finalement`,
 
 **Amina :** Bonjour. Je voudrais un kilo de tomates, s'il vous plaît.
 
-**Vendeur :** Voilà. Et avec ça ?
+**Vendeur :** Voilà. Elles sont très belles aujourd'hui, elles viennent de la région. Et avec ça ?
 
 **Amina :** Donnez-moi aussi une livre de carottes et 500 grammes de champignons.
 
-**Vendeur :** D'accord. Vous voulez quelque chose d'autre ?
+**Vendeur :** D'accord. Les carottes, je les ai en vrac ou en filet — vous préférez ?
 
-**Amina :** Oui, combien coûtent les courgettes ?
+**Amina :** En vrac, c'est mieux. Vous voulez quelque chose d'autre ?
 
-**Vendeur :** Deux euros cinquante le kilo, madame.
+**Vendeur :** Oui, combien coûtent les courgettes ?
 
-**Amina :** Alors je vais en prendre deux kilos. Et une botte de persil, s'il vous plaît.
+**Amina :** Deux euros cinquante le kilo, madame. Et en ce moment j'ai aussi des aubergines à deux euros le kilo.
 
-**Vendeur :** C'est tout ?
+**Amina :** Alors je vais prendre deux kilos de courgettes. Et une botte de persil, s'il vous plaît.
 
-**Amina :** Oui, c'est tout merci. Ça fait combien ?
+**Vendeur :** Bien sûr. Je mets aussi quelques feuilles de menthe ? C'est gratuit avec la botte.
+
+**Amina :** Oui, merci ! C'est tout. Ça fait combien ?
 
 **Vendeur :** Alors… tomates 2€80, carottes 1€20, champignons 3€50, courgettes 5€, persil 0€80. Ça fait 13 euros 30 en tout.
 
 **Amina :** Voilà 20 euros.
 
-**Vendeur :** Je vous rends 6 euros 70. Merci madame, bonne journée !`,
+**Vendeur :** Je vous rends 6 euros 70. Merci madame, bonne journée !
+
+**Amina :** Merci à vous, bonne journée !
+
+---
+
+### Vocabulaire clé — Les courses et les quantités
+
+| Unité | Équivalent | Exemple d'achat |
+|---|---|---|
+| 1 kilo (kg) | 1 000 grammes | un kilo de tomates |
+| 500 grammes (g) | une demi-livre | 500 g de champignons |
+| une livre | 500 g (au marché) | une livre de carottes |
+| 1 litre (L) | 100 centilitres | un litre de lait |
+| une botte | bouquet attaché | une botte de persil |
+| une tranche | morceau fin | une tranche de jambon |
+| une bouteille | contenant en verre/plastique | une bouteille d'eau |
+| une boîte | conserve ou carton | une boîte de sardines |
+| un sachet | petit sac | un sachet de thé |
+| en vrac | sans emballage | des carottes en vrac |
+
+---
+
+### Situation 2 : Au supermarché à la caisse
+
+*Amina passe à la caisse du supermarché.*
+
+**Caissière :** Bonjour madame. Vous avez une carte de fidélité ?
+
+**Amina :** Oui, voilà ma carte Carrefour.
+
+**Caissière :** Vous réglez comment — carte ou espèces ?
+
+**Amina :** Par carte s'il vous plaît. Est-ce que je peux avoir un sac ?
+
+**Caissière :** Les sacs sont en vente, c'est 15 centimes l'unité.
+
+**Amina :** D'accord, j'en prends deux. Ça fait combien en tout ?
+
+**Caissière :** 24 euros 60 avec les sacs. Vous tapez votre code PIN.`,
 
       linguisticPoint: `## Point linguistique : Les quantités, les prix et les articles partitifs
 
@@ -839,18 +1062,43 @@ D'abord → Ensuite / Puis → Après → Enfin / Finalement`,
 | une bouteille | - | une bouteille d'eau |
 | une boîte | - | une boîte de sardines |
 | un paquet | - | un paquet de farine |
+| un sachet | - | un sachet de sucre vanillé |
 
 ### Les articles partitifs (quantités indéfinies)
-- du pain, du fromage *(masc. sing.)*
-- de la viande, de la farine *(fém. sing.)*
-- des légumes, des fruits *(pluriel)*
-- Forme négative : **pas de** / **pas d'** → "Je n'achète **pas de** viande"
+| Article | Genre/Nombre | Exemple |
+|---|---|---|
+| **du** | masculin singulier | du pain, du riz, du café |
+| **de la** | féminin singulier | de la viande, de la farine |
+| **de l'** | voyelle ou h muet | de l'eau, de l'huile |
+| **des** | pluriel | des légumes, des fruits |
+
+**À la forme négative → tout devient "de" ou "d'" :**
+- Je mange DU pain → Je ne mange **pas de** pain
+- Il boit DE LA bière → Il ne boit **pas de** bière
+- Elle achète DES tomates → Elle n'achète **pas de** tomates
 
 ### Demander et indiquer un prix
-- **Combien coûte** + article singulier ? / **Combien coûtent** + articles pluriels ?
-- **C'est combien ?** (familier)
-- **Ça fait combien ?** (à la caisse)
-- Il coûte / Elle coûte 2€50 — **Deux euros cinquante**`,
+| Formule | Registre | Exemple |
+|---|---|---|
+| **Combien coûte** ... ? | standard | Combien coûtent les courgettes ? |
+| **C'est combien ?** | familier | C'est combien ce melon ? |
+| **Ça fait combien ?** | à la caisse | Ça fait combien en tout ? |
+| **Quel est le prix de** ... ? | formel | Quel est le prix du kilo ? |
+| **... coûte X euros** | réponse | La tomate coûte 2,80€ le kilo |
+| **... à X euros le kilo** | étiquette | Les courgettes à 2,50€ le kilo |
+
+### Lire les prix en français
+| Chiffre | On dit |
+|---|---|
+| 2,50€ | deux euros cinquante |
+| 13,30€ | treize euros trente |
+| 0,80€ | quatre-vingts centimes |
+| 20,00€ | vingt euros |
+
+### Erreurs fréquentes
+- ❌ *un kilo des tomates* → ✅ **un kilo de tomates** (de + nom sans article après quantité)
+- ❌ *Je mange du pas pain* → ✅ **Je ne mange pas de pain**
+- ❌ *Ça coûte deux euros et cinquante* → ✅ **deux euros cinquante** (pas de "et")`,
 
       keyPoints: [
         'Je voudrais + quantité + de + produit (pas d\'article après la quantité : "un kilo DE tomates")',
@@ -1107,7 +1355,7 @@ D'abord → Ensuite / Puis → Après → Enfin / Finalement`,
 
 **Rachid :** Non, nous n'avons pas réservé. Est-ce que vous avez une table pour deux ?
 
-**Serveur :** Oui, par ici. Voilà le menu. Je vous laisse choisir.
+**Serveur :** Oui, bien sûr. Je vous installe par ici, près de la fenêtre. Voilà le menu. Je vous laisse choisir.
 
 *Cinq minutes après.*
 
@@ -1119,30 +1367,67 @@ D'abord → Ensuite / Puis → Après → Enfin / Finalement`,
 
 **Rachid :** Un steak-frites pour moi, bien cuit. Et pour elle, le poulet rôti aux herbes.
 
+**Serveur :** La viande, elle la veut comment ?
+
+**Rachid :** Elle mange la viande à point, s'il vous plaît.
+
 **Serveur :** Très bien. Et comme boisson ?
 
-**Rachid :** Une carafe d'eau, s'il vous plaît.
+**Rachid :** Une carafe d'eau, s'il vous plaît. Et une limonade pour ma femme.
 
-**Serveur :** Vous souhaitez un dessert ?
+**Serveur :** Parfait. *(Il revient avec les plats.)* Voilà votre soupe à l'oignon et votre salade niçoise. Bon appétit !
+
+**Rachid :** Merci. Excusez-moi, il manque le pain.
+
+**Serveur :** Oh, pardon ! Je vous en apporte tout de suite.
+
+*En fin de repas.*
+
+**Rachid :** Vous souhaitez un dessert ?
 
 **Rachid :** Qu'est-ce que vous recommandez ?
 
-**Serveur :** La tarte tatin est délicieuse ce soir.
+**Serveur :** La tarte tatin est délicieuse ce soir. Nous avons aussi une mousse au chocolat maison.
 
 **Rachid :** Alors une tarte tatin et un café, s'il vous plaît.
 
-**Serveur :** Je vous apporte ça tout de suite. Bon appétit !`,
+**Serveur :** Et pour madame ?
+
+**Rachid :** Elle ne prend pas de dessert, merci.
+
+**Serveur :** Très bien. *(Plus tard.)* Je vous apporte l'addition ?
+
+**Rachid :** Oui, s'il vous plaît. L'addition, s'il vous plaît.
+
+---
+
+### Vocabulaire clé — Au restaurant
+
+| Terme | Signification |
+|---|---|
+| L'entrée | Premier plat (salade, soupe...) |
+| Le plat principal | Plat principal (viande, poisson...) |
+| Le dessert | Dernier plat sucré |
+| La carafe d'eau | Eau du robinet, gratuite par la loi |
+| L'addition | La facture (note à payer) |
+| Bon appétit | Formule avant de commencer à manger |
+| Bleu / saignant / à point / bien cuit | Cuisson de la viande |
+| Maison | Fait dans le restaurant (pas industriel) |
+| En terrasse | À l'extérieur du restaurant |
+| La carte | Le menu complet des plats disponibles |`,
 
       linguisticPoint: `## Point linguistique : La structure du repas français et le verbe prendre
 
-### La structure d'un repas au restaurant
-1. **L'entrée** (starter) — soupe, salade, terrine...
-2. **Le plat principal** (main course) — viande, poisson, végétarien
-3. **Le fromage** (cheese course) — plateau de fromages
-4. **Le dessert** (dessert) — gâteau, tarte, glace
-5. *Option :* **le café** (coffee after dessert)
+### La structure d'un repas traditionnel au restaurant
+| Ordre | Plat | Exemples |
+|---|---|---|
+| 1 | **L'entrée** (starter) | soupe, salade, terrine, charcuterie |
+| 2 | **Le plat principal** (main course) | viande, poisson, végétarien |
+| 3 | **Le fromage** (optionnel) | plateau de fromages |
+| 4 | **Le dessert** | tarte, gâteau, glace, crème brûlée |
+| 5 | **Le café** | expresso, allongé, noisette |
 
-### Le verbe PRENDRE au présent
+### Le verbe PRENDRE au présent (irrégulier)
 | Pronom | Forme |
 |---|---|
 | Je | **prends** |
@@ -1152,15 +1437,40 @@ D'abord → Ensuite / Puis → Après → Enfin / Finalement`,
 | Vous | **prenez** |
 | Ils/Elles | **prennent** |
 
-**Usages de "prendre" dans un restaurant :**
+**Usages de "prendre" au restaurant :**
 - Je **prends** la salade (= je commande)
 - On **prend** une carafe d'eau (= on commande)
+- Je **prends** un café après (= je commande)
 
 ### Préférence de cuisson de la viande
-- **Bleu** = très peu cuit (presque cru)
-- **Saignant** = peu cuit (rosé)
-- **À point** = cuisson moyenne
-- **Bien cuit** = très cuit`,
+| Terme | Niveau de cuisson | Couleur intérieure |
+|---|---|---|
+| **Bleu** | très peu cuit | rouge vif |
+| **Saignant** | peu cuit | rose-rouge |
+| **À point** | cuisson moyenne | rose pâle |
+| **Bien cuit** | très cuit | brun, sans rosé |
+
+### Formules au restaurant — de la réservation à l'addition
+| Moment | Formule utile |
+|---|---|
+| Arriver | "Bonjour, j'ai réservé au nom de..." |
+| Commander | "Je vais prendre..." / "Je prends..." |
+| Pendant le repas | "Il manque..." / "Pourriez-vous m'apporter..." |
+| Demander l'addition | "L'addition, s'il vous plaît" |
+| Payer | "Je règle par carte" / "Je paye en espèces" |
+
+### Les boissons courantes au restaurant
+- **Une carafe d'eau** = eau du robinet, gratuite et obligatoire par la loi
+- **Une bouteille d'eau plate / gazeuse** = eau minérale payante
+- **Un verre de vin rouge / blanc / rosé** = vin
+- **Une limonade** = boisson gazeuse citronnée
+- **Un café / un expresso** = café court et fort
+- **Un café allongé** = expresso avec plus d'eau (comme un Americano)
+
+### Erreurs fréquentes
+- ❌ *Je voudrais la soupe à l'oignon, bien cuit* → ✅ la cuisson concerne la viande, pas la soupe
+- ❌ *Apportez-moi l'addition maintenant !* → ✅ **L'addition, s'il vous plaît** (plus poli)
+- ❌ *Je prend la salade* → ✅ **Je prends** (pas de "d" à prendre, 1ère/2ème personne)`,
 
       keyPoints: [
         'Structure repas FR : entrée → plat → fromage → dessert → café',
@@ -1419,46 +1729,95 @@ D'abord → Ensuite / Puis → Après → Enfin / Finalement`,
 
 **Sandrine :** Ah oui ? Vous aimez la peinture ?
 
-**Malia :** J'adore ça ! Surtout les impressionnistes — Monet, Renoir. Et vous, qu'est-ce que vous avez fait ?
+**Malia :** J'adore ça ! Surtout les impressionnistes — Monet, Renoir, Degas. Et vous, qu'est-ce que vous avez fait ?
 
-**Sandrine :** Le samedi j'ai fait du sport. Je fais du jogging dans le parc tous les samedis matin. Et le soir on est allés au cinéma voir un film comique.
+**Sandrine :** Le samedi matin, j'ai fait du sport. Je fais du jogging dans le parc tous les samedis. Et le soir on est allés au cinéma voir un film comique.
 
 **Malia :** C'était bien ?
 
-**Sandrine :** Excellent ! Et le dimanche, qu'est-ce que vous avez fait ?
+**Sandrine :** Excellent ! On a beaucoup ri. Et le dimanche, qu'est-ce que vous avez fait ?
 
-**Malia :** On a pris le déjeuner en famille chez ma belle-mère. Elle cuisine très bien ! L'après-midi, les enfants ont joué au foot dans le jardin et moi j'ai lu un roman.
+**Malia :** On a pris le déjeuner en famille chez ma belle-mère. Elle cuisine très bien — elle a fait un couscous délicieux ! L'après-midi, les enfants ont joué au foot dans le jardin et moi j'ai lu un roman.
 
 **Sandrine :** Vous lisez beaucoup ?
 
-**Malia :** Oui, j'aime beaucoup lire. En ce moment je lis un roman policier. Et vous, vous avez des hobbies particuliers ?
+**Malia :** Oui, j'aime beaucoup lire. En ce moment je lis un roman policier — c'est très bien écrit. Et vous, vous avez des hobbies particuliers ?
 
-**Sandrine :** J'aime cuisiner, jardiner et faire de la randonnée. Le week-end prochain, on part en randonnée dans les Vosges !`,
+**Sandrine :** Oui, j'aime cuisiner, jardiner et faire de la randonnée. En été, je fais aussi du vélo le dimanche. Le week-end prochain, on part en randonnée dans les Vosges !
+
+**Malia :** C'est loin les Vosges ?
+
+**Sandrine :** À deux heures de Strasbourg. C'est une belle région — des forêts, des lacs, des villages alsaciens.
+
+---
+
+### Vocabulaire clé — Les loisirs et activités
+
+| Loisir | Verbe + construction | Exemple |
+|---|---|---|
+| Le jogging / la course | faire du jogging | Je fais du jogging |
+| La natation | faire de la natation | Elle fait de la natation |
+| Le vélo | faire du vélo / aller à vélo | Il fait du vélo le dimanche |
+| La randonnée | faire de la randonnée | On part en randonnée |
+| Le football | jouer au foot | Les enfants jouent au foot |
+| Le tennis | jouer au tennis | Je joue au tennis le samedi |
+| La guitare | jouer de la guitare | Il joue de la guitare |
+| Le piano | jouer du piano | Elle joue du piano |
+| La lecture | lire un roman / le journal | J'aime lire |
+| La cuisine | cuisiner / faire la cuisine | Elle aime cuisiner |
+| Le cinéma | aller au cinéma | On est allés au cinéma |
+| Le musée | visiter un musée | Nous avons visité le musée |`,
 
       linguisticPoint: `## Point linguistique : Exprimer les goûts et les activités
 
-### Exprimer les goûts (de + à -)
+### Exprimer les goûts — du plus fort au plus faible
 | Expression | Sens | Exemple |
 |---|---|---|
-| J'adore | très fort positif | J'adore le cinéma |
-| J'aime beaucoup | fort positif | J'aime beaucoup lire |
-| J'aime | positif | J'aime le sport |
-| J'aime bien | positif modéré | J'aime bien la cuisine |
-| Je n'aime pas (beaucoup) | négatif | Je n'aime pas beaucoup le foot |
-| Je déteste | très négatif | Je déteste le bruit |
+| **J'adore** | très fort positif | J'adore le cinéma |
+| **J'aime beaucoup** | fort positif | J'aime beaucoup lire |
+| **J'aime** | positif | J'aime le sport |
+| **J'aime bien** | positif modéré | J'aime bien la cuisine |
+| **Ça me plaît** | neutre-positif | Ça me plaît beaucoup |
+| **Je n'aime pas trop** | léger négatif | Je n'aime pas trop le foot |
+| **Je n'aime pas** | négatif | Je n'aime pas le bruit |
+| **Je déteste** | très négatif | Je déteste attendre |
 
-### Les loisirs et activités — avec les bons verbes
-- **faire du/de la/des** : faire du sport / de la natation / du jardinage / de la randonnée
-- **jouer au/à la/aux** : jouer au foot / au tennis / aux cartes / à la pétanque
-- **jouer de** (instrument) : jouer de la guitare / du piano
-- **aller au/à la** : aller au cinéma / à la piscine / au musée
-- **regarder** : regarder un film / la télévision
-- **lire** : lire un roman / un article / le journal
+### Les loisirs et activités — les bons verbes
+| Verbe | Construction | Activités |
+|---|---|---|
+| **faire** | du / de la / de l' | faire du sport, de la natation, du jardinage |
+| **jouer à** | au / à la / aux | jouer au foot, à la pétanque, aux cartes |
+| **jouer de** | du / de la | jouer du piano, de la guitare |
+| **aller** | au / à la / à l' | aller au cinéma, à la piscine, au musée |
+| **regarder** | - | regarder un film, la télévision |
+| **lire** | - | lire un roman, le journal, un article |
+| **écouter** | - | écouter de la musique, un podcast |
+| **visiter** | - | visiter un musée, une exposition |
 
-### Le passé composé (rappel)
-**avoir ou être** + participe passé :
-- J'ai **visité** le musée (visiter → visité)
-- Je suis **allé(e)** au cinéma (aller → allé)`,
+### Le passé composé — avoir ou être ?
+| Auxiliaire | Exemples de verbes |
+|---|---|
+| **avoir** (la majorité) | visiter → j'ai visité / faire → j'ai fait / lire → j'ai lu |
+| **être** (mouvement/état) | aller → je suis allé(e) / venir → je suis venu(e) / partir → je suis parti(e) |
+
+**Accord avec être :** le participe passé s'accorde avec le sujet
+- Je suis allé (homme) / Je suis allée (femme)
+- Nous sommes allés (hommes ou mixte) / Nous sommes allées (toutes femmes)
+
+### Genres de films et lectures
+| Genre | Exemple |
+|---|---|
+| Un film comique (comédie) | film qui fait rire |
+| Un thriller / film policier | film de suspense |
+| Un film d'action | film avec des combats |
+| Un roman policier (polar) | livre de détective |
+| Un roman historique | livre situé dans le passé |
+| Un documentaire | film informatif |
+
+### Erreurs fréquentes
+- ❌ *Je joue au guitare* → ✅ **Je joue de la guitare** (instrument → jouer de)
+- ❌ *Je fais de la foot* → ✅ **Je joue au foot** (sport d'équipe → jouer à)
+- ❌ *Nous avons allés au cinéma* → ✅ **Nous sommes allés** (aller → être)`,
 
       keyPoints: [
         'J\'adore / J\'aime beaucoup / J\'aime / J\'aime bien / Je n\'aime pas / Je déteste',

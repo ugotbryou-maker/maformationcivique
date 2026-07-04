@@ -22,9 +22,35 @@ export const a2Grammaire: LangModule = {
       free: false,
       dialogue: `## Texte : La cuisine française — les ingrédients
 
-Pour préparer une bonne ratatouille, il faut des légumes frais. Le chef achète des tomates, des courgettes, des aubergines et des poivrons. Il ajoute de l\'huile d\'olive — la huile d\'olive est essentielle dans la cuisine méditerranéenne. Il met aussi de l\'ail, du thym et du basilic. Il ne met pas de sel en excès car les tomates apportent déjà de la saveur.
+Pour préparer une bonne ratatouille, il faut des légumes frais. Le chef achète des tomates, des courgettes, des aubergines et des poivrons. Il ajoute de l'huile d'olive — l'huile d'olive est essentielle dans la cuisine méditerranéenne. Il met aussi de l'ail, du thym et du basilic. Il ne met pas de sel en excès car les tomates apportent déjà de la saveur.
 
-La ratatouille est le plat typique de Provence. C\'est un plat végétarien. On mange la ratatouille chaude ou froide, en entrée ou en plat principal. Les Français l\'apprécient beaucoup.`,
+La ratatouille est le plat typique de Provence. C'est un plat végétarien. On mange la ratatouille chaude ou froide, en entrée ou en plat principal. Les Français l'apprécient beaucoup.
+
+---
+
+### Vocabulaire des articles en contexte administratif
+
+Dans les démarches administratives, les articles sont très importants :
+
+- "Je voudrais **un** rendez-vous." (indéfini — un parmi d'autres)
+- "J'ai **le** rendez-vous de 10h." (défini — précis, déjà mentionné)
+- "Il faut fournir **des** justificatifs." (indéfini pluriel — plusieurs)
+- "J'ai apporté **les** justificatifs demandés." (défini pluriel — ceux demandés précisément)
+- "Je prends **du** temps pour remplir le formulaire." (partitif — quantité indéfinie)
+
+---
+
+### Tableau récapitulatif — quand utiliser quel article ?
+
+| Situation | Article | Exemple |
+|---|---|---|
+| Chose connue ou déjà mentionnée | **le/la/les** | "Le dossier est prêt." |
+| Généralité (toute une catégorie) | **le/la/les** | "J'aime le café." |
+| Chose non identifiée (singulier) | **un/une** | "Je cherche un médecin." |
+| Plusieurs choses non identifiées | **des** | "Il y a des formulaires." |
+| Quantité indéfinie de matière | **du/de la/de l'** | "Il faut du temps." |
+| Après négation (tout article) | **de/d'** | "Je n'ai pas de rendez-vous." |
+| Après expression de quantité | **de/d'** | "Beaucoup de documents." |`,
 
       linguisticPoint: `## Point linguistique : Les articles — système complet
 
@@ -37,20 +63,49 @@ La ratatouille est le plat typique de Provence. C\'est un plat végétarien. On 
 ### 2. Articles indéfinis (a/an/some — chose non identifiée)
 | | Masculin | Féminin | Pluriel |
 |---|---|---|---|
-| | **un** tomate (masc.) | **une** tomate | **des** tomates |
-| Négatif | pas **de** tomate | pas **de** tomate | pas **de** tomates |
+| | **un** café | **une** tomate | **des** tomates |
+| Négatif | pas **de** café | pas **de** tomate | pas **de** tomates |
 
 ### 3. Articles partitifs (some — quantité indéfinie de matière)
-| | Masculin | Féminin |
-|---|---|---|
-| | **du** sel | **de la** saveur |
-| Devant voyelle | **de l\'**ail | **de l\'**huile |
-| Négatif | pas **de** sel | pas **de** saveur |
+| | Masculin | Féminin | Devant voyelle |
+|---|---|---|---|
+| | **du** sel | **de la** saveur | **de l\'**huile |
+| Négatif | pas **de** sel | pas **de** saveur | pas **d\'**huile |
 
 ### Quand utiliser quel article ?
 - **Défini** = chose connue / générale : "J\'aime **le** fromage" (en général)
 - **Indéfini** = objet unique non identifié : "Je voudrais **un** café"
-- **Partitif** = quantité indéfinie : "Je prends **du** café" (une quantité non comptée)`,
+- **Partitif** = quantité indéfinie : "Je prends **du** café" (une quantité non comptée)
+
+### La règle de la négation — le piège le plus fréquent
+Après "ne...pas", tous les articles indéfinis et partitifs → **de/d'**
+| Phrase affirmative | Phrase négative |
+|---|---|
+| Je mange **du** fromage | Je ne mange pas **de** fromage |
+| Elle prend **des** médicaments | Elle ne prend pas **de** médicaments |
+| Il y a **une** place | Il n\'y a pas **de** place |
+| J\'ai **du** temps | Je n\'ai pas **de** temps |
+
+**Exception :** avec le verbe "être", on garde l\'article :
+- "Ce n\'est pas **du** fromage" ✓ (pas "ce n\'est pas de fromage")
+
+### Articles + expressions de quantité → toujours DE/D'
+| Expression | Article | Exemple |
+|---|---|---|
+| beaucoup de | DE | beaucoup **de** documents |
+| peu de | DE | peu **d\'**argent |
+| assez de | DE | assez **de** temps |
+| trop de | DE | trop **de** sel |
+| un kilo de | DE | un kilo **de** tomates |
+| un verre de | DE | un verre **d\'**eau |
+
+### Pièges courants avec les articles
+| ❌ Erreur | ✅ Correction | Règle |
+|---|---|---|
+| Je ne mange pas **du** fromage | Je ne mange pas **de** fromage | Négation → de |
+| J\'ai beaucoup **des** papiers | J\'ai beaucoup **de** papiers | Quantité → de |
+| Je voudrais **le** café | Je voudrais **un** café | Commande = indéfini |
+| **La** huile | **L\'**huile | Élision devant voyelle |`,
 
       keyPoints: [
         'Défini (le/la/l\'/les) : chose connue, genre, ou généralité',
@@ -263,7 +318,7 @@ La ratatouille est le plat typique de Provence. C\'est un plat végétarien. On 
 
 **Nadia :** Oui ! Je l'ai eu hier. C'était long mais ça y est.
 
-**Amie :** Tu me raccontes comment tu as fait ?
+**Amie :** Tu me racontes comment tu as fait ?
 
 **Nadia :** Bien sûr. D'abord, j'ai téléphoné à la préfecture pour leur demander les documents nécessaires. Ils m'ont envoyé une liste par email.
 
@@ -277,7 +332,31 @@ La ratatouille est le plat typique de Provence. C\'est un plat végétarien. On 
 
 **Amie :** C'est toi qui t'en es occupée toute seule ?
 
-**Nadia :** Oui, moi. Mon mari voulait m'aider mais je lui ai dit que je voulais le faire moi-même.`,
+**Nadia :** Oui, moi. Mon mari voulait m'aider mais je lui ai dit que je voulais le faire moi-même.
+
+---
+
+### Les pronoms en contexte administratif
+
+Observer les pronoms dans ces phrases courantes aux démarches :
+
+- "J'ai mon dossier — je **le** dépose à la préfecture." (le = le dossier, COD masc.)
+- "La lettre ? Je **l'**ai reçue hier." (l' = la lettre, COD fém., accord participe)
+- "J'ai téléphoné à l'agent — je **lui** ai expliqué ma situation." (lui = à l'agent, COI)
+- "Mes parents m'ont aidé — je **leur** suis reconnaissant." (leur = à mes parents, COI plur.)
+- "C'est **moi** qui ai fait la demande." (moi = tonique après c'est)
+- "Elle travaille chez **elle** le vendredi." (elle = tonique après chez)
+
+---
+
+### Ordre des pronoms dans la phrase
+Quand plusieurs pronoms sont ensemble :
+
+| Position 1 | Position 2 | Position 3 | Verbe |
+|---|---|---|---|
+| me/te/se/nous/vous | le/la/les | lui/leur | verbe |
+| Il | me | le | donne |
+| Elle | se | le | rappelle |`,
 
       linguisticPoint: `## Point linguistique : Les pronoms — tableau complet
 
@@ -294,14 +373,43 @@ La ratatouille est le plat typique de Provence. C\'est un plat végétarien. On 
 | 3ème pl. f | elles | **les** | **leur** | **elles** | se/s\' |
 
 ### COD vs COI — comment distinguer ?
-- **COD** : verbe + objet direct (sans préposition) : "j\'ai LE titre" → "je L\'ai"
-- **COI** : verbe + à + objet : "je parle À eux" → "je LEUR parle"
+| Type | Verbe + ... | Pronom | Exemple |
+|---|---|---|---|
+| **COD** | verbe + objet direct (sans préposition) | le/la/les | "j\'ai le titre" → "je **l\'**ai" |
+| **COI** | verbe + **à** + objet | lui/leur | "je parle **à** eux" → "je **leur** parle" |
+
+**Verbes fréquents avec COI :** parler à / dire à / donner à / téléphoner à / écrire à / répondre à / demander à / envoyer à
 
 ### Pronoms toniques — utilisations
-- Après préposition : "c\'est pour **moi**" / "sans **lui**"
-- Emphase : "**Moi**, je travaille" / "**Elle**, elle est partie"
-- Comparaisons : "plus grand que **toi**"
-- Après "c\'est" : "c\'est **moi** qui..." / "c\'est **lui** qui..."`,
+| Usage | Structure | Exemple |
+|---|---|---|
+| Après préposition | prép. + tonique | "c\'est pour **moi**" / "sans **lui**" |
+| Emphase | tonique + virgule + sujet | "**Moi**, je travaille" |
+| Comparaisons | plus/moins que + tonique | "plus grand que **toi**" |
+| Après "c\'est" | c\'est + tonique + qui | "c\'est **moi** qui l\'ai fait" |
+
+### Place des pronoms COD/COI
+| Situation | Position | Exemple |
+|---|---|---|
+| Présent / imparfait | AVANT le verbe | Je **le** vois / Je **lui** parle |
+| Passé composé | AVANT l\'auxiliaire | Je **l\'**ai vu / Je **lui** ai parlé |
+| Infinitif | AVANT l\'infinitif | Je veux **le** voir / vouloir **lui** parler |
+| Impératif affirmatif | APRÈS le verbe (trait d\'union) | Dis-**lui** ! / Prends-**le** ! |
+| Impératif négatif | AVANT le verbe | Ne **lui** dis pas ! |
+
+### Accord du participe passé avec avoir
+Le participe s\'accorde avec le COD s\'il est PLACÉ AVANT le verbe :
+- "La lettre ? Je **l\'**ai reçu**e**." (la lettre, fém. → reçue)
+- "Les documents ? Je **les** ai rassemblé**s**." (les documents, masc. pl. → rassemblés)
+- "J\'ai reçu la lettre." → pas d\'accord (COD après le verbe)
+
+### Pièges fréquents
+| ❌ Erreur | ✅ Correction | Explication |
+|---|---|---|
+| Je **le** parle (parler à) | Je **lui** parle | parler à = COI → lui |
+| C\'est **je** qui l\'ai fait | C\'est **moi** qui... | après c\'est = tonique |
+| Je parle avec **il** | Je parle avec **lui** | après préposition = tonique |
+| "leur" avec -s | "**leur**" (invariable comme COI) | COI pluriel = leur sans -s |`,
 
       keyPoints: [
         'COD : me/te/le/la/nous/vous/les (remplace verbe + objet direct)',
@@ -511,31 +619,74 @@ La ratatouille est le plat typique de Provence. C\'est un plat végétarien. On 
 
 **Enquêtrice :** Et vous n'avez rien à changer dans la formation ?
 
-**Ahmed :** Non, rien. Je recommanderais cette formation à tout le monde.`,
+**Ahmed :** Non, rien. Je recommanderais cette formation à tout le monde.
+
+---
+
+### Les négations en contexte quotidien
+
+Dans la vie administrative et quotidienne, les négations sont très utiles :
+
+- "Je n'ai **pas encore** reçu ma carte de séjour." (ne...pas encore = not yet)
+- "Je ne parle **ni** français **ni** anglais couramment." (ne...ni...ni = neither...nor)
+- "Il n'y a **plus** de place dans cette formation." (ne...plus = no more)
+- "Personne **ne** m'a rappelé." (personne = sujet, ne suit immédiatement)
+- "Je n'ai **rien** compris à ce formulaire." (ne...rien au passé composé)
+
+---
+
+### Les 3 registres d'interrogation — tableau comparatif
+
+| Registre | Exemple | Contexte |
+|---|---|---|
+| **Familier** (intonation montante) | "Tu viens ?" | amis, famille |
+| **Standard** (est-ce que) | "Est-ce que tu viens ?" | courant, neutre |
+| **Soutenu** (inversion) | "Viens-tu ?" | écrit formel, guichet |`,
 
       linguisticPoint: `## Point linguistique : Les formes de la négation
 
 ### Négations simples et complexes
-| Négation | Sens | Exemple |
-|---|---|---|
-| ne... **pas** | not | Je ne parle **pas** |
-| ne... **plus** | no more / no longer | Je ne travaille **plus** |
-| ne... **jamais** | never | Je ne vais **jamais** là-bas |
-| ne... **rien** | nothing / anything | Il ne dit **rien** |
-| ne... **personne** | nobody / no one | Je ne vois **personne** |
-| ne... **aucun(e)** | none / no | Je n\'ai **aucun** problème |
-| ne... **que** | only | Il ne mange **que** des fruits |
-| ne... **ni... ni** | neither... nor | Il ne boit **ni** café **ni** thé |
+| Négation | Sens | Position (présent) | Exemple |
+|---|---|---|---|
+| ne... **pas** | not | encadre le verbe | Je ne parle **pas** |
+| ne... **plus** | no more / no longer | encadre le verbe | Je ne travaille **plus** |
+| ne... **jamais** | never | encadre le verbe | Je ne vais **jamais** là-bas |
+| ne... **rien** | nothing / anything | encadre le verbe | Il ne dit **rien** |
+| ne... **personne** | nobody / no one | ne avant verbe, personne après | Je ne vois **personne** |
+| ne... **aucun(e)** | none / no | encadre le verbe | Je n\'ai **aucun** problème |
+| ne... **que** | only | que juste avant l\'élément restreint | Il ne mange **que** des fruits |
+| ne... **ni... ni** | neither... nor | ni devant chaque élément | Il ne boit **ni** café **ni** thé |
 
-### Position spéciale
-- "Rien" et "personne" peuvent être sujets : "**Rien** ne m\'arrête" / "**Personne** ne sait"
-- "Aucun" s\'accorde : "**Aucune** question" (fém.) / "**Aucun** problème" (masc.)
-- En français oral familier : "ne" disparaît souvent : "J\'sais pas" / "J\'veux rien"
+### Position au passé composé — tableau des différences
+
+| Négation | Position (passé composé) | Exemple |
+|---|---|---|
+| **pas / plus / jamais** | entre auxiliaire et participe | "Je n\'**ai pas** mangé" |
+| **rien** | entre auxiliaire et participe | "Je n\'ai **rien** dit" |
+| **personne** | APRÈS le participe passé | "Je n\'ai vu **personne**" |
+| **aucun** | APRÈS le participe passé | "Je n\'ai eu **aucun** problème" |
+
+### Position spéciale — rien et personne peuvent être sujets
+| Structure | Sens | Exemple |
+|---|---|---|
+| **Rien ne** + verbe | Nothing... | **Rien ne** m\'arrête |
+| **Personne ne** + verbe | Nobody... | **Personne ne** sait |
+| **Aucun(e) ne** + verbe | None... | **Aucun** document n\'est valable |
 
 ### L\'interrogation — 3 niveaux de registre
-1. **Familier** : "Tu viens ?" (intonation montante)
-2. **Standard** : "Est-ce que tu viens ?"
-3. **Soutenu** : "Viens-tu ?" (inversion sujet-verbe)`,
+| Registre | Structure | Exemple | Contexte |
+|---|---|---|---|
+| Familier | intonation montante | "Tu viens ?" | amis, oral |
+| Standard | est-ce que | "Est-ce que tu viens ?" | neutre, courant |
+| Soutenu | inversion sujet-verbe | "Viens-tu ?" | écrit, formel, guichet |
+
+### Pièges fréquents avec la négation
+| ❌ Erreur | ✅ Correction | Règle |
+|---|---|---|
+| Je n\'ai jamais **pas** compris | Je n\'ai **jamais** compris | jamais remplace pas |
+| Je n\'ai pas **rien** mangé | Je n\'ai **rien** mangé | rien remplace pas |
+| Je **ne** pas sais | Je **ne** sais **pas** | ne...pas encadre le verbe |
+| Bien que c\'est tard | Bien que ce **soit** tard | bien que + subjonctif |`,
 
       keyPoints: [
         'ne...pas / ne...plus / ne...jamais / ne...rien / ne...personne / ne...aucun / ne...que',
@@ -821,7 +972,38 @@ La ratatouille est le plat typique de Provence. C\'est un plat végétarien. On 
 
 **Rokia :** Merci. Et vous sauriez me dire dans combien de temps j'aurais une réponse si je faisais la demande aujourd'hui ?
 
-**Agent :** Normalement, vous recevriez une réponse dans un délai de 4 à 6 semaines.`,
+**Agent :** Normalement, vous recevriez une réponse dans un délai de 4 à 6 semaines.
+
+---
+
+### Le conditionnel dans les démarches administratives
+
+Le conditionnel est essentiel dans les échanges formels :
+
+| Expression | Équivalent direct | Effet de politesse |
+|---|---|---|
+| "Je **voudrais**..." | "Je veux..." | Plus poli, moins direct |
+| "**Pourriez**-vous m\'aider ?" | "Pouvez-vous m\'aider ?" | Très poli, formel |
+| "Il **faudrait** vérifier..." | "Il faut vérifier..." | Recommandation douce |
+| "Vous **devriez** consulter..." | "Vous devez consulter..." | Conseil, pas ordre |
+| "Ce **serait** possible ?" | "C\'est possible ?" | Question très polie |
+
+---
+
+### Formation du conditionnel — récapitulatif
+
+Base = infinitif (verbes réguliers) + terminaisons de l'imparfait :
+
+| Verbe | Base cond. | Je | Il/Elle | Nous | Ils |
+|---|---|---|---|---|---|
+| parler | parler- | parlerais | parlerait | parlerions | parleraient |
+| finir | finir- | finirais | finirait | finirions | finiraient |
+| **aller** | **ir-** | irais | irait | irions | iraient |
+| **être** | **ser-** | serais | serait | serions | seraient |
+| **avoir** | **aur-** | aurais | aurait | aurions | auraient |
+| **faire** | **fer-** | ferais | ferait | ferions | feraient |
+| **pouvoir** | **pourr-** | pourrais | pourrait | pourrions | pourraient |
+| **vouloir** | **voudr-** | voudrais | voudrait | voudrions | voudraient |`,
 
       linguisticPoint: `## Point linguistique : Le conditionnel présent
 
@@ -835,15 +1017,44 @@ La ratatouille est le plat typique de Provence. C\'est un plat végétarien. On 
 | vous | -**riez** | ir**iez** | voudr**iez** | ser**iez** |
 | ils/elles | -**raient** | ir**aient** | voudr**aient** | ser**aient** |
 
-### Emplois du conditionnel
-1. **Politesse** : "Je **voudrais** un café" (plus poli que "je veux")
-2. **Souhait** : "J\'**aimerais** voyager un jour"
-3. **Hypothèse** : "Si j\'avais de l\'argent, je **partirais**"
-4. **Information non vérifiée** : "Il **aurait** 40 ans" (selon certaines sources)
-5. **Conseil/recommandation** : "Vous **devriez** vérifier"
+### Emplois du conditionnel — 5 cas
+| Emploi | Structure | Exemple |
+|---|---|---|
+| **1. Politesse** | conditionnel seul | "Je **voudrais** un café" |
+| **2. Souhait** | conditionnel seul | "J\'**aimerais** voyager" |
+| **3. Hypothèse** | si + imparfait → conditionnel | "Si j\'avais de l\'argent, je **partirais**" |
+| **4. Info non vérifiée** | conditionnel seul | "Il **aurait** 40 ans" (selon des sources) |
+| **5. Conseil/recommandation** | conditionnel seul | "Vous **devriez** vérifier" |
 
-### Verbes irréguliers importants
-aller → ir- / être → ser- / avoir → aur- / faire → fer- / pouvoir → pourr- / vouloir → voudr- / venir → viendr- / savoir → saur- / falloir → faudr-`,
+### Verbes irréguliers importants — bases condensées
+| Verbe | Base cond./futur | Conditionnel (je) |
+|---|---|---|
+| aller | ir- | j\'irais |
+| être | ser- | je serais |
+| avoir | aur- | j\'aurais |
+| faire | fer- | je ferais |
+| pouvoir | pourr- | je pourrais |
+| vouloir | voudr- | je voudrais |
+| venir | viendr- | je viendrais |
+| savoir | saur- | je saurais |
+| falloir | faudr- | il faudrait |
+| devoir | devr- | je devrais |
+
+### Politesse au guichet — formules essentielles
+| Situation | Formule conditionnel |
+|---|---|
+| Demander quelque chose | "Je **voudrais**..." |
+| Demander de l\'aide | "**Pourriez**-vous m\'aider ?" |
+| Exprimer un besoin | "Il me **faudrait**..." |
+| Donner un conseil | "Vous **devriez**..." |
+| Poser une question polie | "**Serait**-il possible de ?" |
+
+### Erreurs fréquentes avec le conditionnel
+| ❌ Erreur | ✅ Correction | Explication |
+|---|---|---|
+| Je voulais un café (imparfait) | Je **voudrais** un café | imparfait ≠ conditionnel de politesse |
+| Si j\'aurais de l\'argent | Si j\'**avais** de l\'argent | après "si" = imparfait (jamais conditionnel) |
+| Je préfère mieux | Je **préfère** | "préfère" ne s\'utilise pas avec "mieux" |`,
 
       keyPoints: [
         'Conditionnel = infinitif (sans -e final pour -RE) + terminaisons imparfait (-rais/-rait/-rions/-riez/-raient)',

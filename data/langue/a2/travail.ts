@@ -40,35 +40,85 @@ export const a2Travail: LangModule = {
 
 **Rachida :** Mon français n'est pas très bon encore. Est-ce que c'est un problème pour trouver du travail ?
 
-**Conseiller :** Ça dépend du secteur. Pour la logistique, c'est souvent moins exigeant. Mais si vous voulez progresser, je vous conseille de faire une formation linguistique. On peut financer ça avec le CPF.`,
+**Conseiller :** Ça dépend du secteur. Pour la logistique, c'est souvent moins exigeant. Mais si vous voulez progresser, je vous conseille de faire une formation linguistique. On peut financer ça avec le CPF.
+
+**Rachida :** Et combien vais-je toucher avec l'ARE ?
+
+**Conseiller :** L'ARE correspond environ à 57-75% de votre salaire journalier de référence. La durée des allocations dépend de la durée travaillée. Pour 8 mois de travail, vous aurez droit à environ 8 mois d'allocations.
+
+**Rachida :** D'accord. Est-ce que je dois venir régulièrement ici ?
+
+**Conseiller :** Oui, vous devez actualiser votre situation chaque mois sur notre site. Et vous devrez faire des démarches actives de recherche d'emploi. Votre conseiller vérifiera vos efforts.
+
+---
+
+### Vocabulaire clé — La recherche d'emploi
+
+| Terme | Définition |
+|---|---|
+| Le CDD | Contrat à Durée Déterminée (temporaire) |
+| Le CDI | Contrat à Durée Indéterminée (permanent) |
+| France Travail | Agence nationale pour l'emploi (ex Pôle emploi) |
+| L'ARE | Aide au Retour à l'Emploi (allocations chômage) |
+| Le CPF | Compte Personnel de Formation (budget formation) |
+| Postuler | Envoyer sa candidature pour un poste |
+| Le CV | Curriculum Vitae — résumé de parcours |
+| La lettre de motivation | Lettre expliquant pourquoi on postule |
+| Actualiser | Déclarer chaque mois sa situation à France Travail |
+| La logistique | Secteur de la gestion des stocks et livraisons |`,
 
       linguisticPoint: `## Point linguistique : L'imparfait — description d'un état ou d'une habitude passée
 
-### Formation de l'imparfait
-**Base : nous au présent (sans -ons) + terminaisons**
-| Pronom | Terminaison | travailler | être |
-|---|---|---|---|
-| Je | **-ais** | travaillais | étais |
-| Tu | **-ais** | travaillais | étais |
-| Il/Elle | **-ait** | travaillait | était |
-| Nous | **-ions** | travaillions | étions |
-| Vous | **-iez** | travailliez | étiez |
-| Ils | **-aient** | travaillaient | étaient |
+### Formation de l'imparfait — règle générale
+**Base : 1ère personne du pluriel au présent (sans -ons) + terminaisons**
+| Pronom | Terminaison | travailler | faire | être |
+|---|---|---|---|---|
+| Je | **-ais** | travaillais | faisais | étais |
+| Tu | **-ais** | travaillais | faisais | étais |
+| Il/Elle | **-ait** | travaillait | faisait | était |
+| Nous | **-ions** | travaillions | faisions | étions |
+| Vous | **-iez** | travailliez | faisiez | étiez |
+| Ils | **-aient** | travaillaient | faisaient | étaient |
 
-*Exception : "être" → base "ét-"*
+*Exception unique : "être" → base "ét-" (pas "somm-")*
 
-### Usages de l'imparfait
-1. **Description passée :** "Je **travaillais** dans un entrepôt" (situation passée)
-2. **Habitude passée :** "Avant, je **prenais** le bus tous les jours"
-3. **Contexte d'un événement :** "Il **pleuvait** quand je suis sorti"
+### Usages de l'imparfait — quand l'utiliser ?
+| Usage | Explication | Exemple |
+|---|---|---|
+| **Description passée** | Comment c'était avant | Je **travaillais** dans un entrepôt |
+| **Habitude passée** | Ce qu'on faisait régulièrement | Avant, je **prenais** le bus tous les jours |
+| **État passé** | Une situation qui durait | Il **pleuvait** quand je suis sorti |
+| **Politesse** | Rendre une demande plus douce | Je **voulais** vous demander... |
 
-### Vocabulaire emploi
-- **Le CDD** = Contrat à Durée Déterminée (temporary contract)
-- **Le CDI** = Contrat à Durée Indéterminée (permanent contract)
-- **Pôle emploi** / **France Travail** = agence nationale pour l\'emploi
-- **ARE** = Aide au Retour à l\'Emploi (indemnités chômage)
-- **CPF** = Compte Personnel de Formation (budget formation)
-- **Postuler** = faire une candidature`,
+### Imparfait vs Passé composé — la différence clé
+| Temps | Quand l'utiliser | Exemple |
+|---|---|---|
+| **Imparfait** | Situation qui durait / description | Je **travaillais** dans la logistique (situation générale) |
+| **Passé composé** | Action précise et terminée | J'**ai travaillé** 8 mois (durée précise terminée) |
+
+### Vocabulaire emploi — sigles et termes essentiels
+| Terme | Signification complète | Explication |
+|---|---|---|
+| CDD | Contrat à Durée Déterminée | Contrat temporaire (date de fin précisée) |
+| CDI | Contrat à Durée Indéterminée | Contrat permanent (sans date de fin) |
+| ARE | Aide au Retour à l'Emploi | Allocations chômage versées par France Travail |
+| CPF | Compte Personnel de Formation | Budget pour se former (500€/an) |
+| SMIC | Salaire Minimum Interprofessionnel de Croissance | Salaire légal minimum en France |
+| Intérim | Travail temporaire via agence d'intérim | Missions courtes, flexibles |
+
+### Secteurs professionnels courants
+| Secteur | Exemples de métiers |
+|---|---|
+| Logistique / transport | Cariste, chauffeur, magasinier |
+| Bâtiment (BTP) | Maçon, électricien, plombier |
+| Restauration / hôtellerie | Serveur, cuisinier, réceptionniste |
+| Aide à la personne | Aide-soignant, auxiliaire de vie |
+| Commerce / vente | Vendeur, caissier, gestionnaire |
+
+### Erreurs fréquentes
+- ❌ *Je travaillais 6 mois* → ✅ **J'ai travaillé 6 mois** (durée précise → passé composé)
+- ❌ *J'était fatigué* → ✅ **J'étais fatigué** (être → étais, pas était)
+- ❌ *Je faisais une demande hier* → ✅ **J'ai fait une demande hier** (action précise hier → passé composé)`,
 
       keyPoints: [
         'Imparfait : je travaillais / tu travaillais / il travaillait / nous travaillions',
@@ -339,32 +389,94 @@ export const a2Travail: LangModule = {
 
 **Hamid :** Oui, tout à fait. Je n'ai pas de contrainte particulière.
 
-**RH :** Très bien. Quelles sont vos prétentions salariales ?`,
+**RH :** Très bien. Quelles sont vos prétentions salariales ?
+
+**Hamid :** Je souhaiterais un salaire autour de 1 900 à 2 000 euros nets, en fonction des horaires et des responsabilités.
+
+**RH :** C'est dans la fourchette prévue pour ce poste. Avez-vous des questions pour nous ?
+
+**Hamid :** Oui. Est-ce que le poste est en CDI ou CDD ?
+
+**RH :** En CDI après une période d'essai de deux mois. Vous serez basé sur le site de La Défense, avec une possibilité de rotation sur d'autres sites.
+
+**Hamid :** Est-ce qu'il y a une mutuelle d'entreprise ?
+
+**RH :** Oui, nous avons une mutuelle collective. L'employeur prend en charge 50% de la cotisation. Les détails vous seront envoyés si vous êtes retenu.
+
+**Hamid :** Merci pour ces informations.
+
+**RH :** Je vous recontacte d'ici la fin de la semaine. Avez-vous des disponibilités particulières pour un éventuel deuxième entretien ?
+
+**Hamid :** Je suis disponible le matin ou en fin d'après-midi.
+
+**RH :** Parfait. Merci, Hamid. Au revoir.
+
+---
+
+### Vocabulaire clé — L'entretien d'embauche
+
+| Terme | Définition |
+|---|---|
+| Les prétentions salariales | Le salaire que vous demandez |
+| La période d'essai | Début du contrat — l'employeur peut rompre plus facilement |
+| Le CDI | Contrat à Durée Indéterminée — contrat stable |
+| Le CDD | Contrat à Durée Déterminée — contrat temporaire |
+| La mutuelle d'entreprise | Assurance santé complémentaire proposée par l'employeur |
+| Les RH | Ressources Humaines — service qui gère le personnel |
+| Un point fort | Une qualité professionnelle |
+| Un point faible | Un défaut ou axe d'amélioration |
+| La fourchette salariale | L'intervalle de salaire prévu pour un poste |`,
 
       linguisticPoint: `## Point linguistique : Le subjonctif présent — introduction (Je voudrais que / il faut que)
 
 ### Quand utilise-t-on le subjonctif ?
 Après certaines structures exprimant : volonté, nécessité, doute, sentiment
-- **Vouloir que** : "Je veux **qu\'il vienne**"
-- **Il faut que** : "Il faut **que vous soyez** ponctuel"
-- **Aimer que** : "J\'aimerais **qu\'il reste**"
+
+| Structure | Exemple |
+|---|---|
+| **vouloir que** | Je veux **qu\'il vienne** à l\'heure |
+| **il faut que** | Il faut **que vous soyez** ponctuel |
+| **aimer que** | J\'aimerais **qu\'il reste** dans l\'équipe |
+| **souhaiter que** | Je souhaite **que le travail soit** fait |
+| **avoir peur que** | J\'ai peur **qu\'il ne parte** |
+| **bien que** | **Bien qu\'il soit** étranger, il est qualifié |
 
 ### Formation du subjonctif présent
 **Base = ils au présent (sans -ent) + terminaisons**
-| Pronom | Terminaison | parler | finir |
-|---|---|---|---|
-| que je | **-e** | que je parle | que je finisse |
-| que tu | **-es** | que tu parles | que tu finisses |
-| qu\'il/elle | **-e** | qu\'il parle | qu\'il finisse |
-| que nous | **-ions** | que nous parlions | que nous finissions |
-| que vous | **-iez** | que vous parliez | que vous finissiez |
-| qu\'ils | **-ent** | qu\'ils parlent | qu\'ils finissent |
+| Pronom | Terminaison | parler | finir | prendre |
+|---|---|---|---|---|
+| que je | -e | que je parle | que je finisse | que je prenne |
+| que tu | -es | que tu parles | que tu finisses | que tu prennes |
+| qu\'il/elle | -e | qu\'il parle | qu\'il finisse | qu\'il prenne |
+| que nous | -ions | que nous parlions | que nous finissions | que nous prenions |
+| que vous | -iez | que vous parliez | que vous finissiez | que vous preniez |
+| qu\'ils | -ent | qu\'ils parlent | qu\'ils finissent | qu\'ils prennent |
 
-### Subjonctifs irréguliers fréquents
-- être → que je **sois** / que vous **soyez**
-- avoir → que j\'**aie** / que vous **ayez**
-- aller → que j\'**aille**
-- faire → que je **fasse**`,
+### Subjonctifs irréguliers — les 6 incontournables
+| Infinitif | Que je | Que vous |
+|---|---|---|
+| être | que je **sois** | que vous **soyez** |
+| avoir | que j\'**aie** | que vous **ayez** |
+| aller | que j\'**aille** | que vous **alliez** |
+| faire | que je **fasse** | que vous **fassiez** |
+| pouvoir | que je **puisse** | que vous **puissiez** |
+| savoir | que je **sache** | que vous **sachiez** |
+
+### Vocabulaire de l'entretien d'embauche
+| Terme | Utilisation en entretien |
+|---|---|
+| Mes **points forts** sont… | Qualités : ponctualité, rigueur, calme |
+| Mon **point faible** est… | Répondre avec un défaut-qui-est-une-qualité |
+| Je **souhaiterais** / **j\'aimerais** | Conditionnel de politesse, plus professionnel que "je veux" |
+| J\'ai de l\'**expérience** dans… | Secteur, durée, niveau |
+| Je suis **disponible** dès le… | Date de démarrage possible |
+
+### Erreurs fréquentes
+| ❌ Erreur | ✅ Correction |
+|---|---|
+| Il faut que vous **êtes** ponctuel | Il faut que vous **soyez** ponctuel |
+| Je veux qu\'il **vient** | Je veux qu\'il **vienne** |
+| Bien qu\'il **est** qualifié | Bien qu\'il **soit** qualifié |`,
 
       keyPoints: [
         'Subjonctif après : vouloir que / il faut que / aimer que',
@@ -604,13 +716,13 @@ Après certaines structures exprimant : volonté, nécessité, doute, sentiment
       free: false,
       dialogue: `## Texte : Comprendre son bulletin de salaire
 
-Chaque mois, votre employeur vous remet un bulletin de salaire (ou fiche de paie). Ce document est important car il récapitule votre rémunération et vos cotisations sociales.
+Chaque mois, votre employeur vous remet un bulletin de salaire (ou fiche de paie). Ce document est important car il récapitule votre rémunération et vos cotisations sociales. **Conservez tous vos bulletins** : ils sont nécessaires pour les demandes de crédit, de logement social, et les démarches administratives.
 
 **Les éléments du bulletin de salaire :**
 
 En haut du bulletin figurent : le nom et l'adresse de l'employeur, votre nom, votre numéro de Sécurité sociale, votre poste (qualification), et la période concernée.
 
-**Le salaire brut** est votre salaire avant déduction des cotisations. En France, le SMIC (Salaire Minimum Interprofessionnel de Croissance) est le salaire minimum légal. En 2024, il est d'environ 1 766 euros bruts par mois pour un temps plein (35 heures).
+**Le salaire brut** est votre salaire avant déduction des cotisations. En France, le SMIC (Salaire Minimum Interprofessionnel de Croissance) est le salaire minimum légal. En 2025, il est d'environ 1 801 euros bruts par mois pour un temps plein (35 heures).
 
 **Les cotisations salariales** sont les sommes retenues sur votre salaire brut pour financer la Sécurité sociale, la retraite, l'assurance chômage... Elles représentent environ 22-25% du salaire brut.
 
@@ -618,29 +730,87 @@ En haut du bulletin figurent : le nom et l'adresse de l'employeur, votre nom, vo
 
 **Les cotisations patronales** sont à la charge de l'employeur. Elles sont plus élevées que les cotisations salariales (environ 40-45% du salaire brut en plus).
 
-**La convention collective** est l'accord de branche qui définit les conditions de travail spécifiques à votre secteur (salaires minimum du secteur, congés supplémentaires, avantages...).`,
+**La convention collective** est l'accord de branche qui définit les conditions de travail spécifiques à votre secteur (salaires minimum du secteur, congés supplémentaires, avantages...).
+
+---
+
+### Dialogue : Question sur la fiche de paie
+
+*Ahmed ne comprend pas une ligne de son bulletin. Il en parle à son responsable RH.*
+
+**Ahmed :** Bonjour madame. Je voulais vous poser une question sur mon bulletin de ce mois.
+
+**RH :** Bien sûr, qu'est-ce qui vous pose problème ?
+
+**Ahmed :** Je vois une ligne "IJSS" avec une déduction de 50 euros. Qu'est-ce que c'est ?
+
+**RH :** Ce sont les "Indemnités Journalières de Sécurité Sociale." Vous avez eu 3 jours d'arrêt maladie ce mois-ci. Pendant ces jours, c'est la Sécurité sociale qui vous paie, pas votre employeur. Il y a donc une retenue correspondante.
+
+**Ahmed :** Mais j'avais un arrêt de travail !
+
+**RH :** Oui, et la Sécu vous remboursera ces 3 jours directement. C'est pour ça qu'il y a une retenue sur votre salaire — pour éviter de vous payer deux fois. Vous recevrez l'argent de la CPAM par virement.
+
+**Ahmed :** Ah d'accord ! Et cette ligne "tickets restaurant" à 60 euros ?
+
+**RH :** C'est votre part sur les tickets restaurant. L'employeur prend en charge 60% du ticket, et vous cotisez 40%. En échange, vous avez 20 tickets de 10 euros ce mois. C'est avantageux !
+
+---
+
+### Vocabulaire clé — Le bulletin de salaire
+
+| Terme | Signification |
+|---|---|
+| Salaire brut | Salaire avant déductions |
+| Salaire net | Ce que vous recevez réellement |
+| Les cotisations | Les prélèvements obligatoires sur le salaire |
+| SMIC | Salaire minimum légal en France |
+| IJSS | Indemnités journalières de Sécurité Sociale |
+| Convention collective | Accord de branche spécifique à un secteur |
+| Les congés payés | 5 semaines de vacances payées par an (droit légal) |
+| Heures supplémentaires | Heures travaillées au-delà de 35h/semaine |`,
 
       linguisticPoint: `## Point linguistique : Les pronoms relatifs qui, que, dont, où
 
 ### Les pronoms relatifs (pour relier deux propositions)
-| Pronom | Rôle | Exemple |
+| Pronom | Rôle grammatical | Exemple |
 |---|---|---|
-| **qui** | sujet | C\'est l\'employeur **qui** paie les charges |
-| **que** | COD | C\'est le bulletin **que** vous recevez |
+| **qui** | sujet du verbe suivant | C\'est l\'employeur **qui** paie les charges |
+| **que** (qu\') | COD du verbe suivant | C\'est le bulletin **que** vous recevez |
 | **dont** | complément avec "de" | C\'est le poste **dont** je vous ai parlé |
-| **où** | lieu ou temps | L\'entreprise **où** je travaille |
+| **où** | complément de lieu ou de temps | L\'entreprise **où** je travaille |
+
+### Comment choisir entre QUI et QUE ?
+- **QUI** = le nom qui précède est **sujet** du verbe relatif : "Le salarié **qui** travaille..." (le salarié travaille)
+- **QUE** = le nom qui précède est **objet** du verbe relatif : "Le contrat **que** je signe..." (je signe le contrat)
 
 ### Exemples dans le contexte du travail
-- "Le contrat **qui** commence lundi est un CDI"
-- "Le salaire **que** vous recevez s\'appelle le salaire net"
-- "La convention collective **dont** dépend votre secteur"
-- "L\'époque **où** j\'ai commencé à travailler"
+| Phrase | Pronom | Pourquoi |
+|---|---|---|
+| Le contrat **qui** commence lundi est un CDI | qui | "le contrat commence" → sujet |
+| Le salaire **que** vous recevez est net | que | "vous recevez le salaire" → objet |
+| La convention **dont** dépend votre secteur | dont | "dépendre de" → de |
+| L\'entreprise **où** je travaille | où | lieu |
+
+### DONT — cas particuliers
+- J\'ai un poste **dont** je suis fier (être fier **de**)
+- Le contrat **dont** vous avez besoin (avoir besoin **de**)
+- Le dossier **dont** j\'ai parlé (parler **de**)
 
 ### Le SMIC — points clés
-- SMIC = Salaire Minimum Interprofessionnel de Croissance
-- Revalorisé chaque année (1er janvier + indexé sur l\'inflation)
-- S\'applique à tous les salariés : français ou étrangers, CDI ou CDD
-- Tout employeur qui paie en dessous du SMIC commet une infraction`,
+| Information | Détail |
+|---|---|
+| Signification | Salaire Minimum Interprofessionnel de Croissance |
+| Revalorisation | Chaque 1er janvier (+ indexé sur l\'inflation) |
+| Montant 2025 | ≈ 1 801 € bruts/mois pour 35h |
+| S\'applique à | Tous les salariés (CDI, CDD, étrangers, apprentis) |
+| Infraction | Payer en dessous = délit passible d\'amende |
+
+### Erreurs fréquentes avec les pronoms relatifs
+| ❌ Erreur | ✅ Correction |
+|---|---|
+| L\'employeur **qu\'**a signé | L\'employeur **qui** a signé (sujet → qui) |
+| Le travail **qui** je fais | Le travail **que** je fais (objet → que) |
+| La société **de qui** je dépends | La société **dont** je dépends (de + antécédent → dont) |`,
 
       keyPoints: [
         'QUI = sujet / QUE = COD / DONT = complément de / OÙ = lieu ou temps',
@@ -886,7 +1056,30 @@ En haut du bulletin figurent : le nom et l'adresse de l'employeur, votre nom, vo
 
 **Nadia :** J'ai peur des représailles si je me plains.
 
-**Syndicale :** La loi interdit les représailles contre un salarié qui signale une infraction. Si votre employeur vous licencie ou vous punit après votre plainte, c'est un licenciement abusif — et vous pouvez demander des dommages et intérêts.`,
+**Syndicale :** La loi interdit les représailles contre un salarié qui signale une infraction. Si votre employeur vous licencie ou vous punit après votre plainte, c'est un licenciement abusif — et vous pouvez demander des dommages et intérêts.
+
+**Nadia :** Et si je suis étrangère, est-ce que j'ai les mêmes droits ?
+
+**Syndicale :** Absolument. Tous les salariés en France — français ou étrangers, avec ou sans nationalité française — ont les mêmes droits du travail dès lors qu'ils ont un contrat légal. La loi ne fait pas de distinction.
+
+**Nadia :** J'ai un titre de séjour salarié. Mon employeur peut-il me licencier si mon titre expire ?
+
+**Syndicale :** Il doit attendre que votre titre soit expiré et non renouvelé. Pendant le renouvellement en cours, vous pouvez continuer à travailler si vous avez le récépissé de votre demande. Pensez à lui transmettre ce document.
+
+---
+
+### Vocabulaire clé — Les droits au travail
+
+| Terme | Définition |
+|---|---|
+| Les congés payés | 5 semaines de vacances payées par an |
+| Le syndicat | Organisation qui défend les droits des salariés |
+| L'Inspection du travail | Administration qui contrôle les employeurs |
+| Les représailles | Punition après avoir signalé un problème |
+| Le licenciement abusif | Licenciement sans raison valable ou illégal |
+| Les dommages et intérêts | Compensation financière en cas de préjudice |
+| La majoration | Supplément de salaire (ex. +50% le dimanche) |
+| Les heures supplémentaires | Heures au-delà des 35h légales par semaine |`,
 
       linguisticPoint: `## Point linguistique : Les structures de restriction et de négation complexe
 
@@ -896,20 +1089,42 @@ En haut du bulletin figurent : le nom et l'adresse de l'employeur, votre nom, vo
 | **ne... que** | seulement | "Il ne travaille **que** le matin" |
 | **seulement** | only | "J\'ai travaillé **seulement** 2 mois" |
 | **uniquement** | uniquement | "**Uniquement** les CDI ont ce droit" |
+| **à condition de/que** | condition | "À condition **d\'avoir** un contrat" |
+| **à moins de/que** | sauf si | "À moins **qu\'il** ne parte" |
 
 ### Structures de négation complexe
-- **ne... jamais** : "Il ne m\'a **jamais** payé les heures supplémentaires"
-- **ne... rien** : "Je ne sais **rien** de mes droits"
-- **ne... personne** : "**Personne** ne m\'a expliqué le contrat"
-- **ne... plus** : "Je ne travaille **plus** là-bas"
-- **ni... ni...** : "Il n\'a **ni** augmenté **ni** amélioré mes conditions"
+| Négation | Sens | Exemple |
+|---|---|---|
+| **ne... jamais** | never | "Il ne m\'a **jamais** payé les heures sup." |
+| **ne... rien** | nothing | "Je ne sais **rien** de mes droits" |
+| **ne... personne** | nobody | "**Personne** ne m\'a expliqué le contrat" |
+| **ne... plus** | no longer | "Je ne travaille **plus** là-bas" |
+| **ne... nulle part** | nowhere | "Je ne trouve **nulle part** ce document" |
+| **ni... ni...** | neither nor | "Il n\'a **ni** augmenté **ni** amélioré mes conditions" |
+
+### Position des éléments négatifs
+- **Jamais / rien / plus** : entre auxiliaire et participe au passé composé
+  - "Je **n\'ai jamais** reçu ma fiche de paie"
+  - "Il **n\'a rien** signé"
+  - "Elle **n\'a plus** travaillé depuis"
 
 ### Droits fondamentaux des travailleurs en France
-- **Congés payés** : 2,5 jours/mois = 30 jours/an (5 semaines)
-- **Repos hebdomadaire** : au moins 1 jour/semaine (généralement le dimanche)
-- **Majoration heures sup.** : +25% (8 premières heures) / +50% (au-delà)
-- **Travail dimanche** : majoré selon convention collective (≥ 50% en général)
-- **Arrêt maladie** : remboursé par la Sécu après 3 jours de carence`,
+| Droit | Détail |
+|---|---|
+| Congés payés | 2,5 j/mois = 30 jours/an (5 semaines) — CDI **et** CDD |
+| Repos hebdomadaire | ≥ 1 jour/semaine (généralement dimanche) |
+| Heures sup. | +25% (8 premières heures) / +50% (au-delà) |
+| Travail dimanche | Majoré selon convention collective (≥ 50% en général) |
+| Arrêt maladie | Remboursé par la Sécu après 3 jours de carence |
+| Salaire minimum | SMIC (2025 ≈ 1 801€ bruts) — s\'applique à tous |
+| Égalité | Mêmes droits pour salariés français et étrangers |
+
+### Erreurs fréquentes
+| ❌ Erreur | ✅ Correction |
+|---|---|
+| Je n\'ai pas **jamais** | Je n\'ai **jamais** (pas + jamais = double négation incorrecte en fr.) |
+| **Personne** n\'est **pas** venu | **Personne** n\'est venu (personne remplace déjà la négation) |
+| Il ne travaille **que seulement** le matin | Il ne travaille **que** le matin (que = seulement, pas les deux) |`,
 
       keyPoints: [
         'Ne... que (seulement) / ne... jamais / ne... rien / ne... personne / ne... plus',
@@ -1197,32 +1412,76 @@ En haut du bulletin figurent : le nom et l'adresse de l'employeur, votre nom, vo
 
 **Abdelkarim :** C'est une bonne idée. Comment je fais pour me former ?
 
-**Conseiller :** Vous pouvez utiliser votre CPF, ou on peut vous financer une formation via France Travail si c'est en lien direct avec un emploi identifié. Là, il faudrait trouver un employeur qui s'engage à vous embaucher si vous avez cette certification.`,
+**Conseiller :** Vous pouvez utiliser votre CPF, ou on peut vous financer une formation via France Travail si c'est en lien direct avec un emploi identifié. Là, il faudrait trouver un employeur qui s'engage à vous embaucher si vous avez cette certification.
+
+**Abdelkarim :** Qu'est-ce que le CPF exactement ?
+
+**Conseiller :** C'est le Compte Personnel de Formation. Chaque salarié accumule des droits en euros pour financer sa propre formation. Vous pouvez vérifier votre solde sur moncompteformation.gouv.fr.
+
+**Abdelkarim :** Et si mon CPF ne suffit pas ?
+
+**Conseiller :** France Travail peut compléter le financement. On appelle ça un "co-financement". Je vais vous orienter vers notre service formation cette semaine. En attendant, regardez les offres d'emploi qui demandent ce titre professionnel.
+
+**Abdelkarim :** D'accord. Et pour mon titre de séjour qui se renouvelle dans 3 mois — est-ce que je peux quand même postuler ?
+
+**Conseiller :** Oui, absolument. Votre titre actuel est valide jusqu'à expiration. Mentionnez votre situation dans les entretiens si la question est posée. Les employeurs ne peuvent pas refuser une candidature uniquement pour cette raison.
+
+---
+
+### Vocabulaire clé — Le chômage et la reconversion
+
+| Terme | Définition |
+|---|---|
+| L'ARE | Allocation de Retour à l'Emploi — indemnité chômage |
+| L'actualisation mensuelle | Démarche en ligne pour maintenir les droits à l'ARE |
+| Le CPF | Compte Personnel de Formation — droits formation en euros |
+| France Travail | Anciennement Pôle emploi — service public de l'emploi |
+| Une formation certifiante | Formation qui délivre un titre officiel reconnu |
+| Un titre professionnel | Certification délivrée par le Ministère du Travail |
+| La reconversion | Changer de secteur ou de métier |
+| Le conseiller emploi | Personne qui suit votre recherche d'emploi |`,
 
       linguisticPoint: `## Point linguistique : Les verbes de mouvement avec prépositions
 
-### Aller / Venir / Partir / Arriver / Rentrer / Revenir
-| Verbe | Préposition | Exemple |
+### Les verbes de mouvement principaux
+| Verbe | Préposition usuelle | Exemple |
 |---|---|---|
-| aller | à + ville / en + pays | aller **à** Lyon / aller **en** France |
-| venir | de + ville / de + pays | venir **de** Paris / venir **du** Maroc |
-| partir | pour + destination | partir **pour** l\'Espagne |
-| arriver | à + lieu / de + lieu | arriver **à** Paris / arriver **de** Lyon |
-| rentrer | à + domicile | rentrer **à** la maison / rentrer **chez** soi |
+| **aller** | à + ville / en + pays | aller **à** Lyon / aller **en** France |
+| **venir** | de + ville / de + pays | venir **de** Paris / venir **du** Maroc |
+| **partir** | pour + destination / de + origine | partir **pour** l\'Espagne / partir **de** chez moi |
+| **arriver** | à + lieu / de + lieu | arriver **à** Paris / arriver **de** Lyon |
+| **rentrer** | à + domicile | rentrer **à** la maison / rentrer **chez** soi |
+| **passer** | par + lieu de transit | passer **par** Marseille |
+| **monter / descendre** | à + transport | monter **dans** le bus / descendre **du** métro |
 
 ### Pays masculins vs féminins avec prépositions
-| Genre | Préposition | Exemple |
+| Genre du pays | Aller → | Venir → |
 |---|---|---|
-| Féminin (France, Italie...) | **en** | en France / en Italie |
-| Masculin (Maroc, Japon...) | **au** | au Maroc / au Japon |
-| Pluriel (États-Unis...) | **aux** | aux États-Unis |
-| Île ou ville | **à** | à Cuba / à Paris |
+| Féminin (France, Italie, Espagne, Algérie...) | **en** France | **de** France |
+| Masculin (Maroc, Japon, Canada...) | **au** Maroc | **du** Maroc |
+| Pluriel (États-Unis, Philippines...) | **aux** États-Unis | **des** États-Unis |
+| Île ou ville | **à** Cuba / **à** Paris | **de** Cuba / **de** Paris |
 
-### Vocabulaire de la reconversion
-- **Actualisation mensuelle** = démarche obligatoire en ligne pour maintenir les droits à l\'ARE
-- **Formation certifiante** = formation qui débouche sur une certification reconnue
-- **Titre professionnel** = certification délivrée par le Ministère du Travail
-- **Commis de cuisine** = premier niveau de qualification en cuisine`,
+### Astuce : comment savoir si un pays est masculin ou féminin ?
+- Pays qui se termine en **-e** → souvent féminin : **la** France, **l\'**Algérie, **l\'**Italie
+- Exceptions masculines : le **Mexique**, le **Mozambique**, le **Cambodge**
+- Pays qui se termine autrement → souvent masculin : **le** Maroc, **le** Japon, **le** Canada
+
+### Prépositions dans les offres d'emploi
+| Expression | Sens |
+|---|---|
+| Poste **basé à** Paris | L\'emploi est localisé à Paris |
+| Déplacements **en** région | Voyages dans la région |
+| Mission **sur** toute la France | Travail dans toute la France |
+| **Au** siège / **en** agence | À l\'adresse centrale / dans une agence locale |
+
+### Erreurs fréquentes
+| ❌ Erreur | ✅ Correction |
+|---|---|
+| Je vais **en** Paris | Je vais **à** Paris (ville → à) |
+| Je viens **de** Maroc | Je viens **du** Maroc (pays masc. → du) |
+| Je suis allé **au** France | Je suis allé **en** France (pays fém. → en) |
+| Je rentre **à** chez moi | Je rentre **chez** moi (chez = préposition seule) |`,
 
       keyPoints: [
         'EN + pays féminin / AU + pays masculin / AUX + pays pluriel / À + ville',

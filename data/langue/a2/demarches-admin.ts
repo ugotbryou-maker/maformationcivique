@@ -35,36 +35,87 @@ export const a2DemarchesAdmin: LangModule = {
 
 **Agent :** Dans ce cas, vous avez besoin d'un acte de naissance intégral avec mention marginale. Mais attention — si vous êtes né à l'étranger, la mairie française ne peut pas vous le délivrer. Il faut contacter votre ambassade ou le SCEC.
 
-**Ibrahim :** Ah, je ne savais pas. Et pour quoi la mairie peut-elle m'aider ?
+**Ibrahim :** Ah, je ne savais pas. C'est quoi exactement le SCEC ?
+
+**Agent :** Le SCEC, c'est le Service Central d'État Civil, à Nantes. Il s'occupe des actes d'état civil des Français nés hors de France. Pour vous, en tant qu'étranger né à l'étranger, c'est votre ambassade en France qui peut délivrer ce document.
+
+**Ibrahim :** Et pour quoi la mairie peut-elle m'aider alors ?
 
 **Agent :** Pour votre domicile français : attestation de résidence, changement d'adresse, certificat de vie commune... Vous avez aussi besoin d'autre chose ?
 
 **Ibrahim :** Oui, j'ai déménagé il y a deux mois. Est-ce que je dois signaler mon changement d'adresse ?
 
-**Agent :** Oui, c'est obligatoire. Voici le formulaire Cerfa. Remplissez-le et rapportez-le avec un justificatif de domicile — une facture EDF ou une quittance de loyer de moins de 3 mois.`,
+**Agent :** Oui, c'est obligatoire. Voici le formulaire Cerfa. Remplissez-le et rapportez-le avec un justificatif de domicile — une facture EDF ou une quittance de loyer de moins de 3 mois.
+
+**Ibrahim :** Il faut prendre un rendez-vous pour ça aussi ?
+
+**Agent :** Non, vous pouvez revenir directement avec les documents. L'accueil est ouvert du lundi au vendredi de 8h30 à 17h30.
+
+---
+
+### Vocabulaire clé — La mairie et l'état civil
+
+| Terme | Définition |
+|---|---|
+| La mairie | Bâtiment administratif qui gère la commune |
+| Un acte de naissance | Document officiel attestant la naissance |
+| Un acte intégral | Version complète avec toutes les annotations |
+| Un extrait | Version simplifiée d'un acte |
+| La mention marginale | Annotation en marge (mariage, divorce...) |
+| Le SCEC | Service Central d'État Civil (Nantes) |
+| L'attestation de résidence | Document prouvant que vous habitez à cette adresse |
+| Un justificatif de domicile | Facture EDF, quittance de loyer (moins de 3 mois) |
+| Un formulaire Cerfa | Formulaire officiel numéroté de l'administration |
+| Délivrer un document | Remettre officiellement un document |`,
 
       linguisticPoint: `## Point linguistique : Exprimer la nécessité et l'obligation
 
-### Les structures pour exprimer l'obligation
-| Structure | Exemple | Niveau |
+### Les structures pour exprimer l'obligation — du plus fort au plus doux
+| Structure | Exemple | Niveau de contrainte |
 |---|---|---|
-| **Il faut** + infinitif | Il faut contacter l'ambassade | impersonnel |
+| **Il faut** + infinitif | Il faut contacter l'ambassade | fort, impersonnel |
 | **Vous devez** + infinitif | Vous devez signaler votre adresse | direct |
-| **C'est obligatoire** | C'est obligatoire | état |
+| **C'est obligatoire** | C'est obligatoire de déclarer | état légal |
 | **Il est nécessaire de** | Il est nécessaire de présenter une pièce d'identité | formel |
-| **Vous avez besoin de** | Vous avez besoin d'un extrait d'acte | besoin |
+| **Vous avez besoin de** | Vous avez besoin d'un extrait d'acte | besoin pratique |
+| **Je vous conseille de** | Je vous conseille de vérifier sur internet | conseil |
+| **Il est recommandé de** | Il est recommandé de prendre rendez-vous | recommandation |
 
 ### Vocabulaire administratif essentiel
-- **Cerfa** = formulaire officiel de l'administration française
-- **Justificatif de domicile** = document prouvant votre adresse (facture EDF, quittance de loyer)
-- **Acte de naissance intégral** = document complet avec toutes les mentions
-- **Extrait** = version simplifiée d'un document
-- **Mention marginale** = annotation officielle dans la marge d'un acte
-- **Attestation** = document qui certifie quelque chose
-- **Délivrer** = remettre officiellement un document
+| Terme | Définition pratique |
+|---|---|
+| **Cerfa** | Formulaire officiel numéroté (ex : Cerfa 13753) |
+| **Justificatif de domicile** | Facture EDF, quittance de loyer (< 3 mois) |
+| **Acte de naissance intégral** | Document complet avec toutes les annotations |
+| **Extrait d'acte** | Version simplifiée (seulement les infos de base) |
+| **Mention marginale** | Annotation officielle en marge de l'acte |
+| **Attestation** | Document qui certifie un fait |
+| **Certificat** | Document officiel délivré par une autorité |
+| **Délivrer** | Remettre officiellement un document |
+| **Déposer un dossier** | Remettre son dossier à l'administration |
+| **Instruire un dossier** | L'administration examine et traite votre dossier |
 
-### SCEC = Service Central d'État Civil
-Service qui gère les actes d'état civil des Français nés à l'étranger (Nantes).`,
+### SCEC et ambassade — qui fait quoi ?
+| Situation | Où s'adresser |
+|---|---|
+| Français né à l'étranger | SCEC (Nantes) — tél. 02 51 77 36 00 |
+| Étranger né à l'étranger | Ambassade / consulat du pays d'origine |
+| Né en France | Mairie du lieu de naissance |
+
+### Documents valables comme justificatif de domicile
+| Document | Validité |
+|---|---|
+| Facture EDF / gaz / eau | Moins de 3 mois |
+| Quittance de loyer | Moins de 3 mois |
+| Facture téléphone FIXE | Moins de 3 mois |
+| Avis d'imposition | Moins d'un an |
+| Attestation d'hébergement | + pièce d'identité de l'hébergeant |
+| ❌ Facture téléphone mobile | Non accepté en général |
+
+### Erreurs fréquentes
+- ❌ *Il faut à contacter* → ✅ **Il faut contacter** (infinitif direct, sans préposition)
+- ❌ *Vous devez à signaler* → ✅ **Vous devez signaler** (idem)
+- ❌ *J'ai besoin un document* → ✅ **J'ai besoin d'un document** (besoin DE)`,
 
       keyPoints: [
         'Il faut + infinitif (obligation impersonnelle)',
@@ -346,7 +397,7 @@ Service qui gère les actes d'état civil des Français nés à l'étranger (Nan
 
 **Yasmine :** Yasmine Bougherara. J'ai un rendez-vous à 10h30.
 
-**Agent :** Oui, je vous vois. Vous renouvelez votre titre de séjour "vie privée et familiale". Vous avez apporté tous les documents ?
+**Agent :** Oui, je vous vois dans notre système. Vous renouvelez votre titre de séjour "vie privée et familiale". Vous avez apporté tous les documents ?
 
 **Yasmine :** Je crois que oui. J'ai la liste de votre site internet.
 
@@ -354,9 +405,13 @@ Service qui gère les actes d'état civil des Français nés à l'étranger (Nan
 
 **Yasmine :** J'ai aussi apporté mes bulletins de salaire des trois derniers mois et mon contrat de travail.
 
-**Agent :** Bien. Il me manque le formulaire de demande, le Cerfa 15654*03. Vous l'avez ?
+**Agent :** Parfait. Avez-vous aussi les photocopies de chaque document ? Il faut les originaux ET les copies.
 
-**Yasmine :** Oui, le voilà. J'ai tout rempli.
+**Yasmine :** Oui, j'ai tout photocopié. Il me manque quelque chose ?
+
+**Agent :** Oui, il me manque le formulaire de demande, le Cerfa 15654*03. Vous l'avez ?
+
+**Yasmine :** Oui, le voilà. J'ai tout rempli et signé.
 
 **Agent :** Parfait. Et le timbre fiscal ?
 
@@ -364,32 +419,75 @@ Service qui gère les actes d'état civil des Français nés à l'étranger (Nan
 
 **Agent :** Oui, au guichet numéro 3, à côté. C'est 225 euros pour un an. Vous payez par carte ou en espèces ?
 
-**Yasmine :** Par carte, s'il vous plaît.`,
+**Yasmine :** Par carte, s'il vous plaît. Combien de temps faudra-t-il pour avoir une réponse ?
+
+**Agent :** Une fois le dossier complet, vous recevrez un récépissé valable 3 mois. La décision vous sera communiquée par courrier dans un délai de 2 à 4 mois.
+
+---
+
+### Vocabulaire clé — Le titre de séjour
+
+| Document | Rôle |
+|---|---|
+| Le titre de séjour | Autorisation officielle de rester en France |
+| Le Cerfa 15654*03 | Formulaire de demande de titre de séjour |
+| Le timbre fiscal | Taxe administrative (225€/an) |
+| Les photos d'identité | 3 photos 35×45 mm, fond clair |
+| Le bulletin de salaire | Preuve de travail et de revenus |
+| Le contrat de travail | Preuve d'emploi (CDI ou CDD) |
+| Le récépissé | Document provisoire pendant l'instruction |
+| Le guichet | Bureau qui reçoit le public |`,
 
       linguisticPoint: `## Point linguistique : Les déterminants démonstratifs et le vocabulaire du dossier
 
-### Déterminants démonstratifs
-| Genre/Nombre | Déterminant | Exemple |
-|---|---|---|
-| Masculin singulier | **ce / cet** (voyelle) | ce formulaire / cet acte |
-| Féminin singulier | **cette** | cette photo / cette liste |
-| Pluriel | **ces** | ces documents / ces photos |
+### Déterminants démonstratifs — tableau complet
+| Genre / Nombre | Déterminant | Avant voyelle/h | Exemple |
+|---|---|---|---|
+| Masculin singulier | **ce** | **cet** | ce formulaire / cet acte |
+| Féminin singulier | **cette** | **cette** | cette photo / cette liste |
+| Pluriel (m/f) | **ces** | **ces** | ces documents / ces photos |
 
-**Usage :** montrer/désigner quelque chose proche ou mentionné → "ce Cerfa", "cette page", "ces pièces jointes"
+**Usage :** montrer ou désigner quelque chose proche ou déjà mentionné
+- "**Ce** Cerfa est important" (masc., consonne)
+- "**Cet** acte de naissance" (masc., voyelle)
+- "**Cette** photo n'est pas valable" (fém.)
+- "**Ces** documents sont en ordre" (pluriel)
 
 ### Vocabulaire du dossier de titre de séjour
-- **Le titre de séjour** = le document officiel autorisant un étranger à rester en France
-- **Le passeport** = document d'identité international
-- **Les photos d'identité** = photos normalisées (35×45mm, fond clair)
-- **Le bulletin de salaire** = fiche de paie mensuelle
-- **Le timbre fiscal** = taxe administrative (achetée en ligne ou au guichet)
-- **Le dossier complet** = ensemble de tous les documents requis
-- **Le guichet** = bureau où on reçoit le public
+| Terme | Définition |
+|---|---|
+| Le titre de séjour | Document officiel autorisant un étranger à séjourner légalement |
+| Le passeport | Document d'identité et de voyage international |
+| Les photos d'identité | Photos normalisées (35×45mm, fond clair, sans lunettes) |
+| Le bulletin de salaire | Fiche de paie mensuelle de l'employeur |
+| Le timbre fiscal | Taxe administrative achetée en ligne ou au guichet |
+| Le dossier complet | Tous les documents réunis et conformes |
+| Le guichet | Bureau de réception du public dans une administration |
+| Le récépissé | Document provisoire remis en attendant la décision |
+| L'instruction | Examen du dossier par l'administration |
 
-### Exprimer qu'un document manque
-- "Il me **manque** le formulaire" (= I'm missing the form)
-- "Il **manque** un document dans votre dossier"
-- "Je n'ai **pas** le timbre fiscal"`,
+### Exprimer qu'un document manque — structures clés
+| Structure | Exemple |
+|---|---|
+| **Il me manque** + document | Il me manque le timbre fiscal |
+| **Il vous manque** + document | Il vous manque une photo |
+| **Il manque** + document | Il manque deux pièces dans votre dossier |
+| **Je n'ai pas** + article + document | Je n'ai pas le formulaire |
+| **J'ai oublié** + article + document | J'ai oublié le timbre fiscal |
+
+### Types de titres de séjour courants en France
+| Titre | Profil |
+|---|---|
+| Vie privée et familiale | Famille de Français, parent d'enfant français... |
+| Salarié | Travailleur avec contrat de travail |
+| Étudiant | Personne inscrite dans un établissement d'enseignement |
+| Visiteur | Sans activité professionnelle, ressources suffisantes |
+| Réfugié / Protection subsidiaire | Personne protégée par la France |
+
+### Erreurs fréquentes
+- ❌ *Cet formulaire* → ✅ **Ce formulaire** (consonne → ce, pas cet)
+- ❌ *Ce acte* → ✅ **Cet acte** (voyelle → cet, pas ce)
+- ❌ *Il me manque du formulaire* → ✅ **Il me manque le formulaire** (manquer + article défini)`,
 
       keyPoints: [
         'Il me manque + document (= I\'m missing)',
@@ -658,54 +756,97 @@ Service qui gère les actes d'état civil des Français nés à l'étranger (Nan
 
 **Agent :** Tout à fait. Si vous travaillez en France, vous êtes automatiquement affilié à la Sécurité sociale. Mais il faut vous inscrire pour recevoir votre carte Vitale. Vous avez votre numéro de Sécurité sociale ?
 
-**Kwame :** Oui, mon employeur me l'a donné. C'est le numéro sur ma fiche de paie.
+**Kwame :** Oui, mon employeur me l'a donné. C'est le numéro sur ma fiche de paie — il commence par 1.
 
-**Agent :** Parfait. Alors, pour créer votre dossier, j'ai besoin de : votre titre de séjour ou passeport, un justificatif d'identité, votre acte de naissance traduit en français, et une attestation de votre employeur.
+**Agent :** Exact, le 1 indique que vous êtes un homme. Alors, pour créer votre dossier, j'ai besoin de : votre titre de séjour ou passeport, un justificatif d'identité, votre acte de naissance traduit en français, et une attestation de votre employeur.
 
-**Kwame :** J'ai tout ça. Est-ce que j'ai droit au remboursement des médicaments maintenant ?
+**Kwame :** J'ai tout ça. L'acte de naissance, il doit être traduit par quelqu'un de particulier ?
+
+**Agent :** Oui, par un traducteur assermenté. La liste des traducteurs agréés est disponible sur le site du tribunal judiciaire de votre ville.
+
+**Kwame :** D'accord. Est-ce que j'ai droit au remboursement des médicaments maintenant ?
 
 **Agent :** Oui, dès que votre dossier est créé, vous avez accès aux soins. La Sécurité sociale rembourse en moyenne 70% des frais médicaux. Pour les 30% restants, vous pouvez souscrire une mutuelle.
 
-**Kwame :** Et la carte Vitale, quand est-ce que je la reçois ?
+**Kwame :** Mon employeur m'a proposé une mutuelle d'entreprise.
 
-**Agent :** Comptez 2 à 4 semaines après la validation de votre dossier. En attendant, vous recevrez une attestation provisoire.`,
+**Agent :** Très bien, c'est souvent plus avantageux car l'employeur paie une partie. Et la carte Vitale, quand est-ce que je la reçois ?
+
+**Agent :** Comptez 2 à 4 semaines après la validation de votre dossier. En attendant, vous recevrez une attestation provisoire que vous pouvez présenter à votre médecin.
+
+---
+
+### Vocabulaire clé — La Sécurité sociale
+
+| Terme | Définition |
+|---|---|
+| La CPAM | Caisse Primaire d'Assurance Maladie |
+| La carte Vitale | Carte électronique de l'Assurance maladie (verte) |
+| Le numéro de Sécurité sociale | 15 chiffres (commence par 1=homme, 2=femme) |
+| S'affilier | Devenir membre, s'inscrire à la Sécu |
+| Le remboursement | Argent rendu après avoir payé des soins |
+| Le ticket modérateur | La partie non remboursée par la Sécu (≈ 30%) |
+| La mutuelle | Assurance complémentaire santé |
+| L'attestation provisoire | Document temporaire en attendant la carte Vitale |
+| Un traducteur assermenté | Traducteur officiel reconnu par les tribunaux |`,
 
       linguisticPoint: `## Point linguistique : Les verbes devoir, pouvoir, recevoir au présent
 
-### Le verbe DEVOIR (must/have to)
-| Pronom | Conjugaison |
-|---|---|
-| Je | **dois** |
-| Tu | **dois** |
-| Il/Elle | **doit** |
-| Nous | **devons** |
-| Vous | **devez** |
-| Ils | **doivent** |
+### Le verbe DEVOIR (must/have to) — usage et conjugaison
+| Pronom | Conjugaison | Exemple en contexte |
+|---|---|---|
+| Je | **dois** | Je dois m'inscrire à la CPAM |
+| Tu | **dois** | Tu dois apporter tes documents |
+| Il/Elle | **doit** | Il doit présenter sa carte Vitale |
+| Nous | **devons** | Nous devons signaler le changement |
+| Vous | **devez** | Vous devez remplir ce formulaire |
+| Ils | **doivent** | Ils doivent obtenir la carte Vitale |
 
-### Le verbe POUVOIR (can/be able to)
-| Pronom | Conjugaison |
-|---|---|
-| Je | **peux** |
-| Tu | **peux** |
-| Il/Elle | **peut** |
-| Nous | **pouvons** |
-| Vous | **pouvez** |
-| Ils | **peuvent** |
+### Le verbe POUVOIR (can/be able to) — usage et conjugaison
+| Pronom | Conjugaison | Exemple en contexte |
+|---|---|---|
+| Je | **peux** | Je peux souscrire une mutuelle |
+| Tu | **peux** | Tu peux appeler la CPAM |
+| Il/Elle | **peut** | Elle peut accéder aux soins |
+| Nous | **pouvons** | Nous pouvons vous aider |
+| Vous | **pouvez** | Vous pouvez payer par carte |
+| Ils | **peuvent** | Ils peuvent demander l'attestation |
 
-### Le verbe RECEVOIR (to receive)
-| Pronom | Conjugaison |
-|---|---|
-| Je | **reçois** |
-| Tu | **reçois** |
-| Il/Elle | **reçoit** |
-| Nous | **recevons** |
-| Vous | **recevez** |
-| Ils | **reçoivent** |
+### Le verbe RECEVOIR (to receive) — attention à la cédille !
+| Pronom | Conjugaison | Note |
+|---|---|---|
+| Je | **reçois** | ç devant o et a |
+| Tu | **reçois** | ç devant o et a |
+| Il/Elle | **reçoit** | ç devant o et a |
+| Nous | **recevons** | c seul devant e |
+| Vous | **recevez** | c seul devant e |
+| Ils | **reçoivent** | ç devant o et a |
 
-### La Sécurité sociale — chiffres clés
-- Remboursement moyen : **70%** des frais médicaux
-- **30%** = ticket modérateur (à votre charge, ou couvert par mutuelle)
-- Numéro de Sécu = **15 chiffres** (commence par 1=homme ou 2=femme)`,
+### La Sécurité sociale — chiffres clés et fonctionnement
+| Élément | Information |
+|---|---|
+| Remboursement moyen | 70% des frais médicaux |
+| Ticket modérateur | 30% à votre charge (ou mutuelle) |
+| Numéro de Sécu | 15 chiffres (1 = homme / 2 = femme) |
+| Carte Vitale | Délai 2-4 semaines après inscription |
+| Attestation provisoire | Valable en attendant la carte Vitale |
+
+### Lire un numéro de Sécurité sociale
+**Exemple : 1 88 03 75 108 042 95**
+| Chiffres | Signification |
+|---|---|
+| 1 | Sexe (1 = homme, 2 = femme) |
+| 88 | Année de naissance (1988) |
+| 03 | Mois de naissance (mars) |
+| 75 | Département de naissance (Paris) |
+| 108 | Commune de naissance |
+| 042 | Numéro d'ordre dans la commune |
+| 95 | Clé de contrôle |
+
+### Erreurs fréquentes
+- ❌ *Je recois* → ✅ **Je reçois** (cédille obligatoire devant o)
+- ❌ *Je peut pas* → ✅ **Je ne peux pas** (je/tu → peux, pas peut)
+- ❌ *Vous devez à vous inscrire* → ✅ **Vous devez vous inscrire** (pas de préposition entre devoir et infinitif)`,
 
       keyPoints: [
         'DEVOIR : je dois / tu dois / il doit / nous devons / vous devez / ils doivent',
@@ -972,37 +1113,86 @@ Service qui gère les actes d'état civil des Français nés à l'étranger (Nan
 
 **Agent :** Si vous vivez principalement en France et que vous y travaillez, vous êtes résidente fiscale. Vous devez déclarer tous vos revenus, même ceux de l'étranger. La déclaration se fait en ligne sur impots.gouv.fr, généralement entre avril et juin.
 
+**Aïcha :** Et pour les revenus étrangers, est-ce que je vais être imposée deux fois ?
+
+**Agent :** Pas nécessairement. La France a des conventions fiscales avec beaucoup de pays pour éviter la double imposition. Ça dépend de votre pays d'origine.
+
 **Aïcha :** Est-ce que je vais payer beaucoup d'impôts ?
 
 **Agent :** Ça dépend de vos revenus. En France, l'impôt sur le revenu est progressif — les petits revenus paient peu ou pas d'impôts. Et vous avez peut-être droit à des réductions selon votre situation familiale.
 
 **Aïcha :** Je suis célibataire et je n'ai pas d'enfants.
 
-**Agent :** Dans ce cas, vous avez 1 "part" fiscale. La déclaration en ligne est guidée pas à pas. Si vous avez des difficultés, vous pouvez prendre rendez-vous dans un centre des finances publiques.`,
+**Agent :** Dans ce cas, vous avez 1 "part" fiscale. La déclaration en ligne est guidée pas à pas. Si vous avez des difficultés, vous pouvez prendre rendez-vous dans un centre des finances publiques.
+
+**Aïcha :** J'ai peur de faire une erreur. Est-ce que c'est grave si je me trompe ?
+
+**Agent :** Si c'est involontaire, il y a généralement une simple régularisation. Mais il vaut mieux vérifier deux fois avant de valider. Et si vous êtes non imposable, vous devrez quand même déclarer — c'est obligatoire pour tous les résidents fiscaux.
+
+---
+
+### Vocabulaire clé — Les impôts
+
+| Terme | Définition |
+|---|---|
+| La déclaration de revenus | Formulaire annuel à remplir entre avril et juin |
+| L'impôt sur le revenu | Taxe sur les salaires et autres revenus |
+| Résidente fiscale | Personne dont le domicile fiscal est en France |
+| La part fiscale | Unité de calcul (1 adulte seul = 1 part) |
+| L'impôt progressif | Taux qui augmente avec les revenus |
+| Non imposable | Ne pas avoir à payer d'impôt sur le revenu |
+| La double imposition | Être taxé deux fois sur les mêmes revenus |
+| La convention fiscale | Accord entre deux pays pour éviter la double imposition |`,
 
       linguisticPoint: `## Point linguistique : Le futur simple — les projets et les prévisions
 
 ### Formation du futur simple
-**Base = infinitif + terminaisons**
-| Pronom | Terminaison | Exemple (payer) |
-|---|---|---|
-| Je | **-rai** | je paierai |
-| Tu | **-ras** | tu paieras |
-| Il/Elle | **-ra** | il paiera |
-| Nous | **-rons** | nous paierons |
-| Vous | **-rez** | vous paierez |
-| Ils/Elles | **-ront** | ils paieront |
+**Règle générale : base (infinitif) + terminaisons**
+| Pronom | Terminaison | Exemple (déclarer) | Exemple (finir) |
+|---|---|---|---|
+| Je | **-rai** | je déclarerai | je finirai |
+| Tu | **-ras** | tu déclareras | tu finiras |
+| Il/Elle | **-ra** | il déclarera | elle finira |
+| Nous | **-rons** | nous déclarerons | nous finirons |
+| Vous | **-rez** | vous déclarerez | vous finirez |
+| Ils/Elles | **-ront** | ils déclareront | elles finiront |
 
-**Futur irréguliers fréquents :**
-- être → **ser**ai / avoir → **aur**ai / aller → **ir**ai
-- pouvoir → **pourr**ai / devoir → **devr**ai / faire → **fer**ai
+### Futurs irréguliers — les plus fréquents à connaître
+| Infinitif | Base irrégulière | Je | Il/Elle |
+|---|---|---|---|
+| être | **ser-** | je serai | il sera |
+| avoir | **aur-** | j'aurai | elle aura |
+| aller | **ir-** | j'irai | il ira |
+| faire | **fer-** | je ferai | elle fera |
+| pouvoir | **pourr-** | je pourrai | il pourra |
+| devoir | **devr-** | je devrai | elle devra |
+| vouloir | **voudr-** | je voudrai | il voudra |
+| venir | **viendr-** | je viendrai | elle viendra |
+| savoir | **saur-** | je saurai | il saura |
 
 ### Vocabulaire fiscal essentiel
-- **La déclaration de revenus** = le formulaire annuel pour déclarer ses gains
-- **L'impôt sur le revenu** = taxe sur les salaires et revenus
-- **La part fiscale** = unité de calcul de l'impôt (1 adulte = 1 part)
-- **Résidente fiscale** = personne dont le domicile fiscal est en France
-- **Impôts progressifs** = le taux augmente avec les revenus`,
+| Terme | Définition |
+|---|---|
+| La déclaration de revenus | Formulaire annuel déclarant tous ses revenus |
+| L'impôt sur le revenu (IR) | Taxe annuelle calculée sur les revenus |
+| La part fiscale | Unité de calcul de l'impôt selon la composition du foyer |
+| Résident fiscal | Personne qui a son domicile fiscal en France |
+| L'impôt progressif | Taux qui augmente par tranches selon le revenu |
+| La tranche d'imposition | Catégorie de revenus avec un taux précis |
+| Non imposable | Ne pas avoir à payer d'IR (revenus sous le seuil) |
+
+### Tranches de l'impôt sur le revenu (exemple simplifié)
+| Revenu annuel | Taux |
+|---|---|
+| Jusqu'à ~11 500 € | 0% |
+| De 11 500 à 29 000 € | 11% |
+| De 29 000 à 83 000 € | 30% |
+| Au-delà de 83 000 € | 41-45% |
+
+### Erreurs fréquentes
+- ❌ *Je paierai les impôts demain* (hors contexte) → ✅ futur si action future planifiée
+- ❌ *J'allerai à la préfecture* → ✅ **J'irai** (irrégulier)
+- ❌ *Tu seras beaucoup d'impôts* → ✅ **Tu paieras** ou **Tu devras payer** (sujet + prédicat cohérents)`,
 
       keyPoints: [
         'Futur simple : infinitif + rai/ras/ra/rons/rez/ront',
@@ -1251,45 +1441,83 @@ Service qui gère les actes d'état civil des Français nés à l'étranger (Nan
 
 **Agent :** Très bien. Vous habitez en France depuis quand ?
 
-**Nour :** Depuis 8 mois. Je suis en situation régulière, j'ai un titre de séjour valide.
+**Nour :** Depuis 8 mois. Je suis en situation régulière, j'ai un titre de séjour valide jusqu'en 2026.
 
-**Agent :** Bien. Et vos enfants ont quel âge ?
+**Agent :** Très bien. Et vos enfants ont quel âge ?
 
-**Nour :** J'ai un fils de 4 ans et une fille de 7 ans.
+**Nour :** J'ai un fils de 4 ans et une fille de 7 ans. Ma fille est à l'école primaire.
 
 **Agent :** Vous pouvez toucher les allocations familiales pour 2 enfants. En France, les allocations commencent à partir de 2 enfants à charge. Pour un enfant seul, vous pouvez toucher d'autres aides comme le complément de libre choix du mode de garde.
+
+**Nour :** Combien vais-je toucher par mois ?
+
+**Agent :** Pour 2 enfants, c'est environ 140 euros par mois. Le montant dépend de vos revenus — c'est sous conditions de ressources.
 
 **Nour :** Est-ce que mes enfants doivent être nés en France ?
 
 **Agent :** Non, pas obligatoirement. Ils doivent habiter en France et être à votre charge. Vous avez les documents pour les deux enfants — actes de naissance traduits, justificatifs de scolarité ?
 
-**Nour :** Oui, tout est là. Est-ce que je peux aussi faire une demande d'APL ? Je suis locataire.
+**Nour :** Oui, tout est là. Est-ce que je peux aussi faire une demande d'APL ? Je suis locataire, je paie 650 euros de loyer par mois.
 
-**Agent :** Tout à fait ! L'APL, c'est l'Aide Personnalisée au Logement. Vous pouvez la demander en même temps. Il vous faut votre contrat de bail et vos trois dernières quittances de loyer.`,
+**Agent :** Tout à fait ! L'APL, c'est l'Aide Personnalisée au Logement. Vous pouvez la demander en même temps. Il vous faut votre contrat de bail et vos trois dernières quittances de loyer.
+
+**Nour :** Et pour le RSA, est-ce que j'ai le droit ?
+
+**Agent :** Le RSA est accessible si vous résidez légalement en France depuis au moins 5 ans. Vous êtes là depuis 8 mois, donc pas encore. Mais vous pouvez demander la prime d'activité si vous travaillez.
+
+---
+
+### Vocabulaire clé — La CAF et les aides sociales
+
+| Aide | Bénéficiaires | Condition principale |
+|---|---|---|
+| Allocations familiales | Familles avec 2 enfants ou + | 2 enfants à charge |
+| APL | Locataires | Contrat de bail + quittances |
+| RSA | Sans revenus ou très faibles revenus | Résidence légale depuis 5 ans |
+| Prime d'activité | Travailleurs à faibles revenus | Avoir un emploi |
+| Allocation de rentrée scolaire | Parents à revenus modestes | Enfants de 6 à 18 ans |`,
 
       linguisticPoint: `## Point linguistique : Les pronoms compléments d'objet direct (COD)
 
-### Les pronoms COD
-| Personne | Pronom COD | Exemple |
+### Les pronoms COD — tableau complet
+| Personne | Pronom COD | Avant voyelle | Exemple |
+|---|---|---|---|
+| 1ère sing. | **me** | **m'** | Il me contacte / Il m'appelle |
+| 2ème sing. | **te** | **t'** | Je te rappelle / Je t'aide |
+| 3ème masc. | **le** | **l'** | Je le reçois / Je l'appelle |
+| 3ème fém. | **la** | **l'** | Je la vois / Je l'entends |
+| 1ère plur. | **nous** | **nous** | Il nous aide |
+| 2ème plur. | **vous** | **vous** | L'agent vous reçoit |
+| 3ème plur. | **les** | **les** | Je les envoie |
+
+### Position du pronom COD — AVANT le verbe
+| Phrase originale | Avec pronom COD | Règle |
 |---|---|---|
-| 1ère sing. | **me / m'** | Il me contacte / Il m'appelle |
-| 2ème sing. | **te / t'** | Je te rappelle |
-| 3ème masc. | **le / l'** | Je le reçois / Je l'appelle |
-| 3ème fém. | **la / l'** | Je la vois / Je l'entends |
-| 1ère plur. | **nous** | Il nous aide |
-| 2ème plur. | **vous** | L'agent vous reçoit |
-| 3ème plur. | **les** | Je les envoie |
+| Je vois **la liste** | Je **la** vois | la liste (fém.) → la |
+| J'envoie **les documents** | Je **les** envoie | les documents (plur.) → les |
+| Je remplis **le formulaire** | Je **le** remplis | le formulaire (masc.) → le |
+| J'aide **Nour** | Je **l'**aide | Nour commence par voyelle → l' |
+| L'agent aide **les familles** | L'agent **les** aide | les familles (plur.) → les |
 
-**Position :** Le pronom COD se place AVANT le verbe :
-- "Je vois la liste" → "Je **la** vois"
-- "J'envoie les documents" → "Je **les** envoie"
-- "Je remplis le formulaire" → "Je **le** remplis"
+### Au passé composé — l'accord du participe passé
+Quand le COD est placé AVANT, le participe passé s'accorde :
+- J'ai rempli le formulaire → Je **l'**ai rempli**e**? Non → Je **l'**ai rempli (masc.)
+- J'ai envoyé la demande → Je **l'**ai envoyé**e** (fém. → e ajouté)
+- J'ai reçu les documents → Je **les** ai reçu**s** (plur. masc. → s ajouté)
 
-### Aides de la CAF (les principales)
-- **Allocations familiales (AF)** = aide pour 2 enfants ou plus
-- **APL** = Aide Personnalisée au Logement (aide pour le loyer)
-- **RSA** = Revenu de Solidarité Active (aide pour les revenus très bas)
-- **Prime d'activité** = aide pour les travailleurs à faibles revenus`,
+### Aides de la CAF — les principales
+| Aide | Abréviation | Bénéficiaires |
+|---|---|---|
+| Allocations familiales | AF | Familles avec 2 enfants ou plus |
+| Aide Personnalisée au Logement | APL | Locataires et propriétaires (CAF) |
+| Revenu de Solidarité Active | RSA | Personnes sans ou peu de revenus (5 ans résidence) |
+| Prime d'activité | PA | Travailleurs à faibles revenus |
+| Allocation de rentrée scolaire | ARS | Parents avec enfants scolarisés |
+
+### Erreurs fréquentes
+- ❌ *Je vois la → Je vois la* → ✅ **Je la vois** (pronom AVANT le verbe)
+- ❌ *Je les ai envoyé* → ✅ **Je les ai envoyés** (accord avec COD masculin pluriel)
+- ❌ *Je me rappelle* (en contexte de rappeler quelqu'un) → ✅ **Je rappelle / Je te rappelle**`,
 
       keyPoints: [
         'Pronoms COD : me/te/le/la/nous/vous/les — placés AVANT le verbe',

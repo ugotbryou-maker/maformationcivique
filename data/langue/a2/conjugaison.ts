@@ -34,7 +34,34 @@ En français, les verbes irréguliers les plus fréquents sont aussi les plus ut
 
 **Savoir** vs **connaître** : "savoir" = connaître un fait ou savoir faire quelque chose / "connaître" = être familier avec quelqu'un ou quelque chose.
 
-**Venir** et **partir** sont les deux verbes de mouvement opposés les plus fréquents.`,
+**Venir** et **partir** sont les deux verbes de mouvement opposés les plus fréquents.
+
+---
+
+### Expressions courantes avec les verbes irréguliers
+
+| Expression | Verbe | Sens |
+|---|---|---|
+| "Je **suis** d'accord." | être | I agree |
+| "Vous **avez** raison." | avoir | You are right |
+| "Je **vais** bien, merci." | aller | I am fine |
+| "Qu\'est-ce que vous **faites** ?" | faire | What do you do? |
+| "Je ne **peux** pas venir." | pouvoir | I cannot come |
+| "Je **veux** bien." | vouloir | I'd be glad to |
+| "Je **dois** partir." | devoir | I must leave |
+| "Je ne **sais** pas." | savoir | I don't know |
+| "D'où **venez**-vous ?" | venir | Where are you from? |
+
+---
+
+### Savoir vs Connaître — distinction essentielle
+
+| Verbe | Usage | Exemples |
+|---|---|---|
+| **Savoir** | + infinitif (compétence) | Je **sais** nager / conduire |
+| **Savoir** | + que / si / où (information) | Je **sais** qu'il est parti |
+| **Connaître** | + personne | Je **connais** Marie |
+| **Connaître** | + lieu/chose (familiarité) | Je **connais** Paris / ce film |`,
 
       linguisticPoint: `## Point linguistique : Conjugaison des verbes irréguliers au présent
 
@@ -58,6 +85,8 @@ En français, les verbes irréguliers les plus fréquents sont aussi les plus ut
 | vous | **allez** | **faites** |
 | ils/elles | **vont** | **font** |
 
+**Attention :** "vous faites" — jamais "vous faisez" ❌
+
 ### Pouvoir, Vouloir, Devoir
 | | **pouvoir** | **vouloir** | **devoir** |
 |---|---|---|---|
@@ -68,15 +97,33 @@ En français, les verbes irréguliers les plus fréquents sont aussi les plus ut
 | vous | **pouvez** | **voulez** | **devez** |
 | ils | **peuvent** | **veulent** | **doivent** |
 
-### Venir, Savoir
-| | **venir** | **savoir** |
+### Venir, Savoir, Connaître
+| | **venir** | **savoir** | **connaître** |
+|---|---|---|---|
+| je | **viens** | **sais** | **connais** |
+| tu | **viens** | **sais** | **connais** |
+| il/elle | **vient** | **sait** | **connaît** |
+| nous | **venons** | **savons** | **connaissons** |
+| vous | **venez** | **savez** | **connaissez** |
+| ils | **viennent** | **savent** | **connaissent** |
+
+### Verbes utiles supplémentaires
+| | **partir** | **prendre** | **mettre** |
+|---|---|---|---|
+| je | **pars** | **prends** | **mets** |
+| tu | **pars** | **prends** | **mets** |
+| il/elle | **part** | **prend** | **met** |
+| nous | **partons** | **prenons** | **mettons** |
+| vous | **partez** | **prenez** | **mettez** |
+| ils | **partent** | **prennent** | **mettent** |
+
+### Pièges fréquents au présent
+| ❌ Erreur | ✅ Correction | Explication |
 |---|---|---|
-| je | **viens** | **sais** |
-| tu | **viens** | **sais** |
-| il/elle | **vient** | **sait** |
-| nous | **venons** | **savons** |
-| vous | **venez** | **savez** |
-| ils | **viennent** | **savent** |`,
+| Vous **faisez** | Vous **faites** | "faites" est irrégulier |
+| Ils **voulons** | Ils **veulent** | changement de radical : voul- → veulen- |
+| Je **connaît** Paris | Je **connais** Paris | connaître : je/tu = connais |
+| Il **peux** venir | Il **peut** venir | peux = je/tu ; peut = il/elle |`,
 
       keyPoints: [
         'Être : suis / es / est / sommes / êtes / sont',
@@ -282,7 +329,54 @@ En français, les verbes irréguliers les plus fréquents sont aussi les plus ut
 
 **Collègue :** Tu as eu de la chance quand même.
 
-**Youssef :** Oui ! Et ma femme est venue me rejoindre le soir pour fêter ça.`,
+**Youssef :** Oui ! Et ma femme est venue me rejoindre le soir pour fêter ça.
+
+---
+
+### Les verbes ÊTRE au passé composé — mémo DR MRS VAN DER TRAMP
+
+| Infinitif | Participe passé | Exemple |
+|---|---|---|
+| **D**escendre | descendu | Il est descendu |
+| **R**entrer | rentré | Elle est rentrée |
+| **M**onter | monté | Ils sont montés |
+| **R**ester | resté | Elles sont restées |
+| **S**ortir | sorti | Il est sorti |
+| **V**enir | venu | Elle est venue |
+| **A**ller | allé | Il est allé |
+| **N**aître | né | Il est né |
+| **D**écéder | décédé | Elle est décédée |
+| **E**ntrer | entré | Il est entré |
+| **R**etourner | retourné | Elle est retournée |
+| **T**omber | tombé | Il est tombé |
+| **R**evenir | revenu | Elle est revenue |
+| **A**rriver | arrivé | Il est arrivé |
+| **M**ourir | mort | Elle est morte |
+| **P**artir | parti | Il est parti |
+
+Plus tous les verbes **pronominaux** (se lever, se coucher, s'habiller...) → toujours ÊTRE.
+
+---
+
+### Participes passés irréguliers fréquents
+
+| Infinitif | Participe passé |
+|---|---|
+| avoir | **eu** |
+| être | **été** |
+| faire | **fait** |
+| prendre | **pris** |
+| voir | **vu** |
+| vouloir | **voulu** |
+| pouvoir | **pu** |
+| devoir | **dû** |
+| savoir | **su** |
+| mettre | **mis** |
+| dire | **dit** |
+| écrire | **écrit** |
+| lire | **lu** |
+| boire | **bu** |
+| recevoir | **reçu** |`,
 
       linguisticPoint: `## Point linguistique : Le passé composé
 
@@ -296,6 +390,8 @@ En français, les verbes irréguliers les plus fréquents sont aussi les plus ut
 | prendre | pris | j\'**ai pris** |
 | voir | vu | j\'**ai vu** |
 | faire | fait | j\'**ai fait** |
+| avoir | eu | j\'**ai eu** |
+| être | été | j\'**ai été** |
 
 ### Verbes avec ÊTRE (mouvement + réfléchis)
 Mémo : **DR MRS VAN DER TRAMP** (ou ALLER/VENIR et dérivés)
@@ -307,15 +403,43 @@ Mémo : **DR MRS VAN DER TRAMP** (ou ALLER/VENIR et dérivés)
 
 ### Accord du participe passé avec ÊTRE
 Le participe s\'accorde avec le SUJET :
-- "Il est parti**" (masc. sing.)
-- "Elle est parti**e**" (fém. sing.)
-- "Ils sont parti**s**" (masc. pl.)
-- "Elles sont parti**es**" (fém. pl.)
+| Sujet | Accord | Exemple |
+|---|---|---|
+| masc. sing. | — | "Il est parti" |
+| fém. sing. | + **e** | "Elle est parti**e**" |
+| masc. pl. | + **s** | "Ils sont parti**s**" |
+| fém. pl. | + **es** | "Elles sont parti**es**" |
 
 ### Accord avec AVOIR
 Le participe s\'accorde avec le COD s\'il est PLACÉ AVANT le verbe :
-- "Je l\'ai pris**e**" (la lettre — fém.) ✓
-- "J\'ai pris la lettre" (COD après) → pas d\'accord ✓`,
+| Situation | Accord | Exemple |
+|---|---|---|
+| COD APRÈS le verbe | aucun accord | "J\'ai pris la lettre" |
+| COD AVANT le verbe (pronom) | accord | "Je **l\'**ai pris**e**" (la lettre — fém.) |
+| COD AVANT (pronom les) | accord | "Je **les** ai rassemblé**s**" (masc. pl.) |
+
+### Cas particuliers — verbes à double auxiliaire
+Certains verbes se conjuguent avec ÊTRE ou AVOIR selon le sens :
+| Verbe | Avec ÊTRE (intransitif) | Avec AVOIR (transitif) |
+|---|---|---|
+| monter | "Elle est montée." (mouvement) | "Elle a monté les bagages." (COD) |
+| descendre | "Il est descendu." (mouvement) | "Il a descendu le chien." (COD) |
+| sortir | "Ils sont sortis." (mouvement) | "Il a sorti les poubelles." (COD) |
+| rentrer | "Elle est rentrée." (mouvement) | "Il a rentré les chaises." (COD) |
+
+### Négation au passé composé
+**NE + auxiliaire + PAS + participe :**
+- "Je n\'**ai pas** compris" ✓
+- "Elle n\'**est pas** venue" ✓
+- "Ils n\'**ont pas** pu venir" ✓
+
+### Pièges fréquents
+| ❌ Erreur | ✅ Correction | Règle |
+|---|---|---|
+| Elle a venue | Elle **est** venue | venir → auxiliaire ÊTRE |
+| Il a resté | Il **est** resté | rester → auxiliaire ÊTRE |
+| Je ai mangé | J\'**ai** mangé | élision obligatoire |
+| Elle a pris**e** la lettre | Elle a pris la lettre | COD après = pas d\'accord |`,
 
       keyPoints: [
         'Passé composé = avoir/être (présent) + participe passé',
@@ -526,7 +650,34 @@ Le participe s\'accorde avec le COD s\'il est PLACÉ AVANT le verbe :
 
 **Voisine :** Et tu es partie à cause de la guerre ?
 
-**Sara :** Oui. En 2015, la situation devenait très dangereuse. Nous avons décidé de partir. C'était très difficile de tout laisser.`,
+**Sara :** Oui. En 2015, la situation devenait très dangereuse. Nous avons décidé de partir. C'était très difficile de tout laisser.
+
+---
+
+### Formation de l'imparfait — rappel visuel
+
+**Règle :** radical "nous" au présent + terminaisons
+
+| Verbe | Présent "nous" | Radical | je / tu / il | nous / vous | ils |
+|---|---|---|---|---|---|
+| parler | nous parl**ons** | parl- | parlais/ais/ait | parlions/iez | parlaient |
+| finir | nous finiss**ons** | finiss- | finissais | finissions/iez | finissaient |
+| faire | nous fais**ons** | fais- | faisais | faisions/iez | faisaient |
+| avoir | nous av**ons** | av- | avais | avions/iez | avaient |
+| **être** | — | **ét-** | **étais** | **étions/iez** | **étaient** |
+
+**Attention :** "être" est le seul verbe dont le radical est différent : ét- (pas "som-").
+
+---
+
+### Imparfait vs Passé composé — le duo essentiel
+
+Dans un récit, les deux temps travaillent ensemble :
+
+| Temps | Rôle dans le récit | Exemple |
+|---|---|---|
+| **Imparfait** | Décor, contexte, descriptions, habitudes | "Il **faisait** beau, les enfants **jouaient**..." |
+| **Passé composé** | Actions ponctuelles, événements | "Soudain, il **a commencé** à pleuvoir." |`,
 
       linguisticPoint: `## Point linguistique : L'imparfait — formation et emplois
 
@@ -539,20 +690,45 @@ Le participe s\'accorde avec le COD s\'il est PLACÉ AVANT le verbe :
 | être | nous somm**es** | ét- | j\'étais |
 | faire | nous fais**ons** | fais- | je faisais |
 | avoir | nous av**ons** | av- | j\'avais |
+| venir | nous ven**ons** | ven- | je venais |
+| prendre | nous pren**ons** | pren- | je prenais |
 
 ### Terminaisons de l'imparfait (toujours régulières)
-| | | |
+| Personne | Terminaison | Exemple (parler) |
 |---|---|---|
-| je -**ais** | nous -**ions** | |
-| tu -**ais** | vous -**iez** | |
-| il/elle -**ait** | ils/elles -**aient** | |
+| je | -**ais** | je parl**ais** |
+| tu | -**ais** | tu parl**ais** |
+| il/elle/on | -**ait** | il parl**ait** |
+| nous | -**ions** | nous parli**ons** |
+| vous | -**iez** | vous parli**ez** |
+| ils/elles | -**aient** | ils parl**aient** |
 
-### Emplois de l'imparfait
-1. **Description du passé** : "La ville ÉTAIT magnifique"
-2. **Habitude passée** : "Je TRAVAILLAIS tous les jours"
-3. **Contexte/décor** : "Il FAISAIT beau, les enfants JOUAIENT"
-4. **Action en cours** (interrompue) : "Je LISAIS quand il est entré"
-5. **Politesse** : "Je VOULAIS vous demander un service"`,
+### Emplois de l'imparfait — 5 cas
+| Emploi | Description | Exemple |
+|---|---|---|
+| **1. Description** | État ou situation passée | "La ville **était** magnifique" |
+| **2. Habitude passée** | Action répétée dans le passé | "Je **travaillais** tous les jours" |
+| **3. Contexte/décor** | Arrière-plan d\'un récit | "Il **faisait** beau, les enfants **jouaient**" |
+| **4. Action en cours** | Interrompue par une autre | "Je **lisais** quand il est entré" |
+| **5. Politesse** | Adoucir une demande | "Je **voulais** vous demander un service" |
+
+### Imparfait vs Passé composé — comparaison
+| Imparfait | Passé composé |
+|---|---|
+| Durée indéfinie | Action délimitée (début/fin) |
+| Habitude, répétition | Événement unique |
+| Description, état | Action, changement |
+| Contexte/décor | Événement de l\'histoire |
+| "La ville **était** belle" | "La ville **a changé**" |
+| "Je **travaillais** là-bas" | "J\'**ai travaillé** là-bas pendant 3 ans" |
+
+### Pièges fréquents à l'imparfait
+| ❌ Erreur | ✅ Correction | Explication |
+|---|---|---|
+| j\'était (sans s) | j\'**étais** | terminaison -ais, pas -ait |
+| nous étions**s** | nous **étions** | pas de s après -ions |
+| tu finiss**ait** | tu finiss**ais** | tu → terminaison -ais |
+| Hier, il **travaillait** | Hier, il **a travaillé** | hier = ponctuel → passé composé |`,
 
       keyPoints: [
         'Formation : radical du présent "nous" + -ais/-ais/-ait/-ions/-iez/-aient',
@@ -775,7 +951,35 @@ Le participe s\'accorde avec le COD s\'il est PLACÉ AVANT le verbe :
 
 **Kadiatou :** Je vais faire ça ce soir. Et pour les droits des citoyens ?
 
-**Sophie :** Concentre-toi sur le droit de vote, la liberté d'expression et l'égalité des droits. Ce sont les piliers de la démocratie française.`,
+**Sophie :** Concentre-toi sur le droit de vote, la liberté d'expression et l'égalité des droits. Ce sont les piliers de la démocratie française.
+
+---
+
+### Tableau récapitulatif — futur proche vs futur simple
+
+| | Futur proche | Futur simple |
+|---|---|---|
+| **Formation** | aller (présent) + infinitif | infinitif + terminaisons |
+| **Sens** | action imminente ou certaine | action plus lointaine ou moins certaine |
+| **Usage** | très fréquent à l\'oral | plus courant à l\'écrit |
+| **Exemple** | "Je **vais partir** dans 5 min." | "Je **partirai** l\'année prochaine." |
+
+---
+
+### Impératif — tableau complet avec irréguliers
+
+| Verbe | tu | nous | vous |
+|---|---|---|---|
+| parler (ER) | Parle ! | Parlons ! | Parlez ! |
+| finir (IR) | Finis ! | Finissons ! | Finissez ! |
+| prendre | Prends ! | Prenons ! | Prenez ! |
+| **être** | **Sois !** | **Soyons !** | **Soyez !** |
+| **avoir** | **Aie !** | **Ayons !** | **Ayez !** |
+| **savoir** | **Sache !** | **Sachons !** | **Sachez !** |
+| **vouloir** | **Veuille !** | **Veuillons !** | **Veuillez !** |
+
+**Règle -ER :** "tu" perd le -s : "Parle !" (pas "Parles" ❌)
+**Règle -IR/-RE :** "tu" garde le -s : "Finis !" / "Prends !" ✓`,
 
       linguisticPoint: `## Point linguistique : Futur proche et Impératif
 
@@ -792,6 +996,12 @@ Le participe s\'accorde avec le COD s\'il est PLACÉ AVANT le verbe :
 **Futur proche** = action future proche/certaine
 **Futur simple** = action future plus lointaine ou moins certaine
 
+### Futur proche négatif
+**NE + aller + PAS + infinitif :**
+- "Je **ne vais pas** oublier." ✓
+- "Ils **ne vont pas** venir." ✓
+- "Elle **ne va pas** partir." ✓
+
 ### 2. L'impératif présent — 3 personnes seulement
 | | Donner | Prendre | Partir |
 |---|---|---|---|
@@ -799,13 +1009,39 @@ Le participe s\'accorde avec le COD s\'il est PLACÉ AVANT le verbe :
 | **nous** | Donnons ! | Prenons ! | Partons ! |
 | **vous** | Donnez ! | Prenez ! | Partez ! |
 
-**⚠️ Règle** : Verbes en -ER → "tu" perd le -s final : "Parle !" (pas "Parles" ❌)
+**Règle clé :** Verbes en -ER → "tu" perd le -s final : "Parle !" (pas "Parles" ❌)
+**Exception :** Devant "y" et "en", le -s revient : "Vas-y !" / "Manges-en !"
 
-### Impératifs irréguliers
-- être : **sois / soyons / soyez**
-- avoir : **aie / ayons / ayez**
-- savoir : **sache / sachons / sachez**
-- vouloir : **veuille / veuillons / veuillez** (poli)`,
+### Impératifs irréguliers — complet
+| Verbe | tu | nous | vous |
+|---|---|---|---|
+| être | **sois** | **soyons** | **soyez** |
+| avoir | **aie** | **ayons** | **ayez** |
+| savoir | **sache** | **sachons** | **sachez** |
+| vouloir | **veuille** | **veuillons** | **veuillez** (poli) |
+
+### Impératif des verbes pronominaux
+**Affirmatif :** verbe + trait d\'union + pronom réfléchi tonique
+- "Lève-**toi** !" / "Levons-**nous** !" / "Levez-**vous** !"
+
+**Négatif :** ne + pronom réfléchi + verbe + pas
+- "Ne **te** lève pas !" / "Ne **vous** levez pas !"
+
+### Impératif + pronom COD/COI (affirmatif)
+| | Impératif | Pronom (affirmatif) |
+|---|---|---|
+| me → moi | "Tu m\'écoutes" | "Écoute-**moi** !" |
+| te → toi | — | "Lève-**toi** !" |
+| le/la/les | — | "Prends-**le** !" / "Prends-**la** !" |
+| lui/leur | — | "Dis-**lui** !" / "Dis-**leur** !" |
+
+### Pièges fréquents à l'impératif
+| ❌ Erreur | ✅ Correction | Règle |
+|---|---|---|
+| Parle**s** à voix haute ! | **Parle** à voix haute ! | -ER : tu sans -s |
+| Prend le bus ! | **Prends** le bus ! | -RE : tu avec -s |
+| Sois**t** patient ! | **Sois** patient ! | être irrégulier |
+| Ayez**s** confiance ! | **Ayez** confiance ! | avoir irrégulier |`,
 
       keyPoints: [
         'Futur proche : aller (présent) + infinitif = "je vais étudier"',

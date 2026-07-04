@@ -26,7 +26,7 @@ export const a2Logement: LangModule = {
 
 **Agent immobilier :** Agence Bellevue, bonjour.
 
-**Omar :** Bonjour. J'ai vu votre annonce pour un appartement 2 pièces rue des Acacias. Il est encore disponible ?
+**Omar :** Bonjour. J'ai vu votre annonce sur le Bon Coin pour un appartement 2 pièces rue des Acacias. Il est encore disponible ?
 
 **Agent :** Oui, il est toujours disponible. Vous souhaitez des informations ?
 
@@ -34,44 +34,97 @@ export const a2Logement: LangModule = {
 
 **Agent :** Le loyer est de 780 euros par mois, charges comprises. Ça comprend les charges de copropriété et l'eau froide. L'électricité et le gaz sont à votre charge.
 
-**Omar :** D'accord. L'appartement est à quel étage ?
+**Omar :** D'accord. Il y a combien de pièces exactement ?
 
-**Agent :** Deuxième étage, avec ascenseur. C'est un appartement de 45 m², avec un salon, une chambre, une cuisine équipée et une salle de bain. Il y a aussi un balcon côté cour.
+**Agent :** C'est un appartement de 45 m², avec un salon, une chambre, une cuisine équipée et une salle de bain. Il y a aussi un balcon côté cour.
+
+**Omar :** C'est à quel étage ?
+
+**Agent :** Deuxième étage, avec ascenseur. C'est calme et lumineux.
 
 **Omar :** Est-ce qu'il y a un parking ?
 
-**Agent :** Non, le parking n'est pas inclus. Mais il y a un parking payant à 50 mètres.
+**Agent :** Non, le parking n'est pas inclus. Mais il y a un parking payant à 50 mètres — environ 80€ par mois.
 
 **Omar :** Et les animaux de compagnie, c'est accepté ?
 
-**Agent :** Ça dépend du type d'animal. Les chats sont acceptés, mais pas les chiens.
+**Agent :** Ça dépend du type d'animal. Les chats sont acceptés, mais pas les chiens. C'est indiqué dans le règlement de copropriété.
 
-**Omar :** Très bien. Est-ce que je peux visiter ce week-end ?
+**Omar :** Très bien. Il faut quel type de dossier pour postuler ?
 
-**Agent :** Bien sûr. Samedi matin à 10h, ça vous convient ?`,
+**Agent :** Les trois derniers bulletins de salaire, un justificatif de domicile, une pièce d'identité, et votre contrat de travail. Le propriétaire demande que le loyer ne dépasse pas un tiers de vos revenus.
+
+**Omar :** D'accord. Est-ce que je peux visiter ce week-end ?
+
+**Agent :** Bien sûr. Samedi matin à 10h, ça vous convient ?
+
+---
+
+### Vocabulaire clé — La recherche d'un logement
+
+| Terme | Définition |
+|---|---|
+| Le loyer | Somme mensuelle payée au propriétaire |
+| Les charges comprises (CC) | Certaines charges incluses dans le loyer |
+| Les charges en sus | Charges à payer en plus du loyer |
+| La superficie | La surface en mètres carrés (m²) |
+| Un T2 / F2 | Appartement avec 1 chambre + salon |
+| Le balcon | Petite terrasse extérieure |
+| La cour | Espace intérieur de l'immeuble |
+| La cuisine équipée | Avec réfrigérateur, four, plaques |
+| Le parking | Place de stationnement pour voiture |
+| Le dossier locataire | Ensemble des documents pour louer |`,
 
       linguisticPoint: `## Point linguistique : Les prépositions de lieu et les annonces immobilières
 
 ### Prépositions de lieu essentielles
-| Préposition | Sens | Exemple |
+| Préposition | Sens | Exemple dans un logement |
 |---|---|---|
-| **à** | position générale | à Paris / à gauche / à droite |
-| **dans** | à l'intérieur | dans le salon / dans la rue |
-| **sur** | contact surface | sur le balcon / sur le mur |
-| **sous** | en dessous | sous le lit / sous l'escalier |
-| **entre** | au milieu de | entre la cuisine et le salon |
-| **en face de** | vis-à-vis | en face de la mairie |
-| **à côté de** | adjacent | à côté de l'école |
-| **au fond de** | fin d'un espace | au fond du couloir |
+| **à** | position générale | à droite / à gauche / à l'entrée |
+| **dans** | à l'intérieur d'un espace | dans le salon / dans la cuisine |
+| **sur** | en contact avec une surface | sur le balcon / sur le mur |
+| **sous** | en dessous | sous le lit / sous l'évier |
+| **entre** | au milieu de deux choses | entre la cuisine et le salon |
+| **en face de** | vis-à-vis | la chambre est en face du salon |
+| **à côté de** | adjacent | la salle de bain est à côté de la chambre |
+| **au fond de** | à l'extrémité | au fond du couloir / du jardin |
+| **devant** | en avant | devant la porte d'entrée |
+| **derrière** | en arrière | derrière l'immeuble (la cour) |
 
 ### Vocabulaire des annonces immobilières
-- **m²** = mètres carrés (superficie)
-- **F2 ou T2** = 2 pièces (salon + 1 chambre) — F3 = 3 pièces, etc.
-- **Charges comprises (CC)** = charges incluses dans le loyer
-- **Charges en sus** = charges à payer en plus du loyer
-- **Cuisine équipée** = avec electroménager (four, frigo...)
-- **Double vitrage** = fenêtres isolantes
-- **DPE** = Diagnostic de Performance Énergétique (A = très économe → G = énergivore)`,
+| Terme | Signification |
+|---|---|
+| **m²** | Mètres carrés — la surface du logement |
+| **T1 / F1** | Studio (1 pièce principale) |
+| **T2 / F2** | 2 pièces : salon + 1 chambre |
+| **T3 / F3** | 3 pièces : salon + 2 chambres |
+| **Charges comprises (CC)** | Certaines charges incluses dans le loyer |
+| **Charges en sus** | Charges à payer en plus du loyer |
+| **Cuisine équipée** | Avec électroménager (four, frigo, plaques) |
+| **Cuisine aménagée** | Avec les meubles seulement |
+| **Double vitrage** | Fenêtres isolantes (bon pour l'isolation) |
+| **DPE** | Diagnostic de Performance Énergétique (A = économe → G = énergivore) |
+| **Meublé / non meublé** | Avec ou sans mobilier |
+| **Cave** | Espace de stockage en sous-sol |
+| **Digicode** | Code numérique pour entrer dans l'immeuble |
+
+### Composition classique d'un appartement
+| Pièce | Rôle |
+|---|---|
+| L'entrée / le couloir | L'accès à l'appartement |
+| Le salon / séjour | Pièce de vie principale |
+| La chambre | Pièce pour dormir |
+| La cuisine | Pour préparer les repas |
+| La salle de bain | Pour la toilette (baignoire ou douche) |
+| Les toilettes / WC | Séparés ou dans la salle de bain |
+| Le balcon / la terrasse | Espace extérieur privatif |
+| La cave | Stockage en sous-sol |
+| Le garage / parking | Pour la voiture |
+
+### Erreurs fréquentes
+- ❌ *Je suis dans le balcon* → ✅ **Je suis sur le balcon** (surface → sur)
+- ❌ *L'appartement est sur le 2ème étage* → ✅ **au 2ème étage** (étage → au)
+- ❌ *Le loyer coûte 780€* → ✅ **Le loyer est de 780€** (être de + montant)`,
 
       keyPoints: [
         'Loyer charges comprises (CC) vs charges en sus',
@@ -340,30 +393,74 @@ Un bail (contrat de location) est un document légal important. Voici les élém
 
 **La durée du bail :** Pour un appartement non meublé, la durée minimale est de 3 ans. Pour un logement meublé, c'est 1 an. Si le locataire veut partir avant la fin du bail, il doit donner un préavis de 1 mois (meublé) ou 3 mois (non meublé).
 
-**Le loyer et les charges :** Le bail indique le loyer mensuel hors charges et le montant des charges (provisions sur charges). Une fois par an, le propriétaire doit faire une régularisation des charges réelles.
+**Le loyer et les charges :** Le bail indique le loyer mensuel hors charges et le montant des charges (provisions sur charges). Une fois par an, le propriétaire doit faire une régularisation des charges réelles. Si les charges réelles sont inférieures aux provisions, il rembourse la différence.
 
 **Le dépôt de garantie :** Le propriétaire peut demander un dépôt de garantie — maximum 1 mois de loyer hors charges pour un logement non meublé, 2 mois pour un meublé. Ce dépôt est rendu dans les 1 à 2 mois après le départ du locataire.
 
 **L'état des lieux :** Quand vous entrez dans le logement, vous faites un état des lieux d'entrée avec le propriétaire. Quand vous partez, vous faites un état des lieux de sortie. Si le logement est plus dégradé à la sortie qu'à l'entrée, le propriétaire peut déduire les réparations du dépôt de garantie.
 
-**Les obligations du locataire :** Payer le loyer et les charges à date fixe. Entretenir le logement (petites réparations). Respecter le règlement de copropriété. Assurer le logement (assurance locataire obligatoire).`,
+**Les obligations du locataire :** Payer le loyer et les charges à date fixe. Entretenir le logement (petites réparations). Respecter le règlement de copropriété. Assurer le logement (assurance locataire obligatoire en France).
+
+**Le règlement de copropriété :** Ce document fixe les règles de vie dans l'immeuble : horaires de calme, règles pour les parties communes, règles sur les travaux. Tout locataire doit le respecter.
+
+---
+
+### Vocabulaire clé — Le bail et les droits du locataire
+
+| Terme | Définition |
+|---|---|
+| Le bail | Le contrat de location |
+| La durée du bail | 3 ans (non meublé) ou 1 an (meublé) |
+| Le préavis | Délai à respecter avant de quitter le logement |
+| Le loyer hors charges | Le loyer sans les charges |
+| Les charges | Eau, parties communes, etc. |
+| La provision sur charges | Estimation mensuelle des charges |
+| La régularisation | Ajustement annuel charges réelles vs provisions |
+| Le dépôt de garantie | Somme versée à l'entrée (1 ou 2 mois) |
+| L'état des lieux | Constat de l'état du logement (entrée et sortie) |
+| L'assurance locataire | Assurance habitation obligatoire pour le locataire |`,
 
       linguisticPoint: `## Point linguistique : Les connecteurs logiques (cause, conséquence, opposition)
 
-### Cause (parce que, car, puisque)
-- **Parce que** : "Je donne un préavis **parce que** je déménage."
-- **Car** (plus formel) : "Il doit partir **car** son bail expire."
-- **Puisque** (cause évidente) : "**Puisque** vous partez, faites un état des lieux."
+### Cause — "pourquoi ?"
+| Connecteur | Registre | Exemple |
+|---|---|---|
+| **parce que** | courant | Je déménage **parce que** j'ai trouvé du travail ailleurs |
+| **car** | formel / écrit | Il doit partir **car** son bail expire |
+| **puisque** | cause évidente | **Puisque** vous partez, faites un état des lieux |
+| **à cause de** + nom | courant | Je pars **à cause de** l'augmentation du loyer |
+| **grâce à** + nom | positif | J'ai le logement **grâce à** une garantie Visale |
 
-### Conséquence (donc, alors, c'est pourquoi)
-- **Donc** : "Le bail expire, **donc** je dois partir."
-- **Alors** : "Il n'a pas payé, **alors** le propriétaire peut agir."
-- **C'est pourquoi** (formel) : "Le logement est dégradé, **c'est pourquoi** je garde le dépôt."
+### Conséquence — "qu'est-ce qui se passe après ?"
+| Connecteur | Registre | Exemple |
+|---|---|---|
+| **donc** | courant | Le bail expire, **donc** je dois partir |
+| **alors** | courant | Il n'a pas payé, **alors** le propriétaire agit |
+| **c'est pourquoi** | formel | Le logement est dégradé, **c'est pourquoi** je garde le dépôt |
+| **par conséquent** | très formel | **Par conséquent**, l'état des lieux est essentiel |
 
-### Opposition (mais, cependant, en revanche)
-- **Mais** : "Le loyer est élevé, **mais** l'appartement est bien."
-- **Cependant** (formel) : "Il est propre ; **cependant**, il manque de lumière."
-- **En revanche** : "Le salon est grand ; **en revanche**, la chambre est petite."`,
+### Opposition — "mais en réalité..."
+| Connecteur | Registre | Exemple |
+|---|---|---|
+| **mais** | courant | Le loyer est élevé, **mais** l'appartement est bien |
+| **cependant** | formel | Il est propre ; **cependant**, il manque de lumière |
+| **en revanche** | soutenu | Le salon est grand ; **en revanche**, la chambre est petite |
+| **par contre** | courant oral | Il est calme ; **par contre**, c'est loin du métro |
+
+### Récapitulatif des droits et obligations locatives
+| Qui ? | Doit faire quoi ? |
+|---|---|
+| Locataire | Payer le loyer à temps, entretenir, s'assurer |
+| Locataire | Respecter le règlement de copropriété |
+| Locataire | Donner un préavis avant de partir (1 ou 3 mois) |
+| Propriétaire | Remettre un logement en bon état |
+| Propriétaire | Faire les grosses réparations |
+| Propriétaire | Rendre le dépôt de garantie sous 1-2 mois |
+
+### Erreurs fréquentes
+- ❌ *Je pars parce que* (sans complétive) → ✅ **parce que** + sujet + verbe
+- ❌ *Le bail est 3 ans* → ✅ **Le bail est de 3 ans** (être de + durée)
+- ❌ *Je donne le préavis* → ✅ **Je donne un préavis** (indéfini, première mention)`,
 
       keyPoints: [
         'Bail non meublé = 3 ans min / bail meublé = 1 an min',
@@ -618,7 +715,7 @@ Un bail (contrat de location) est un document légal important. Voici les élém
 
 **Samia :** En général je paie environ 80 euros par mois. Donc 160 euros pour 2 mois. Là c'est le double.
 
-**Agent :** Je comprends votre inquiétude. Est-ce que vous avez vérifié votre compteur électrique ? La facture peut être basée sur une estimation.
+**Agent :** Je comprends votre inquiétude. Est-ce que vous avez vérifié votre compteur électrique ? La facture peut être basée sur une estimation plutôt qu'un relevé réel.
 
 **Samia :** Comment je fais pour vérifier ?
 
@@ -632,33 +729,71 @@ Un bail (contrat de location) est un document légal important. Voici les élém
 
 **Agent :** Merci. Selon notre système, la consommation réelle pour cette période est de 620 kWh. Avec votre tarif Bleu, ça correspond bien à environ 380 euros. La facture est correcte.
 
-**Samia :** Ah... Peut-être que j'ai utilisé plus de chauffage cet hiver.
+**Samia :** Ah... Peut-être que j'ai utilisé plus de chauffage cet hiver. Est-ce qu'il y a des conseils pour réduire ma consommation ?
 
-**Agent :** Probablement. Je vous conseille d'utiliser notre application pour suivre votre consommation en temps réel.`,
+**Agent :** Oui, plusieurs astuces simples : éteignez les appareils en veille, baissez le chauffage la nuit à 17°, utilisez des ampoules LED. Je vous conseille aussi d'utiliser notre application pour suivre votre consommation en temps réel.
+
+---
+
+### Vocabulaire clé — Les factures et l'énergie
+
+| Terme | Définition |
+|---|---|
+| kWh | Kilowattheure — unité de consommation électrique |
+| Le compteur | Appareil qui mesure la consommation d'énergie |
+| Le compteur Linky | Compteur électrique communicant moderne |
+| L'estimation | Calcul approximatif (vs relevé réel) |
+| Le relevé | Lecture réelle du compteur |
+| Le tarif Bleu | Tarif EDF standard pour les particuliers |
+| L'abonnement | Partie fixe de la facture (mensuelle) |
+| La consommation | Quantité d'énergie utilisée |
+| Réduire | Diminuer / consommer moins |
+| La veille | Mode d'attente des appareils électroniques |`,
 
       linguisticPoint: `## Point linguistique : Comparer et exprimer une différence
 
-### Structures de comparaison
+### Structures de comparaison — adjectifs et adverbes
 | Sens | Structure | Exemple |
 |---|---|---|
-| Plus que | **plus + adj/adv + que** | C\'est plus cher que d\'habitude |
-| Moins que | **moins + adj/adv + que** | C\'est moins cher que prévu |
-| Aussi que | **aussi + adj/adv + que** | C\'est aussi cher qu\'avant |
-| Plus de | **plus de + nom + que** | J\'ai plus de charges ce mois |
-| Le double de | **le double de** | C\'est le double du montant normal |
+| Supériorité | **plus + adj/adv + que** | C'est plus cher que d'habitude |
+| Infériorité | **moins + adj/adv + que** | C'est moins cher que prévu |
+| Égalité | **aussi + adj/adv + que** | C'est aussi cher qu'avant |
 
-### Irréguliers importants
-- bon → **meilleur** (pas "plus bon")
-- mauvais → **pire** (pas "plus mauvais")
-- bien → **mieux** (pas "plus bien")
+### Structures de comparaison — noms et quantités
+| Sens | Structure | Exemple |
+|---|---|---|
+| Plus de | **plus de + nom + que** | J'ai plus de charges ce mois |
+| Moins de | **moins de + nom + que** | Il y a moins de bruit qu'avant |
+| Autant de | **autant de + nom + que** | J'ai autant de factures qu'en janvier |
+| Le double | **le double de** | C'est le double du montant habituel |
+| La moitié | **la moitié de** | C'est la moitié du prix normal |
+
+### Comparatifs irréguliers — à mémoriser absolument
+| Adjectif/Adverbe | Comparatif | Superlatif |
+|---|---|---|
+| bon | **meilleur** (pas ~~plus bon~~) | le meilleur |
+| mauvais | **pire** (ou plus mauvais) | le pire |
+| bien | **mieux** (pas ~~plus bien~~) | le mieux |
+| beaucoup | **plus** (pas ~~plus beaucoup~~) | le plus |
+| peu | **moins** | le moins |
 
 ### Vocabulaire des factures et de l'énergie
-- **kWh** = kilowattheure (unité de consommation électrique)
-- **Compteur** = appareil qui mesure la consommation
-- **Estimation** = calcul approximatif (vs relevé réel)
-- **Tarif Bleu** = tarif EDF pour les particuliers
-- **Abonnement** = part fixe de la facture (indépendante de la consommation)
-- **Consommation** = quantité d\'énergie utilisée`,
+| Terme | Définition |
+|---|---|
+| kWh | Kilowattheure — unité de consommation |
+| Compteur | Appareil mesurant la consommation |
+| Estimation | Calcul approximatif (entre deux relevés) |
+| Relevé | Lecture réelle du compteur |
+| Abonnement | Partie fixe de la facture |
+| Consommation | Quantité d'énergie utilisée |
+| Tarif Bleu | Tarif EDF standard particuliers |
+| EDF | Électricité de France (fournisseur) |
+| ENGIE | Autre fournisseur d'énergie (gaz/électricité) |
+
+### Erreurs fréquentes
+- ❌ *C'est plus bon qu'avant* → ✅ **C'est meilleur qu'avant**
+- ❌ *Je paie plus beaucoup* → ✅ **Je paie plus** (beaucoup → plus au comparatif)
+- ❌ *C'est le double que* → ✅ **C'est le double de** (de + article, pas que)`,
 
       keyPoints: [
         'Comparatif : plus/moins/aussi + adjectif + que',
@@ -895,25 +1030,44 @@ Un bail (contrat de location) est un document légal important. Voici les élém
 
 *Leila a un problème avec son voisin du dessus. Elle en parle au gardien de l'immeuble.*
 
-**Leila :** Bonjour monsieur. Je voudrais vous parler d'un problème.
+**Leila :** Bonjour monsieur. Je voudrais vous parler d'un problème avec mon voisin.
 
 **Gardien :** Bien sûr, qu'est-ce qui se passe ?
 
-**Leila :** Mon voisin du dessus fait beaucoup de bruit le soir. Il y a de la musique forte jusqu'à minuit passé. Et la nuit dernière, il y avait une fête avec des gens qui marchaient dans tous les sens jusqu'à 2h du matin.
+**Leila :** Mon voisin du dessus fait beaucoup de bruit le soir. Il y a de la musique forte jusqu'à minuit passé. Et la nuit dernière, il y avait une fête avec des gens qui marchaient dans tous les sens jusqu'à 2h du matin. Je n'ai pas pu dormir.
 
 **Gardien :** Je comprends, c'est un problème de troubles du voisinage. Est-ce que vous lui avez parlé directement ?
 
-**Leila :** Oui, une fois. Il m'a dit qu'il ferait attention, mais ça continue.
+**Leila :** Oui, une fois il y a deux semaines. Il m'a dit qu'il ferait attention, mais ça continue. Ça arrive plusieurs fois par semaine.
 
 **Gardien :** Dans ce cas, vous pouvez déposer une main courante au commissariat. C'est un enregistrement officiel de votre plainte, sans procédure judiciaire.
 
 **Leila :** Qu'est-ce que ça change concrètement ?
 
-**Gardien :** Ça crée une trace officielle. Si le problème continue, vous pourrez faire une vraie plainte. En parallèle, je vais envoyer un courrier officiel au locataire pour lui rappeler les règles.
+**Gardien :** Ça crée une trace officielle. Si le problème continue, vous pourrez faire une vraie plainte. En parallèle, je vais envoyer un courrier officiel au locataire pour lui rappeler les règles de l'immeuble.
 
 **Leila :** Et les heures légales pour faire du bruit ?
 
-**Gardien :** En France, les nuisances sonores nocturnes sont interdites entre 22h et 7h en semaine. Le week-end, c'est plus toléré jusqu'à 23h. Mais "plus toléré" ne veut pas dire légal — ça dépend de l'intensité.`,
+**Gardien :** En France, les nuisances sonores nocturnes sont interdites entre 22h et 7h en semaine. Le week-end, c'est plus toléré jusqu'à 23h. Mais "plus toléré" ne veut pas dire légal — ça dépend de l'intensité.
+
+**Leila :** Est-ce que le propriétaire peut expulser le locataire pour ça ?
+
+**Gardien :** C'est possible mais complexe. Cela nécessite plusieurs plaintes, des témoignages, et une décision de justice. Commencez par la main courante et le courrier. Si ça ne suffit pas, vous pouvez aussi contacter un médiateur.
+
+---
+
+### Vocabulaire clé — Le voisinage et les conflits
+
+| Terme | Définition |
+|---|---|
+| Les troubles du voisinage | Nuisances causées par les voisins |
+| La nuisance sonore | Bruit excessif qui dérange |
+| La main courante | Signalement au commissariat sans procédure judiciaire |
+| Une plainte | Déclaration officielle d'un problème à la police |
+| Le gardien / concierge | Personne qui gère l'immeuble |
+| Le règlement de copropriété | Règles de vie dans l'immeuble |
+| Nocturne | Qui se passe la nuit (22h-7h) |
+| Un médiateur | Personne qui aide à résoudre un conflit |`,
 
       linguisticPoint: `## Point linguistique : Rapporter des paroles (discours indirect)
 
@@ -924,17 +1078,36 @@ Un bail (contrat de location) est un document légal important. Voici les élém
 - "Pouvez-vous m\'aider ?" → Il **a demandé si** je **pouvais** l\'aider
 
 ### Changements au discours indirect (passé)
-| Temps direct | Temps indirect |
-|---|---|
-| Présent → | Imparfait |
-| Futur simple → | Conditionnel présent |
-| Passé composé → | Plus-que-parfait |
+| Temps direct | Temps indirect | Exemple |
+|---|---|---|
+| Présent | → Imparfait | "J\'ai un problème" → il a dit qu\'**il avait** un problème |
+| Futur simple | → Conditionnel présent | "Je viendrai" → il a dit qu\'**il viendrait** |
+| Passé composé | → Plus-que-parfait | "J\'ai appelé" → il a dit qu\'**il avait appelé** |
+| Impératif | → de + infinitif | "Appelez-moi" → il a dit **d\'appeler** |
 
-### Verbes introducteurs
-- **dire que** : Il a dit que c\'était bruyant
-- **demander si** (question oui/non) : Elle a demandé si c\'était légal
-- **demander + infinitif** (demande d\'action) : Le gardien a demandé de baisser le son
-- **expliquer que** : Il a expliqué qu\'il y avait un problème`,
+### Verbes introducteurs courants
+| Verbe | Type | Exemple |
+|---|---|---|
+| dire que | déclaration | Il a **dit qu\'**il était absent |
+| demander si | question oui/non | Elle a **demandé si** c\'était légal |
+| demander de + inf. | demande d\'action | Le gardien a **demandé de** baisser le son |
+| expliquer que | explication | Il a **expliqué qu\'**il y avait un dégât |
+| promettre de + inf. | promesse | Il a **promis de** faire attention |
+| annoncer que | annonce | Elle a **annoncé qu\'**elle partait |
+
+### Expressions pour signaler un conflit de voisinage
+- **Je voudrais vous signaler un problème** (formel)
+- **Mon voisin fait du bruit** / **Mon voisin perturbe ma tranquillité**
+- **J\'aimerais que vous interveniez**
+- **Je souhaite déposer une main courante**
+- **Pouvez-vous envoyer un courrier officiel ?**
+
+### Erreurs fréquentes — discours indirect
+| ❌ Erreur | ✅ Correction |
+|---|---|
+| Il a dit qu\'il **fait** attention | Il a dit qu\'il **ferait** attention (présent → conditionnel) |
+| Elle a demandé **si** le faire | Elle a demandé **de** faire (ordre → de + infinitif) |
+| Il a dit **de que** c\'était bon | Il a dit **que** c\'était bon (pas "de que") |`,
 
       keyPoints: [
         'Discours indirect : il a dit QUE + proposition',
@@ -1223,35 +1396,88 @@ Un bail (contrat de location) est un document légal important. Voici les élém
 
 **Malika :** D'accord. Vous pouvez lui donner mon numéro pour qu'il me contacte directement ?
 
-**Propriétaire :** Bien sûr, je le préviens.`,
+**Propriétaire :** Bien sûr, je le préviens. Et pendant ce temps, essayez d'éviter d'utiliser le lavabo et gardez la serviette en place.
+
+**Malika :** Et pour l'eau que j'ai perdue, ça va se voir sur ma facture ?
+
+**Propriétaire :** Non, une fuite sous le lavabo ne passe pas par votre compteur. C'est la canalisation avant le robinet d'arrêt. Vous n'avez rien à payer en plus.
+
+**Malika :** D'accord, merci. Est-ce que je dois être présente pour le plombier ?
+
+**Propriétaire :** Oui, il faut que quelqu'un soit là pour ouvrir la porte. Si vous travaillez demain matin, dites-le moi et on trouvera un horaire qui convient.
+
+---
+
+### Vocabulaire clé — Les réparations et pannes
+
+| Terme | Définition |
+|---|---|
+| La fuite | Écoulement anormal d'eau |
+| Le plombier | Artisan qui répare la plomberie |
+| Le robinet d'arrêt | Vanne pour couper l'eau localement |
+| La canalisation | Tuyau qui transporte l'eau |
+| Le joint | Pièce en caoutchouc qui assure l'étanchéité |
+| Le lavabo | Évier de salle de bain |
+| Le carrelage | Revêtement de sol en céramique |
+| À la charge de | Responsabilité financière de |
+| Un dégât des eaux | Dommage causé par une fuite ou inondation |
+| L'artisan | Professionnel du bâtiment (plombier, électricien...) |`,
 
       linguisticPoint: `## Point linguistique : Le conditionnel présent — politesse et hypothèse
 
 ### Formation du conditionnel présent
-**Base futur + terminaisons de l'imparfait**
-| Pronom | Terminaison | Exemple (pouvoir) |
+**Base = radical du futur simple + terminaisons de l'imparfait**
+
+| Pronom | Terminaison | VOULOIR | POUVOIR | DEVOIR |
+|---|---|---|---|---|
+| Je | -ais | voudrais | pourrais | devrais |
+| Tu | -ais | voudrais | pourrais | devrais |
+| Il/Elle | -ait | voudrait | pourrait | devrait |
+| Nous | -ions | voudrions | pourrions | devrions |
+| Vous | -iez | voudriez | pourriez | devriez |
+| Ils | -aient | voudraient | pourraient | devraient |
+
+### Conditionnels irréguliers fréquents
+| Infinitif | Base | Conditionnel (je) |
 |---|---|---|
-| Je | **-ais** | je pourrais |
-| Tu | **-ais** | tu pourrais |
-| Il/Elle | **-ait** | il pourrait |
-| Nous | **-ions** | nous pourrions |
-| Vous | **-iez** | vous pourriez |
-| Ils | **-aient** | ils pourraient |
+| être | ser- | je serais |
+| avoir | aur- | j\'aurais |
+| aller | ir- | j\'irais |
+| faire | fer- | je ferais |
+| venir | viendr- | je viendrais |
 
-### Usages du conditionnel
-1. **Politesse :** "Je voudrais parler au responsable" (moins direct que "je veux")
-2. **Hypothèse :** "Si j\'avais de l\'argent, j\'achèterais un appartement"
-3. **Information non vérifiée :** "Il y aurait une fuite au 3ème étage"
-4. **Conseil :** "Vous devriez couper l\'eau immédiatement"
+### Quatre usages du conditionnel présent
+| Usage | Formule | Exemple |
+|---|---|---|
+| Politesse | je voudrais / je pourrais | **Je voudrais** signaler un problème |
+| Conseil | vous devriez | **Vous devriez** couper l\'eau |
+| Hypothèse | si + imparfait, conditionnel | Si j\'avais l\'argent, **j\'achèterais** |
+| Information non vérifiée | il y aurait | Il **y aurait** une fuite au 3ème |
 
-### Vocabulaire de la plomberie
-- **La fuite** = water leak
-- **Le plombier** = plumber
-- **Le robinet** = tap/faucet
-- **La canalisation** = water pipe
-- **Le joint** = seal/washer
-- **Le lavabo** = washbasin
-- **Couper l\'eau** = to turn off the water`,
+### Répartition des charges locatives
+| Réparation | Responsable |
+|---|---|
+| Robinet qui goutte | Locataire |
+| Joint usé (négligence) | Locataire |
+| Canalisation encastrée | Propriétaire |
+| Chaudière — panne | Propriétaire |
+| Serrure — remplacement | Propriétaire |
+| Ampoule — remplacement | Locataire |
+| Vitres cassées (accident) | Locataire |
+| Toiture | Propriétaire |
+
+### Phrases utiles pour signaler une réparation
+- **Il y a une fuite / une panne / un problème** avec + nom
+- **Pourriez-vous envoyer quelqu\'un ?** (conditionnel de politesse)
+- **C\'est urgent / ça fait [durée] que ça dure**
+- **À qui incombe la réparation ?** (formel — qui doit payer ?)
+
+### Erreurs fréquentes
+| ❌ Erreur | ✅ Correction |
+|---|---|
+| Je **voudrais** que vous **venez** | Je voudrais que vous **veniez** (subjonctif après vouloir que) |
+| C\'est **à la charge au** locataire | C\'est **à la charge du** locataire |
+| Il **devrait** appeler hier | Il **aurait dû** appeler hier (conditionnel passé) |`,
 
       keyPoints: [
         'Conditionnel : base futur + terminaisons imparfait (-ais/-ais/-ait/-ions/-iez/-aient)',

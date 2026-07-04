@@ -42,32 +42,99 @@ export const a2Transports: LangModule = {
 
 **Hassan :** Parfait. Est-ce que je peux payer par carte bancaire aux bornes ?
 
-**Agent RATP :** Absolument. Vous pouvez payer par carte, en espèces ou sur l'application RATP. Je vous recommande d'activer le sans-contact sur votre téléphone, c'est très pratique.`,
+**Agent RATP :** Absolument. Vous pouvez payer par carte, en espèces ou sur l'application RATP. Je vous recommande d'activer le sans-contact sur votre téléphone, c'est très pratique.
+
+**Hassan :** Et si je valide pas mon ticket et que le contrôleur arrive ?
+
+**Agent RATP :** Vous avez une amende. Si vous êtes en règle mais que vous n'avez pas validé, c'est quand même une infraction. L'amende est de 50€ si vous payez sur le moment. Toujours valider avant de monter, même avec un Navigo.
+
+**Hassan :** Et pour les enfants, c'est payant ?
+
+**Agent RATP :** Moins de 4 ans, c'est gratuit. Entre 4 et 9 ans, il y a un tarif enfant. À partir de 10 ans, c'est le tarif normal.
+
+---
+
+### Vocabulaire clé — Les transports en commun
+
+| Terme | Définition |
+|---|---|
+| Le métro | Transport en commun souterrain (underground) |
+| Le RER | Réseau Express Régional — trains rapides en Île-de-France |
+| Le Navigo | Carte de transport rechargeable à Paris |
+| Valider | Passer son ticket ou carte sur le portique |
+| Le portique | Barrière automatique à l'entrée du métro |
+| Le terminus | Dernière station d'une ligne |
+| La correspondance | Changer de ligne dans le métro |
+| Le sans-contact | Paiement avec carte ou téléphone (NFC) |
+| L'amende | Pénalité financière pour infraction |
+
+---
+
+### Situations variantes — demander son chemin dans le métro
+
+**Situation 1 — Trouver la bonne direction**
+- "C'est quelle direction pour aller à Montparnasse ?"
+- "Vous prenez la ligne 4 direction Montrouge."
+- "C'est combien de stations ?" — "Trois stations, environ 8 minutes."
+
+**Situation 2 — Correspondance**
+- "Je dois faire une correspondance ?"
+- "Oui, changez à Châtelet-Les Halles, prenez la ligne 4."
+- "Le changement est bien indiqué sur le plan ?"
+
+**Situation 3 — Acheter un ticket à la borne**
+- "Je voudrais un carnet de tickets, s'il vous plaît."
+- "Vous voulez un ticket à l'unité ou le Navigo ?"
+- "C'est la première fois que vous prenez le métro parisien ?"`,
 
       linguisticPoint: `## Point linguistique : Les pronoms adverbiaux Y et EN
 
-### Le pronom Y (remplace un lieu ou une expression avec À)
-| Exemple original | Avec Y |
+### Le pronom Y — remplace à/dans/sur/en + lieu ou chose
+| Exemple original | Avec Y | Pourquoi Y |
+|---|---|---|
+| Je vais **à Paris** | J\'**y** vais | à + lieu |
+| Il est **au bureau** | Il **y** est | à + lieu |
+| Tu penses **à ça** ? | Tu **y** penses ? | à + chose |
+| Nous allons **au cinéma** | Nous **y** allons | à + lieu |
+
+### Le pronom EN — remplace de/du/de la/des + nom ou une quantité
+| Exemple original | Avec EN | Pourquoi EN |
+|---|---|---|
+| Je reviens **de Paris** | J\'**en** reviens | de + lieu |
+| Tu veux **du café** ? | Tu **en** veux ? | du + nom |
+| Il y a **trois stations** | Il **y en** a trois | quantité |
+| J\'ai besoin **de tickets** | J\'**en** ai besoin | besoin de |
+
+### Place des pronoms Y et EN dans la phrase
+| Situation | Position | Exemple |
+|---|---|---|
+| Verbe conjugué | AVANT le verbe | J\'**y** vais / J\'**en** veux |
+| Impératif affirmatif | APRÈS le verbe (trait d\'union) | Vas-**y** ! / Prends-**en** ! |
+| Impératif négatif | AVANT le verbe | N\'**y** va pas / N\'**en** prends pas |
+| Infinitif | AVANT l\'infinitif | Je veux **y** aller / Je dois **en** prendre |
+
+### Y et EN vs pronoms directs — comment choisir ?
+| Si le verbe est suivi de... | Pronom |
 |---|---|
-| Je vais À PARIS | J\'y vais |
-| Il est AU bureau | Il y est |
-| Tu vas À la gare ? | Tu y vas ? |
-| Nous allons AU cinéma | Nous y allons |
+| à + lieu (je vais **à** Paris) | **y** |
+| de + lieu ou quantité | **en** |
+| le/la/les (je mange **la** pomme) | **le/la/les** |
+| lui/leur (je parle **à** Marie) | **lui** |
 
-**Y remplace :** à + lieu / dans + lieu / sur + lieu / en + lieu
+### Exemples en contexte transports
+| Phrase | Avec pronom | Note |
+|---|---|---|
+| Tu vas à la gare ? | Tu **y** vas ? | y = à la gare |
+| Il vient de la station ? | Il **en** vient ? | en = de la station |
+| Elle prend des tickets ? | Elle **en** prend ? | en = des tickets |
+| Nous allons au terminus ? | Nous **y** allons ? | y = au terminus |
 
-### Le pronom EN (remplace de + nom ou une quantité)
-| Exemple original | Avec EN |
+### Erreurs fréquentes
+| ❌ Erreur | ✅ Correction |
 |---|---|
-| Je reviens DE Paris | J\'en reviens |
-| Tu veux DU café ? | Tu en veux ? |
-| Il y a TROIS stations | Il y en a trois |
-| J\'ai besoin DE tickets | J\'en ai besoin |
-
-### Place des pronoms Y et EN
-- Avant le verbe : "J\\'**y** vais" / "J\\'**en** veux"
-- Avec l\'impératif affirmatif : à la fin : "Vas-**y** !" / "Prends-**en** !"
-- Avec l\'impératif négatif : avant le verbe : "N\\'**y** va pas !" / "N\\'**en** prends pas !"`,
+| Je **en** ai besoin | J\'**en** ai besoin (élision devant voyelle) |
+| **Y-va** ! | Vas-**y** ! (après le verbe à l\'impératif affirmatif) |
+| J\'**y** reviens de Paris | J\'**en** reviens (de = en, pas à) |`,
 
       keyPoints: [
         'Y remplace à/dans/sur/en + lieu : "j\'y vais" / "il y est"',
@@ -313,7 +380,57 @@ export const a2Transports: LangModule = {
 
 **Fatou :** Non, pas encore.
 
-**Agent SNCF :** Je vous conseille de vous inscrire sur sncf-connect.com — vous pouvez avoir des réductions jusqu'à 60% avec une carte jeune si vous avez moins de 27 ans.`,
+**Agent SNCF :** Je vous conseille de vous inscrire sur sncf-connect.com — vous pouvez avoir des réductions jusqu'à 60% avec une carte jeune si vous avez moins de 27 ans.
+
+**Fatou :** Et si j'ai besoin d'annuler ou changer mon billet ?
+
+**Agent SNCF :** Ça dépend du tarif. Le 49€ est un tarif non échangeable, non remboursable. Si vous voulez de la flexibilité, il y a le tarif "INOUI Max" à 79€ — échangeable et remboursable sans frais jusqu'à l'heure du départ.
+
+**Fatou :** Je préfère le 49€. Mon programme est fixe.
+
+**Agent SNCF :** Parfait. Vous payez par carte ? Je vous imprime le billet ou vous préférez l'envoyer sur votre téléphone ?
+
+**Fatou :** Sur le téléphone, c'est plus pratique.
+
+**Agent SNCF :** Je vous envoie un e-mail avec le billet PDF. N'oubliez pas que même avec un billet numérique, vous devez l'avoir accessible sur votre téléphone pendant tout le voyage.
+
+---
+
+### Vocabulaire clé — Le train et la SNCF
+
+| Terme | Définition |
+|---|---|
+| Le TGV | Train à Grande Vitesse — jusqu'à 320 km/h |
+| L'aller simple | Billet dans un seul sens (sans retour) |
+| L'aller-retour | Billet incluant le voyage et le retour |
+| La 2ème classe | Classe standard (moins chère) |
+| La 1ère classe | Classe supérieure (plus cher, plus confortable) |
+| Composter | Valider son billet avant de monter (ticket papier) |
+| Non remboursable | Billet qu'on ne peut pas annuler et rembourser |
+| La carte Avantage | Carte SNCF avec réductions selon l'âge |
+| Échangeable | Billet qu'on peut modifier la date |
+| Le quai | Espace sur le côté du train où on attend |
+| La voie | Numéro de l'emplacement du train en gare |
+| Le contrôleur | Agent qui vérifie les billets dans le train |
+
+---
+
+### Situations variantes — à la gare
+
+**Situation 1 — Demander un renseignement**
+- "À quelle heure est le prochain train pour Lyon ?"
+- "Il y a encore de la place en 2ème classe ?"
+- "Le train est-il à l'heure ?"
+
+**Situation 2 — Problème de billet**
+- "J'ai raté mon train, est-ce que je peux prendre le suivant ?"
+- "Mon billet est non échangeable mais j'ai eu une urgence..."
+- "Comment faire si j'ai perdu mon billet numérique ?"
+
+**Situation 3 — À bord du train**
+- "Excusez-moi, je crois que vous êtes à ma place — j'ai le siège 54B."
+- "Le wagon-restaurant, c'est dans quelle direction ?"
+- "Est-ce qu'on arrive bientôt ?"`,
 
       linguisticPoint: `## Point linguistique : Exprimer la préférence — aimer mieux / préférer
 
@@ -324,6 +441,7 @@ export const a2Transports: LangModule = {
 | **Aimer mieux** + infinitif | J\'**aime mieux** le 10h15 |
 | **Plutôt** (adverbe) | Je veux **plutôt** aller le matin |
 | **J\'ai une préférence pour** | J\'ai une préférence pour la seconde classe |
+| **Je préfère X à Y** | Je préfère le train **à** l\'avion |
 
 ### Comparer deux options — comparatifs
 - **Plus** [adj] que : "La première est **plus confortable** que la seconde"
@@ -332,11 +450,33 @@ export const a2Transports: LangModule = {
 - **Meilleur(e)** que : "Ce tarif est **meilleur** que le suivant"
 - **Mieux** (adverbe) que : "Je dors **mieux** en TGV qu\'en voiture"
 
-### Vocabulaire ferroviaire
-- **TGV** = Train à Grande Vitesse (jusqu\'à 320 km/h)
-- **Aller simple** ≠ **aller-retour**
-- **2ème classe** (standard) ≠ **1ère classe** (plus cher + confort supérieur)
-- **Composter** = valider son billet avant de monter (obligatoire si ticket papier)`,
+### Tableau — meilleur vs mieux
+| Mot | Nature | Usage | Exemple |
+|---|---|---|---|
+| **meilleur** | adjectif | qualifie un nom | Ce tarif est **meilleur** |
+| **mieux** | adverbe | qualifie un verbe ou adjectif | Je voyage **mieux** |
+| ❌ erreur | — | "C\'est mieux" pour un nom | "Ce prix est **mieux**" → ❌ |
+| ✅ correct | — | "meilleur" pour noms | "Ce prix est **meilleur**" → ✅ |
+
+### Vocabulaire ferroviaire complet
+| Terme | Définition |
+|---|---|
+| **TGV** | Train à Grande Vitesse (jusqu\'à 320 km/h) |
+| **Aller simple** | Un billet dans un seul sens (one-way) |
+| **Aller-retour** | Billet avec voyage + retour inclus |
+| **2ème classe** | Classe standard — moins chère |
+| **1ère classe** | Classe supérieure — siège plus large |
+| **Composter** | Valider son billet dans la machine orange avant de monter |
+| **Le quai** | Zone sur le côté du train (voie = numéro d\'emplacement) |
+| **Non remboursable** | Billet qu\'on ne peut pas annuler contre remboursement |
+| **SNCF Connect** | Application officielle pour acheter et gérer ses billets |
+
+### Erreurs fréquentes avec les comparatifs
+| ❌ Erreur | ✅ Correction | Explication |
+|---|---|---|
+| Ce siège est mieux | Ce siège est **meilleur** | "meilleur" = adjectif pour un nom |
+| Je voyage plus bien | Je voyage **mieux** | "mieux" = adverbe comparatif de "bien" |
+| C\'est le plus bon | C\'est le **meilleur** | superlatif irrégulier de "bon" |`,
 
       keyPoints: [
         '"Aimer mieux" = "préférer" (même sens, registres différents)',
@@ -584,7 +724,41 @@ export const a2Transports: LangModule = {
 
 **Ibrahim :** Est-ce que je dois repasser le code ou la conduite ?
 
-**Agent :** Non ! Le Maroc est un pays dont les permis sont reconnus par la France — échange direct, sans examens.`,
+**Agent :** Non ! Le Maroc est un pays dont les permis sont reconnus par la France — échange direct, sans examens.
+
+---
+
+### Vocabulaire clé — Voiture et permis de conduire
+
+| Terme | Définition |
+|---|---|
+| Le permis de conduire | Document autorisant à conduire un véhicule |
+| L'échange de permis | Conversion d'un permis étranger en permis français |
+| La traduction assermentée | Traduction officielle par un traducteur agréé par les tribunaux |
+| L'attestation de dépôt | Preuve qu'un dossier a été déposé (en attendant le document officiel) |
+| Le code de la route | Règles de circulation et examen théorique |
+| L'assurance auto | Contrat obligatoire couvrant les dommages causés par le véhicule |
+| La vignette Crit'Air | Pastille de couleur indiquant le niveau de pollution du véhicule |
+| Le contrôle technique | Vérification obligatoire de l'état mécanique du véhicule (tous les 2 ans) |
+
+---
+
+### Situations variantes — conduire en France
+
+**Situation 1 — Assurance auto**
+- "Je dois absolument être assuré pour conduire en France ?"
+- "Oui, l'assurance responsabilité civile est obligatoire."
+- "Quelle est la différence entre la formule basique et tous risques ?"
+
+**Situation 2 — Amende et infraction**
+- "J'ai reçu un avis d'infraction par courrier — qu'est-ce que je dois faire ?"
+- "Vous pouvez payer en ligne sur amendes.gouv.fr."
+- "Si vous ne payez pas dans les délais, l'amende est majorée."
+
+**Situation 3 — À la station-service**
+- "Le plein, s'il vous plaît." / "Je voudrais 30€ de gazole."
+- "Sans plomb 95 ou 98 ?"
+- "La pompe numéro 4, please."`,
 
       linguisticPoint: `## Point linguistique : Le discours indirect (questions)
 
@@ -597,13 +771,30 @@ export const a2Transports: LangModule = {
 | "Combien ça coûte ?" | Il demande **combien** ça coûte |
 | "Pourquoi êtes-vous là ?" | Il demande **pourquoi** vous êtes là |
 | "Qu\'est-ce que vous faites ?" | Il demande **ce que** vous faites |
+| "Qu\'est-ce qui se passe ?" | Il demande **ce qui** se passe |
 
 ### Règles du discours indirect (questions)
-- **Est-ce que / oui-non** → remplacé par **si**
-- **Mots interrogatifs** (où, quand, comment, pourquoi, combien) → restent tels quels
-- **Qu\'est-ce que** → devient **ce que**
-- **Qu\'est-ce qui** → devient **ce qui**
-- Le verbe introducteur : demander / vouloir savoir / se demander
+| Type de question | Transformation | Exemple |
+|---|---|---|
+| Oui/Non (est-ce que) | → **si** | "Est-ce qu\'il vient ?" → demande **si** il vient |
+| Mots interrogatifs (où, quand, comment, pourquoi, combien) | restent identiques | "Où allez-vous ?" → demande **où** vous allez |
+| Qu\'est-ce que (objet) | → **ce que** | "Qu\'est-ce que tu fais ?" → demande **ce que** tu fais |
+| Qu\'est-ce qui (sujet) | → **ce qui** | "Qu\'est-ce qui se passe ?" → demande **ce qui** se passe |
+
+### Règle d'or : pas d'inversion sujet-verbe en discours indirect
+| ❌ Erreur | ✅ Correction |
+|---|---|
+| Il demande où **allez-vous** | Il demande où **vous allez** |
+| Il demande comment **se passe-t-il** | Il demande comment **ça se passe** |
+| Elle veut savoir quand **partez-vous** | Elle veut savoir quand **vous partez** |
+
+### Verbes introducteurs du discours indirect
+| Verbe | Usage | Exemple |
+|---|---|---|
+| **demander si/ce que** | question | Il **demande** si vous avez un permis |
+| **vouloir savoir** | question | Elle **veut savoir** où vous habitez |
+| **se demander** | question intérieure | Je **me demande** si c\'est possible |
+| **expliquer que** | affirmation | Il **explique** que c\'est obligatoire |
 
 ### Pays à permis reconnus par la France (échange direct)
 Pays UE, EEE + liste de pays hors UE reconnus (dont le Maroc, Algérie, Tunisie, Sénégal, Cameroun...) → échange direct sans repassage de code ni conduite.`,
@@ -611,9 +802,9 @@ Pays UE, EEE + liste de pays hors UE reconnus (dont le Maroc, Algérie, Tunisie,
       keyPoints: [
         'Discours indirect question : est-ce que → si / qu\'est-ce que → ce que',
         'Mots interrogatifs (où, comment, pourquoi) restent identiques en indirect',
+        'Jamais d\'inversion sujet-verbe en discours indirect',
         'Permis marocain valide 1 an en France (1ère année titre de séjour)',
         'Échange direct sans examen pour pays reconnus (Maroc, Algérie, Tunisie...)',
-        'Délais : 3 à 6 mois / attestation de dépôt en attendant',
       ],
 
       exercises: [
@@ -889,26 +1080,79 @@ Depuis quelques années, la France développe de nombreuses alternatives à la v
 
 **Les trottinettes électriques** sont disponibles en location dans de nombreuses villes (Lime, Dott, Tier...). Elles sont pratiques pour le "dernier kilomètre" — la partie du trajet non couverte par les transports en commun. Attention : port du casque obligatoire pour les mineurs, interdit sur les trottoirs.
 
-**L'autopartage** (Citroën C-Zero, OUI.car, Getaround...) permet d'utiliser une voiture à l'heure ou à la journée sans en être propriétaire.`,
+**L'autopartage** (Citroën C-Zero, OUI.car, Getaround...) permet d'utiliser une voiture à l'heure ou à la journée sans en être propriétaire.
+
+---
+
+### Vocabulaire clé — Mobilité douce et alternatives
+
+| Terme | Définition |
+|---|---|
+| Le covoiturage | Partager un trajet en voiture avec d'autres personnes |
+| Le conducteur | La personne qui conduit la voiture |
+| Le passager | La personne transportée (sans conduire) |
+| L'itinéraire | Le trajet prévu, l'ensemble du parcours |
+| La participation aux frais | Contribution partielle aux coûts (carburant, péages) |
+| Le VAE | Vélo à Assistance Électrique — moteur jusqu'à 25 km/h |
+| L'autopartage | Location de voiture à courte durée (à l'heure ou à la journée) |
+| Le dernier kilomètre | Portion finale du trajet non couverte par les transports |
+| Le libre-service | Service accessible sans réservation (on prend et dépose librement) |
+
+---
+
+### Situations variantes — utiliser les nouvelles mobilités
+
+**Situation 1 — Réserver un covoiturage**
+- "Je cherche un trajet Paris-Lyon pour samedi matin."
+- "Il y a de la place dans votre voiture ?"
+- "Où est le point de rendez-vous exact ?"
+
+**Situation 2 — Louer un vélo en libre-service**
+- "Comment est-ce que ça marche, le Vélib' ?"
+- "Je télécharge l'application, je scanne le code sur le vélo."
+- "Où est-ce que je peux le déposer ?"
+
+**Situation 3 — Trottinette électrique**
+- "Ça coûte combien par minute ?"
+- "Est-ce que j'ai besoin d'un permis pour conduire une trottinette électrique ?"
+- "Où est-ce que je peux rouler avec ?"`,
 
       linguisticPoint: `## Point linguistique : Exprimer la concession et l'opposition
 
 ### Connecteurs d'opposition
-| Connecteur | Sens | Exemple |
-|---|---|---|
-| **Mais** | opposition simple | C'est cher **mais** confortable |
-| **Cependant / Toutefois** | opposition (registre soutenu) | C'est rapide. **Cependant**, c\'est cher. |
-| **Pourtant** | surprise / contradiction | Il fait froid. **Pourtant**, il n\'a pas de manteau. |
-| **Néanmoins** | nuance | C\'est risqué. **Néanmoins**, c\'est rapide. |
-| **En revanche / Par contre** | contraste | La voiture est rapide. **En revanche**, elle pollue. |
+| Connecteur | Sens | Registre | Exemple |
+|---|---|---|---|
+| **Mais** | opposition simple | courant | C\'est cher **mais** confortable |
+| **Cependant** | opposition (neutre) | soutenu | C\'est rapide. **Cependant**, c\'est cher. |
+| **Toutefois** | opposition (neutre) | soutenu | Il fait froid. **Toutefois**, il fait beau. |
+| **Pourtant** | surprise / contradiction | courant | Il fait froid. **Pourtant**, il n\'a pas de manteau. |
+| **Néanmoins** | nuance légère | soutenu | C\'est risqué. **Néanmoins**, c\'est rapide. |
+| **En revanche** | contraste | courant/soutenu | La voiture est rapide. **En revanche**, elle pollue. |
+| **Par contre** | contraste | familier | C\'est rapide. **Par contre**, c\'est cher. |
 
 ### Connecteurs de concession
-| Connecteur | Sens | Exemple |
+| Connecteur | Mode | Exemple |
 |---|---|---|
-| **Bien que + subjonctif** | même si | **Bien qu\'**il pleuve, je prends le vélo. |
-| **Même si + indicatif** | concession directe | **Même si** c\'est loin, j\'y vais. |
-| **Malgré + nom** | concession | **Malgré** la pluie, je prends le vélo. |
-| **Quoique + subjonctif** | même si (soutenu) | **Quoiqu\'**il soit tard, je pars. |`,
+| **Bien que + subjonctif** | subjonctif | **Bien qu\'**il pleuve, je prends le vélo. |
+| **Même si + indicatif** | indicatif | **Même si** c\'est loin, j\'y vais. |
+| **Malgré + nom** | (sans verbe) | **Malgré** la pluie, je prends le vélo. |
+| **Quoique + subjonctif** | subjonctif (soutenu) | **Quoiqu\'**il soit tard, je pars. |
+
+### Nuances importantes
+| Mot | Nuance | Exemple typique |
+|---|---|---|
+| **Pourtant** | On ne s\'y attendait pas | Il est malade. **Pourtant**, il travaille. |
+| **Cependant** | Restriction neutre | C\'est utile. **Cependant**, c\'est cher. |
+| **En revanche** | Compensation / contraste | Le bus est lent. **En revanche**, il est moins cher. |
+| **Même si** | Concession (indicatif) | **Même si** c\'est difficile, je continue. |
+| **Bien que** | Concession (subjonctif) | **Bien qu\'**il soit difficile, je continue. |
+
+### Erreurs fréquentes
+| ❌ Erreur | ✅ Correction |
+|---|---|
+| Bien que c\'est difficile | Bien que ce **soit** difficile (subjonctif !) |
+| Malgré il pleut | Malgré **la pluie** (malgré + nom, pas verbe) |
+| Je préfère mieux | Je **préfère** (pas "préfère mieux") |`,
 
       keyPoints: [
         'Mais (simple) / Cependant-Toutefois-Néanmoins (soutenu) / Pourtant (surprise)',

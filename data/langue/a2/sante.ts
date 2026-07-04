@@ -30,58 +30,108 @@ export const a2Sante: LangModule = {
 
 **Secrétaire :** Vous êtes patiente du docteur Lambert ?
 
-**Kenza :** Oui, je m'appelle Kenza Oualid.
+**Kenza :** Oui, je m'appelle Kenza Oualid. Je suis inscrite depuis l'année dernière.
 
 **Secrétaire :** Qu'est-ce que vous avez exactement ?
 
-**Kenza :** J'ai de la fièvre depuis hier soir, 38°8. Et j'ai très mal à la gorge.
+**Kenza :** J'ai de la fièvre depuis hier soir, 38°8. Et j'ai très mal à la gorge. J'ai du mal à avaler.
 
 **Secrétaire :** D'accord. Le docteur peut vous recevoir cet après-midi à 16h30. Ça vous convient ?
+
+**Kenza :** Oui, parfait. Je dois apporter quelque chose ?
+
+**Secrétaire :** Votre carte Vitale et votre carte de mutuelle si vous en avez une.
 
 *Plus tard, lors de la consultation.*
 
 **Médecin :** Bonjour madame Oualid. Qu'est-ce qui vous amène ?
 
-**Kenza :** J'ai de la fièvre depuis hier soir et très mal à la gorge. J'ai aussi des courbatures et je suis très fatiguée.
+**Kenza :** J'ai de la fièvre depuis hier soir et très mal à la gorge. J'ai aussi des courbatures et je suis très fatiguée. Je n'ai pas pu dormir la nuit.
 
 **Médecin :** Est-ce que vous avez toussé ou eu le nez qui coule ?
 
-**Kenza :** Non, pas vraiment. Surtout la gorge et la fièvre.
+**Kenza :** Non, pas vraiment. Surtout la gorge et la fièvre. Et j'ai un peu mal à la tête.
 
-**Médecin :** Je vais examiner votre gorge... Oui, vos amygdales sont très rouges et enflées. C'est une angine. Je vais vous prescrire un antibiotique.
+**Médecin :** Je vais examiner votre gorge... Oui, vos amygdales sont très rouges et enflées. C'est une angine. Je vais vous prescrire un antibiotique et un antalgique pour la fièvre et la douleur.
 
 **Kenza :** C'est grave ?
 
-**Médecin :** Non, mais il faut traiter rapidement. Prenez le médicament 3 fois par jour pendant 7 jours, même si vous vous sentez mieux. Ne l'arrêtez pas avant la fin du traitement.`,
+**Médecin :** Non, mais il faut traiter rapidement. Prenez l'antibiotique 3 fois par jour pendant 7 jours, même si vous vous sentez mieux. Ne l'arrêtez pas avant la fin du traitement.
+
+**Kenza :** Et pour aller au travail ?
+
+**Médecin :** Je vous prescris un arrêt de travail de 3 jours. Reposez-vous, buvez beaucoup d'eau et évitez les endroits publics pour ne pas contaminer les autres.
+
+---
+
+### Vocabulaire clé — Chez le médecin
+
+| Terme | Définition |
+|---|---|
+| La fièvre | Température corporelle supérieure à 38° |
+| Les courbatures | Douleurs musculaires généralisées |
+| Une angine | Infection et inflammation des amygdales |
+| Les amygdales | Glandes dans la gorge (tonsils) |
+| Un antibiotique | Médicament contre les infections bactériennes |
+| Un antalgique | Médicament contre la douleur et la fièvre |
+| Prescrire | Ordonner officiellement un traitement |
+| L'ordonnance | Document écrit du médecin pour la pharmacie |
+| Un arrêt de travail | Document médical autorisant à ne pas travailler |
+| La carte Vitale | Carte de l'Assurance maladie |`,
 
       linguisticPoint: `## Point linguistique : Exprimer la douleur et les symptômes
 
 ### Structures pour exprimer la douleur
 | Structure | Exemple |
 |---|---|
-| **avoir mal à + article + partie du corps** | J\'ai mal À LA gorge / AU dos |
+| **avoir mal à + article + partie du corps** | J'ai mal à la gorge / au dos |
 | **faire mal** | Ma gorge me fait mal |
-| **avoir + symptôme** | J\'ai de la fièvre / J\'ai des courbatures |
+| **avoir + symptôme** | J'ai de la fièvre / J'ai des courbatures |
 | **être + état** | Je suis fatigué(e) / Je suis enrhumé(e) |
-| **souffrir de** | Je souffre d\'une angine |
+| **souffrir de** | Je souffre d'une angine |
+| **avoir du mal à + infinitif** | J'ai du mal à avaler / à dormir |
+
+### Avoir mal à — contractions à maîtriser
+| Partie du corps | Genre | Construction | Exemple |
+|---|---|---|---|
+| la tête | féminin | à + la = **à la** | J'ai mal à la tête |
+| le dos | masculin | à + le = **au** | J'ai mal au dos |
+| la gorge | féminin | à + la = **à la** | J'ai mal à la gorge |
+| le ventre | masculin | à + le = **au** | J'ai mal au ventre |
+| les oreilles | pluriel | à + les = **aux** | J'ai mal aux oreilles |
+| les jambes | pluriel | à + les = **aux** | J'ai mal aux jambes |
 
 ### Le corps humain — parties essentielles
-| Français | Français |
+| Partie haute | Partie basse |
 |---|---|
-| la tête | le ventre / l\'abdomen |
+| la tête | le ventre / l'abdomen |
 | le cou | le dos |
-| la gorge | la poitrine |
-| les épaules | les bras |
-| les genoux | les jambes |
-| les pieds | les oreilles |
+| la gorge | les hanches |
+| la poitrine | les genoux |
+| les épaules | les jambes |
+| les bras | les pieds |
+| les oreilles | les orteils |
+| les yeux | les chevilles |
 
-### Symptômes courants
-- **la fièvre** (fever) — avoir 38°, 39° de fièvre
-- **les courbatures** (body aches) — muscles douloureux
-- **tousser** (to cough) — la toux
-- **le nez qui coule** (runny nose) / éternuer
-- **les frissons** (chills)
-- **une angine** = infection de la gorge`,
+### Symptômes courants — vocabulaire complet
+| Symptôme | Traduction | Comment le dire |
+|---|---|---|
+| La fièvre | Fever | J'ai de la fièvre / J'ai 38°8 |
+| Les courbatures | Body aches | J'ai des courbatures partout |
+| La toux | Cough | Je tousse / J'ai de la toux |
+| Le nez qui coule | Runny nose | J'ai le nez qui coule |
+| Les frissons | Chills | J'ai des frissons |
+| Les nausées | Nausea | J'ai des nausées / envie de vomir |
+| Un mal de tête | Headache | J'ai mal à la tête |
+| L'essoufflement | Shortness of breath | J'ai du mal à respirer |
+| Une angine | Sore throat / tonsillitis | J'ai une angine |
+| Un rhume | Cold | J'ai un rhume |
+| La grippe | Flu | J'ai la grippe |
+
+### Erreurs fréquentes
+- ❌ *J'ai mal gorge* → ✅ **J'ai mal à la gorge**
+- ❌ *J'ai une fièvre* → ✅ **J'ai de la fièvre** (partitif) ou **J'ai 38° de fièvre**
+- ❌ *Je souffre mal à la tête* → ✅ **J'ai mal à la tête** ou **Je souffre d'un mal de tête**`,
 
       keyPoints: [
         'Avoir mal À LA gorge / AU dos / À LA tête (à + article contracté)',
@@ -333,32 +383,75 @@ export const a2Sante: LangModule = {
 
 **Tariq :** Non.
 
-**Pharmacien :** Dans ce cas, l'ibuprofène peut aider pour les maux de tête. Mais comme vous prenez déjà du doliprane, il faut respecter les intervalles. Ne combinez pas les deux sans l'avis d'un médecin.`,
+**Pharmacien :** Dans ce cas, l'ibuprofène peut aider pour les maux de tête. Mais comme vous prenez déjà du doliprane, il faut respecter les intervalles. Ne combinez pas les deux sans l'avis d'un médecin.
+
+**Tariq :** Et pour le remboursement — tout est remboursé ?
+
+**Pharmacien :** L'amoxicilline est remboursée à 65%. Le doliprane aussi. Les pastilles pour la gorge ne sont pas remboursées — c'est à votre charge. Mais si vous avez une mutuelle, elle peut compléter le remboursement de la Sécurité sociale.
+
+**Tariq :** J'ai la CMU-C. Ça change quelque chose ?
+
+**Pharmacien :** Oui, avec la CSS (anciennement CMU-C), vous n'avez rien à payer aujourd'hui. C'est le tiers payant intégral. La pharmacie se fait rembourser directement par la Sécu et votre complémentaire. Voilà vos médicaments. Avez-vous des questions sur la prise ?
+
+**Tariq :** Non, c'est clair. Merci beaucoup.
+
+---
+
+### Vocabulaire clé — La pharmacie et les médicaments
+
+| Terme | Définition |
+|---|---|
+| L'ordonnance | Prescription médicale signée par le médecin |
+| La carte Vitale | Carte de Sécurité sociale pour le remboursement |
+| La posologie | Instructions de dosage (dose, fréquence, durée) |
+| Un antibiotique | Médicament contre les infections bactériennes |
+| Le paracétamol | Molécule active du Doliprane — antidouleur + fièvre |
+| L'ibuprofène | Anti-inflammatoire — douleur, fièvre, inflammation |
+| Le tiers payant | Vous ne payez pas, la pharmacie se fait rembourser directement |
+| La CSS | Complémentaire Santé Solidaire (anciennement CMU-C) |`,
 
       linguisticPoint: `## Point linguistique : Les instructions médicales — impératif et infinitif d'ordre
 
 ### L'impératif pour donner des instructions
-| Personne | Prendre (ex.) | Utilisation |
+| Personne | Affirmatif | Négatif |
 |---|---|---|
-| **Prenez** (vous) | Prenez 1 comprimé | instruction directe |
-| **Prends** (tu) | Prends ce médicament | instruction familière |
-| **Ne prenez pas** | Ne dépassez pas 4/jour | interdiction |
+| **Prends** (tu) | Prends 1 comprimé | Ne prends pas d\'alcool |
+| **Prenez** (vous) | Prenez 1 gélule | Ne dépassez pas 4/jour |
+| **Prenons** (nous) | Prenons rendez-vous | Ne manquons pas le suivi |
 
-### L'infinitif comme instruction (style mode d'emploi)
-- "Prendre 1 gélule 3 fois par jour" (notice de médicament)
+### L'infinitif comme instruction (style notice médicale)
+Ces formulations sont utilisées dans les notices, ordonnances et mode d'emploi :
+- "Prendre 1 gélule 3 fois par jour"
 - "À prendre pendant les repas"
 - "Ne pas dépasser la dose maximale"
-- "Consulter un médecin si..."
+- "Consulter un médecin si les symptômes persistent"
+- "Conserver à température ambiante (15-25°C)"
 
-### Vocabulaire de la pharmacie et des médicaments
-- **L'ordonnance** = prescription médicale
-- **La gélule** = capsule (enveloppe + poudre)
-- **Le comprimé** = tablet (forme solide)
-- **Les pastilles** = lozenges (pour la gorge)
-- **La posologie** = instructions de dosage
-- **Antalgique** = contre la douleur (painkiller)
-- **Antipyrétique** = contre la fièvre (fever reducer)
-- **Le paracétamol** = molécule active du Doliprane`,
+### Formes des médicaments en français
+| Forme | Description |
+|---|---|
+| Le comprimé | Forme solide compressée (tablet) |
+| La gélule | Capsule gélatineuse (capsule) |
+| La pastille | Petit bonbon médicamenteux (lozenge) |
+| Le sirop | Médicament liquide sucré |
+| La pommade | Médicament à appliquer sur la peau (cream) |
+| Le suppositoire | Médicament à introduire par voie rectale |
+| Les gouttes | Médicament liquide dosé en gouttes |
+
+### Le remboursement des médicaments en France
+| Taux | Qui paie le reste ? |
+|---|---|
+| 100% | CSS / CMU-C : rien à payer |
+| 65% | Sécu paie 65%, vous payez 35% (ou mutuelle) |
+| 30% | Médicaments peu remboursés |
+| 0% | Non remboursé — entièrement à votre charge |
+
+### Erreurs fréquentes — instructions médicales
+| ❌ Erreur | ✅ Correction |
+|---|---|
+| **Prenez-vous** le médicament | **Prenez** le médicament (impératif → pas de sujet) |
+| Ne pas **à** dépasser | Ne pas **dépasser** (infinitif négatif : ne pas + inf.) |
+| Prendre **à** 3 fois par jour | Prendre 3 fois par jour (fréquence sans "à") |`,
 
       keyPoints: [
         'Impératif : Prenez / Ne dépassez pas / Ne combinez pas',
@@ -654,32 +747,87 @@ export const a2Sante: LangModule = {
 
 **Mamadou :** Oui, je descends.
 
-**Régulateur :** Restez en ligne. Ne raccrochez pas. Les secours arrivent dans moins de 10 minutes.`,
+**Régulateur :** Restez en ligne. Ne raccrochez pas. Les secours arrivent dans moins de 10 minutes.
+
+**Mamadou :** Elle vient de reprendre connaissance. Elle ouvre les yeux.
+
+**Régulateur :** C'est positif. Ne la laissez pas se lever seule. Restez avec elle. Demandez-lui si elle a mal quelque part.
+
+**Mamadou :** Elle dit qu'elle a mal à la tête et qu'elle ne se souvient de rien.
+
+**Régulateur :** C'est normal après une perte de connaissance. Les secours sont là dans 5 minutes. Continuez à lui parler pour la garder éveillée. Vous avez ses papiers d'identité et sa carte Vitale accessibles ?
+
+**Mamadou :** Oui, dans son sac.
+
+**Régulateur :** Bien. Prenez-les pour les donner aux secouristes à leur arrivée. Voici la procédure : ouvrez la porte de l'immeuble, guidez-les jusqu'à votre appartement.
+
+---
+
+### Vocabulaire clé — Les urgences médicales
+
+| Terme | Définition |
+|---|---|
+| Perdre connaissance | S'évanouir — arrêter d'être conscient |
+| Les secours | L'équipe d'urgence (pompiers, SAMU) |
+| Le régulateur | Opérateur médical qui répond au 15 |
+| Une ambulance | Véhicule médicalisé pour les urgences |
+| Rester en ligne | Ne pas raccrocher le téléphone |
+| Un secouriste | Personne formée aux premiers secours |
+| La perte de connaissance | Évanouissement, syncope |
+| Respirer faiblement | Respiration peu visible, difficile |`,
 
       linguisticPoint: `## Point linguistique : L'impératif — ordre, conseil, instructions d'urgence
 
 ### Formation de l'impératif présent
-| Groupe | Exemple | Affirmative | Négative |
-|---|---|---|---|
-| -ER | rester | **Restez** ! | Ne **restez** pas ! |
-| -IR | finir | **Finissez** ! | Ne **finissez** pas ! |
-| -RE | descendre | **Descendez** ! | Ne **descendez** pas ! |
+| Groupe | Infinitif | Tu | Vous | Nous |
+|---|---|---|---|---|
+| -ER | rester | reste (sans s) | restez | restons |
+| -IR | finir | finis | finissez | finissons |
+| -RE | descendre | descends | descendez | descendons |
+| -ER | aller | va (irrég.) | allez | allons |
 
-### Impératifs irréguliers
-- être → **Sois / Soyez** (calme)
-- avoir → **Aie / Ayez** (confiance)
-- aller → **Va / Allez** (aux urgences)
-- savoir → **Sache / Sachez**
+**Attention** : verbes en -ER → tu → on supprime le **s** (tu manges → mange !)
+
+### Impératifs irréguliers — les 4 incontournables
+| Infinitif | Tu | Vous |
+|---|---|---|
+| être | **sois** calme | **soyez** calme |
+| avoir | **aie** confiance | **ayez** confiance |
+| aller | **va** aux urgences | **allez** aux urgences |
+| savoir | **sache** que... | **sachez** que... |
+
+### Impératif avec pronoms — position
+| Situation | Structure | Exemple |
+|---|---|---|
+| Affirmatif | verbe-pronom | **Appelez-les** (les secours) |
+| Négatif | ne + pronom + verbe + pas | **Ne les** appelez **pas** |
+| Affirmatif, me | verbe-**moi** | **Dites-moi** l\'adresse |
+| Négatif, me | ne + **me** + verbe | **Ne me** quittez pas |
 
 ### Les numéros d'urgence en France
 | Numéro | Service | Situation |
 |---|---|---|
-| **15** | SAMU | Urgence médicale |
-| **17** | Police / Gendarmerie | Danger, crime |
-| **18** | Pompiers | Incendie, accident |
-| **112** | Numéro européen | Toutes urgences |
-| **114** | Urgences sourds | Via SMS/appli |
-| **15 ou 3114** | Crise suicidaire | Prévention suicide |`,
+| **15** | SAMU | Urgence médicale (malaise, accident) |
+| **17** | Police / Gendarmerie | Danger, crime, agression |
+| **18** | Pompiers | Incendie, accident de la route |
+| **112** | Numéro européen | Toutes urgences (marche partout en EU) |
+| **114** | Urgences sourds | Via SMS ou application |
+| **3114** | Crise suicidaire | Prévention suicide, détresse psychologique |
+| **15 ou 3237** | SOS Médecins | Médecin à domicile (nuit et week-end) |
+
+### Phrases clés pour appeler les secours
+- **"Allô, j'ai besoin d'aide"** — attirer l'attention
+- **"Il/elle a perdu connaissance"** — décrire l'état
+- **"Je suis au [adresse complète]"** — donner la localisation
+- **"Il/elle respire / ne respire plus"** — état respiratoire
+- **"Que dois-je faire ?"** — demander des instructions
+
+### Erreurs fréquentes — l'impératif
+| ❌ Erreur | ✅ Correction |
+|---|---|
+| **Vas** aux urgences (tu) | **Va** aux urgences (irrég. sans s) |
+| **Appelez-vous** le médecin | **Appelez** le médecin (pas de sujet à l\'impératif) |
+| Ne **vous** levez **pas** seule | Ne **vous** levez **pas** seule (correct — forme réfléchie) |`,
 
       keyPoints: [
         'Numéros urgences : 15 (SAMU) / 17 (Police) / 18 (Pompiers) / 112 (européen)',
@@ -932,32 +1080,79 @@ export const a2Sante: LangModule = {
 
 **Leila :** Un peu. Mes collègues sont sympa mais je ne les vois pas en dehors du travail.
 
-**Médecin :** Je vais vous conseiller deux choses. D'abord, essayez de faire un peu d'exercice physique — même 20 minutes de marche par jour, ça aide beaucoup pour le stress et le sommeil. Ensuite, si vous vous sentez vraiment seule ou triste de façon persistante, n'hésitez pas à consulter un psychologue. Ce n'est pas une faiblesse — c'est prendre soin de soi.`,
+**Médecin :** Je vais vous conseiller deux choses. D'abord, essayez de faire un peu d'exercice physique — même 20 minutes de marche par jour, ça aide beaucoup pour le stress et le sommeil. Ensuite, si vous vous sentez vraiment seule ou triste de façon persistante, n'hésitez pas à consulter un psychologue. Ce n'est pas une faiblesse — c'est prendre soin de soi.
+
+**Leila :** Est-ce que le psychologue, c'est remboursé ?
+
+**Médecin :** Depuis 2022, il y a un dispositif "Mon Soutien Psy". Sur prescription médicale, vous avez droit à 8 séances remboursées par an chez un psychologue conventionné. Le reste à charge est faible, et certaines mutuelles prennent le reste.
+
+**Leila :** Vous pouvez me faire une prescription ?
+
+**Médecin :** Bien sûr. Je vais vous orienter vers une psychologue que je connais. Elle parle aussi anglais si jamais vous vous sentez plus à l'aise dans cette langue au début.
+
+**Leila :** C'est vraiment gentil. Merci pour tout.
+
+---
+
+### Vocabulaire clé — La santé mentale et les émotions
+
+| Terme | Signification |
+|---|---|
+| Être stressé(e) | Être sous tension, sous pression |
+| L'anxiété | État de peur ou d'inquiétude persistante |
+| L'angoisse | Anxiété forte, souvent physique (serrement) |
+| L'isolement | Le fait d'être seul, coupé des autres |
+| Avoir le cafard | Se sentir triste, déprimé (langage courant) |
+| Se détendre | Se relaxer, réduire le stress |
+| L'insomnie | Difficulté à dormir |
+| Un psychologue | Professionnel de la santé mentale (non médecin) |
+| Un psychiatre | Médecin spécialisé en santé mentale (peut prescrire) |`,
 
       linguisticPoint: `## Point linguistique : Les verbes pronominaux réfléchis et réciproques
 
-### Verbes pronominaux essentiels (se + verbe)
+### Conjugaison des verbes pronominaux (se lever)
+| Pronom | Conjugaison | Exemple |
+|---|---|---|
+| Je | **me** lève | Je **me** lève à 7h |
+| Tu | **te** lèves | Tu **te** lèves tôt |
+| Il/Elle | **se** lève | Elle **se** lève fatiguée |
+| Nous | **nous** levons | Nous **nous** levons ensemble |
+| Vous | **vous** levez | Vous **vous** levez comment ? |
+| Ils/Elles | **se** lèvent | Ils **se** lèvent tard |
+
+**Au passé composé** : auxiliaire ÊTRE + accord : **Je me suis levée** (féminin)
+
+### Verbes pronominaux essentiels — santé et quotidien
 | Verbe | Sens | Exemple |
 |---|---|---|
-| se sentir | ressentir | Je **me sens** fatigué(e) |
+| se sentir | ressentir (état) | Je **me sens** fatigué(e) |
 | se détendre | se relaxer | Je ne **me détends** pas |
-| se réveiller | sortir du sommeil | Je **me réveille** à 7h |
+| se réveiller | sortir du sommeil | Je **me réveille** plusieurs fois |
 | s\'endormir | commencer à dormir | Je **m\'endors** tard |
 | se lever | quitter son lit | Je **me lève** fatigué(e) |
-| se sentir seul(e) | ressentir la solitude | Elle **se sent** seule |
 | se souvenir de | rappeler à sa mémoire | Je **me souviens** de toi |
+| s\'inquiéter | avoir des soucis | Je **m\'inquiète** pour ma famille |
+| se reposer | récupérer, se relaxer | Je dois **me reposer** |
 
-### Verbes exprimant les émotions
-- être anxieux/anxieuse
-- être stressé(e) / sous pression
-- se sentir déprimé(e)
-- avoir le cafard (to feel blue / down)
-- être de mauvaise humeur
-- se sentir en forme / en pleine forme
+### Nuances entre être + adjectif et se sentir + adjectif
+| Structure | Nuance | Exemple |
+|---|---|---|
+| **être** + adjectif | état objectif / permanent | Je **suis** stressé(e) |
+| **se sentir** + adjectif | ressenti subjectif | Je **me sens** seul(e) |
 
-### N'hésitez pas à + infinitif
-= don't hesitate to / feel free to
-"N'hésitez pas à consulter un psychologue"`,
+### Exprimer ses émotions en français
+| Registre | Expression |
+|---|---|
+| Formel | Je ressens de l\'anxiété / Je souffre d\'insomnies |
+| Courant | Je suis stressé(e) / Je n\'arrive pas à dormir |
+| Familier | J\'ai le cafard / Je suis à bout / Je craque |
+
+### Erreurs fréquentes — verbes pronominaux
+| ❌ Erreur | ✅ Correction |
+|---|---|
+| Je **me sens** solitude | Je **me sens** seul(e) (adj. pas nom) |
+| Je **m\'ai** levé à 7h | Je **me suis** levé à 7h (être au PC) |
+| Elle ne **se** réveille **pas** bien | Elle ne **se** réveille **pas** bien (correct) |`,
 
       keyPoints: [
         'Se sentir / se détendre / se réveiller / s\'endormir / se lever',
@@ -1207,29 +1402,86 @@ En France, le système de santé est organisé en parcours de soins coordonnés.
 
 **Les urgences** : Le service des urgences hospitalières est réservé aux situations vraiment urgentes. Pour les bobos du week-end ou les soins non urgents, il existe des maisons de santé, des centres médicaux ou SOS Médecins (numéro 36 24).
 
-**Le dossier médical partagé (DMP)** : C'est un espace numérique où sont stockés tous vos documents de santé (résultats d'analyses, ordonnances, comptes-rendus...). Tous vos médecins peuvent y accéder avec votre accord.`,
+**Le dossier médical partagé (DMP)** : C'est un espace numérique où sont stockés tous vos documents de santé (résultats d'analyses, ordonnances, comptes-rendus...). Tous vos médecins peuvent y accéder avec votre accord.
+
+---
+
+### Dialogue : Déclarer son médecin traitant
+
+*Youssef appelle sa CPAM pour déclarer son médecin traitant.*
+
+**Agent CPAM :** Bonjour, Assurance Maladie, je vous écoute.
+
+**Youssef :** Bonjour. Je veux déclarer un médecin traitant. Comment je fais ?
+
+**Agent :** Vous pouvez le faire en ligne sur ameli.fr, dans votre espace personnel. Ou vous pouvez déposer le formulaire cerfa signé par votre médecin directement à votre CPAM. Vous avez déjà un compte ameli ?
+
+**Youssef :** Non, pas encore.
+
+**Agent :** Alors commencez par créer un compte sur ameli.fr avec votre numéro de Sécurité sociale. Ensuite, dans "Mon médecin traitant", vous entrez le nom du médecin et il reçoit une notification. Il doit confirmer de son côté.
+
+**Youssef :** Et si le médecin n'a plus de place ?
+
+**Agent :** Malheureusement, certains médecins n'acceptent plus de nouveaux patients. Dans ce cas, essayez d'autres généralistes dans votre quartier. Si vous n'en trouvez vraiment aucun, contactez-nous et nous pouvons vous en désigner un d'office.
+
+---
+
+### Vocabulaire clé — Le parcours de soins
+
+| Terme | Définition |
+|---|---|
+| Le médecin traitant | Médecin de référence déclaré à la CPAM |
+| La CPAM | Caisse Primaire d'Assurance Maladie — gère vos remboursements |
+| Ameli.fr | Site en ligne pour gérer votre Sécurité sociale |
+| Le DMP | Dossier Médical Partagé — carnet de santé numérique |
+| Un spécialiste | Médecin spécialisé (cardiologue, dermatologue...) |
+| La lettre de recommandation | Document du médecin traitant pour consulter un spécialiste |
+| Hors parcours | Consultation sans passer par le médecin traitant |
+| SOS Médecins | Service de médecin à domicile (nuit, week-end) |`,
 
       linguisticPoint: `## Point linguistique : La voix passive et les tournures impersonnelles
 
-### La voix passive
-**Actif → Passif :** Sujet + verbe + objet → Objet + être + participe passé + par + sujet
+### La voix passive — formation
+**Actif → Passif :** Sujet + verbe + objet → Objet + **être** (conjugué) + participe passé accordé + **par** + sujet
 
-**Exemples :**
-- "Le médecin vous examine" → "Vous **êtes examiné(e) par** le médecin"
-- "La CPAM rembourse les soins" → "Les soins **sont remboursés par** la CPAM"
-- "Le docteur a prescrit ce médicament" → "Ce médicament **a été prescrit par** le docteur"
+| Temps | Actif | Passif |
+|---|---|---|
+| Présent | La CPAM rembourse les soins | Les soins **sont remboursés** par la CPAM |
+| Passé composé | Le médecin a prescrit ce médicament | Ce médicament **a été prescrit** par le médecin |
+| Imparfait | Le système incluait tous les patients | Tous les patients **étaient inclus** par le système |
+| Futur | L\'hôpital traitera les cas urgents | Les cas urgents **seront traités** par l\'hôpital |
+
+**Attention** : le participe passé s'accorde avec le **sujet du passif**
+- Les soins **sont remboursé**s (pluriel masculin)
+- La consultation **est remboursée** (singulier féminin)
 
 ### Tournures impersonnelles fréquentes
-- **Il est recommandé de** : "Il **est recommandé de** déclarer un médecin traitant"
-- **Il est nécessaire de** : "Il **est nécessaire d'**avoir une ordonnance"
-- **Il est interdit de** : "Il **est interdit de** fumer ici"
-- **Il est possible de** : "Il **est possible de** changer de médecin"
+| Structure | Exemple médical |
+|---|---|
+| **Il est recommandé de** | Il **est recommandé de** déclarer un médecin traitant |
+| **Il est nécessaire de** | Il **est nécessaire d\'**avoir une ordonnance |
+| **Il est interdit de** | Il **est interdit de** fumer à l\'hôpital |
+| **Il est possible de** | Il **est possible de** changer de médecin |
+| **Il convient de** | Il **convient de** consulter rapidement |
+| **Il faut** | Il **faut** présenter sa carte Vitale |
 
-### Vocabulaire du parcours de soins
-- **Ameli.fr** = site de la CPAM pour gérer sa santé en ligne
-- **DMP** = Dossier Médical Partagé
-- **Lettre de recommandation** = document du médecin traitant pour voir un spécialiste
-- **Hors parcours** = consultation sans passer par le médecin traitant`,
+### Spécialistes et accès direct (sans lettre du médecin traitant)
+| Spécialiste | Accès direct autorisé ? |
+|---|---|
+| Cardiologue | Non — lettre obligatoire |
+| Dermatologue | Non — lettre obligatoire |
+| Ophtalmologue | Oui |
+| Gynécologue | Oui |
+| Psychiatre / psychologue | Oui |
+| Pédiatre (enfant < 16 ans) | Oui |
+| Urgences hospitalières | Oui (toujours) |
+
+### Erreurs fréquentes — voix passive
+| ❌ Erreur | ✅ Correction |
+|---|---|
+| Les soins **est remboursé** par la CPAM | Les soins **sont remboursés** (pluriel) |
+| Elle **est examiné** par le médecin | Elle **est examinée** (accord féminin) |
+| Il est recommandé **à** consulter | Il est recommandé **de** consulter (de + inf.) |`,
 
       keyPoints: [
         'Voix passive : objet + être + participe passé + par + agent',
