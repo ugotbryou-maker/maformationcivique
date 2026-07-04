@@ -38,7 +38,9 @@ export async function middleware(request: NextRequest) {
     });
 
     const { data } = await supabase.auth.getSession();
-    user = data.session?.user ?? null;
+    const session = data.session;
+    const isValidSession = session && session.expires_at && session.expires_at * 1000 > Date.now();
+    user = isValidSession ? session.user : null;
   } catch {
     // Supabase indisponible ou credentials invalides — on continue sans session
     // Les pages publiques restent accessibles, les pages protégées redirigent
