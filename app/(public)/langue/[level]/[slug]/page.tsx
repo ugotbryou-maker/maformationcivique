@@ -10,6 +10,7 @@ import { a2Modules, b1Modules, b2Modules, transversalModules, examenModules } fr
 import type { LangModule, LangLesson } from '@/data/langue/types';
 import { renderLangMarkdown } from '@/lib/langue-markdown';
 import { LangLessonQuiz } from '@/components/app/LangLessonQuiz';
+import { LangScrollProgress } from '@/components/app/LangScrollProgress';
 import { isAdminEmail } from '@/lib/admin';
 
 const LEVEL_COLOR: Record<string, string> = {
@@ -107,6 +108,7 @@ export default async function LangueLessonPage({ params }: Props) {
 
     return (
       <div style={{ minHeight: '100vh', background: 'var(--color-off-white)' }}>
+        <LangScrollProgress color="#CC1A1A" />
         <div style={{ background: 'linear-gradient(135deg, #7F1D1D 0%, #CC1A1A 100%)', padding: '2.5rem 1.5rem 2rem' }}>
           <div className="container">
             <nav style={{ display: 'flex', gap: '6px', marginBottom: '16px', fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.7)' }}>
@@ -191,6 +193,7 @@ export default async function LangueLessonPage({ params }: Props) {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--color-off-white)' }}>
+      <LangScrollProgress color={accent} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* Hero */}
