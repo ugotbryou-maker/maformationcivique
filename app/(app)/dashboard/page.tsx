@@ -7,6 +7,7 @@ import { XPBadge } from '@/components/app/XPBadge';
 import { ReferralCard } from '@/components/app/ReferralCard';
 import { getLevel, getLevelProgress, BADGES } from '@/lib/gamification';
 import { BookOpen, ChevronRight, Trophy, Target } from 'lucide-react';
+import { isAdminEmail } from '@/lib/admin';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -57,9 +58,10 @@ export default async function DashboardPage() {
   const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.maformationcivique.fr';
   const referralLink = `${siteUrl.replace(/\/$/, '')}/inscription?ref=${user.id}`;
 
+  const isAdmin = isAdminEmail(user.email);
   const xp = profile?.xp ?? 0;
   const streak = profile?.streak_days ?? 0;
-  const isPremium = profile?.plan === 'premium';
+  const isPremium = profile?.plan === 'premium' || profile?.plan === 'langue' || profile?.plan === 'bundle' || isAdmin;
   const level = getLevel(xp);
   const levelProgress = getLevelProgress(xp);
   const earnedBadgeSlugs = new Set(userBadges?.map((b) => b.badge_slug) ?? []);
@@ -104,7 +106,7 @@ export default async function DashboardPage() {
           { label: 'XP total', val: xp.toLocaleString(), sub: level.label, color: level.color },
           { label: 'Leçons complétées', val: completedCount.toString(), sub: `sur ${accessibleLessons}`, color: 'var(--color-blue-france)' },
           { label: 'Streak', val: `${streak}j`, sub: streak > 0 ? 'consécutifs' : 'Commencez !', color: streak > 0 ? 'var(--color-red-france)' : 'var(--color-text-muted)' },
-          { label: 'Abonnement', val: isPremium ? 'Premium' : 'Gratuit', sub: isPremium ? 'Actif' : 'Passer Premium', color: isPremium ? '#1D9E75' : 'var(--color-blue-france)' },
+          { label: 'Abonnement', val: isAdmin ? 'Admin' : isPremium ? 'Premium' : 'Gratuit', sub: isAdmin ? 'Accès complet' : isPremium ? 'Actif' : 'Passer Premium', color: isAdmin ? '#7C3AED' : isPremium ? '#1D9E75' : 'var(--color-blue-france)' },
         ].map(({ label, val, sub, color }) => (
           <div
             key={label}
