@@ -160,7 +160,7 @@ export default async function DashboardPage() {
           <h2 style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-primary)' }}>
             Avancement du programme
           </h2>
-          <Link href="/modules" style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-blue-france)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <Link href="/modulesciviques" style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-blue-france)', display: 'flex', alignItems: 'center', gap: '4px' }}>
             Voir tout <ChevronRight size={12} />
           </Link>
         </div>
@@ -238,7 +238,7 @@ export default async function DashboardPage() {
             </div>
           </div>
         </Link>
-        <Link href="/modules" style={{ display: 'block' }}>
+        <Link href="/modulesciviques" style={{ display: 'block' }}>
           <div
             style={{
               padding: '20px',

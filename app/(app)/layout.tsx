@@ -5,7 +5,7 @@ import { isAdminEmail } from '@/lib/admin';
 
 const baseNav = [
   { icon: LayoutDashboard, label: 'Dashboard',  href: '/dashboard' },
-  { icon: BookOpen,        label: 'Modules',    href: '/modules' },
+  { icon: BookOpen,        label: 'Modules',    href: '/modulesciviques' },
   { icon: Trophy,          label: 'Examens',    href: '/examen' },
   { icon: TrendingUp,      label: 'Progression',href: '/progression' },
   { icon: User,            label: 'Profil',     href: '/profil' },

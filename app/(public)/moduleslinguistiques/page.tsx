@@ -103,7 +103,7 @@ export default function LanguePage() {
           {LEVELS.map(({ level, label, badge, desc, image, imagePos, gradient, color, modules }) => {
             const lessonCount = modules.reduce((a, m) => a + m.lessons.length, 0);
             return (
-              <Link key={level} href={`/langue/${level}`} style={{ textDecoration: 'none' }} className="lang-level-card">
+              <Link key={level} href={`/moduleslinguistiques/${level}`} style={{ textDecoration: 'none' }} className="lang-level-card">
                 <article style={{ position: 'relative', borderRadius: 18, overflow: 'hidden', height: 170 }}>
                   {/* Filigrane */}
                   <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: imagePos, transition: 'transform 400ms ease-out' }} className="lang-level-img" />
@@ -142,7 +142,7 @@ export default function LanguePage() {
             const imgs = ['/images/modules/Ecole_-_Salle_de_Classe_2.jpg', '/images/modules/hemicycle-parlement-europeen.jpg', '/images/modules/palais-elysee.jpg'];
             const grads = ['linear-gradient(135deg,#001A70E0,#002395CC)', 'linear-gradient(135deg,#002395E0,#0057A8CC)', 'linear-gradient(135deg,#9F1239E0,#CC1A1ACC)'];
             return (
-              <Link key={exam.slug} href={`/langue/examens/${exam.slug}`} style={{ textDecoration: 'none' }} className="lang-level-card">
+              <Link key={exam.slug} href={`/moduleslinguistiques/examens/${exam.slug}`} style={{ textDecoration: 'none' }} className="lang-level-card">
                 <article style={{ position: 'relative', borderRadius: 'var(--radius-lg)', overflow: 'hidden', height: 110 }}>
                   <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${imgs[i]})`, backgroundSize: 'cover', backgroundPosition: 'center 30%', transition: 'transform 400ms ease-out' }} className="lang-level-img" />
                   <div style={{ position: 'absolute', inset: 0, background: grads[i] }} />

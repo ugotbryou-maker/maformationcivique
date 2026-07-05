@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const footerLinks = {
   Préparer: [
-    { label: 'Modules de cours', href: '/modules' },
+    { label: 'Modules de cours', href: '/modulesciviques' },
     { label: 'Examens blancs', href: '/examen' },
     { label: 'Ressources & guides', href: '/ressources' },
     { label: 'Tarifs', href: '/#tarifs' },

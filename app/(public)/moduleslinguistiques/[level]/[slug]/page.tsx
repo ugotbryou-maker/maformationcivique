@@ -113,7 +113,7 @@ export default async function LangueLessonPage({ params }: Props) {
         <div style={{ background: 'linear-gradient(135deg, #7F1D1D 0%, #CC1A1A 100%)', padding: '2.5rem 1.5rem 2rem' }}>
           <div className="container">
             <nav style={{ display: 'flex', gap: '6px', marginBottom: '16px', fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.7)' }}>
-              <Link href="/langue" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Cours de français</Link>
+              <Link href="/moduleslinguistiques" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Cours de français</Link>
               <span>/</span>
               <span style={{ color: '#fff' }}>{exam.title}</span>
             </nav>
@@ -203,11 +203,11 @@ export default async function LangueLessonPage({ params }: Props) {
         <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${accent}F0 0%, ${accent}B0 100%)` }} />
         <div className="container" style={{ position: 'relative', zIndex: 2, padding: '28px 24px 26px' }}>
           <nav style={{ display: 'flex', gap: '6px', marginBottom: '14px', fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.7)', flexWrap: 'wrap' }}>
-            <Link href="/langue" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Cours de français</Link>
+            <Link href="/moduleslinguistiques" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Cours de français</Link>
             <span>/</span>
-            <Link href={`/langue/${level}`} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>{LEVEL_LABEL[level]}</Link>
+            <Link href={`/moduleslinguistiques/${level}`} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>{LEVEL_LABEL[level]}</Link>
             <span>/</span>
-            <Link href={`/langue/${level}`} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>{mod.title}</Link>
+            <Link href={`/moduleslinguistiques/${level}`} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>{mod.title}</Link>
             <span>/</span>
             <span style={{ color: '#fff' }}>{lesson.title}</span>
           </nav>
@@ -237,7 +237,7 @@ export default async function LangueLessonPage({ params }: Props) {
               <div style={{ display: 'flex', gap: '10px', marginBottom: '14px', color: 'rgba(255,255,255,0.85)', fontSize: 'var(--font-size-xs)' }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><BookOpen size={11} /> {mod.lessons.length} leçons</span>
               </div>
-              <Link href={`/langue/${level}`} style={{ display: 'block', textAlign: 'center', background: 'rgba(255,255,255,0.18)', color: '#fff', padding: '9px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 600, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.22)' }}>
+              <Link href={`/moduleslinguistiques/${level}`} style={{ display: 'block', textAlign: 'center', background: 'rgba(255,255,255,0.18)', color: '#fff', padding: '9px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 600, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.22)' }}>
                 Voir le module →
               </Link>
             </div>
@@ -270,18 +270,18 @@ export default async function LangueLessonPage({ params }: Props) {
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'space-between', flexWrap: 'wrap', marginTop: '32px', paddingTop: '24px', borderTop: 'var(--border-default)' }}>
               <div>
                 {prevLesson && (
-                  <Link href={`/langue/${level}/${prevLesson.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: '#fff', color: 'var(--color-text-secondary)', padding: '10px 18px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 500, textDecoration: 'none', border: 'var(--border-default)', boxShadow: 'var(--shadow-card)' }}>
+                  <Link href={`/moduleslinguistiques/${level}/${prevLesson.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: '#fff', color: 'var(--color-text-secondary)', padding: '10px 18px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 500, textDecoration: 'none', border: 'var(--border-default)', boxShadow: 'var(--shadow-card)' }}>
                     <ChevronLeft size={14} /> Leçon précédente
                   </Link>
                 )}
               </div>
               <div>
                 {nextLesson ? (
-                  <Link href={`/langue/${level}/${nextLesson.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: accent, color: '#fff', padding: '10px 22px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 600, textDecoration: 'none' }}>
+                  <Link href={`/moduleslinguistiques/${level}/${nextLesson.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: accent, color: '#fff', padding: '10px 22px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 600, textDecoration: 'none' }}>
                     Leçon suivante <ChevronRight size={14} />
                   </Link>
                 ) : (
-                  <Link href={`/langue/${level}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: accent, color: '#fff', padding: '10px 22px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 600, textDecoration: 'none' }}>
+                  <Link href={`/moduleslinguistiques/${level}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: accent, color: '#fff', padding: '10px 22px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 600, textDecoration: 'none' }}>
                     Retour au module <ChevronRight size={14} />
                   </Link>
                 )}

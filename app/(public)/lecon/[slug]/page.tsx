@@ -283,7 +283,7 @@ export default async function LessonPage({ params }: Props) {
           <nav style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '20px', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', flexWrap: 'wrap' }}>
             <Link href="/" style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>Accueil</Link>
             <span>/</span>
-            <Link href="/modules" style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>Modules</Link>
+            <Link href="/modulesciviques" style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>Modules</Link>
             <span>/</span>
             <Link href={`/module/${mod.slug}`} style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>{mod.title}</Link>
             <span>/</span>

@@ -183,7 +183,7 @@ export function ModulesSection() {
         {/* Voir tout */}
         <div style={{ textAlign: 'center', marginTop: '40px' }}>
           <Link
-            href="/modules"
+            href="/modulesciviques"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
               color: 'var(--color-blue-france)', fontWeight: 600,

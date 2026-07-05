@@ -150,7 +150,7 @@ export default function ExamPage() {
 
   if (!config) return (
     <div style={{ padding: '4rem', textAlign: 'center' }}>
-      <p>Niveau inconnu. <Link href="/modules">Retour aux modules</Link></p>
+      <p>Niveau inconnu. <Link href="/modulesciviques">Retour aux modules</Link></p>
     </div>
   );
 
@@ -224,7 +224,7 @@ export default function ExamPage() {
             Commencer l'examen <ArrowRight size={18} />
           </button>
 
-          <Link href="/modules" style={{ display: 'block', marginTop: '1rem', color: '#94A3B8', fontSize: 13, textDecoration: 'none' }}>
+          <Link href="/modulesciviques" style={{ display: 'block', marginTop: '1rem', color: '#94A3B8', fontSize: 13, textDecoration: 'none' }}>
             ← Retour aux modules
           </Link>
         </div>
@@ -588,7 +588,7 @@ export default function ExamPage() {
             <RotateCcw size={16} /> Recommencer
           </button>
           <Link
-            href="/modules"
+            href="/modulesciviques"
             style={{
               flex: 1, padding: '1rem', borderRadius: 12,
               background: config.gradient, color: '#fff',

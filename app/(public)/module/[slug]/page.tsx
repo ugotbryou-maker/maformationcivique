@@ -108,7 +108,7 @@ export default async function ModulePage({ params }: Props) {
       <div className="container" style={{ maxWidth: '720px' }}>
         {/* Breadcrumb */}
         <Link
-          href="/modules"
+          href="/modulesciviques"
           style={{
             display: 'inline-flex',
             alignItems: 'center',

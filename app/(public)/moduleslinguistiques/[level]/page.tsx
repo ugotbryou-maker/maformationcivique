@@ -98,7 +98,7 @@ export default async function LangueLevelPage({ params }: Props) {
       <div style={{ background: data.gradient, padding: '3rem 1.5rem 2.5rem' }}>
         <div className="container">
           <nav style={{ display: 'flex', gap: '6px', marginBottom: '16px', fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.7)' }}>
-            <Link href="/langue" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Cours de français</Link>
+            <Link href="/moduleslinguistiques" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Cours de français</Link>
             <span>/</span>
             <span style={{ color: '#fff' }}>{data.title}</span>
           </nav>
@@ -158,7 +158,7 @@ export default async function LangueLevelPage({ params }: Props) {
                     return (
                       <Link
                         key={lesson.slug}
-                        href={`/langue/${level}/${lesson.slug}`}
+                        href={`/moduleslinguistiques/${level}/${lesson.slug}`}
                         style={{
                           display: 'flex', alignItems: 'center', gap: '12px',
                           padding: '13px 22px', textDecoration: 'none',
@@ -196,7 +196,7 @@ export default async function LangueLevelPage({ params }: Props) {
                 <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', margin: 0 }}>Prêt à tester votre niveau {level.toUpperCase()} ?</p>
                 <p style={{ fontSize: 12, color: 'var(--color-text-muted)', margin: '2px 0 0' }}>Passez l&apos;examen blanc en conditions réelles.</p>
               </div>
-              <Link href={`/langue/examens/examen-blanc-${level}`} style={{ background: data.color, color: '#fff', padding: '9px 18px', borderRadius: 'var(--radius-md)', fontSize: 13, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+              <Link href={`/moduleslinguistiques/examens/examen-blanc-${level}`} style={{ background: data.color, color: '#fff', padding: '9px 18px', borderRadius: 'var(--radius-md)', fontSize: 13, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>
                 Examen blanc →
               </Link>
             </div>

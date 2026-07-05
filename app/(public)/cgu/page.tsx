@@ -5,10 +5,10 @@ export const metadata: Metadata = {
   description: "Conditions générales d'utilisation et de vente de maformationcivique.fr",
 };
 
-const LAST_UPDATE = '7 juin 2026';
-const COMPANY    = '[NOM DE LA SOCIÉTÉ / AUTO-ENTREPRENEUR]';
-const SIRET      = '[NUMÉRO SIRET]';
-const ADDRESS    = '[ADRESSE COMPLÈTE]';
+const LAST_UPDATE = '5 juillet 2026';
+const COMPANY    = 'Ugo Tamburrini (Entrepreneur individuel — YOU.)';
+const SIRET      = '908 675 259 00018';
+const ADDRESS    = '7B Rue Monge, 94110 Arcueil, France';
 const EMAIL      = 'contact@maformationcivique.fr';
 const SITE       = 'https://www.maformationcivique.fr';
 

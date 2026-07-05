@@ -13,8 +13,8 @@ const navLinks = [
 ];
 
 const modulesLinks = [
-  { label: 'Examen civique',       href: '/modules', description: 'Histoire, institutions, valeurs de la République' },
-  { label: 'Examen linguistique',  href: '/langue',  description: 'Français A2, B1, B2 — OFII, DELF, naturalisation' },
+  { label: 'Examen civique',       href: '/modulesciviques', description: 'Histoire, institutions, valeurs de la République' },
+  { label: 'Examen linguistique',  href: '/moduleslinguistiques',  description: 'Français A2, B1, B2 — OFII, DELF, naturalisation' },
 ];
 
 const resourcesLinks = [
