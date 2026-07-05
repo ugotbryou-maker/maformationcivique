@@ -5,10 +5,11 @@ import { notFound, redirect } from 'next/navigation';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import type { Metadata } from 'next';
-import { Clock, ChevronLeft, ChevronRight, BookOpen, ListChecks } from 'lucide-react';
+import { Clock, ChevronLeft, ChevronRight, BookOpen, ListChecks, Target } from 'lucide-react';
 import { a2Modules, b1Modules, b2Modules, transversalModules, examenModules } from '@/data/langue';
 import type { LangModule, LangLesson } from '@/data/langue/types';
 import { renderLangMarkdown } from '@/lib/langue-markdown';
+import { LangLessonReader } from '@/components/app/LangLessonReader';
 import { LangLessonQuiz } from '@/components/app/LangLessonQuiz';
 import { LangScrollProgress } from '@/components/app/LangScrollProgress';
 import { isAdminEmail } from '@/lib/admin';
@@ -252,21 +253,19 @@ export default async function LangueLessonPage({ params }: Props) {
             </div>
           </aside>
 
-          {/* Contenu */}
+          {/* Contenu paginé */}
           <div>
-            <div style={{ background: '#fff', borderRadius: 'var(--radius-xl)', border: 'var(--border-default)', boxShadow: 'var(--shadow-card)', padding: '26px 28px', marginBottom: '24px' }}>
-              {renderLangMarkdown(lesson.dialogue, accent)}
-              <div style={{ marginTop: '8px', paddingTop: '18px', borderTop: 'var(--border-default)' }}>
-                {renderLangMarkdown(lesson.linguisticPoint, accent)}
-              </div>
-            </div>
+            <LangLessonReader
+              lesson={lesson}
+              accent={accent}
+              bg={bg}
+              modTitle={mod.title}
+              modIndex={mod.lessons.findIndex((l) => l.slug === slug)}
+              modTotal={mod.lessons.length}
+            />
 
-            <h2 style={{ fontSize: 'var(--font-size-md)', fontWeight: 700, color: 'var(--color-text-primary)', margin: '0 0 4px' }}>Exercices</h2>
-            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: '0 0 16px' }}>{lesson.exercises.length} questions à choix multiple</p>
-            <LangLessonQuiz exercises={lesson.exercises} accent={accent} />
-
-            {/* Navigation */}
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'space-between', flexWrap: 'wrap', marginTop: '32px' }}>
+            {/* Navigation entre leçons */}
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'space-between', flexWrap: 'wrap', marginTop: '32px', paddingTop: '24px', borderTop: 'var(--border-default)' }}>
               <div>
                 {prevLesson && (
                   <Link href={`/langue/${level}/${prevLesson.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: '#fff', color: 'var(--color-text-secondary)', padding: '10px 18px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 500, textDecoration: 'none', border: 'var(--border-default)', boxShadow: 'var(--shadow-card)' }}>
