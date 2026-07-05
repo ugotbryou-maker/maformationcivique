@@ -18,7 +18,7 @@ export const b2TextesArgumentatifs: LangModule = {
       level: 'B2',
       title: 'Analyser un texte argumentatif',
       description: 'Identifier la thèse, les arguments et la stratégie rhétorique d\'un texte d\'opinion.',
-      duration: 12,
+      duration: 35,
       free: false,
       dialogue: `## Texte : Faut-il réformer le système des aides sociales ? (extrait d'éditorial)
 
@@ -28,7 +28,36 @@ Certes, on ne saurait nier que certains dispositifs présentent des effets de se
 
 Toutefois, réduire le débat à cette seule question reviendrait à occulter l'essentiel. Car au-delà des dysfonctionnements techniques, c'est bien la fonction structurelle de notre modèle social qui est en jeu. Sans ce filet de sécurité, des millions de Français basculeraient dans une précarité encore plus sévère — un scénario dont les conséquences, tant sociales qu'économiques, seraient autrement plus coûteuses pour la collectivité.
 
-Dès lors, plutôt que d'opposer stérilement assistanat et mérite, ne devrait-on pas s'interroger sur les moyens de concilier solidarité et incitation au travail ? C'est précisément cette voie médiane qu'explorent plusieurs pays nordiques, avec des résultats qui méritent d'être étudiés de près.`,
+Dès lors, plutôt que d'opposer stérilement assistanat et mérite, ne devrait-on pas s'interroger sur les moyens de concilier solidarité et incitation au travail ? C'est précisément cette voie médiane qu'explorent plusieurs pays nordiques, avec des résultats qui méritent d'être étudiés de près.
+
+---
+
+### Situation 2 : Extrait d'éditorial — Faut-il encadrer les réseaux sociaux ?
+
+Les plateformes numériques constituent aujourd'hui l'un des principaux espaces de formation de l'opinion publique. Il serait naïf d'en minimiser l'influence sur le débat démocratique.
+
+Certes, les défenseurs de l'autorégulation font valoir que les plateformes ont déployé des mécanismes de modération de plus en plus sophistiqués. Il n'en reste pas moins que ces outils restent sous le contrôle exclusif d'entreprises privées dont les intérêts économiques ne coïncident pas nécessairement avec l'intérêt général.
+
+Force est de constater que les épisodes récents — de la désinformation électorale aux appels à la violence — ont mis en lumière les limites d'un système laissé à la seule discrétion des acteurs privés. La régulation publique n'est pas une option idéologique : c'est une nécessité démocratique.
+
+Dès lors, la vraie question n'est pas de savoir si l'on doit réguler, mais comment le faire efficacement sans compromettre la liberté d'expression. C'est précisément ce défi qu'ont tenté de relever les législateurs européens avec le Règlement sur les services numériques (DSA), entré en vigueur en 2023.
+
+---
+
+### Tableau de vocabulaire : Textes argumentatifs
+
+| Terme | Définition | Exemple d'usage |
+|---|---|---|
+| **détracteur / détractrice** | Personne qui critique, qui s'oppose à quelque chose | "Ses détracteurs estiment que la réforme est prématurée." |
+| **filet de sécurité** | Protection minimale contre les risques (social, financier) | "Les aides sociales constituent un filet de sécurité." |
+| **effet de seuil** | Phénomène où dépasser une limite entraîne une perte nette | "Les effets de seuil découragent parfois le retour à l'emploi." |
+| **occulter** | Cacher, masquer, ne pas prendre en compte | "Réduire le débat à cela reviendrait à occulter l'essentiel." |
+| **précarité** | Situation d'instabilité économique ou sociale | "Des millions de personnes sont exposées à la précarité." |
+| **assistanat** | Dépendance excessive aux aides de l'État (terme polémique) | "L'opposition dénonce l'assistanat." |
+| **voie médiane** | Position intermédiaire entre deux extrêmes | "Les pays nordiques explorent une voie médiane." |
+| **concilier** | Rendre compatibles deux choses a priori contradictoires | "Concilier solidarité et incitation au travail." |
+| **dysfonctionnement** | Mauvais fonctionnement d'un système | "Les dysfonctionnements techniques doivent être corrigés." |
+| **autorégulation** | Fait pour un acteur de se réguler lui-même, sans contrôle externe | "L'autorégulation des plateformes montre ses limites." |`,
 
       linguisticPoint: `## Point linguistique : Le registre soutenu — formules d'analyse
 
@@ -37,18 +66,45 @@ Dès lors, plutôt que d'opposer stérilement assistanat et mérite, ne devrait-
 - "On ne saurait nier que..." (= on ne peut pas nier)
 - "Il convient de souligner que..."
 - "Force est de constater que..."
+- "Il serait naïf de minimiser..."
 
 ### Marquer une concession avant de réfuter
 - "Certes, ... Toutefois / Cependant / Néanmoins, ..."
 - "S'il est vrai que..., il n'en demeure pas moins que..."
 - "Loin de nier que..., on peut affirmer que..."
+- "Les défenseurs de X font valoir que... Il n'en reste pas moins que..."
 
 ### Exprimer une réserve nuancée
 - "Ce paradoxe... mérite d'être traité avec sérieux." (= sans être ignoré ni exagéré)
 - "Réduire le débat à... reviendrait à occulter l'essentiel."
+- "Ces outils restent sous le contrôle exclusif de... dont les intérêts ne coïncident pas nécessairement avec..."
 
 ### Question rhétorique pour orienter le lecteur
-- "Dès lors, ne devrait-on pas s'interroger sur... ?" (suggère une réponse sans l'imposer)`,
+- "Dès lors, ne devrait-on pas s'interroger sur... ?" (suggère une réponse sans l'imposer)
+- "La vraie question n'est pas de savoir si..., mais comment..."
+
+### Reformuler l'enjeu central
+- "C'est bien la fonction structurelle de... qui est en jeu."
+- "Ce n'est pas une option idéologique : c'est une nécessité..."
+- "C'est précisément ce défi qu'ont tenté de relever..."
+
+### Erreurs fréquentes à éviter
+
+**1. Confondre "certes" avec un accord complet**
+- Incorrect : "Certes, il y a des problèmes. Le système est donc mauvais." (abandon de la position après la concession)
+- Correct : "Certes, certains dispositifs présentent des dysfonctionnements. Toutefois, réduire le débat à cela serait occulter l'essentiel."
+
+**2. Utiliser "force est de constater" pour une opinion subjective**
+- Incorrect : "Force est de constater que cette politique est injuste." (jugement de valeur, pas un constat partagé)
+- Correct : "Force est de constater que les mécanismes d'autorégulation ont montré leurs limites lors de plusieurs épisodes documentés."
+
+**3. Poser une question rhétorique sans y répondre implicitement**
+- Incorrect : "Ne devrait-on pas s'interroger sur la réforme ?" (trop vague, sans orientation)
+- Correct : "Ne devrait-on pas s'interroger sur les moyens de concilier X et Y ?" (la question oriente vers une réponse précise)
+
+**4. Employer un registre trop familier dans un texte analytique soutenu**
+- Incorrect : "Ce système marche pas bien parce que..."
+- Correct : "Ce système présente des dysfonctionnements qui méritent d'être traités avec sérieux."`,
 
       keyPoints: [
         '"Certes... toutefois..." = concession suivie d\'une réfutation nuancée',
@@ -319,7 +375,7 @@ Dès lors, plutôt que d'opposer stérilement assistanat et mérite, ne devrait-
       level: 'B2',
       title: 'Les types d\'arguments',
       description: 'Distinguer argument d\'autorité, argument logique, argument par l\'exemple et argument ad hominem.',
-      duration: 12,
+      duration: 35,
       free: false,
       dialogue: `## Texte : Tous les arguments ne se valent pas
 
@@ -338,7 +394,32 @@ Illustre une idée générale par un cas concret : "Les pays nordiques, qui inve
 Attaque la personne plutôt que son argument : "Vous ne pouvez pas critiquer cette politique, vous n'avez jamais été élu." C'est une attaque qui ÉVITE de répondre sur le fond — un signal de faiblesse argumentative chez celui qui l'emploie.
 
 **L'argument par analogie**
-Compare deux situations pour éclairer l'une par l'autre : "Gérer un pays, c'est comme gérer une famille : il faut équilibrer les dépenses." Force : pédagogique. Limite : les deux situations comparées ne sont jamais parfaitement identiques.`,
+Compare deux situations pour éclairer l'une par l'autre : "Gérer un pays, c'est comme gérer une famille : il faut équilibrer les dépenses." Force : pédagogique. Limite : les deux situations comparées ne sont jamais parfaitement identiques.
+
+---
+
+### Situation 2 : Application — Débat sur l'enseignement obligatoire du numérique à l'école
+
+**Texte A (pour)** : Selon le rapport de la Commission européenne sur les compétences numériques (2022), moins de 54 % des Européens possèdent des compétences numériques de base. Face à ce constat alarmant, il s'ensuit que l'école constitue le seul levier universel pour combler ce déficit. De même que la lecture et l'écriture ont été intégrées au socle commun au XIXe siècle pour répondre aux besoins de la société industrielle, la maîtrise du numérique doit l'être aujourd'hui pour répondre aux besoins de la société de l'information.
+
+**Texte B (contre)** : Si l'objectif de développer la culture numérique est louable, plusieurs chercheurs en sciences de l'éducation font valoir que l'intégration précipitée du numérique à l'école peut nuire à des apprentissages fondamentaux (lecture profonde, attention soutenue). L'exemple finlandais est souvent cité comme modèle — or, la Finlande elle-même a récemment réduit la place des tablettes à l'école primaire, après avoir constaté une dégradation des résultats en lecture. Un seul exemple suffit-il à établir une généralité ? La question mérite d'être posée.
+
+---
+
+### Tableau de vocabulaire : Types d'arguments
+
+| Terme | Définition | Exemple d'usage |
+|---|---|---|
+| **argument d'autorité** | Argument s'appuyant sur une source reconnue compétente | "Selon l'OMS, ce traitement est efficace." |
+| **prémisse** | Point de départ d'un raisonnement logique | "Si les prémisses sont fausses, la conclusion l'est aussi." |
+| **sophisme** | Raisonnement fallacieux qui semble logique | "L'ad hominem est un sophisme classique." |
+| **ad hominem** | Attaque dirigée contre la personne et non son argument | "Critiquer la personne plutôt que son argument." |
+| **analogie** | Comparaison entre deux situations pour éclairer l'une par l'autre | "Une analogie entre famille et État." |
+| **généralité** | Affirmation valable pour l'ensemble d'un groupe | "Un exemple ne prouve pas une généralité." |
+| **déductif / déductive** | Qui tire une conclusion de prémisses générales vers un cas particulier | "Un raisonnement déductif rigoureux." |
+| **étayer** | Soutenir, appuyer un argument par des preuves ou exemples | "Cet argument est étayé par des données chiffrées." |
+| **convaincant(e)** | Qui persuade, qui emporte l'adhésion | "Un exemple concret est souvent plus convaincant." |
+| **crédibilité** | Qualité de ce qui mérite d'être cru | "La crédibilité de la source renforce l'argument." |`,
 
       linguisticPoint: `## Point linguistique : Le vocabulaire de l'analyse argumentative
 
@@ -352,7 +433,34 @@ Compare deux situations pour éclairer l'une par l'autre : "Gérer un pays, c'es
 - "Cet argument repose sur une source fiable / contestable."
 - "Le raisonnement est logiquement valide, mais ses prémisses sont discutables."
 - "Un seul exemple ne suffit pas à établir une généralité."
-- "Cette remarque relève de l'attaque personnelle plutôt que de la réfutation argumentée."`,
+- "Cette remarque relève de l'attaque personnelle plutôt que de la réfutation argumentée."
+
+### Introduire une évaluation nuancée
+- "Si cet argument a le mérite d'être concret, il se heurte à la limite de la généralisation."
+- "La force de cet exemple réside dans son actualité ; sa limite tient à son caractère isolé."
+- "Cet argument d'autorité gagne en solidité si la source est spécialisée dans ce domaine précis."
+
+### Signaler la limite d'un argument sans le rejeter complètement
+- "Cet argument éclaire une dimension du problème, sans toutefois épuiser le sujet."
+- "La comparaison est pédagogique, à condition de ne pas l'étirer au-delà de ce qu'elle peut démontrer."
+
+### Erreurs fréquentes à éviter
+
+**1. Confondre argument d'autorité et vérité établie**
+- Incorrect : "Selon un expert, c'est vrai — donc c'est prouvé."
+- Correct : "Selon cet expert reconnu dans le domaine, X semble établi — bien que d'autres spécialistes contestent ce point."
+
+**2. Utiliser un seul exemple comme preuve définitive**
+- Incorrect : "La Finlande a réduit les tablettes à l'école, donc le numérique à l'école est mauvais."
+- Correct : "L'exemple finlandais est instructif, mais un seul cas ne suffit pas à établir une généralité — d'autres contextes méritent d'être examinés."
+
+**3. Accepter une analogie sans en vérifier les limites**
+- Incorrect : "Gérer un pays c'est comme gérer une famille, donc l'État doit équilibrer ses dépenses."
+- Correct : "L'analogie est pédagogique, mais elle atteint ses limites : un État peut s'endetter à long terme de façon productive, ce qu'une famille ne peut généralement pas faire."
+
+**4. Ne pas identifier explicitement le type d'argument dans une analyse**
+- Incorrect : "L'auteur dit que selon l'OMS... et c'est convaincant."
+- Correct : "L'auteur mobilise ici un argument d'autorité (référence à l'OMS) dont la force dépend de la crédibilité et de la spécialisation de la source citée."`,
 
       keyPoints: [
         'Argument d\'autorité = s\'appuie sur une source reconnue compétente ("selon l\'OMS")',
@@ -393,7 +501,7 @@ Compare deux situations pour éclairer l'une par l'autre : "Gérer un pays, c'es
       level: 'B2',
       title: 'Repérer les sophismes et biais argumentatifs',
       description: 'Identifier les raisonnements fallacieux les plus courants : généralisation hâtive, faux dilemme, pente glissante.',
-      duration: 12,
+      duration: 35,
       free: false,
       dialogue: `## Texte : Les pièges du raisonnement à démasquer
 
@@ -412,25 +520,88 @@ Affirmer qu'une action mineure entraînera inévitablement une série de conséq
 Utiliser la peur plutôt que des arguments rationnels pour convaincre : "Si vous ne soutenez pas cette mesure, notre sécurité sera menacée." Erreur : l'émotion remplace la démonstration factuelle.
 
 **Le sophisme de l'homme de paille**
-Déformer la position de l'adversaire pour la rendre plus facile à attaquer : "Vous dites qu'il faut réguler ce secteur ? Donc vous voulez détruire toute l'économie !" Erreur : la position réelle de l'adversaire (régulation) n'est pas l'exagération attribuée (destruction totale).`,
+Déformer la position de l'adversaire pour la rendre plus facile à attaquer : "Vous dites qu'il faut réguler ce secteur ? Donc vous voulez détruire toute l'économie !" Erreur : la position réelle de l'adversaire (régulation) n'est pas l'exagération attribuée (destruction totale).
+
+---
+
+### Situation 2 : Sophismes en contexte — débat sur la politique de logement
+
+**Intervenant A :** Il faut encadrer les loyers dans les grandes villes. Les locataires ne peuvent plus se loger décemment.
+
+**Intervenant B :** Si l'on encadre les loyers, les propriétaires n'investiront plus dans la rénovation. Et si les logements se dégradent, personne ne voudra habiter en ville. Et si les villes se vident, l'économie s'effondre. Vous voulez donc l'effondrement économique de la France ?
+
+*→ Sophisme identifié : pente glissante + homme de paille combinés.*
+
+**Intervenant C :** Ce débat est simple : soit vous êtes pour le marché libre, soit vous êtes pour le contrôle total de l'État. Il faut choisir.
+
+*→ Sophisme identifié : faux dilemme.*
+
+**Intervenant D :** Vous, Monsieur A, vous n'êtes pas propriétaire, donc vous ne pouvez pas comprendre les enjeux de ce débat.
+
+*→ Sophisme identifié : argument ad hominem.*
+
+**Modérateur :** Je vous arrête : ces trois interventions (B, C, D) illustrent des erreurs de raisonnement classiques. Revenons aux faits : quelles données concrètes permettent d'évaluer l'impact réel de l'encadrement des loyers sur le marché immobilier ?
+
+---
+
+### Tableau de vocabulaire : Sophismes et biais
+
+| Terme | Définition | Exemple d'usage |
+|---|---|---|
+| **sophisme** | Raisonnement qui semble logique mais contient une faille | "L'ad hominem est un sophisme classique." |
+| **fallacieux / fallacieuse** | Qui induit en erreur, trompeur | "Un argument fallacieux habillé en logique." |
+| **généralisation hâtive** | Conclusion générale tirée d'un échantillon trop petit | "Deux cas ne permettent pas une généralisation." |
+| **faux dilemme** | Présentation binaire occultant d'autres options | "Soit X, soit Y — c'est un faux dilemme." |
+| **pente glissante** | Chaîne de conséquences extrêmes affirmée sans preuve | "La pente glissante est une erreur de raisonnement." |
+| **appel à la peur** | Utilisation de la crainte pour remplacer l'argument rationnel | "L'appel à la peur court-circuite la réflexion." |
+| **homme de paille** | Déformation de la position adverse pour mieux l'attaquer | "Répondre à un homme de paille, pas à la vraie position." |
+| **démasquer** | Révéler la vraie nature d'un argument trompeur | "Il a démasqué le sophisme derrière l'argument." |
+| **biais** | Distorsion inconsciente ou délibérée du raisonnement | "Un biais de confirmation fausse l'analyse." |
+| **échantillon** | Groupe d'individus utilisé pour représenter un ensemble | "Un échantillon non représentatif invalide la généralisation." |`,
 
       linguisticPoint: `## Point linguistique : Vocabulaire pour signaler un sophisme repéré
 
 ### Formules pour identifier une généralisation hâtive
 - "Cette conclusion repose sur un échantillon trop restreint pour être généralisable."
 - "Quelques cas isolés ne suffisent pas à établir une règle générale."
+- "Il faudrait un échantillon plus large et représentatif pour valider cette affirmation."
 
 ### Formules pour signaler un faux dilemme
 - "Cette présentation occulte les positions intermédiaires possibles."
 - "Il ne s'agit pas d'un choix binaire — d'autres options existent."
+- "La question n'est pas de choisir entre X et Y seulement : d'autres voies existent."
 
 ### Formules pour dénoncer une pente glissante non démontrée
 - "Cette chaîne de conséquences est affirmée, mais non démontrée."
 - "Rien ne prouve que cette première étape entraînera nécessairement les suivantes."
+- "Chaque étape de cet enchaînement mériterait d'être démontrée séparément."
 
 ### Formules pour repérer l'homme de paille
 - "Cette reformulation déforme la position initiale en l'exagérant."
-- "Ce n'est pas exactement ce qui a été dit — il s'agit d'une caricature de l'argument."`,
+- "Ce n'est pas exactement ce qui a été dit — il s'agit d'une caricature de l'argument."
+- "Je n'ai pas dit X : j'ai dit Y. Ce sont deux positions très différentes."
+
+### Signaler l'appel à la peur
+- "L'émotion (la crainte) est ici utilisée en remplacement d'une démonstration factuelle."
+- "Cet argument repose sur la peur plutôt que sur des données vérifiables."
+
+### Erreurs fréquentes à éviter
+
+**1. Confondre sophisme et simple erreur factuelle**
+- Incorrect : "C'est un sophisme parce que c'est faux."
+- Correct : "C'est une généralisation hâtive : la structure du raisonnement est défaillante, indépendamment de la vérité ou fausseté des faits cités."
+
+**2. Utiliser l'accusation de sophisme pour éviter de répondre sur le fond**
+- Incorrect : "Votre argument est une pente glissante, donc je n'ai pas à y répondre."
+- Correct : Signaler le sophisme ET répondre sur le fond avec des faits ou des arguments valides.
+
+**3. Confondre faux dilemme et vraie alternative binaire**
+- Incorrect : Appeler "faux dilemme" toute opposition entre deux options
+- Correct : "Certaines questions admettent réellement deux options opposées — le faux dilemme survient quand des positions intermédiaires existent mais sont occultées délibérément."
+
+**4. Répondre à l'homme de paille au lieu de le signaler**
+- Incorrect : Défendre la position déformée par l'interlocuteur sans remarquer la déformation
+- Correct : "Je n'ai pas dit cela. Ma position est la suivante : ... Ce que vous décrivez est une exagération de ma position."`,
 
       keyPoints: [
         'Généralisation hâtive = conclusion générale tirée d\'un échantillon trop petit',
@@ -471,7 +642,7 @@ Déformer la position de l'adversaire pour la rendre plus facile à attaquer : "
       level: 'B2',
       title: 'Analyse comparative de deux textes opposés',
       description: 'Comparer deux argumentations contradictoires sur un même sujet pour en évaluer la solidité respective.',
-      duration: 12,
+      duration: 35,
       free: false,
       dialogue: `## Texte : Deux éditoriaux opposés sur la même question
 
@@ -482,7 +653,40 @@ Déformer la position de l'adversaire pour la rendre plus facile à attaquer : "
 "Si l'enthousiasme pour la participation citoyenne des jeunes est louable, il convient de rappeler que le droit de vote s'accompagne traditionnellement d'autres responsabilités civiques (majorité pénale, autonomie financière) qui ne sont pas encore acquises à 16 ans. Le risque d'une instrumentalisation du vote des mineurs par des influences extérieures (familiales, médiatiques) n'est pas à négliger. Une réflexion plus large sur l'éducation civique avant 18 ans semble préférable à une réforme précipitée."
 
 **Méthode de comparaison**
-Pour comparer deux textes opposés, il faut identifier : (1) la thèse de chacun, (2) le type d'arguments employés, (3) les points de convergence éventuels malgré l'opposition, (4) la solidité relative de chaque argumentation.`,
+Pour comparer deux textes opposés, il faut identifier : (1) la thèse de chacun, (2) le type d'arguments employés, (3) les points de convergence éventuels malgré l'opposition, (4) la solidité relative de chaque argumentation.
+
+---
+
+### Situation 2 : Deux éditoriaux sur l'école à la maison (instruction en famille)
+
+**Éditorial C — "Pour l'instruction en famille"**
+"L'instruction en famille représente une liberté éducative fondamentale, reconnue par la Convention internationale des droits de l'enfant. Plusieurs études montrent que les enfants instruits à domicile obtiennent, en moyenne, de meilleurs résultats aux évaluations standardisées que leurs pairs scolarisés. La diversité pédagogique enrichit le système éducatif dans son ensemble — contraindre toutes les familles à un modèle unique reviendrait à appauvrir notre écosystème éducatif."
+
+**Éditorial D — "Pour un encadrement strict de l'instruction en famille"**
+"Si la liberté éducative est un droit, elle ne saurait primer sur le droit de l'enfant à bénéficier d'une instruction de qualité contrôlée et d'une socialisation structurée. Or, en l'absence de contrôle suffisant, certaines familles ont utilisé l'instruction en famille pour soustraire des enfants à toute forme d'évaluation — voire à des situations de maltraitance. La loi de 2022 renforçant les contrôles va dans le bon sens : elle préserve la liberté tout en garantissant la protection de l'enfant."
+
+**Points de méthode pour l'analyse comparative**
+- Identifier les arguments communs aux deux textes (C et D reconnaissent tous deux la liberté éducative comme un droit)
+- Repérer où diverge le désaccord réel (la question du contrôle)
+- Évaluer la solidité des preuves mobilisées de chaque côté
+- Identifier les limites communes (aucun des deux textes ne cite de données précises sur l'impact des contrôles renforcés)
+
+---
+
+### Tableau de vocabulaire : Analyse comparative
+
+| Terme | Définition | Exemple d'usage |
+|---|---|---|
+| **éditorial** | Article d'opinion d'un rédacteur en chef ou d'un expert | "L'éditorial du Monde défend une position nuancée." |
+| **convergence** | Point commun entre deux positions opposées | "Les deux textes convergent sur l'objectif civique." |
+| **divergence** | Point de désaccord entre deux positions | "Leur divergence porte sur les moyens, non la fin." |
+| **étayer** | Appuyer un argument par des faits ou exemples | "Cet argument est étayé par des exemples internationaux." |
+| **solidité** | Qualité d'un argument difficile à contester | "La solidité relative de chaque argumentation." |
+| **pédagogique** | Relatif à l'enseignement et à l'éducation | "Un argument pédagogique sur la diversité éducative." |
+| **socialisation** | Processus d'intégration d'un individu dans un groupe social | "La socialisation structurée à l'école." |
+| **maltraitance** | Mauvais traitement infligé à une personne vulnérable | "Soustraire un enfant à tout contrôle, voire à des situations de maltraitance." |
+| **écosystème** | Ensemble d'éléments en interaction au sein d'un système | "L'écosystème éducatif français." |
+| **encadrement** | Ensemble de règles et contrôles encadrant une pratique | "Un encadrement strict de l'instruction en famille." |`,
 
       linguisticPoint: `## Point linguistique : Le vocabulaire de la comparaison argumentative
 
@@ -490,14 +694,42 @@ Pour comparer deux textes opposés, il faut identifier : (1) la thèse de chacun
 - "Alors que le premier texte met l'accent sur..., le second insiste sur..."
 - "Les deux textes s'opposent sur X, mais convergent sur Y."
 - "L'argumentation du texte A repose principalement sur des exemples internationaux, tandis que le texte B privilégie une approche par les principes."
+- "C et D reconnaissent tous deux que... ; leur désaccord porte sur..."
 
 ### Évaluer la solidité comparée
 - "L'argument du texte A est étayé par des exemples concrets (pays européens), ce qui le rend plus convaincant sur ce point précis."
 - "Le texte B introduit une nuance importante (responsabilités civiques liées) que le texte A ne traite pas."
 - "Aucun des deux textes n'aborde la question de X, ce qui constitue une limite commune."
 
+### Identifier les convergences malgré l'opposition apparente
+- "Les deux textes partagent une prémisse commune : ... Leur désaccord porte sur les conséquences à en tirer."
+- "Malgré leurs conclusions opposées, les deux éditoriaux reconnaissent que..."
+
 ### Conclure une comparaison de façon équilibrée
-- "Si chaque argumentation présente des points forts, la question reste ouverte et mériterait d'être éclairée par des données empiriques supplémentaires."`,
+- "Si chaque argumentation présente des points forts, la question reste ouverte et mériterait d'être éclairée par des données empiriques supplémentaires."
+- "Une analyse équilibrée suggère que la vérité se situe probablement entre ces deux positions."
+
+### Signaler une limite commune aux deux textes
+- "Ni l'éditorial A ni l'éditorial B ne citent de données précises sur..."
+- "Les deux argumentations souffrent d'une même lacune : l'absence de chiffres comparatifs."
+
+### Erreurs fréquentes à éviter
+
+**1. Trancher en faveur d'un texte sans justification méthodologique**
+- Incorrect : "Le texte A est meilleur parce que je suis d'accord avec lui."
+- Correct : "L'argument du texte A est étayé par des exemples concrets, ce qui le rend plus convaincant sur ce point précis — mais le texte B introduit une nuance que A n'aborde pas."
+
+**2. Ne chercher que les divergences sans identifier les convergences**
+- Incorrect : Traiter les deux textes comme totalement opposés sur tout
+- Correct : "Malgré leur désaccord sur les moyens, les deux textes partagent l'objectif de renforcer la participation civique."
+
+**3. Évaluer la solidité d'un texte en fonction de sa longueur ou de son style**
+- Incorrect : "Le texte B est plus solide parce qu'il est plus long."
+- Correct : "La solidité d'un argument s'évalue à la qualité des preuves mobilisées, pas à la longueur du développement."
+
+**4. Oublier d'identifier les limites communes**
+- Incorrect : évaluer chaque texte isolément sans noter leurs lacunes partagées
+- Correct : "Aucun des deux textes ne cite de données précises sur l'impact des réformes comparées — c'est une limite commune qui affaiblit les deux argumentations."`,
 
       keyPoints: [
         'Méthode de comparaison : thèse de chacun → type d\'arguments → convergences → solidité relative',

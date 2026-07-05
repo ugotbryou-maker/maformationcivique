@@ -194,7 +194,7 @@ export default async function LangueLessonPage({ params }: Props) {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--color-off-white)' }}>
-      <LangScrollProgress color={accent} />
+      <LangScrollProgress color={accent} stopAtId="lesson-nav" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* Hero avec filigrane */}
@@ -267,7 +267,7 @@ export default async function LangueLessonPage({ params }: Props) {
             />
 
             {/* Navigation entre leçons */}
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'space-between', flexWrap: 'wrap', marginTop: '32px', paddingTop: '24px', borderTop: 'var(--border-default)' }}>
+            <div id="lesson-nav" style={{ display: 'flex', gap: '12px', justifyContent: 'space-between', flexWrap: 'wrap', marginTop: '32px', paddingTop: '24px', borderTop: 'var(--border-default)' }}>
               <div>
                 {prevLesson && (
                   <Link href={`/moduleslinguistiques/${level}/${prevLesson.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: '#fff', color: 'var(--color-text-secondary)', padding: '10px 18px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 500, textDecoration: 'none', border: 'var(--border-default)', boxShadow: 'var(--shadow-card)' }}>
