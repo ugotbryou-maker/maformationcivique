@@ -18,7 +18,7 @@ export const transversalOrthographe: LangModule = {
       level: 'transversal',
       title: 'Les homophones grammaticaux',
       description: 'Distinguer a/à, et/est, son/sont, ce/se, on/ont et autres homophones essentiels.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les homophones, un défi orthographique constant
 
@@ -279,7 +279,7 @@ Ces mots se prononcent de façon IDENTIQUE — seule la RÉFLEXION GRAMMATICALE 
       level: 'transversal',
       title: 'Les accords et pluriels complexes',
       description: 'Maîtriser le pluriel des noms composés, des couleurs et autres cas particuliers d\'accord.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les pluriels qui ne suivent pas la règle simple "+s"
 
@@ -530,7 +530,7 @@ Les DEUX orthographes (ancienne et nouvelle norme 1990) sont aujourd'hui ACCEPT�
       level: 'transversal',
       title: 'Les accents et signes orthographiques',
       description: 'Maîtriser l\'usage des accents, de la cédille et du tréma, essentiels pour une orthographe correcte.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Pourquoi les accents ne sont jamais "décoratifs"
 
@@ -810,7 +810,7 @@ La réforme recommande de SUPPRIMER l'accent circonflexe sur "i" et "u" dans de 
       level: 'transversal',
       title: 'Doubles consonnes et lettres muettes',
       description: 'Repérer les pièges des consonnes doublées et des lettres qui ne se prononcent pas.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Pourquoi tant de lettres "inutiles" à l'oral ?
 
@@ -1073,7 +1073,7 @@ Contrairement aux lettres muettes (parfois vérifiables par dérivation), les DO
       level: 'transversal',
       title: 'Les homophones lexicaux complexes',
       description: 'Distinguer des mots de sens totalement différents qui se prononcent de façon identique.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Quand deux mots sans aucun rapport se prononcent pareil
 

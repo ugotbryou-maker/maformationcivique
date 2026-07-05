@@ -18,7 +18,7 @@ export const b2LettresFormelles: LangModule = {
       level: 'B2',
       title: 'Le recours administratif',
       description: 'Rédiger un recours gracieux ou hiérarchique pour contester une décision administrative.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Exemple : Recours gracieux contre un refus de titre de séjour
 
@@ -350,7 +350,7 @@ Dans l'attente d'une réponse favorable, je vous prie d'agréer, Monsieur le Pr�
       level: 'B2',
       title: 'La lettre de motivation pour un poste à responsabilité',
       description: 'Rédiger une lettre de motivation sophistiquée pour un poste de cadre ou une reconversion.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Exemple : Lettre de motivation — poste de responsable d'équipe
 
@@ -654,7 +654,7 @@ Variantes : "Riche de...", "Doté(e) de...", "Animé(e) par..."
       level: 'B2',
       title: 'La réclamation complexe argumentée',
       description: 'Construire une réclamation juridiquement fondée pour un litige de consommation ou de service.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Exemple : Réclamation suite à un litige avec une banque
 
@@ -974,7 +974,7 @@ Je reste à votre disposition pour tout échange complémentaire et vous prie d'
       level: 'B2',
       title: 'La mise en demeure',
       description: 'Rédiger une mise en demeure pour formaliser une dernière demande avant action en justice.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Exemple : Mise en demeure pour loyer impayé par un locataire
 

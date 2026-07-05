@@ -18,7 +18,7 @@ export const b2Conjugaison: LangModule = {
       level: 'B2',
       title: 'Le conditionnel passé approfondi',
       description: 'Maîtriser les deux formes du conditionnel passé et leurs emplois nuancés.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Le conditionnel passé au-delà du simple regret
 
@@ -265,7 +265,7 @@ Il s'agit d'une compétence de RECONNAISSANCE (pour comprendre un texte littéra
       level: 'B2',
       title: 'Le passé simple — maîtrise complète',
       description: 'Reconnaître et comprendre le passé simple dans tous les contextes littéraires, historiques et journalistiques.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Le passé simple, temps du récit écrit
 
@@ -525,7 +525,7 @@ Au niveau B2, l'objectif est la RECONNAISSANCE à la lecture, notamment à la 3�
       level: 'B2',
       title: 'La concordance des temps dans le discours indirect',
       description: 'Maîtriser le système complet de transformation des temps lors du passage au discours indirect.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Le système complet de la concordance des temps
 
@@ -779,7 +779,7 @@ Si le moment du rapport coïncide avec le moment annoncé, certains indicateurs 
       level: 'B2',
       title: 'Les accords complexes du participe passé',
       description: 'Maîtriser les cas difficiles d\'accord : COD avant le verbe, verbes pronominaux, "en", infinitif.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les accords du participe passé qui posent problème
 
@@ -1025,7 +1025,7 @@ Si l'accord de base (avec "être" : accord sujet ; avec "avoir" : pas d'accord s
       level: 'B2',
       title: 'L\'infinitif passé et le gérondif',
       description: 'Exprimer l\'antériorité avec l\'infinitif passé et nuancer l\'action avec le gérondif.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Deux formes condensées pour exprimer une nuance temporelle
 

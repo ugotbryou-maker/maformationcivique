@@ -18,7 +18,7 @@ export const b1Institutions: LangModule = {
       level: 'B1',
       title: 'La République et la Constitution',
       description: 'Les fondements de la Ve République, la Constitution de 1958 et les principes républicains.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : La Ve République — un régime présidentiel et parlementaire
 
@@ -321,7 +321,7 @@ La nominalisation rend le discours plus **dense et formel** — utile dans l'ent
       level: 'B1',
       title: 'Président, gouvernement et Parlement',
       description: 'Le rôle du Président, du Premier ministre et du Parlement dans la Ve République.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Comment fonctionne le pouvoir en France ?
 
@@ -580,7 +580,7 @@ Après les verbes d'obligation, volonté, doute, sentiment + "que"
       level: 'B1',
       title: 'Les élections en France',
       description: 'Types d\'élections, modes de scrutin et participation démocratique.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Le calendrier électoral français
 
@@ -880,7 +880,7 @@ La France connaît plusieurs types d'élections, chacun avec ses propres règles
       level: 'B1',
       title: 'Collectivités locales et décentralisation',
       description: 'L\'organisation territoriale de la France, la décentralisation et le rôle des communes, départements et régions.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : La France et ses territoires
 

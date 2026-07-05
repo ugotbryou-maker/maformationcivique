@@ -18,7 +18,7 @@ export const b2NuancesCulturelles: LangModule = {
       level: 'B2',
       title: 'L\'humour et l\'ironie en France',
       description: 'Comprendre le second degré, l\'autodérision et l\'humour à la française.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Sara découvre l'humour français au bureau
 
@@ -333,7 +333,7 @@ export const b2NuancesCulturelles: LangModule = {
       level: 'B2',
       title: 'Les expressions idiomatiques courantes',
       description: 'Maîtriser les expressions figées les plus utilisées dans la vie professionnelle et quotidienne.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Pourquoi les expressions idiomatiques sont-elles si importantes ?
 
@@ -646,7 +646,7 @@ La plupart de ces expressions s'utilisent à l'oral et dans un registre courant 
       level: 'B2',
       title: 'Les codes sociaux implicites',
       description: 'Tutoiement, vouvoiement, distances sociales et règles non écrites de la politesse française.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Tutoiement, vouvoiement et autres règles non écrites
 
@@ -969,7 +969,7 @@ Ne JAMAIS mélanger tutoiement et vouvoiement dans une même phrase avec la mêm
       level: 'B2',
       title: 'Comprendre les sous-entendus',
       description: 'Décoder ce qui n\'est pas dit explicitement dans une conversation ou un courrier.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Amira décode un courrier de sa propriétaire
 

@@ -18,7 +18,7 @@ export const a2Sante: LangModule = {
       level: 'A2',
       title: 'Chez le médecin',
       description: 'Prenez rendez-vous, décrivez vos symptômes et comprenez les conseils du médecin.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Consultation médicale
 
@@ -357,7 +357,7 @@ export const a2Sante: LangModule = {
       level: 'A2',
       title: 'À la pharmacie',
       description: 'Présentez votre ordonnance, demandez des médicaments sans ordonnance et comprenez les posologies.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : À la pharmacie
 
@@ -717,7 +717,7 @@ Ces formulations sont utilisées dans les notices, ordonnances et mode d'emploi 
       level: 'A2',
       title: 'Les urgences et les numéros d\'appel',
       description: 'Apprenez à appeler les secours, décrire une urgence et gérer les situations critiques.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Appel au 15 (SAMU)
 
@@ -1058,7 +1058,7 @@ Ces formulations sont utilisées dans les notices, ordonnances et mode d'emploi 
       level: 'A2',
       title: 'Bien-être et santé mentale',
       description: 'Parlez de votre état émotionnel, gérez le stress et cherchez de l\'aide psychologique.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Parler de son état émotionnel
 
@@ -1388,7 +1388,7 @@ Ces formulations sont utilisées dans les notices, ordonnances et mode d'emploi 
       level: 'A2',
       title: 'Le médecin traitant et le parcours de soins',
       description: 'Choisissez votre médecin traitant, comprenez le parcours de soins coordonnés et accédez aux spécialistes.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Le parcours de soins en France
 

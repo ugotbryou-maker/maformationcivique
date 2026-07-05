@@ -18,7 +18,7 @@ export const b2ExpressionEcrite: LangModule = {
       level: 'B2',
       title: 'Structurer un essai argumentatif',
       description: 'Construire un essai avec introduction, plan dialectique et conclusion ouverte.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Exemple : Plan dialectique sur le sujet "Le télétravail favorise-t-il l'égalité professionnelle ?"
 
@@ -339,7 +339,7 @@ recéler, esquisser, demeurer, s'avérer, importer (il importe de), sous-estimer
       level: 'B2',
       title: 'La synthèse de documents',
       description: 'Reformuler et combiner des informations issues de plusieurs sources sans copier ni juger.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Principes de la synthèse de documents
 
@@ -643,7 +643,7 @@ nuancer, relativiser, contester, tempérer, corroborer (confirmer), contredire
       level: 'B2',
       title: 'Le style soutenu à l\'écrit',
       description: 'Enrichir son style avec des figures de rhétorique et des constructions sophistiquées.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Pourquoi soigner son style à l'écrit ?
 
@@ -903,7 +903,7 @@ S'il n'y a pas de pronom, on ajoute un pronom de reprise après le verbe :
       level: 'B2',
       title: 'Rédiger un rapport ou une note argumentée',
       description: 'Structurer un rapport professionnel avec recommandations et conclusions actionnables.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Exemple : Note de synthèse — Accès aux droits des nouveaux arrivants
 

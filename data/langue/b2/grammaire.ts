@@ -18,7 +18,7 @@ export const b2Grammaire: LangModule = {
       level: 'B2',
       title: 'Le subjonctif après le superlatif et la restriction',
       description: 'Maîtriser l\'emploi du subjonctif après "le seul qui", "rien qui" et les structures restrictives.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Quand le superlatif appelle le subjonctif
 
@@ -265,7 +265,7 @@ Ces structures portent souvent sur une EXPÉRIENCE ACCUMULÉE jusqu'à présent 
       level: 'B2',
       title: 'La concession avancée',
       description: 'Maîtriser "quoique", "quand bien même", "encore que" et les nuances de la concession soutenue.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Au-delà de "bien que" — la palette de la concession
 
@@ -507,7 +507,7 @@ Sujet + avoir (conjugué) + beau + infinitif, sans "que" :
       level: 'B2',
       title: 'Le discours rapporté avancé',
       description: 'Maîtriser les nuances du discours rapporté au-delà des règles de base : modalisation et distance énonciative.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Rapporter la parole d'autrui avec nuance
 
@@ -801,7 +801,7 @@ Rapporter "il a dit que X" est neutre. Mais choisir "il a PRÉTENDU que X" intro
       level: 'B2',
       title: 'La nominalisation avancée',
       description: 'Transformer des phrases complexes entières en groupes nominaux denses, typiques du style soutenu.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Pourquoi la nominalisation avancée structure le style soutenu
 
@@ -1109,7 +1109,7 @@ Nominalisée : "**La hausse du chômage a entraîné une décision gouvernementa
       level: 'B2',
       title: 'Le subjonctif passé et la concordance',
       description: 'Maîtriser précisément quand utiliser le subjonctif présent ou passé selon la chronologie des actions.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Subjonctif présent ou passé — une question de chronologie
 

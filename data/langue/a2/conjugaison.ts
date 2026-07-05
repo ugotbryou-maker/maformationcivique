@@ -18,7 +18,7 @@ export const a2Conjugaison: LangModule = {
       level: 'A2',
       title: 'Le présent des verbes irréguliers',
       description: 'Conjuguez les verbes irréguliers les plus fréquents : être, avoir, aller, faire, pouvoir, vouloir, savoir, venir.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les verbes irréguliers en contexte
 
@@ -309,7 +309,7 @@ En français, les verbes irréguliers les plus fréquents sont aussi les plus ut
       level: 'A2',
       title: 'Le passé composé — être et avoir',
       description: 'Formez le passé composé avec les auxiliaires être et avoir, avec les bons accords.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Raconter un rendez-vous à la préfecture
 
@@ -630,7 +630,7 @@ Certains verbes se conjuguent avec ÊTRE ou AVOIR selon le sens :
       level: 'A2',
       title: 'L\'imparfait',
       description: 'Décrivez le passé, les habitudes et le contexte d\'une histoire avec l\'imparfait.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Raconter son pays d'origine
 
@@ -929,7 +929,7 @@ Dans un récit, les deux temps travaillent ensemble :
       level: 'A2',
       title: 'Futur proche et impératif',
       description: 'Exprimez des actions futures immédiates avec "aller + infinitif" et donnez des ordres et conseils avec l\'impératif.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Préparer un entretien de naturalisation
 

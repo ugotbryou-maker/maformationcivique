@@ -18,7 +18,7 @@ export const examenBlancB2: LangModule = {
       level: 'B2',
       title: 'Section 1 — Connaissances civiques et institutionnelles',
       description: 'Simulation des questions institutionnelles, historiques et de valeurs posées en entretien de naturalisation.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Instructions de l'examen
 
@@ -73,7 +73,7 @@ Cette section reproduit les questions institutionnelles et civiques typiques de 
       level: 'B2',
       title: 'Section 2 — Questions pièges et argumentation',
       description: 'Simulation des questions délicates de l\'entretien : esprit critique, nuance, gestion du désaccord.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Instructions de l'examen
 

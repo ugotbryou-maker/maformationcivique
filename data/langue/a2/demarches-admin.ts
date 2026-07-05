@@ -19,7 +19,7 @@ export const a2DemarchesAdmin: LangModule = {
       level: 'A2',
       title: 'La mairie et les services publics',
       description: 'Apprenez à naviguer dans les services de votre mairie et à effectuer les démarches courantes.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : À la mairie
 
@@ -387,7 +387,7 @@ export const a2DemarchesAdmin: LangModule = {
       level: 'A2',
       title: 'La préfecture et le titre de séjour',
       description: 'Comprenez les procédures de la préfecture pour obtenir ou renouveler votre titre de séjour.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Rendez-vous en préfecture
 
@@ -744,7 +744,7 @@ export const a2DemarchesAdmin: LangModule = {
       level: 'A2',
       title: 'La Sécurité sociale et la carte Vitale',
       description: 'Comprenez le système de santé français, créez votre dossier CPAM et obtenez votre carte Vitale.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : À la CPAM
 
@@ -1093,7 +1093,7 @@ export const a2DemarchesAdmin: LangModule = {
       level: 'A2',
       title: 'Les impôts et la déclaration de revenus',
       description: 'Comprenez le système fiscal français et faites votre première déclaration de revenus.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Première déclaration d'impôts
 
@@ -1429,7 +1429,7 @@ export const a2DemarchesAdmin: LangModule = {
       level: 'A2',
       title: 'La CAF et les allocations familiales',
       description: 'Découvrez les aides sociales françaises et comment déposer votre dossier à la CAF.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Inscription à la CAF
 

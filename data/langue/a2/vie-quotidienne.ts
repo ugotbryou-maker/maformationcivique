@@ -19,7 +19,7 @@ export const a2VieQuotidienne: LangModule = {
       level: 'A2',
       title: 'Se présenter et parler de soi',
       description: 'Donnez votre nom, votre nationalité, votre profession et parlez de vous en situation réelle.',
-      duration: 35,
+      duration: 12,
       free: true,
       dialogue: `## Dialogue : À la mairie
 
@@ -352,7 +352,7 @@ export const a2VieQuotidienne: LangModule = {
       level: 'A2',
       title: 'La famille et les relations',
       description: 'Décrivez votre famille, les liens familiaux et parlez des personnes qui vous entourent.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : La famille de Fatima
 
@@ -667,7 +667,7 @@ Quand Fatima parle de sa famille à l'assistante sociale, elle dit : "Ma famille
       level: 'A2',
       title: 'Les activités du quotidien',
       description: 'Décrivez votre routine journalière, les horaires et les habitudes de la vie quotidienne.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : La journée de Mohamed
 
@@ -975,7 +975,7 @@ Quand Fatima parle de sa famille à l'assistante sociale, elle dit : "Ma famille
       level: 'A2',
       title: 'Les courses et les achats',
       description: 'Faites vos courses, comprenez les prix, les quantités et les interactions en magasin.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Au marché et à la caisse
 
@@ -1345,7 +1345,7 @@ Quand Fatima parle de sa famille à l'assistante sociale, elle dit : "Ma famille
       level: 'A2',
       title: 'Les repas et la cuisine française',
       description: 'Découvrez les repas français, commandez au restaurant et parlez de vos habitudes alimentaires.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Au restaurant
 
@@ -1717,7 +1717,7 @@ Quand Fatima parle de sa famille à l'assistante sociale, elle dit : "Ma famille
       level: 'A2',
       title: 'Les loisirs et le temps libre',
       description: 'Parlez de vos activités préférées, exprimez vos goûts et organisez vos week-ends.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Le week-end
 

@@ -18,7 +18,7 @@ export const b1Grammaire: LangModule = {
       level: 'B1',
       title: 'Les pronoms relatifs composés',
       description: 'Lequel, auquel, duquel : utiliser les pronoms relatifs après une préposition.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Pourquoi les pronoms relatifs composés ?
 
@@ -245,7 +245,7 @@ Quand le complément est lui-même dans un groupe prépositionnel :
       level: 'B1',
       title: 'La place et l\'accord de l\'adjectif',
       description: 'Maîtriser la position des adjectifs et les nuances de sens selon leur placement.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Pourquoi la place de l'adjectif change le sens
 
@@ -493,7 +493,7 @@ Certains noms utilisés pour désigner une couleur restent invariables :
       level: 'B1',
       title: 'Les doubles pronoms compléments',
       description: 'Combiner deux pronoms compléments (me le, te la, nous les...) dans la même phrase.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Pourquoi combiner deux pronoms ?
 
@@ -733,7 +733,7 @@ Les pronoms se placent avant l'infinitif :
       level: 'B1',
       title: 'Les adverbes : formation et emploi',
       description: 'Former des adverbes en -ment et connaître les principaux adverbes irréguliers.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : À quoi servent les adverbes ?
 

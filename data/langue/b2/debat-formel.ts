@@ -18,7 +18,7 @@ export const b2DebatFormel: LangModule = {
       level: 'B2',
       title: 'Prendre position avec nuance',
       description: 'Exprimer une opinion construite et argumentée sur un sujet de société complexe.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Débat sur l'immigration et l'intégration (radio)
 
@@ -32,7 +32,40 @@ export const b2DebatFormel: LangModule = {
 
 **Mme Lefort :** C'est un point que je suis prête à concéder. Néanmoins, là où nos analyses divergent, c'est sur la solution : faut-il davantage de moyens publics, comme vous le suggérez, ou plutôt une responsabilisation accrue des employeurs et des collectivités locales ?
 
-**Journaliste :** Voilà une question qui, je crois, résume bien l'enjeu de ce débat...`,
+**Journaliste :** Voilà une question qui, je crois, résume bien l'enjeu de ce débat...
+
+---
+
+### Situation 2 : Débat universitaire — la réforme du lycée professionnel
+
+**Modérateur :** Nous accueillons ce soir deux spécialistes de l'éducation pour débattre de la récente réforme du lycée professionnel. Madame Arnaud, vous êtes pour. Monsieur Driss, vous émettez des réserves. Commençons.
+
+**M. Driss :** Je voudrais d'emblée clarifier ma position : je ne suis pas opposé à une réforme en soi. Je questionne cependant la méthode. Augmenter le temps en entreprise sans avoir formé davantage de maîtres d'apprentissage, c'est mettre la charrue avant les bœufs.
+
+**Mme Arnaud :** C'est une préoccupation que je comprends. Il n'en reste pas moins que les enquêtes montrent une meilleure insertion professionnelle des élèves ayant bénéficié de stages longs. Les résultats sont là.
+
+**M. Driss :** Les résultats que vous citez sont réels, je ne les nie pas. Mais ils concernent des contextes où l'encadrement en entreprise était de qualité. Mon inquiétude porte sur les territoires où l'offre de stages demeure faible.
+
+**Mme Arnaud :** Sur ce point, nous convergeons partiellement. La question n'est peut-être pas de savoir si la réforme est bonne ou mauvaise, mais dans quelles conditions elle peut réussir selon les territoires.
+
+**Modérateur :** Voilà qui trace une piste de dialogue intéressante — la mise en œuvre différenciée selon les bassins d'emploi.
+
+---
+
+### Tableau de vocabulaire : Prendre position en débat
+
+| Terme | Définition | Exemple d'usage |
+|---|---|---|
+| **multifactoriel(le)** | Qui dépend de plusieurs facteurs distincts | "Le décrochage scolaire est un phénomène multifactoriel." |
+| **éluder** | Éviter d'aborder un sujet, le contourner | "On ne peut éluder la question de l'accès aux droits." |
+| **concéder** | Admettre la validité d'un point adverse | "Je suis prêt à concéder ce point." |
+| **nuancer** | Apporter une précision qui complexifie un propos | "Il faut nuancer cette affirmation." |
+| **diverger** | Différer, aller dans des directions opposées | "Nos analyses divergent sur ce point précis." |
+| **converger** | Se rejoindre, tendre vers le même point | "Nos positions convergent sur l'objectif." |
+| **responsabilisation** | Fait de confier davantage de responsabilité à un acteur | "La responsabilisation des employeurs est centrale." |
+| **dispositif** | Ensemble de mesures ou mécanismes organisés | "Les dispositifs d'apprentissage du français." |
+| **encadrement** | Supervision et accompagnement d'une personne | "La qualité de l'encadrement en stage est déterminante." |
+| **mise en œuvre** | Action de mettre en pratique une décision | "La mise en œuvre de la réforme pose question." |`,
 
       linguisticPoint: `## Point linguistique : Formules pour structurer une prise de parole en débat
 
@@ -40,20 +73,46 @@ export const b2DebatFormel: LangModule = {
 - "Permettez-moi tout d'abord de poser le cadre du débat."
 - "Je voudrais revenir sur un point essentiel."
 - "Avant d'aller plus loin, il me semble nécessaire de préciser que..."
+- "Je voudrais d'emblée clarifier ma position : je ne suis pas opposé à X, mais..."
 
 ### Reconnaître un point sans abandonner sa position
 - "Je ne contesterai pas ce point. Cela dit, ..."
 - "J'entends votre argument, mais permettez-moi d'apporter une nuance..."
 - "C'est un point que je suis prête à concéder. Néanmoins, ..."
+- "C'est une préoccupation que je comprends. Il n'en reste pas moins que..."
 
 ### Marquer un désaccord respectueux
 - "Là où nos analyses divergent, c'est sur..."
 - "Je ne partage pas entièrement cette lecture des choses."
 - "Permettez-moi de nuancer ce propos."
+- "Mon inquiétude porte sur... plutôt que sur..."
 
 ### Reformuler pour clarifier l'enjeu du débat
 - "Voilà une question qui résume bien l'enjeu de ce débat."
-- "Si je résume, le désaccord porte sur..."`,
+- "Si je résume, le désaccord porte sur..."
+- "La question n'est peut-être pas de savoir si X, mais dans quelles conditions Y."
+
+### Signaler une convergence partielle
+- "Sur ce point, nous convergeons partiellement."
+- "Nos positions se rejoignent au moins sur l'objectif, si ce n'est sur le moyen."
+
+### Erreurs fréquentes à éviter
+
+**1. Confondre "nuancer" et "abandonner sa position"**
+- Incorrect : "J'entends votre argument. Vous avez raison, en fait." *(abandon total sans argumentation)*
+- Correct : "J'entends votre argument, mais permettez-moi d'apporter une nuance : encore faut-il que..."
+
+**2. Attaquer la personne plutôt que l'argument**
+- Incorrect : "Vous ne connaissez pas le terrain, donc votre argument ne tient pas."
+- Correct : "Votre argument mérite d'être nuancé au regard des réalités de terrain : en effet..."
+
+**3. Généraliser à partir d'un exemple unique**
+- Incorrect : "Dans mon expérience, cela ne fonctionne pas, donc la politique est mauvaise."
+- Correct : "Les données disponibles suggèrent que les résultats varient selon les contextes — il serait risqué de généraliser."
+
+**4. Oublier de signaler la concession avant de réfuter**
+- Incorrect : "Non, c'est faux. L'offre de cours est insuffisante." *(réfutation brutale)*
+- Correct : "C'est un point que je suis prête à examiner. Cependant, les chiffres indiquent..."`,
 
       keyPoints: [
         '"Permettez-moi de..." = formule pour encadrer poliment une prise de parole',
@@ -309,7 +368,7 @@ export const b2DebatFormel: LangModule = {
             'Parce que c\'est une obligation légale',
           ],
           correctIndex: 1,
-          explanation: 'Résumer le désaccord (comme le fait le journaliste) permet de CLARIFIER les enjeux pour l\'auditoire, qui peut alors se forger sa propre opinion en ayant bien identifié où se situe le vrai point de friction entre les positions, plutôt que de rester dans une confusion généraleemblée.',
+          explanation: 'Résumer le désaccord (comme le fait le journaliste) permet de CLARIFIER les enjeux pour l\'auditoire, qui peut alors se forger sa propre opinion en ayant bien identifié où se situe le vrai point de friction entre les positions, plutôt que de rester dans une confusion générale.',
         },
         {
           id: 'b2-deb-01-ex20',
@@ -334,7 +393,7 @@ export const b2DebatFormel: LangModule = {
       level: 'B2',
       title: 'Réfuter un argument avec tact',
       description: 'Contester un argument sans agresser son interlocuteur, en utilisant des techniques de réfutation respectueuse.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Réfutation respectueuse en réunion de copropriété
 
@@ -346,25 +405,84 @@ export const b2DebatFormel: LangModule = {
 
 **Mme Diop :** Sur ce point précis, je vous rejoins : la question du financement reste entière. Cependant, je crois qu'il serait risqué de confondre l'urgence technique avec la disponibilité financière — ce sont deux problèmes distincts qu'il faudrait traiter séparément, par exemple via un emprunt collectif étalé sur plusieurs années.
 
-**M. Lefèvre :** C'est une piste intéressante que je n'avais pas envisagée.`,
+**M. Lefèvre :** C'est une piste intéressante que je n'avais pas envisagée.
+
+---
+
+### Situation 2 : Réfutation en conseil municipal — un projet d'aménagement
+
+**M. Vidal :** Je suis contre l'installation d'une piste cyclable rue de la Paix. La rue est trop étroite et nous allons bloquer la circulation.
+
+**Mme Koné :** Je comprends votre inquiétude concernant la circulation, c'est une préoccupation légitime. Cela dit, il me semble utile de distinguer deux questions : l'impact sur la circulation et la sécurité des cyclistes, qui sont actuellement exposés à un risque réel sur cette artère.
+
+**M. Vidal :** Le risque, je l'admets. Mais les riverains nous ont clairement fait part de leur opposition.
+
+**Mme Koné :** Sur ce point, je vous rejoins partiellement : certains riverains sont opposés, c'est exact. Mais la consultation de mars a aussi montré que 63 % des commerçants de la rue y sont favorables, estimant qu'elle attirerait davantage de clients à mobilité douce. Les données sont donc plus nuancées qu'il n'y paraît.
+
+**M. Vidal :** Je n'avais pas connaissance de ce chiffre. Il mérite d'être pris en compte dans notre délibération.
+
+**Mme Koné :** Précisément. Je ne défends pas ce projet de façon inconditionnelle — certains ajustements de largeur sont peut-être possibles. Mais rejeter l'idée dans son ensemble sans examiner ces données me semblerait prématuré.
+
+---
+
+### Tableau de vocabulaire : Réfutation respectueuse
+
+| Terme | Définition | Exemple d'usage |
+|---|---|---|
+| **trésorerie** | Disponibilité de fonds à court terme | "La trésorerie disponible ne permet pas ce projet." |
+| **dégradation** | Détérioration progressive d'un état | "La dégradation de la façade s'accélère." |
+| **étaler** | Répartir dans le temps | "Un emprunt étalé sur cinq ans." |
+| **artère** | Voie importante de circulation | "Cette artère est fréquentée par de nombreux cyclistes." |
+| **délibération** | Discussion officielle menant à une décision collective | "La délibération du conseil est prévue vendredi." |
+| **prématuré(e)** | Qui intervient trop tôt, avant le moment opportun | "Rejeter ce projet serait prématuré." |
+| **consultation** | Processus de recueil d'avis | "La consultation des riverains a été menée en mars." |
+| **riverain(e)** | Personne habitant proche d'une voie ou d'un lieu | "Les riverains sont partagés sur ce projet." |
+| **inconditionnellement** | Sans condition, de façon absolue | "Je ne défends pas ce projet inconditionnellement." |
+| **nuancé(e)** | Qui tient compte de plusieurs aspects et nuances | "Les résultats sont plus nuancés qu'il n'y paraît." |`,
 
       linguisticPoint: `## Point linguistique : Les techniques de réfutation respectueuse
 
 ### Concéder avant de réfuter
 - "Je comprends votre préoccupation, mais permettez-moi de nuancer ce point."
 - "Sur ce point précis, je vous rejoins. Cependant..."
+- "C'est une préoccupation légitime. Cela dit, il me semble utile de distinguer..."
 
 ### Distinguer deux questions confondues par l'interlocuteur
 - "Je crois qu'il serait risqué de confondre X et Y — ce sont deux problèmes distincts."
 - "Ces deux questions, bien que liées, méritent d'être traitées séparément."
+- "Il me semble utile de distinguer X d'une part, et Y d'autre part."
 
 ### Réfuter par les faits plutôt que par l'opinion
 - "Le diagnostic technique indique que..." (fait vérifiable opposé à une opinion)
 - "Les chiffres montrent que..." (donnée factuelle)
+- "La consultation de mars a montré que 63 % des commerçants..." (donnée précise et sourcée)
 
 ### Proposer une solution alternative plutôt que de seulement contester
 - "Ce serait risqué de faire X. En revanche, on pourrait envisager Y."
-- "Plutôt que d'opposer ces deux options, ne pourrait-on pas combiner...?"`,
+- "Plutôt que d'opposer ces deux options, ne pourrait-on pas combiner...?"
+- "Je ne défends pas ce projet de façon inconditionnelle — certains ajustements sont peut-être possibles."
+
+### Nuancer sa propre position pour maintenir une crédibilité
+- "Les données sont donc plus nuancées qu'il n'y paraît."
+- "Rejeter l'idée dans son ensemble sans examiner ces données me semblerait prématuré."
+
+### Erreurs fréquentes à éviter
+
+**1. Réfuter sans avoir reconnu aucun point valide**
+- Incorrect : "Votre argument est faux. Les chiffres prouvent que vous avez tort."
+- Correct : "Je comprends votre préoccupation. Cependant, les données disponibles indiquent..."
+
+**2. Confondre "Je vous rejoins sur ce point" avec un accord total**
+- Incorrect : utiliser "je vous rejoins" pour donner l'impression de céder sur tout, puis ne rien concéder
+- Correct : "Sur ce point précis — la question du financement — je vous rejoins. Mais cela ne règle pas la question de l'urgence technique."
+
+**3. Présenter une solution alternative comme une certitude absolue**
+- Incorrect : "L'emprunt collectif est évidemment la solution."
+- Correct : "Un emprunt collectif étalé sur plusieurs années est une piste qui mériterait d'être examinée."
+
+**4. S'appuyer sur des généralités plutôt que sur des données précises**
+- Incorrect : "En général, les pistes cyclables améliorent la fréquentation commerciale."
+- Correct : "La consultation de mars a montré que 63 % des commerçants de cette rue y sont favorables."`,
 
       keyPoints: [
         'Concéder avant de réfuter : "je comprends..., mais permettez-moi de nuancer"',
@@ -387,7 +505,7 @@ export const b2DebatFormel: LangModule = {
         { id: 'b2-deb-02-ex10', type: 'qcm', question: 'En synthèse, quels sont les trois éléments clés d\'une réfutation menée "avec tact" ?', options: ['Attaquer, ignorer, conclure', 'Concéder un point valide, s\'appuyer sur des faits, proposer une alternative constructive', 'Critiquer, répéter, abandonner', 'Flatter, éviter, fuir'], correctIndex: 1, explanation: 'Les trois éléments clés sont : CONCÉDER un point VALIDE de l\'interlocuteur, s\'appuyer sur des FAITS plutôt que des opinions, et PROPOSER une ALTERNATIVE CONSTRUCTIVE — combinaison qui rend la réfutation à la fois RESPECTUEUSE et EFFICACE.' },
         { id: 'b2-deb-02-ex11', type: 'qcm', question: 'Quelle formule permet de reformuler une position de façon neutre avant de la contester ?', options: ['"Vous racontez n\'importe quoi."', '"Si je comprends bien, vous proposez de... Or, il me semble que..."', '"C\'est ridicule."', 'Ne jamais reformuler'], correctIndex: 1, explanation: '"Si je comprends bien, vous proposez de..." REFORMULE NEUTRALEMENT la position de l\'interlocuteur (vérifiant la compréhension) avant d\'introduire un désaccord ("or, il me semble que..."), technique respectueuse de clarification préalable.' },
         { id: 'b2-deb-02-ex12', type: 'qcm', question: 'Pourquoi s\'appuyer sur un "diagnostic technique" plutôt que sur une impression personnelle renforce-t-il une réfutation ?', options: ['Cela ne renforce rien', 'Parce qu\'une donnée objective et vérifiable est plus difficile à contester qu\'une simple impression subjective', 'Parce que les diagnostics sont toujours gratuits', 'Parce que cela évite tout débat'], correctIndex: 1, explanation: 'Une DONNÉE OBJECTIVE et VÉRIFIABLE (diagnostic technique) est plus DIFFICILE à CONTESTER qu\'une simple IMPRESSION SUBJECTIVE, renforçant la SOLIDITÉ de l\'argument avancé dans la réfutation.' },
-        { id: 'b2-deb-02-ex13', type: 'qcm', question: 'Quelle attitude faut-il éviter lorsqu\'un interlocuteur reconnaît la pertinence de notre réfutation ("c\'est une piste intéressante") ?', options: ['Accueillir cette ouverture pour avancer ensemble vers une solution', 'Profiter de l\'occasion pour humilier davantage l\'interlocuteur ("je vous l\'avais bien dit")', 'Continuer le débat de façon constructive', 'Remercier poliment'], correctIndex: 1, explanation: 'Il faut ÉVITER d\'HUMILIER l\'interlocuteur après qu\'il ait reconnu un point ("je vous l\'avais bien dit") — cette attitude DÉTRUIRAIT le climat de COLLABORATION just rétabli, au profit d\'une fierté personnelle déplacée.' },
+        { id: 'b2-deb-02-ex13', type: 'qcm', question: 'Quelle attitude faut-il éviter lorsqu\'un interlocuteur reconnaît la pertinence de notre réfutation ("c\'est une piste intéressante") ?', options: ['Accueillir cette ouverture pour avancer ensemble vers une solution', 'Profiter de l\'occasion pour humilier davantage l\'interlocuteur ("je vous l\'avais bien dit")', 'Continuer le débat de façon constructive', 'Remercier poliment'], correctIndex: 1, explanation: 'Il faut ÉVITER d\'HUMILIER l\'interlocuteur après qu\'il ait reconnu un point ("je vous l\'avais bien dit") — cette attitude DÉTRUIRAIT le climat de COLLABORATION juste rétabli, au profit d\'une fierté personnelle déplacée.' },
         { id: 'b2-deb-02-ex14', type: 'qcm', question: 'Quelle structure permettrait d\'introduire une réfutation tout en minimisant la confrontation ?', options: ['"Vous avez complètement tort."', '"C\'est un point de vue intéressant ; toutefois, certains éléments m\'amènent à voir la situation différemment."', '"Ce que vous dites est absurde."', 'Ignorer complètement l\'argument sans réagir'], correctIndex: 1, explanation: '"C\'est un point de vue intéressant ; toutefois..." MINIMISE la CONFRONTATION en validant d\'abord la légitimité de l\'opinion exprimée, avant d\'introduire poliment un désaccord nuancé ("certains éléments m\'amènent à voir...").' },
         { id: 'b2-deb-02-ex15', type: 'qcm', question: 'Pourquoi la réfutation respectueuse est-elle particulièrement utile dans des contextes où les parties doivent continuer à collaborer (copropriété, travail, famille) ?', options: ['Ce n\'est pas particulièrement utile dans ce contexte', 'Parce qu\'elle permet de résoudre le désaccord sur le fond sans détériorer durablement la relation, essentielle pour une collaboration future', 'Parce que les relations n\'ont aucune importance dans ces contextes', 'Parce qu\'il vaut mieux éviter tout désaccord dans ces contextes'], correctIndex: 1, explanation: 'Dans des contextes où les parties doivent CONTINUER à COLLABORER (copropriété, travail, famille), la réfutation RESPECTUEUSE permet de résoudre le DÉSACCORD sur le FOND sans DÉTÉRIORER DURABLEMENT la RELATION, contrairement à une confrontation agressive qui laisserait des traces négatives durables.' },
         { id: 'b2-deb-02-ex16', type: 'qcm', question: 'Quelle formule permet de signaler qu\'on a bien entendu un argument avant d\'y répondre ?', options: ['Ignorer complètement ce qui vient d\'être dit', '"J\'entends votre argument, et je comprends la logique qui le sous-tend."', '"Je n\'ai pas écouté."', '"Cela ne m\'intéresse pas."'], correctIndex: 1, explanation: '"J\'entends votre argument, et je comprends la logique..." SIGNALE EXPLICITEMENT une ÉCOUTE ACTIVE avant de développer une réponse, renforçant le climat de RESPECT MUTUEL nécessaire à un débat constructif.' },
@@ -405,7 +523,7 @@ export const b2DebatFormel: LangModule = {
       level: 'B2',
       title: 'Modérer un débat houleux',
       description: 'Recentrer la discussion, gérer les interruptions et apaiser les tensions dans un débat collectif.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Modération d'une assemblée générale tendue
 
@@ -423,7 +541,40 @@ export const b2DebatFormel: LangModule = {
 
 **Mme Rousseau :** En réalité, le budget a été respecté à 95%, avec un léger dépassement justifié par les travaux d'urgence sur la toiture.
 
-**Le modérateur :** Très bien, nous avons donc deux lectures différentes des mêmes chiffres. Pourrait-on les afficher à l'écran pour que tout le monde les voie clairement, afin d'avancer sur une base commune ?`,
+**Le modérateur :** Très bien, nous avons donc deux lectures différentes des mêmes chiffres. Pourrait-on les afficher à l'écran pour que tout le monde les voie clairement, afin d'avancer sur une base commune ?
+
+---
+
+### Situation 2 : Modération d'un conseil de classe conflictuel
+
+**Le modérateur (professeur principal) :** Je vous rappelle que nous sommes réunis pour discuter de la progression de Yasmine, pas pour débattre des méthodes pédagogiques en général. Revenons au sujet, s'il vous plaît.
+
+**M. Tardieu (enseignant de mathématiques) :** Mais c'est justement là le problème ! Si l'on n'aborde pas la question du rythme des évaluations, on tourne en rond.
+
+**Mme El Khoury (enseignante de français) :** Je ne partage pas cette analyse. Yasmine progresse en expression écrite. La question est de comprendre pourquoi elle décroche en mathématiques, pas de remettre en cause notre calendrier.
+
+**Le modérateur :** Je vous entends tous les deux. Il me semble qu'il y a ici deux questions distinctes : la situation particulière de Yasmine, et une réflexion plus large sur le rythme des évaluations. Je propose que nous traitions la première ce soir, et que nous inscrivions la seconde à l'ordre du jour de notre prochaine réunion — ce serait plus juste pour Yasmine et pour la réflexion collective.
+
+**M. Tardieu :** C'est raisonnable. Procédons ainsi.
+
+**Mme El Khoury :** D'accord, revenons à Yasmine.
+
+---
+
+### Tableau de vocabulaire : Modération de débat
+
+| Terme | Définition | Exemple d'usage |
+|---|---|---|
+| **houleux / houleuse** | Agité, difficile à calmer | "Une assemblée houleuse a duré trois heures." |
+| **interrompre** | Couper la parole de quelqu'un | "Il l'a interrompue deux fois en cinq minutes." |
+| **trésorerie** | Fonds disponibles à court terme | "La trésorerie de la copropriété est insuffisante." |
+| **dépassement** | Fait de dépasser une limite prévue | "Un léger dépassement du budget a été constaté." |
+| **base commune** | Terrain d'accord factuel partagé | "Avançons sur une base commune." |
+| **ordre du jour** | Liste des sujets à traiter lors d'une réunion | "Ce point sera inscrit à l'ordre du jour." |
+| **recentrer** | Ramener une discussion vers son sujet initial | "Le modérateur a recentré le débat." |
+| **prendre la parole** | Commencer à s'exprimer lors d'un échange | "Je voudrais prendre la parole sur ce point." |
+| **procéder** | Avancer de façon méthodique | "Procédons point par point." |
+| **conflictuel(le)** | Qui génère ou contient un conflit | "Une réunion au contexte conflictuel." |`,
 
       linguisticPoint: `## Point linguistique : Les formules de modération d'un débat
 
@@ -431,18 +582,40 @@ export const b2DebatFormel: LangModule = {
 - "Terminez d'abord votre point, nous reviendrons à vous juste après."
 - "Vous aurez la parole juste après, je vous le promets."
 - "Un instant, laissons [nom] terminer son propos."
+- "Je vous entends tous les deux — mais laissons chacun s'exprimer jusqu'au bout."
 
 ### Recentrer la discussion sur le fond
 - "Nous avons donc deux lectures différentes des mêmes chiffres."
 - "Revenons à la question initiale, si vous le permettez."
 - "Pourrait-on se concentrer sur le point précis qui nous occupe ?"
+- "Il me semble qu'il y a ici deux questions distinctes — je propose de les traiter séparément."
 
 ### Proposer une méthode pour avancer
 - "Pourrait-on afficher ces données pour que tout le monde les voie clairement ?"
 - "Je propose que nous procédions point par point, plutôt que de tout aborder en même temps."
+- "Inscrivons ce point à l'ordre du jour de notre prochaine réunion."
 
 ### Apaiser une tension sans minimiser le désaccord
-- "Je comprends que ce sujet suscite des avis très différents, ce qui est légitime. Essayons d'avancer méthodiquement."`,
+- "Je comprends que ce sujet suscite des avis très différents, ce qui est légitime. Essayons d'avancer méthodiquement."
+- "Je vous entends tous les deux. Il me semble que ces deux questions méritent d'être traitées séparément."
+
+### Erreurs fréquentes à éviter
+
+**1. Prendre parti pour un intervenant au lieu de rester neutre**
+- Incorrect : "Madame Rousseau a raison, le budget a été respecté."
+- Correct : "Nous avons deux lectures différentes des mêmes chiffres — affichons-les pour vérifier ensemble."
+
+**2. Minimiser la tension plutôt que de la nommer**
+- Incorrect : "Ce n'est pas grave, continuons."
+- Correct : "Je comprends que ce sujet suscite des avis très différents. Essayons d'avancer méthodiquement."
+
+**3. Mélanger plusieurs sujets sans les séparer explicitement**
+- Incorrect : laisser le débat dériver vers une question générale sans signaler le changement
+- Correct : "Il me semble qu'il y a ici deux questions distinctes. Je propose de traiter la première ce soir, et d'inscrire la seconde à l'ordre du jour de notre prochaine réunion."
+
+**4. Couper la parole de façon abrupte même pour recentrer**
+- Incorrect : "Stop. Ce n'est pas le sujet."
+- Correct : "Je vous arrête un instant, si vous le permettez — revenons à la question initiale."`,
 
       keyPoints: [
         'Gérer les interruptions : "terminez d\'abord, nous reviendrons à vous"',
@@ -483,7 +656,7 @@ export const b2DebatFormel: LangModule = {
       level: 'B2',
       title: 'Le débat contradictoire médiatique',
       description: 'Comprendre les codes du débat télévisé ou radiophonique : temps de parole, interruptions, registre.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les codes spécifiques du débat médiatique
 
@@ -502,25 +675,90 @@ L'animateur distribue la parole, recentre le débat, et parfois POUSSE les inter
 Contrairement à une discussion privée, le débat médiatique s'adresse à une AUDIENCE qui regarde ou écoute — les formules doivent rester ACCESSIBLES et les arguments clairement structurés pour des personnes qui n'ont pas suivi tout le contexte.
 
 **La gestion du temps et de l'urgence**
-Une réponse trop longue ou hors-sujet peut être COUPÉE par l'animateur — savoir répondre de façon CONCISE et structurée est une compétence essentielle de ce format spécifique.`,
+Une réponse trop longue ou hors-sujet peut être COUPÉE par l'animateur — savoir répondre de façon CONCISE et structurée est une compétence essentielle de ce format spécifique.
+
+---
+
+### Situation 2 : Extrait d'un plateau télévisé — débat sur la réforme des retraites
+
+**Animatrice :** Monsieur Picard, votre parti a voté contre la réforme. Pourquoi ?
+
+**M. Picard :** Parce que cette réforme est injuste. Elle pénalise ceux qui ont commencé à travailler tôt, les ouvriers, les artisans, ceux qui ont des corps usés à 55 ans.
+
+**Mme Fontaine :** Permettez-moi de répondre sur ce point précis. Cette réforme prévoit justement des mesures spécifiques pour les carrières longues — vous le savez.
+
+**M. Picard :** Ces mesures sont insuffisantes ! Les syndicats l'ont dit —
+
+**Mme Fontaine :** Laissez-moi terminer, s'il vous plaît. Je reconnais que ces mesures peuvent être renforcées. Mais rejeter la réforme en bloc, c'est ignorer le problème de financement qui, lui, est réel.
+
+**Animatrice :** En deux mots, Monsieur Picard : votre alternative ?
+
+**M. Picard :** Pour résumer ma position : une cotisation supplémentaire sur les hauts revenus, couplée à une revitalisation de l'emploi des seniors — c'est là où les marges de manœuvre existent.
+
+**Animatrice :** Madame Fontaine, vous avez trente secondes pour réagir.
+
+**Mme Fontaine :** Je crois que chacun peut constater que nous partageons au moins un diagnostic commun : le système doit évoluer. Nos désaccords portent sur les moyens, pas sur la nécessité de réformer.
+
+---
+
+### Tableau de vocabulaire : Débat médiatique
+
+| Terme | Définition | Exemple d'usage |
+|---|---|---|
+| **contradictoire** | Qui confronte des positions opposées | "Un débat contradictoire entre deux candidats." |
+| **animateur / animatrice** | Personne qui dirige une émission ou un débat | "L'animatrice a recadré l'intervenant." |
+| **chronométré(e)** | Mesuré dans le temps avec précision | "Un temps de parole strictement chronométré." |
+| **concis(e)** | Bref et précis, sans développement excessif | "Une réponse concise et structurée." |
+| **éluder** | Éviter de répondre à une question | "Il a éludé la question sur le financement." |
+| **déstabiliser** | Faire perdre son calme ou sa concentration | "Une interruption peut déstabiliser un intervenant." |
+| **plateau** | Lieu de tournage d'une émission de télévision | "Un débat enregistré en plateau." |
+| **carrière longue** | Durée de cotisation plus longue que la moyenne | "Les dispositifs pour carrières longues." |
+| **marge de manœuvre** | Espace d'action ou de négociation disponible | "Les marges de manœuvre budgétaires sont limitées." |
+| **financement** | Ensemble des moyens financiers pour couvrir une dépense | "Le financement des retraites est en question." |`,
 
       linguisticPoint: `## Point linguistique : Formules spécifiques au débat médiatique
 
 ### Répondre de façon concise sous contrainte de temps
 - "En deux mots : ..." (annoncer une réponse volontairement courte)
 - "Pour résumer ma position : ..." (synthèse rapide)
+- "L'essentiel de mon argument tient en une phrase : ..."
 
 ### Reprendre la parole après une interruption
 - "Laissez-moi terminer, s'il vous plaît." (demande ferme mais polie)
 - "Je vais conclure sur ce point, puis je vous laisse répondre."
+- "Je n'ai pas terminé — permettez-moi d'achever mon propos."
 
 ### S'adresser indirectement au public via l'adversaire
 - "Les téléspectateurs qui nous regardent comprendront que..."
 - "Je crois que chacun peut constater que..."
+- "Il est important que nos auditeurs sachent que..."
 
 ### Répondre à une relance de l'animateur sur une question éludée
 - "Pour répondre précisément à votre question : ..."
-- "Vous avez raison de me relancer, je vais y répondre directement."`,
+- "Vous avez raison de me relancer, je vais y répondre directement."
+- "Je vais y venir maintenant, sans détour."
+
+### Signaler un point de convergence malgré le désaccord
+- "Nous partageons au moins un diagnostic commun : ..."
+- "Nos désaccords portent sur les moyens, pas sur la nécessité de..."
+
+### Erreurs fréquentes à éviter
+
+**1. Parler trop longtemps et dépasser son temps de parole**
+- Incorrect : développer tous ses arguments sans tenir compte de la contrainte de temps
+- Correct : anticiper et préparer des formules synthétiques — "En deux mots...", "Pour résumer..."
+
+**2. Se laisser visiblement déstabiliser par une interruption**
+- Incorrect : perdre le fil de son argument, bégayer, s'énerver
+- Correct : "Laissez-moi terminer, s'il vous plaît." — rester calme, reprendre fermement
+
+**3. S'adresser uniquement à l'adversaire et oublier le public**
+- Incorrect : répondre comme dans une conversation privée, en ignorant l'audience
+- Correct : "Je crois que chacun peut constater que..." — inclure explicitement l'audience
+
+**4. Éluder une question de l'animateur sans le signaler**
+- Incorrect : ne pas répondre à la question posée sans l'expliquer
+- Correct : "Vous avez raison de me relancer, je vais y répondre directement : ..."`,
 
       keyPoints: [
         'Temps de parole encadré et chronométré — dépasser ce temps est mal perçu',

@@ -137,13 +137,13 @@ export function BenefitsSection() {
         </div>
       </div>
 
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .benefits-grid { grid-template-columns: 1fr 1fr; }
         @media (max-width: 900px) {
           .benefits-grid { grid-template-columns: 1fr !important; }
           .benefits-grid > div:first-child { display: none !important; }
         }
-      `}</style>
+      ` }} />
     </section>
   );
 }

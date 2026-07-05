@@ -18,7 +18,7 @@ export const b1Rediger: LangModule = {
       level: 'B1',
       title: 'La lettre formelle',
       description: 'Maîtrisez la structure et les formules d\'une lettre formelle française.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Exemple : Lettre de réclamation à un bailleur
 
@@ -346,7 +346,7 @@ Dans l'attente de votre réponse, je vous adresse, Madame, Monsieur, mes cordial
       level: 'B1',
       title: 'L\'email professionnel',
       description: 'Rédiger des emails professionnels clairs et efficaces dans différents contextes.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Exemple : Email de candidature
 
@@ -639,7 +639,7 @@ S\'accorde avec le nom qu\'il qualifie :
       level: 'B1',
       title: 'Comprendre et remplir des documents administratifs',
       description: 'Naviguer dans les formulaires administratifs français et comprendre les documents officiels.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les documents administratifs français — mode d'emploi
 
@@ -952,7 +952,7 @@ Loi DCRA (2000) : l'administration a 2 mois pour répondre à une demande. Pass�
       level: 'B1',
       title: 'Compte rendu et rapport simple',
       description: 'Rédiger un compte rendu de réunion ou un rapport simple dans un contexte professionnel.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Exemple : Compte rendu de réunion
 

@@ -18,7 +18,7 @@ export const b2TextesArgumentatifs: LangModule = {
       level: 'B2',
       title: 'Analyser un texte argumentatif',
       description: 'Identifier la thèse, les arguments et la stratégie rhétorique d\'un texte d\'opinion.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Faut-il réformer le système des aides sociales ? (extrait d'éditorial)
 
@@ -319,7 +319,7 @@ Dès lors, plutôt que d'opposer stérilement assistanat et mérite, ne devrait-
       level: 'B2',
       title: 'Les types d\'arguments',
       description: 'Distinguer argument d\'autorité, argument logique, argument par l\'exemple et argument ad hominem.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Tous les arguments ne se valent pas
 
@@ -393,7 +393,7 @@ Compare deux situations pour éclairer l'une par l'autre : "Gérer un pays, c'es
       level: 'B2',
       title: 'Repérer les sophismes et biais argumentatifs',
       description: 'Identifier les raisonnements fallacieux les plus courants : généralisation hâtive, faux dilemme, pente glissante.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les pièges du raisonnement à démasquer
 
@@ -471,7 +471,7 @@ Déformer la position de l'adversaire pour la rendre plus facile à attaquer : "
       level: 'B2',
       title: 'Analyse comparative de deux textes opposés',
       description: 'Comparer deux argumentations contradictoires sur un même sujet pour en évaluer la solidité respective.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Deux éditoriaux opposés sur la même question
 

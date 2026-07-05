@@ -18,7 +18,7 @@ export const a2Transports: LangModule = {
       level: 'A2',
       title: 'Métro, bus et tramway',
       description: 'Achetez des tickets, lisez les plans et utilisez les transports en commun en ville.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Prendre le métro à Paris
 
@@ -350,7 +350,7 @@ export const a2Transports: LangModule = {
       level: 'A2',
       title: 'Le train et la SNCF',
       description: 'Réservez un billet de train, comprenez les tarifs et gérez les situations imprévues.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Acheter un billet à la gare
 
@@ -702,7 +702,7 @@ export const a2Transports: LangModule = {
       level: 'A2',
       title: 'Voiture et permis de conduire',
       description: 'Conversion de permis étranger, code de la route, assurance auto et situations courantes.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Conversion d'un permis étranger
 
@@ -1068,7 +1068,7 @@ Pays UE, EEE + liste de pays hors UE reconnus (dont le Maroc, Algérie, Tunisie,
       level: 'A2',
       title: 'Covoiturage, vélo et mobilité douce',
       description: 'Blablacar, Vélib\', trottinettes électriques — les alternatives à la voiture et aux transports en commun.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les alternatives aux transports classiques en France
 

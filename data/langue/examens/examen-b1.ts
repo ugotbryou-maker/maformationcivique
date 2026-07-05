@@ -18,7 +18,7 @@ export const examenBlancB1: LangModule = {
       level: 'B1',
       title: 'Section 1 — Compréhension écrite',
       description: 'Simulation d\'épreuve de compréhension écrite : article de presse, lettre, annonce.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Instructions de l'examen
 
@@ -82,7 +82,7 @@ Les chercheurs s'accordent sur un point : un équilibre entre présentiel et dis
       level: 'B1',
       title: 'Section 2 — Grammaire et vocabulaire',
       description: 'Révision consolidée des points grammaticaux essentiels du niveau B1.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Instructions de l'examen
 
@@ -136,7 +136,7 @@ Cette section couvre les points grammaticaux essentiels du niveau B1 : subjoncti
       level: 'B1',
       title: 'Section 3 — Production écrite et orale',
       description: 'Sujets d\'expression écrite et questions d\'entretien typiques du DELF B1/TEF.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Instructions de l'examen
 

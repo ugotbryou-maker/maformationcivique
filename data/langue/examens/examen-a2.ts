@@ -18,7 +18,7 @@ export const examenBlancA2: LangModule = {
       level: 'A2',
       title: 'Section 1 — Compréhension écrite et orale',
       description: 'Simulation de la partie compréhension : textes courts, dialogues, annonces administratives.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Instructions de l'examen
 
@@ -86,7 +86,7 @@ Lisez chaque texte ou dialogue attentivement avant de répondre. Aucun dictionna
       level: 'A2',
       title: 'Section 2 — Grammaire et vocabulaire',
       description: 'Révision consolidée des points grammaticaux et lexicaux essentiels du niveau A2.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Instructions de l'examen
 
@@ -142,7 +142,7 @@ Répondez à chaque question en choisissant la forme grammaticalement correcte.`
       level: 'A2',
       title: 'Section 3 — Simulation entretien OFII',
       description: 'Questions typiques posées lors de l\'évaluation orale OFII et exemples de réponses adaptées au niveau A2.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Instructions de l'examen
 

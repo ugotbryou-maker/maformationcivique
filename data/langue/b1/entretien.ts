@@ -18,7 +18,7 @@ export const b1Entretien: LangModule = {
       level: 'B1',
       title: 'L\'entretien d\'embauche',
       description: 'Se présenter, parler de son parcours et de ses motivations lors d\'un entretien d\'embauche.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Entretien d'embauche — Karim et la responsable RH
 
@@ -303,7 +303,7 @@ Si + plus-que-parfait → conditionnel passé
       level: 'B1',
       title: 'Démarches en préfecture',
       description: 'Communiquer efficacement lors de rendez-vous en préfecture pour le titre de séjour.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Rendez-vous en préfecture — renouvellement de titre de séjour
 
@@ -620,7 +620,7 @@ Si + plus-que-parfait → conditionnel passé
       level: 'B1',
       title: 'Parler de son parcours d\'intégration',
       description: 'Raconter son histoire, son parcours d\'intégration et ses projets en France.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Entretien associatif — Youssef parle de son parcours
 
@@ -898,7 +898,7 @@ Mais la difficulté principale a été le logement. Trouver un appartement quand
       level: 'B1',
       title: 'Préparer son entretien de naturalisation (B1)',
       description: 'Les questions typiques de l\'entretien de naturalisation et comment y répondre.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : L'entretien de naturalisation — qu'attendre ?
 

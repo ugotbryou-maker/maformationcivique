@@ -18,7 +18,7 @@ export const b1TravailDroits: LangModule = {
       level: 'B1',
       title: 'Les types de contrats de travail',
       description: 'CDI, CDD, intérim, période d\'essai : comprendre les différents contrats et leurs implications.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les contrats de travail en France
 
@@ -266,7 +266,7 @@ Le droit du travail français encadre strictement les relations entre employeurs
       level: 'B1',
       title: 'Syndicats et représentation du personnel',
       description: 'Le rôle des syndicats, des délégués du personnel et la négociation collective en France.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les syndicats et la représentation des salariés
 
@@ -525,7 +525,7 @@ La France a une longue tradition syndicale, bien que le taux de syndicalisation 
       level: 'B1',
       title: 'Licenciement et rupture du contrat',
       description: 'Comprendre les motifs de licenciement, les indemnités et les recours possibles.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : La rupture du contrat de travail
 
@@ -791,7 +791,7 @@ En droit français, un CDI ne peut pas être rompu sans procédure et sans motif
       level: 'B1',
       title: 'Discrimination et égalité au travail',
       description: 'Reconnaître et combattre les discriminations dans le monde professionnel français.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Lutter contre les discriminations au travail
 
@@ -1041,7 +1041,7 @@ Avoir/être (subjonctif) + PP
       level: 'B1',
       title: 'France Travail et la reconversion professionnelle',
       description: 'Les services de France Travail, la formation continue et les démarches de reconversion.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Se reconvertir et retrouver un emploi avec France Travail
 

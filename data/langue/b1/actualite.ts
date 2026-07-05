@@ -18,7 +18,7 @@ export const b1Actualite: LangModule = {
       level: 'B1',
       title: 'Lire un article de presse',
       description: 'Comprenez la structure d\'un article, identifiez les faits et les opinions, et enrichissez votre vocabulaire journalistique.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Article du Monde — La naturalisation facilitée pour les étrangers qualifiés
 
@@ -307,7 +307,7 @@ En chiffres, la France naturalisait en 2023 environ 90 000 personnes par an. Les
       level: 'B1',
       title: 'Les médias et la circulation de l\'information',
       description: 'Comprenez le paysage médiatique français et développez votre esprit critique face à l\'information.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Le paysage médiatique français
 
@@ -565,7 +565,7 @@ La France dispose d'un paysage médiatique riche et diversifié, qui évolue rap
       level: 'B1',
       title: 'Événements politiques et sociaux',
       description: 'Comprenez et commentez les grands événements politiques, économiques et sociaux français.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les grandes manifestations en France
 
@@ -813,7 +813,7 @@ La France est connue pour sa tradition de contestation sociale. Les Français de
       level: 'B1',
       title: 'Grands débats de société',
       description: 'Comprenez et participez aux grands débats qui animent la société française — identité, laïcité, écologie.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : La laïcité — un pilier de la République française
 
@@ -1079,7 +1079,7 @@ Pour les candidats à la naturalisation, la compréhension et l'adhésion aux va
       level: 'B1',
       title: 'L\'économie française en bref',
       description: 'Comprenez les bases de l\'économie française, du marché du travail et des questions sociales.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : L'économie française — points clés
 

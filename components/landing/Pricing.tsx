@@ -24,13 +24,14 @@ const freePlan = {
   cta: 'Commencer gratuitement',
   href: '/inscription',
   highlight: false,
+  badge: null as string | null,
 };
 
 const premiumPlan = {
-  name: 'Premium',
+  name: 'Civique',
   price: '12€',
   period: '/ mois',
-  desc: 'Accès complet pour réussir votre examen',
+  desc: 'Accès complet à la préparation civique',
   features: [
     'Les 5 modules complets (19 leçons)',
     '177 questions officielles',
@@ -44,7 +45,48 @@ const premiumPlan = {
   missing: [],
   cta: 'Commencer Premium',
   href: '/inscription?plan=premium',
+  highlight: false,
+  badge: null as string | null,
+};
+
+const languePlan = {
+  name: 'Langue',
+  price: '12€',
+  period: '/ mois',
+  desc: 'Français A2, B1, B2 pour vos démarches',
+  features: [
+    'Modules A2, B1, B2 + transversal',
+    'Leçons dialogues + points linguistiques',
+    'Exercices QCM par leçon',
+    'Examens blancs OFII, DELF, naturalisation',
+    'Tableau de bord & progression',
+    'Adapté aux démarches préfecture',
+  ],
+  missing: [],
+  cta: 'Accès Langue',
+  href: '/inscription?plan=langue',
+  highlight: false,
+  badge: 'Nouveau' as string | null,
+};
+
+const bundlePlan = {
+  name: 'Bundle',
+  price: '20€',
+  period: '/ mois',
+  desc: 'Civique + Langue — tout inclus',
+  features: [
+    'Tout le contenu Civique (5 modules)',
+    'Tout le contenu Langue (A2 · B1 · B2)',
+    'Examens blancs civique + linguistique',
+    'IA pédagogique',
+    'Tableau de bord unifié',
+    'Meilleur rapport qualité-prix',
+  ],
+  missing: [],
+  cta: 'Commencer Bundle',
+  href: '/inscription?plan=bundle',
   highlight: true,
+  badge: 'Recommandé' as string | null,
 };
 
 export function Pricing() {
@@ -70,34 +112,36 @@ export function Pricing() {
             Simple et transparent
           </h2>
           <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)' }}>
-            Commencez gratuitement. Passez au Premium quand vous êtes prêt.
+            Commencez gratuitement. Choisissez le module adapté à votre démarche.
           </p>
         </div>
 
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '24px',
-            maxWidth: '760px',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '16px',
+            maxWidth: '1200px',
             margin: '0 auto',
           }}
+          className="pricing-grid"
         >
-          {/* Free plan */}
           <PricingCard plan={freePlan} />
-          {/* Premium plan */}
           <PricingCard plan={premiumPlan} />
+          <PricingCard plan={languePlan} />
+          <PricingCard plan={bundlePlan} />
         </div>
+        <style>{`
+          @media (max-width: 900px) {
+            .pricing-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          }
+          @media (max-width: 560px) {
+            .pricing-grid { grid-template-columns: 1fr !important; }
+          }
+        `}</style>
 
         {/* Note garantie */}
-        <div
-          style={{
-            textAlign: 'center',
-            marginTop: '32px',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
+        <div style={{ textAlign: 'center', marginTop: '32px', display: 'flex', justifyContent: 'center' }}>
           <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
             <Zap size={13} style={{ color: 'var(--color-blue-france)', flexShrink: 0 }} />
             Sans engagement · Annulation à tout moment · Paiement sécurisé
@@ -107,17 +151,18 @@ export function Pricing() {
         {/* B2B mention */}
         <p style={{ textAlign: 'center', marginTop: '24px', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>
           {"Vous gérez un cabinet d'avocats ou un service d'intégration ? "}
-          <a href="mailto:contact@maformationcivique.fr" style={{ color: 'var(--color-blue-france)', textDecoration: 'underline' }}>
-            Licence cabinet à 250€/an →
-          </a>
+          <Link href="/partenaires" style={{ color: 'var(--color-blue-france)', textDecoration: 'underline' }}>
+            Découvrir l'offre partenaire →
+          </Link>
         </p>
       </div>
     </section>
   );
 }
 
-function PricingCard({ plan }: { plan: typeof freePlan | typeof premiumPlan }) {
+type Plan = typeof freePlan | typeof premiumPlan | typeof languePlan | typeof bundlePlan;
 
+function PricingCard({ plan }: { plan: Plan }) {
   return (
     <div
       style={{
@@ -132,22 +177,22 @@ function PricingCard({ plan }: { plan: typeof freePlan | typeof premiumPlan }) {
       {plan.highlight && (
         <div style={{ height: '3px', background: 'var(--gradient-tricolor)' }} />
       )}
-      {plan.highlight && (
+      {plan.badge && (
         <div
           style={{
             position: 'absolute',
-            top: '20px',
+            top: plan.highlight ? '20px' : '16px',
             right: '20px',
             padding: '4px 12px',
             borderRadius: 'var(--radius-pill)',
-            background: 'rgba(239,65,53,0.2)',
-            border: '0.5px solid rgba(239,65,53,0.4)',
+            background: plan.highlight ? 'rgba(239,65,53,0.2)' : 'rgba(109,40,217,0.12)',
+            border: plan.highlight ? '0.5px solid rgba(239,65,53,0.4)' : '0.5px solid rgba(109,40,217,0.3)',
             fontSize: 'var(--font-size-xs)',
-            color: '#FF8B84',
+            color: plan.highlight ? '#FF8B84' : '#7C3AED',
             fontWeight: 500,
           }}
         >
-          Recommandé
+          {plan.badge}
         </div>
       )}
 
@@ -177,13 +222,12 @@ function PricingCard({ plan }: { plan: typeof freePlan | typeof premiumPlan }) {
           >
             {plan.price}
           </span>
-          {'period' in plan && plan.period && (
+          {plan.period && (
             <span style={{ fontSize: 'var(--font-size-sm)', color: plan.highlight ? 'rgba(255,255,255,0.5)' : 'var(--color-text-muted)' }}>
               {plan.period}
             </span>
           )}
         </div>
-
 
         <p
           style={{

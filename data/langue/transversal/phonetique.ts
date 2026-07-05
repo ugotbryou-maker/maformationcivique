@@ -18,7 +18,7 @@ export const transversalPhonetique: LangModule = {
       level: 'transversal',
       title: 'Les voyelles orales du français',
       description: 'Distinguer les voyelles proches qui changent le sens des mots : u/ou, é/è, i/y...',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Pourquoi certaines voyelles posent problème
 
@@ -306,7 +306,7 @@ Laissez l'air sortir partiellement par le nez en prononçant la voyelle — cont
       level: 'transversal',
       title: 'Les liaisons en français',
       description: 'Distinguer les liaisons obligatoires, interdites et facultatives pour une prononciation fluide.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Qu'est-ce qu'une liaison ?
 
@@ -612,7 +612,7 @@ Il n'existe pas de règle visuelle simple — il faut MÉMORISER les mots à h a
       level: 'transversal',
       title: 'L\'intonation française',
       description: 'Maîtriser les mélodies de la phrase pour exprimer question, affirmation, énumération et émotion.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : La musique de la phrase française
 
@@ -920,7 +920,7 @@ Garder une intonation "plate" (monotone) sur toute la phrase, sans varier la hau
       level: 'transversal',
       title: 'Les consonnes difficiles du français',
       description: 'Maîtriser le r français, les sons ch/j, gn et autres consonnes sources de confusion.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les consonnes qui posent le plus de défis
 
@@ -1199,7 +1199,7 @@ Confondre sourd et sonore peut créer des malentendus : "poisson" [pwasõ] vs "b
       level: 'transversal',
       title: 'Le rythme et l\'accent tonique du français',
       description: 'Comprendre pourquoi le français est une langue à accentuation finale et comment cela structure le débit.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Le français, une langue au rythme particulier
 
@@ -1511,7 +1511,7 @@ S'entraîner à lire des phrases en MARQUANT mentalement les groupes rythmiques 
       level: 'transversal',
       title: 'Erreurs de prononciation fréquentes',
       description: 'Identifier et corriger les difficultés de prononciation les plus courantes selon l\'origine linguistique.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Des difficultés différentes selon la langue maternelle
 

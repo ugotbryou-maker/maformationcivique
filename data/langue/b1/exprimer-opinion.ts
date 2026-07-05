@@ -18,7 +18,7 @@ export const b1ExprimerOpinion: LangModule = {
       level: 'B1',
       title: 'Donner et défendre son avis',
       description: 'Apprenez à exprimer votre opinion de façon nuancée avec les formules appropriées selon le registre.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Discussion sur la politique d'intégration
 
@@ -317,7 +317,7 @@ export const b1ExprimerOpinion: LangModule = {
       level: 'B1',
       title: 'Argumenter et convaincre',
       description: 'Structurez vos arguments, utilisez des exemples et des preuves, et construisez un discours persuasif.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Comment argumenter efficacement ?
 
@@ -610,7 +610,7 @@ Partez d'un fait, donnez une raison (parce que, car, puisque), et tirez une conc
       level: 'B1',
       title: 'Nuancer et modérer',
       description: 'Apprenez à nuancer vos propos, à relativiser et à exprimer des positions équilibrées.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Entretien préfectorale — valeurs françaises
 
@@ -929,7 +929,7 @@ Partez d'un fait, donnez une raison (parce que, car, puisque), et tirez une conc
       level: 'B1',
       title: 'Gérer une discussion — points de vue divergents',
       description: 'Maintenez une conversation, gérez les désaccords et trouvez des terrains d\'entente.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Réunion de quartier — projet d'aménagement
 

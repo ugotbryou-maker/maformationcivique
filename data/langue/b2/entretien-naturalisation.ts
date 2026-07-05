@@ -18,7 +18,7 @@ export const b2EntretienNaturalisation: LangModule = {
       level: 'B2',
       title: 'Histoire de France — repères essentiels',
       description: 'Les grandes dates et événements de l\'histoire française à connaître pour l\'entretien.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les grands repères de l'histoire de France
 
@@ -268,7 +268,7 @@ Le passé simple est utilisé dans les textes historiques, littéraires et certa
       level: 'B2',
       title: 'Le fonctionnement de l\'État — approfondissement',
       description: 'Une compréhension fine des équilibres institutionnels et de leur justification démocratique.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Pourquoi la séparation des pouvoirs est-elle essentielle ?
 
@@ -544,7 +544,7 @@ l'arbitraire, l'État de droit, l'inamovibilité, la légitimité, le contre-pou
       level: 'B2',
       title: 'La laïcité — principes et cas pratiques',
       description: 'Approfondir la compréhension de la laïcité à travers des situations concrètes et leurs justifications.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : La laïcité à l'épreuve de situations concrètes
 
@@ -831,7 +831,7 @@ ostensible (visible, affiché), la neutralité, la dissimulation, jouir d'un dro
       level: 'B2',
       title: 'Raconter son parcours avec profondeur',
       description: 'Construire un récit personnel riche, nuancé et authentique de son parcours d\'intégration.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Exemple : Récit de parcours — Rokia, candidate à la naturalisation
 
@@ -1133,7 +1133,7 @@ Plutôt que "je suis devenu(e) complètement français(e)" → "mon identité s'
       level: 'B2',
       title: 'Simulation complète d\'entretien',
       description: 'S\'entraîner sur des questions pièges et des réponses modèles pour l\'entretien de naturalisation.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Simulation : Questions pièges et réponses modèles
 

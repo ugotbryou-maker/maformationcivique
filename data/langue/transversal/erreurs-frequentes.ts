@@ -18,7 +18,7 @@ export const transversalErreursFrequentes: LangModule = {
       level: 'transversal',
       title: 'Les faux-amis avec l\'anglais',
       description: 'Identifier les mots qui se ressemblent en français et en anglais mais ont un sens différent.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Pourquoi les "faux-amis" sont si traîtres
 
@@ -279,7 +279,7 @@ Noter chaque faux-ami découvert (souvent après une erreur ou une surprise) ave
       level: 'transversal',
       title: 'Les constructions verbales incorrectes',
       description: 'Corriger les erreurs de prépositions après les verbes, souvent calquées sur d\'autres langues.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Pourquoi les prépositions après les verbes sont si difficiles
 
@@ -553,7 +553,7 @@ Créer des fiches dédiées (papier ou numériques) regroupant les verbes par TY
       level: 'transversal',
       title: 'Anglicismes et emprunts mal utilisés',
       description: 'Reconnaître les anglicismes à éviter dans un français soigné et leurs équivalents recommandés.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Anglicismes acceptés et anglicismes à éviter
 
@@ -847,7 +847,7 @@ Le Québec, en situation linguistique MINORITAIRE face à l'anglais en Amérique
       level: 'transversal',
       title: 'Erreurs de syntaxe récurrentes',
       description: 'Corriger les erreurs d\'ordre des mots, de négation et de construction de phrase les plus fréquentes.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les pièges syntaxiques qui persistent malgré un bon niveau
 

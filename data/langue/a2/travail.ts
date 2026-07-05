@@ -18,7 +18,7 @@ export const a2Travail: LangModule = {
       level: 'A2',
       title: 'Chercher un emploi',
       description: 'Maîtrisez le vocabulaire de la recherche d\'emploi, les offres et les plateformes.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : À Pôle emploi
 
@@ -359,7 +359,7 @@ export const a2Travail: LangModule = {
       level: 'A2',
       title: 'L\'entretien d\'embauche',
       description: 'Préparez et réussissez votre entretien d\'embauche en français.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Entretien d'embauche
 
@@ -712,7 +712,7 @@ Après certaines structures exprimant : volonté, nécessité, doute, sentiment
       level: 'A2',
       title: 'Le contrat de travail et le salaire',
       description: 'Comprenez votre contrat de travail, votre bulletin de salaire et vos droits fondamentaux.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Comprendre son bulletin de salaire
 
@@ -1036,7 +1036,7 @@ En haut du bulletin figurent : le nom et l'adresse de l'employeur, votre nom, vo
       level: 'A2',
       title: 'Les droits des travailleurs',
       description: 'Connaissez vos droits au travail : congés, arrêts maladie, syndicats et discrimination.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Problème au travail
 
@@ -1390,7 +1390,7 @@ En haut du bulletin figurent : le nom et l'adresse de l'employeur, votre nom, vo
       level: 'A2',
       title: 'Chômage et reconversion',
       description: 'Gérez votre situation de chômage, comprenez vos droits et préparez votre reconversion professionnelle.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Suivi mensuel à France Travail
 

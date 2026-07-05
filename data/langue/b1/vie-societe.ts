@@ -18,7 +18,7 @@ export const b1VieSociete: LangModule = {
       level: 'B1',
       title: 'Le système éducatif français',
       description: 'Comprenez l\'organisation de l\'école française, de la maternelle au supérieur, et le rôle de l\'éducation dans la société.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : L'école en France — principes et organisation
 
@@ -272,7 +272,7 @@ Le système éducatif français repose sur trois principes fondamentaux : **la g
       level: 'B1',
       title: 'Le système de santé français',
       description: 'Comprenez les particularités du système de santé français, ses atouts, ses défis et comment y naviguer.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Le système de santé français — un modèle à bout de souffle ?
 
@@ -583,7 +583,7 @@ Dès qu'ils ont un titre de séjour, les étrangers sont affiliés à la Sécuri
       level: 'B1',
       title: 'La vie familiale en France',
       description: 'Les différentes formes de famille, le droit de la famille et les aides aux familles.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : La famille française — évolutions et réalités
 
@@ -831,7 +831,7 @@ La France a un système généreux d'aides aux familles : allocations familiales
       level: 'B1',
       title: 'Logement et droits des locataires',
       description: 'Droits et obligations des locataires, procédures en cas de litige, et aides au logement avancées.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les droits des locataires en France
 
@@ -1098,7 +1098,7 @@ L'APL (Aide Personnalisée au Logement) est versée directement aux propriétair
       level: 'B1',
       title: 'Droits et devoirs du citoyen',
       description: 'Les droits fondamentaux, le droit de vote, les devoirs civiques et la participation à la vie démocratique.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Être citoyen français — droits et devoirs
 

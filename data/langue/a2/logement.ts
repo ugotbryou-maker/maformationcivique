@@ -18,7 +18,7 @@ export const a2Logement: LangModule = {
       level: 'A2',
       title: 'Chercher un logement',
       description: 'Lisez les annonces immobilières, contactez les agences et visitez des appartements.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Appel à une agence immobilière
 
@@ -385,7 +385,7 @@ export const a2Logement: LangModule = {
       level: 'A2',
       title: 'Comprendre son bail',
       description: 'Lisez et comprenez les clauses essentielles d\'un contrat de bail de location.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Les points importants d'un bail
 
@@ -701,7 +701,7 @@ Un bail (contrat de location) est un document légal important. Voici les élém
       level: 'A2',
       title: 'Les charges et les factures',
       description: 'Comprenez et gérez vos factures d\'énergie, d\'eau et les charges de copropriété.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Problème de facture EDF
 
@@ -1024,7 +1024,7 @@ Un bail (contrat de location) est un document légal important. Voici les élém
       level: 'A2',
       title: 'Le voisinage et la vie en collectif',
       description: 'Gérez les relations de voisinage, comprenez les règles de l\'immeuble et résolvez les conflits.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Conflit de voisinage
 
@@ -1368,7 +1368,7 @@ Un bail (contrat de location) est un document légal important. Voici les élém
       level: 'A2',
       title: 'Les réparations et l\'entretien',
       description: 'Signalez des pannes, communiquez avec des artisans et gérez les réparations de votre logement.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Fuite d'eau
 

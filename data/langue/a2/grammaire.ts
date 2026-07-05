@@ -18,7 +18,7 @@ export const a2Grammaire: LangModule = {
       level: 'A2',
       title: 'Les articles et déterminants',
       description: 'Maîtrisez les articles définis, indéfinis et partitifs pour parler de quantités et d\'objets.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : La cuisine française — les ingrédients
 
@@ -308,7 +308,7 @@ Après "ne...pas", tous les articles indéfinis et partitifs → **de/d'**
       level: 'A2',
       title: 'Les pronoms personnels complets',
       description: 'Pronoms sujets, COD, COI, toniques et réfléchis — maîtrisez tous les pronoms.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Expliquer une démarche à un ami
 
@@ -595,7 +595,7 @@ Le participe s\'accorde avec le COD s\'il est PLACÉ AVANT le verbe :
       level: 'A2',
       title: 'Négation et interrogation avancées',
       description: 'Maîtrisez toutes les formes de la négation et de l\'interrogation en français.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Répondre à une enquête de satisfaction
 
@@ -952,7 +952,7 @@ Dans la vie administrative et quotidienne, les négations sont très utiles :
       level: 'A2',
       title: 'Le conditionnel de politesse',
       description: 'Utilisez le conditionnel pour exprimer des demandes polies, des souhaits et des hypothèses.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Dialogue : Demandes polies au guichet
 

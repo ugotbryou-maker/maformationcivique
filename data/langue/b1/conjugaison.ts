@@ -18,7 +18,7 @@ export const b1Conjugaison: LangModule = {
       level: 'B1',
       title: 'Le futur simple',
       description: 'Formation et emplois du futur simple, et ses verbes irréguliers les plus courants.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Quand utiliser le futur simple ?
 
@@ -277,7 +277,7 @@ Le futur antérieur marque l'antériorité dans le futur ; le futur simple, l'ac
       level: 'B1',
       title: 'Le conditionnel présent',
       description: 'Formation et emplois du conditionnel présent : politesse, hypothèse, conseil, information non confirmée.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Le conditionnel, un temps essentiel pour nuancer
 
@@ -525,7 +525,7 @@ Remplacez "je" par "nous" :
       level: 'B1',
       title: 'Le plus-que-parfait',
       description: 'Formation et emplois du plus-que-parfait pour exprimer l\'antériorité dans le récit.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Raconter dans l'ordre — le plus-que-parfait
 
@@ -812,7 +812,7 @@ Pour bien situer les actions dans le temps, on combine 3 temps :
       level: 'B1',
       title: 'Le subjonctif présent — récapitulatif complet',
       description: 'Formation complète du subjonctif présent et liste exhaustive des déclencheurs.',
-      duration: 35,
+      duration: 12,
       free: false,
       dialogue: `## Texte : Maîtriser le subjonctif — un pilier du niveau B1
 
