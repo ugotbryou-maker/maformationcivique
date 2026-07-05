@@ -410,14 +410,18 @@ export default function ExamPage() {
 
         {/* Score card */}
         <div style={{
-          background: passed ? 'linear-gradient(135deg, #064E3B 0%, #065F46 100%)' : 'linear-gradient(135deg, #7F1D1D 0%, #991B1B 100%)',
+          position: 'relative', overflow: 'hidden',
           borderRadius: 24, padding: '2.5rem',
           textAlign: 'center', marginBottom: '1.5rem',
           color: '#fff',
         }}>
+          {/* Filigrane */}
+          <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${level === 'NAT' ? '/images/modules/palais-elysee.jpg' : level === 'CR' ? '/images/modules/hemicycle-parlement-europeen.jpg' : '/images/modules/Mairie-de-Paris-l-hotel-de-toutes-les-batailles.jpg'})`, backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
+          <div style={{ position: 'absolute', inset: 0, background: passed ? 'linear-gradient(135deg, #064E3BE8 0%, #065F46D0 100%)' : 'linear-gradient(135deg, #7F1D1DE8 0%, #991B1BD0 100%)' }} />
+          <div style={{ position: 'relative', zIndex: 2 }}>
           <div style={{ fontSize: 72, fontWeight: 900, marginBottom: '.25rem' }}>{pct}%</div>
           <div style={{ fontSize: 18, fontWeight: 700, marginBottom: '.5rem', opacity: .95 }}>
-            {passed ? '✅ Examen réussi !' : '❌ Examen non validé'}
+            {passed ? 'Examen réussi' : 'Examen non validé'}
           </div>
           <div style={{ fontSize: 14, opacity: .8 }}>
             {score} bonnes réponses sur {questions.length} · Score requis : {config.passScore}%
@@ -454,6 +458,7 @@ export default function ExamPage() {
               })}
             </div>
           )}
+          </div>
         </div>
 
         {/* Lead gen card */}

@@ -197,31 +197,33 @@ export default async function LangueLessonPage({ params }: Props) {
       <LangScrollProgress color={accent} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* Hero */}
-      <div style={{ background: '#fff', borderBottom: 'var(--border-default)' }}>
-        <div className="container" style={{ padding: '28px 24px' }}>
-          <nav style={{ display: 'flex', gap: '6px', marginBottom: '16px', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', flexWrap: 'wrap' }}>
-            <Link href="/langue" style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>Cours de français</Link>
+      {/* Hero avec filigrane */}
+      <div style={{ position: 'relative', overflow: 'hidden', minHeight: 160 }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(/images/modules/Ecole_-_Salle_de_Classe_2.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center 20%' }} />
+        <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${accent}F0 0%, ${accent}B0 100%)` }} />
+        <div className="container" style={{ position: 'relative', zIndex: 2, padding: '28px 24px 26px' }}>
+          <nav style={{ display: 'flex', gap: '6px', marginBottom: '14px', fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.7)', flexWrap: 'wrap' }}>
+            <Link href="/langue" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Cours de français</Link>
             <span>/</span>
-            <Link href={`/langue/${level}`} style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>{LEVEL_LABEL[level]}</Link>
+            <Link href={`/langue/${level}`} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>{LEVEL_LABEL[level]}</Link>
             <span>/</span>
-            <Link href={`/langue/${level}`} style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>{mod.title}</Link>
+            <Link href={`/langue/${level}`} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>{mod.title}</Link>
             <span>/</span>
-            <span style={{ color: 'var(--color-text-primary)', fontWeight: 500 }}>{lesson.title}</span>
+            <span style={{ color: '#fff' }}>{lesson.title}</span>
           </nav>
 
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', flexWrap: 'wrap' }}>
-            <span style={{ background: bg, color: accent, padding: '3px 10px', borderRadius: 'var(--radius-pill)', fontSize: 'var(--font-size-xs)', fontWeight: 500 }}>
-              {mod.emoji} {mod.title} · Leçon {lessonIndex + 1}/{mod.lessons.length}
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
+            <span style={{ background: 'rgba(255,255,255,0.18)', color: '#fff', padding: '3px 10px', borderRadius: 'var(--radius-pill)', fontSize: 'var(--font-size-xs)', fontWeight: 500, backdropFilter: 'blur(4px)' }}>
+              {mod.title} · Leçon {lessonIndex + 1}/{mod.lessons.length}
             </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'var(--color-off-white)', color: 'var(--color-text-muted)', padding: '3px 10px', borderRadius: 'var(--radius-pill)', fontSize: 'var(--font-size-xs)' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.85)', padding: '3px 10px', borderRadius: 'var(--radius-pill)', fontSize: 'var(--font-size-xs)', backdropFilter: 'blur(4px)' }}>
               <Clock size={11} /> {lesson.duration} min
             </span>
             {lesson.free && !hasAccess && <span style={{ background: '#F0FDF4', color: '#16A34A', padding: '3px 10px', borderRadius: 'var(--radius-pill)', fontSize: 'var(--font-size-xs)', fontWeight: 500 }}>Gratuit</span>}
           </div>
 
-          <h1 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 700, color: 'var(--color-text-primary)', lineHeight: 1.15, margin: '0 0 6px' }}>{lesson.title}</h1>
-          <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', margin: 0 }}>{lesson.description}</p>
+          <h1 style={{ fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: 800, color: '#fff', lineHeight: 1.15, margin: '0 0 6px' }}>{lesson.title}</h1>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'rgba(255,255,255,0.8)', margin: 0 }}>{lesson.description}</p>
         </div>
       </div>
 

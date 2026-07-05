@@ -144,7 +144,6 @@ export default async function LangueLevelPage({ params }: Props) {
                     </div>
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
-                        <span style={{ fontSize: 18 }}>{mod.emoji}</span>
                         <h2 style={{ fontSize: 17, fontWeight: 700, color: '#fff', margin: 0 }}>{mod.title}</h2>
                       </div>
                       <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.72)', margin: 0 }}>{mod.subtitle}</p>

@@ -2,7 +2,7 @@
  * Liste des emails administrateurs — utilisée pour protéger /studio et
  * les routes API d'administration (création de cabinets B2B, etc.).
  */
-export const ADMIN_EMAILS = (process.env.ADMIN_EMAIL ?? 'tamburriniugo@gmail.com')
+export const ADMIN_EMAILS = (process.env.ADMIN_EMAIL ?? 'tamburriniugo@gmail.com,ugotbr.you@gmail.com')
   .split(',')
   .map((e) => e.trim().toLowerCase());
 
