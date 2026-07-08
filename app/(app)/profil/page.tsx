@@ -15,6 +15,7 @@ export default function ProfilPage() {
   const [adminToggling, setAdminToggling] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [avatarLoading, setAvatarLoading] = useState(false);
+  const [avatarError, setAvatarError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Password change
@@ -90,6 +91,7 @@ export default function ProfilPage() {
     const file = e.target.files?.[0];
     if (!file) return;
     setAvatarLoading(true);
+    setAvatarError(null);
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) { setAvatarLoading(false); return; }
@@ -98,7 +100,9 @@ export default function ProfilPage() {
     const { error: uploadError } = await supabase.storage
       .from('avatars')
       .upload(path, file, { upsert: true });
-    if (!uploadError) {
+    if (uploadError) {
+      setAvatarError('Impossible d\'enregistrer la photo. Contactez le support si le problème persiste.');
+    } else {
       const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(path);
       await supabase.auth.updateUser({ data: { avatar_url: publicUrl } });
       setAvatarUrl(publicUrl + `?t=${Date.now()}`);
@@ -189,6 +193,9 @@ export default function ProfilPage() {
               {profile?.name || 'Utilisateur'}
             </p>
             <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>{profile?.email}</p>
+            {avatarError && (
+              <p style={{ fontSize: 12, color: 'var(--color-red-france)', marginTop: 4 }}>{avatarError}</p>
+            )}
           </div>
         </div>
 

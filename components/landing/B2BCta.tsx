@@ -56,7 +56,7 @@ export function B2BCta() {
                 textDecoration: 'none', fontFamily: 'var(--font-sans)',
               }}
             >
-              Nous contacter — Licence cabinet 250 €/an
+              Nous contacter — À partir de 390 €/an
             </Link>
           </div>
 
@@ -83,10 +83,11 @@ export function B2BCta() {
               }}>
                 <div style={{ fontSize: '13px', fontWeight: 600 }}>Licence cabinet</div>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', margin: '4px 0' }}>
-                  <span style={{ fontSize: '24px', fontWeight: 800 }}>250 €</span>
+                  <span style={{ fontSize: '14px', opacity: 0.75 }}>À partir de</span>
+                  <span style={{ fontSize: '24px', fontWeight: 800 }}>390 €</span>
                   <span style={{ fontSize: '13px', opacity: 0.65 }}>/an</span>
                 </div>
-                <div style={{ fontSize: '11px', opacity: 0.65 }}>Utilisateurs illimités · Support dédié</div>
+                <div style={{ fontSize: '11px', opacity: 0.65 }}>Starter · Pro · Cabinet+ · Réseau</div>
               </div>
             </div>
           </div>

@@ -5,6 +5,9 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { XP_REWARDS } from '@/lib/gamification';
 import { modules } from '@/data/modules';
+import { a2Modules, b1Modules, b2Modules, transversalModules } from '@/data/langue';
+
+const allLangModules = [...a2Modules, ...b1Modules, ...b2Modules, ...transversalModules];
 
 export async function POST(req: Request) {
   try {
@@ -33,12 +36,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
     }
 
-    // Trouver le module de cette leçon
+    // Trouver le module de cette leçon (civique ou langue)
     let moduleSlug = '';
     for (const m of modules) {
       if (m.lessons.find((l) => l.slug === lessonSlug)) {
         moduleSlug = m.slug;
         break;
+      }
+    }
+    if (!moduleSlug) {
+      for (const m of allLangModules) {
+        if (m.lessons.find((l) => l.slug === lessonSlug)) {
+          moduleSlug = m.slug;
+          break;
+        }
       }
     }
 

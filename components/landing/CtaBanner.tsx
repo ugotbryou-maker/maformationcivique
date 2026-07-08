@@ -30,7 +30,7 @@ export function CtaBanner() {
               fontWeight: 700, color: '#fff',
               lineHeight: 1.2, marginBottom: '14px',
             }}>
-              Vous souhaitez obtenir votre titre de séjour ou la nationalité française ?
+              Vous souhaitez obtenir votre titre de séjour ou la nationalité française&nbsp;?
             </h2>
             <p style={{
               fontSize: 'var(--font-size-base)',

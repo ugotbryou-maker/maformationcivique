@@ -14,12 +14,14 @@ interface Props {
   modTitle: string;
   modIndex: number;
   modTotal: number;
+  lessonSlug?: string;
 }
 
-export function LangLessonReader({ lesson, accent, bg, modTitle, modIndex, modTotal }: Props) {
+export function LangLessonReader({ lesson, accent, bg, modTitle, modIndex, modTotal, lessonSlug }: Props) {
   const [step, setStep] = useState<Step>('dialogue');
   const [qIndex, setQIndex] = useState(0);
   const [selected, setSelected] = useState<Record<number, number>>({});
+  const [xpAwarded, setXpAwarded] = useState(false);
 
   const exercises = lesson.exercises;
   const totalQ = exercises.length;
@@ -230,7 +232,17 @@ export function LangLessonReader({ lesson, accent, bg, modTitle, modIndex, modTo
               </button>
             ) : (
               <button
-                onClick={() => setStep('score')}
+                onClick={() => {
+                  setStep('score');
+                  if (lessonSlug && !xpAwarded) {
+                    setXpAwarded(true);
+                    fetch('/api/progress/complete', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ lessonSlug }),
+                    }).catch(() => {});
+                  }
+                }}
                 disabled={!hasSelected}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '6px',

@@ -20,20 +20,37 @@ export const stripe = new Proxy({} as Stripe, {
 
 export const STRIPE_PLANS = {
   premium_monthly: {
-    name: 'maformationcivique.fr — Accès complet',
+    name: 'maformationcivique.fr — Civique',
     price: 1200,
     priceId: process.env.STRIPE_PRICE_PREMIUM_MONTHLY || '',
+    plan: 'premium' as const,
     interval: 'month' as const,
   },
   premium_early: {
     name: 'maformationcivique.fr — Early Adopter',
     price: 900,
     priceId: process.env.STRIPE_PRICE_PREMIUM_EARLY || '',
+    plan: 'premium' as const,
+    interval: 'month' as const,
+  },
+  langue_monthly: {
+    name: 'maformationcivique.fr — Langue française',
+    price: 1200,
+    priceId: process.env.STRIPE_PRICE_LANGUE_MONTHLY || '',
+    plan: 'langue' as const,
+    interval: 'month' as const,
+  },
+  bundle_monthly: {
+    name: 'maformationcivique.fr — Bundle Civique + Langue',
+    price: 2000,
+    priceId: process.env.STRIPE_PRICE_BUNDLE_MONTHLY || '',
+    plan: 'bundle' as const,
     interval: 'month' as const,
   },
 } as const;
 
 export type PlanKey = keyof typeof STRIPE_PLANS;
+export type PlanValue = typeof STRIPE_PLANS[PlanKey]['plan'];
 
 /** Identifiant du coupon "parrainage" — -20% sur la 1ère échéance */
 export const REFERRAL_COUPON_ID = 'PARRAINAGE20';
@@ -84,7 +101,7 @@ export async function createCheckoutSession(
     cancel_url: `${appUrl}/#tarifs`,
     ...discountFields,
     subscription_data: {
-      metadata: { userId },
+      metadata: { userId, planKey },
     },
   });
 

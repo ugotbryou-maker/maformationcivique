@@ -7,11 +7,13 @@ import type { LangExercise } from '@/data/langue/types';
 interface Props {
   exercises: LangExercise[];
   accent?: string;
+  lessonSlug?: string;
 }
 
-export function LangLessonQuiz({ exercises, accent = 'var(--color-blue-france)' }: Props) {
+export function LangLessonQuiz({ exercises, accent = 'var(--color-blue-france)', lessonSlug }: Props) {
   const [selected, setSelected] = useState<Record<number, number>>({});
   const [showResult, setShowResult] = useState(false);
+  const [xpAwarded, setXpAwarded] = useState(false);
 
   const answeredCount = Object.keys(selected).length;
   const score = exercises.reduce((acc, ex, i) => acc + (selected[i] === ex.correctIndex ? 1 : 0), 0);
@@ -43,7 +45,17 @@ export function LangLessonQuiz({ exercises, accent = 'var(--color-blue-france)' 
         </span>
         {answeredCount === exercises.length && !showResult && (
           <button
-            onClick={() => setShowResult(true)}
+            onClick={async () => {
+              setShowResult(true);
+              if (lessonSlug && !xpAwarded) {
+                setXpAwarded(true);
+                fetch('/api/progress/complete', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ lessonSlug }),
+                }).catch(() => {});
+              }
+            }}
             style={{ background: accent, color: '#fff', border: 'none', borderRadius: 'var(--radius-md)', padding: '8px 16px', fontSize: 'var(--font-size-sm)', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}
           >
             Voir mon score

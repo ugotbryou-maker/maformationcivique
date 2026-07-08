@@ -1,9 +1,11 @@
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { modules } from '@/data/modules';
 import { CabinetInviteForm } from '@/components/app/CabinetInviteForm';
 import { CabinetGmbForm } from '@/components/app/CabinetGmbForm';
-import { Building2, Users, AlertTriangle, ArrowUpRight, Star, Wrench } from 'lucide-react';
+import { CabinetExportBtn } from '@/components/app/CabinetExportBtn';
+import { Building2, Users, AlertTriangle, ArrowUpRight, Star, Wrench, Download } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -162,11 +164,14 @@ export default async function CabinetDashboardPage() {
 
       {/* ── Client list ─────────────────────────────────────────────── */}
       <div style={{ marginBottom: 20 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, paddingLeft: 4 }}>
-          <Users size={15} color="var(--color-text-muted)" />
-          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-secondary)' }}>
-            Clients ({activeMembers.length})
-          </span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 12, paddingLeft: 4, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Users size={15} color="var(--color-text-muted)" />
+            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-secondary)' }}>
+              Clients ({activeMembers.length})
+            </span>
+          </div>
+          <CabinetExportBtn />
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -177,52 +182,68 @@ export default async function CabinetDashboardPage() {
             const initial = displayName[0].toUpperCase();
             const avatarStyle = getAvatarStyle(displayName);
             return (
-              <div key={member.id} style={{
-                background: 'var(--color-surface)', border: 'var(--border-default)',
-                borderRadius: 'var(--radius-lg)', padding: '14px 18px',
-                display: 'flex', alignItems: 'center', gap: 14,
-              }}>
+              <Link
+                key={member.id}
+                href={`/cabinet/membre/${member.id}`}
+                style={{ textDecoration: 'none', display: 'block' }}
+              >
                 <div style={{
-                  width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-                  background: avatarStyle.bg, color: avatarStyle.color,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 16, fontWeight: 700,
-                }}>
-                  {initial}
-                </div>
+                  background: 'var(--color-surface)', border: 'var(--border-default)',
+                  borderRadius: 'var(--radius-lg)', padding: '14px 18px',
+                  display: 'flex', alignItems: 'center', gap: 14,
+                  transition: 'box-shadow 180ms ease, border-color 180ms ease',
+                  cursor: 'pointer',
+                }}
+                  className="cabinet-client-row"
+                >
+                  <div style={{
+                    width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
+                    background: avatarStyle.bg, color: avatarStyle.color,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 16, fontWeight: 700,
+                  }}>
+                    {initial}
+                  </div>
 
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 8 }}>
-                    <p style={{ fontWeight: 600, fontSize: 14, color: 'var(--color-text-primary)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {displayName}
-                    </p>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-                      <span style={{ fontSize: 13, fontWeight: 700, color: pct === 100 ? '#1D9E75' : 'var(--color-text-muted)' }}>
-                        {pct}%
-                      </span>
-                      {pct === 100 && (
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 8 }}>
+                      <p style={{ fontWeight: 600, fontSize: 14, color: 'var(--color-text-primary)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {displayName}
+                      </p>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }} onClick={(e) => e.stopPropagation()}>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: pct === 100 ? '#1D9E75' : 'var(--color-text-muted)' }}>
+                          {pct}%
+                        </span>
                         <a
-                          href={`/api/cabinet/attestation/${member.id}`}
+                          href={pct === 100 ? `/api/cabinet/attestation/${member.id}` : undefined}
+                          onClick={(e) => { e.stopPropagation(); if (pct < 100) e.preventDefault(); }}
                           style={{
-                            fontSize: 11, fontWeight: 700, color: '#1D9E75',
-                            background: '#ECFDF5', border: '1px solid #A7F3D0',
-                            padding: '3px 10px', borderRadius: 'var(--radius-pill)',
+                            fontSize: 11, fontWeight: 700,
+                            color: pct === 100 ? '#1D9E75' : 'var(--color-text-muted)',
+                            background: pct === 100 ? '#ECFDF5' : 'var(--color-off-white)',
+                            border: pct === 100 ? '1px solid #A7F3D0' : '1px solid var(--color-border)',
+                            padding: '3px 8px', borderRadius: 'var(--radius-pill)',
                             whiteSpace: 'nowrap', textDecoration: 'none',
+                            display: 'inline-flex', alignItems: 'center', gap: 4,
+                            opacity: pct === 100 ? 1 : 0.5,
+                            cursor: pct === 100 ? 'pointer' : 'not-allowed',
                           }}
+                          title={pct === 100 ? 'Télécharger l\'attestation PDF' : `Formation à ${pct}% — disponible à 100%`}
                         >
-                          Attestation ✓
+                          <Download size={9} />
+                          Attestation
                         </a>
-                      )}
+                      </div>
+                    </div>
+                    <div style={{ height: 6, borderRadius: 99, background: 'var(--color-border)', overflow: 'hidden' }}>
+                      <div style={{
+                        height: '100%', width: `${pct}%`, borderRadius: 99,
+                        background: pct === 100 ? '#1D9E75' : 'var(--gradient-primary)',
+                      }} />
                     </div>
                   </div>
-                  <div style={{ height: 6, borderRadius: 99, background: 'var(--color-border)', overflow: 'hidden' }}>
-                    <div style={{
-                      height: '100%', width: `${pct}%`, borderRadius: 99,
-                      background: pct === 100 ? '#1D9E75' : 'var(--gradient-primary)',
-                    }} />
-                  </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
 
@@ -344,7 +365,7 @@ export default async function CabinetDashboardPage() {
           </div>
         </div>
         <a
-          href={`mailto:support@maformationcivique.fr?subject=Problème technique — Cabinet ${encodeURIComponent(cabinet?.name ?? '')}&body=Bonjour,%0A%0AJe signale un problème technique sur mon espace cabinet.%0A%0ADescription du problème :%0A%0AMerci.`}
+          href={`mailto:contact@maformationcivique.fr?subject=Problème technique — Cabinet ${encodeURIComponent(cabinet?.name ?? '')}&body=Bonjour,%0A%0AJe signale un problème technique sur mon espace cabinet.%0A%0ADescription du problème :%0A%0AMerci.`}
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             padding: '9px 18px', borderRadius: 'var(--radius-pill)',
@@ -358,6 +379,13 @@ export default async function CabinetDashboardPage() {
           Contacter le support →
         </a>
       </div>
+
+      <style suppressHydrationWarning>{`
+        .cabinet-client-row:hover {
+          box-shadow: var(--shadow-card);
+          border-color: var(--color-blue-france) !important;
+        }
+      `}</style>
     </div>
   );
 }

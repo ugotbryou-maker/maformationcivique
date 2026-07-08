@@ -110,22 +110,26 @@ export default async function LangueLessonPage({ params }: Props) {
     return (
       <div style={{ minHeight: '100vh', background: 'var(--color-off-white)' }}>
         <LangScrollProgress color="#CC1A1A" />
-        <div style={{ background: 'linear-gradient(135deg, #7F1D1D 0%, #CC1A1A 100%)', padding: '2.5rem 1.5rem 2rem' }}>
-          <div className="container">
-            <nav style={{ display: 'flex', gap: '6px', marginBottom: '16px', fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.7)' }}>
-              <Link href="/moduleslinguistiques" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Cours de français</Link>
-              <span>/</span>
-              <span style={{ color: '#fff' }}>{exam.title}</span>
-            </nav>
-            <h1 style={{ fontSize: 'clamp(24px, 4vw, 34px)', fontWeight: 800, color: '#fff', margin: '0 0 6px' }}>{exam.title}</h1>
-            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.8)', margin: '0 0 14px' }}>{exam.subtitle}</p>
-            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, color: 'rgba(255,255,255,0.85)' }}>
-                <ListChecks size={13} /> {exam.lessons.length} sections · {totalExercises} questions
-              </span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, color: 'rgba(255,255,255,0.85)' }}>
-                <Clock size={13} /> {totalDuration} min recommandées
-              </span>
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/images/modules/daumier-la-republique.jpg)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(127,29,29,0.92) 0%, rgba(204,26,26,0.88) 100%)' }} />
+          <div style={{ position: 'relative', zIndex: 1, padding: '2.5rem 1.5rem 2rem' }}>
+            <div className="container">
+              <nav style={{ display: 'flex', gap: '6px', marginBottom: '16px', fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.7)' }}>
+                <Link href="/moduleslinguistiques" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Cours de français</Link>
+                <span>/</span>
+                <span style={{ color: '#fff' }}>{exam.title}</span>
+              </nav>
+              <h1 style={{ fontSize: 'clamp(24px, 4vw, 34px)', fontWeight: 800, color: '#fff', margin: '0 0 6px' }}>{exam.title}</h1>
+              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.8)', margin: '0 0 14px' }}>{exam.subtitle}</p>
+              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, color: 'rgba(255,255,255,0.85)' }}>
+                  <ListChecks size={13} /> {exam.lessons.length} sections · {totalExercises} questions
+                </span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, color: 'rgba(255,255,255,0.85)' }}>
+                  <Clock size={13} /> {totalDuration} min recommandées
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -264,6 +268,7 @@ export default async function LangueLessonPage({ params }: Props) {
               modTitle={mod.title}
               modIndex={mod.lessons.findIndex((l) => l.slug === slug)}
               modTotal={mod.lessons.length}
+              lessonSlug={slug}
             />
 
             {/* Navigation entre leçons */}

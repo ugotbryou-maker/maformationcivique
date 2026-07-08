@@ -1,6 +1,5 @@
 import { Hero }            from '@/components/landing/Hero';
 import { TrustBar }        from '@/components/landing/TrustBar';
-import { SearchSection }   from '@/components/landing/SearchSection';
 import { BenefitsSection } from '@/components/landing/BenefitsSection';
 import { ModulesSection }  from '@/components/landing/ModulesSection';
 import { ExamInfo }        from '@/components/landing/ExamInfo';
@@ -13,7 +12,6 @@ export default function HomePage() {
     <>
       <Hero />
       <TrustBar />
-      <SearchSection />
       <BenefitsSection />
       <ModulesSection />
       <ExamInfo />
