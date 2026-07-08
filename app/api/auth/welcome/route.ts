@@ -1,12 +1,16 @@
 /**
  * POST /api/auth/welcome
- * Envoie l'email de bienvenue après inscription.
- * Appelé côté client après supabase.auth.signUp() réussi.
+ * Envoie l'email de bienvenue après inscription + sync Brevo pour automations.
  *
  * Body: { email, name, isFromCabinet?, cabinetName? }
  *
- * - isFromCabinet = true  → utilisateur invité par un cabinet (pas de lead gen)
- * - isFromCabinet = false → utilisateur organique (lead gen dans l'email)
+ * - isFromCabinet = true  → utilisateur cabinet (pas de lead gen ni promo)
+ * - isFromCabinet = false → utilisateur organique (séquence lead gen + promo via Brevo automation)
+ *
+ * Attributs Brevo synchronisés (utilisés pour déclencher les automations) :
+ *   PRENOM, PLAN, CABINET, INSCRIPTION_DATE
+ *   → Automation 1 : CABINET = false + J+1  → POST /api/email/lead-gen
+ *   → Automation 2 : CABINET = false + PLAN = free + J+5  → POST /api/email/promo
  */
 
 export const dynamic = 'force-dynamic';
@@ -36,6 +40,7 @@ export async function POST(req: NextRequest) {
     const fromCabinet = isFromCabinet === true;
     const cabinet = cabinetName?.trim() || 'Votre cabinet';
     const now = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
+    const inscriptionDate = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
     const userSubject = fromCabinet
       ? `${cabinet} a activé votre accès Premium — bienvenue ${displayName} 🎓`
@@ -45,6 +50,8 @@ export async function POST(req: NextRequest) {
       ? welcomeCabinetTemplate(displayName, cabinet)
       : welcomeOrganicTemplate(displayName);
 
+    const brevoKey = process.env.BREVO_API_KEY;
+
     await Promise.all([
       // Email de bienvenue → utilisateur
       sendEmail({
@@ -52,12 +59,34 @@ export async function POST(req: NextRequest) {
         subject: userSubject,
         htmlContent: userHtml,
       }),
+
       // Notification interne → admin
       sendEmail({
         to: [{ email: 'ugotbr.you@gmail.com', name: 'Ugo' }],
         subject: `Nouvel inscrit${fromCabinet ? ' (cabinet)' : ''} — ${email}`,
         htmlContent: adminNewUserTemplate(email, displayName, now),
       }),
+
+      // Sync attributs Brevo → déclenche automations lead gen + promo côté Brevo
+      brevoKey ? fetch('https://api.brevo.com/v3/contacts', {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'api-key': brevoKey,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          updateEnabled: true,
+          attributes: {
+            PRENOM: displayName,
+            PLAN: 'free',
+            CABINET: fromCabinet,
+            INSCRIPTION_DATE: inscriptionDate,
+          },
+          listIds: [fromCabinet ? 4 : 3], // liste 3 = organiques, liste 4 = cabinet (à créer dans Brevo)
+        }),
+      }).catch(() => {}) : Promise.resolve(),
     ]);
 
     return NextResponse.json({ ok: true });
