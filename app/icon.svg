@@ -1,31 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <defs>
-    <clipPath id="shape">
-      <rect width="64" height="64" rx="13"/>
-    </clipPath>
-  </defs>
-  <g clip-path="url(#shape)">
-    <rect x="0"    y="0" width="21.4" height="64" fill="#002395"/>
-    <rect x="21.4" y="0" width="21.2" height="64" fill="#F0F0F0"/>
-    <rect x="42.6" y="0" width="21.4" height="64" fill="#EF3340"/>
-    <rect x="0"    y="0" width="64"   height="64" fill="rgba(0,8,40,0.54)"/>
-  </g>
-  <text
-    x="32" y="37"
-    font-family="'Arial Black','Helvetica Neue',Arial,sans-serif"
-    font-size="20"
-    font-weight="900"
-    text-anchor="middle"
-    fill="white"
-    letter-spacing="1.5"
-  >MFC</text>
-  <text
-    x="32" y="50"
-    font-family="'Helvetica Neue',Arial,sans-serif"
-    font-size="9"
-    font-weight="400"
-    text-anchor="middle"
-    fill="rgba(255,255,255,0.65)"
-    letter-spacing="2.5"
-  >.fr</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="18" fill="white"/>
+  <!-- Brand mark "MA" — deux crochets imbriqués -->
+  <svg x="10" y="24" width="80" height="52" viewBox="80 146 276 178">
+    <!-- Crochet droit — rouge -->
+    <path d="M236.431 146C271.185 147.209 307.187 152.99 333.096 178.882C342.241 187.901 348.845 199.172 352.242 211.56C356.241 226.3 355.116 250.377 355.098 266.391L355.107 323.507L299.261 323.511L236.313 323.515C236.234 319.547 236.229 315.416 236.285 311.448C236.655 285.217 235.72 258.7 236.389 232.496L292.048 232.456C291.074 225.697 290.216 220.644 284.935 215.419C273.799 204.402 250.929 203.382 236.286 203.334C236.271 186.645 235.564 162.332 236.431 146Z" fill="#DE0019"/>
+    <!-- Crochet gauche — bleu -->
+    <path d="M199.827 323.516C165.073 322.307 129.071 316.526 103.162 290.634C94.0172 281.614 87.4131 270.344 84.0161 257.955C80.0171 243.216 81.1421 219.138 81.1597 203.125L81.1509 146.009L136.997 146.005L199.945 146C200.024 149.969 200.029 154.099 199.973 158.068C199.603 184.299 200.538 210.815 199.869 237.02L144.21 237.059C145.184 243.818 146.041 248.872 151.323 254.097C162.458 265.114 185.329 266.134 199.972 266.182C199.987 282.87 200.694 307.184 199.827 323.516Z" fill="#031E6C"/>
+  </svg>
 </svg>
