@@ -18,7 +18,7 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: 'https://maformationcivique.fr/sitemap.xml',
-    host: 'https://maformationcivique.fr',
+    sitemap: 'https://www.maformationcivique.fr/sitemap.xml',
+    host: 'https://www.maformationcivique.fr',
   };
 }
