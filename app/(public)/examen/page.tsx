@@ -48,11 +48,10 @@ export default function ExamenIndexPage() {
     <div style={{ minHeight: '100vh', background: 'var(--color-off-white)' }}>
 
       {/* Hero */}
-      <div style={{
-        background: 'linear-gradient(135deg, #001A70 0%, #002395 55%, #8B1A2B 100%)',
-        padding: '4rem 1.5rem 3rem',
-        textAlign: 'center',
-      }}>
+      <div style={{ position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/images/modules/hemicycle-parlement-europeen.jpg)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,26,112,0.92) 0%, rgba(0,35,149,0.88) 55%, rgba(139,26,43,0.90) 100%)' }} />
+        <div style={{ position: 'relative', zIndex: 1, padding: '4rem 1.5rem 3rem', textAlign: 'center' }}>
         <div style={{ maxWidth: 640, margin: '0 auto' }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -70,6 +69,7 @@ export default function ExamenIndexPage() {
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.72)', margin: 0, lineHeight: 1.7 }}>
             Choisissez votre démarche — 40 questions · 30 minutes · Score requis 80 %
           </p>
+        </div>
         </div>
       </div>
 

@@ -44,12 +44,12 @@ const MODULE_IMAGE: Record<string, string> = {
   'examen-blanc-b2': '/images/modules/palais-elysee.jpg',
 };
 
-const LEVEL_DATA: Record<string, { title: string; subtitle: string; color: string; colorEnd: string; bg: string; gradient: string; modules: LangModule[] }> = {
-  a2: { title: 'A2 — Découverte', subtitle: 'Carte de séjour pluriannuelle / OFII', color: '#002395', colorEnd: '#001A70', bg: '#E6EEF9', gradient: 'linear-gradient(135deg, #001A70 0%, #002395 100%)', modules: a2Modules },
-  b1: { title: 'B1 — Intermédiaire', subtitle: 'Carte de résident / DELF · TEF', color: '#0057A8', colorEnd: '#002395', bg: '#EFF6FF', gradient: 'linear-gradient(135deg, #002395 0%, #0057A8 100%)', modules: b1Modules },
-  b2: { title: 'B2 — Avancé', subtitle: 'Naturalisation (depuis 2026)', color: '#CC1A1A', colorEnd: '#9F1239', bg: '#FEF2F2', gradient: 'linear-gradient(135deg, #9F1239 0%, #CC1A1A 100%)', modules: b2Modules },
-  transversal: { title: 'Transversal — Tous niveaux', subtitle: 'Phonétique, orthographe, erreurs fréquentes', color: '#7C3AED', colorEnd: '#6D28D9', bg: '#F5F3FF', gradient: 'linear-gradient(135deg, #6D28D9 0%, #9333EA 100%)', modules: transversalModules },
-  examens: { title: 'Examens blancs', subtitle: 'Simulations OFII, DELF/TEF, naturalisation', color: '#CC1A1A', colorEnd: '#7F1D1D', bg: '#FEF2F2', gradient: 'linear-gradient(135deg, #7F1D1D 0%, #CC1A1A 100%)', modules: examenModules },
+const LEVEL_DATA: Record<string, { title: string; subtitle: string; color: string; colorEnd: string; bg: string; gradient: string; image: string; imagePos: string; overlayGradient: string; modules: LangModule[] }> = {
+  a2: { title: 'A2 — Découverte', subtitle: 'Carte de séjour pluriannuelle / OFII', color: '#002395', colorEnd: '#001A70', bg: '#E6EEF9', gradient: 'linear-gradient(135deg, #001A70 0%, #002395 100%)', image: '/images/modules/Mairie-de-Paris-l-hotel-de-toutes-les-batailles.jpg', imagePos: 'center 40%', overlayGradient: 'linear-gradient(135deg, rgba(0,26,112,0.88) 0%, rgba(0,35,149,0.85) 100%)', modules: a2Modules },
+  b1: { title: 'B1 — Intermédiaire', subtitle: 'Carte de résident / DELF · TEF', color: '#0057A8', colorEnd: '#002395', bg: '#EFF6FF', gradient: 'linear-gradient(135deg, #002395 0%, #0057A8 100%)', image: '/images/modules/hemicycle-parlement-europeen.jpg', imagePos: 'center 35%', overlayGradient: 'linear-gradient(135deg, rgba(0,35,149,0.88) 0%, rgba(0,87,168,0.85) 100%)', modules: b1Modules },
+  b2: { title: 'B2 — Avancé', subtitle: 'Naturalisation (depuis 2026)', color: '#CC1A1A', colorEnd: '#9F1239', bg: '#FEF2F2', gradient: 'linear-gradient(135deg, #9F1239 0%, #CC1A1A 100%)', image: '/images/modules/palais-elysee.jpg', imagePos: 'center 30%', overlayGradient: 'linear-gradient(135deg, rgba(159,18,57,0.88) 0%, rgba(204,26,26,0.85) 100%)', modules: b2Modules },
+  transversal: { title: 'Transversal — Tous niveaux', subtitle: 'Phonétique, orthographe, erreurs fréquentes', color: '#7C3AED', colorEnd: '#6D28D9', bg: '#F5F3FF', gradient: 'linear-gradient(135deg, #6D28D9 0%, #9333EA 100%)', image: '/images/modules/Ecole_-_Salle_de_Classe_2.jpg', imagePos: 'center 20%', overlayGradient: 'linear-gradient(135deg, rgba(109,40,217,0.88) 0%, rgba(147,51,234,0.85) 100%)', modules: transversalModules },
+  examens: { title: 'Examens blancs', subtitle: 'Simulations OFII, DELF/TEF, naturalisation', color: '#CC1A1A', colorEnd: '#7F1D1D', bg: '#FEF2F2', gradient: 'linear-gradient(135deg, #7F1D1D 0%, #CC1A1A 100%)', image: '/images/modules/hemicycle-parlement-europeen.jpg', imagePos: 'center 30%', overlayGradient: 'linear-gradient(135deg, rgba(127,29,29,0.88) 0%, rgba(204,26,26,0.85) 100%)', modules: examenModules },
 };
 
 interface Props { params: Promise<{ level: string }> }
@@ -95,7 +95,10 @@ export default async function LangueLevelPage({ params }: Props) {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--color-off-white)' }}>
       {/* Hero */}
-      <div style={{ background: data.gradient, padding: '3rem 1.5rem 2.5rem' }}>
+      <div style={{ position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${data.image})`, backgroundSize: 'cover', backgroundPosition: data.imagePos }} />
+        <div style={{ position: 'absolute', inset: 0, background: data.overlayGradient }} />
+        <div style={{ position: 'relative', zIndex: 1, padding: '3rem 1.5rem 2.5rem' }}>
         <div className="container">
           <nav style={{ display: 'flex', gap: '6px', marginBottom: '16px', fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.7)' }}>
             <Link href="/moduleslinguistiques" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Cours de français</Link>
@@ -112,6 +115,7 @@ export default async function LangueLevelPage({ params }: Props) {
               <Clock size={13} /> {totalDuration} min de contenu
             </span>
           </div>
+        </div>
         </div>
       </div>
 

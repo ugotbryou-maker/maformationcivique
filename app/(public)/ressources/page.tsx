@@ -29,10 +29,10 @@ export default async function RessourcesPage() {
     <div style={{ minHeight: '80vh' }}>
 
       {/* ── Hero ─────────────────────────────────────────────────────── */}
-      <div style={{
-        background: 'linear-gradient(135deg, #002395 0%, #003AB2 60%, #1A56C8 100%)',
-        padding: '64px 0 56px',
-      }}>
+      <div style={{ position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/images/modules/Blv-haussmann-lafayette.jpg)', backgroundSize: 'cover', backgroundPosition: 'center 40%' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,35,149,0.90) 0%, rgba(0,58,178,0.88) 60%, rgba(26,86,200,0.85) 100%)' }} />
+        <div style={{ position: 'relative', zIndex: 1, padding: '64px 0 56px' }}>
         <div className="container">
           <div style={{ marginBottom: '16px' }}>
             <span style={{
@@ -101,6 +101,7 @@ export default async function RessourcesPage() {
               </div>
             ))}
           </div>
+        </div>
         </div>
       </div>
 
