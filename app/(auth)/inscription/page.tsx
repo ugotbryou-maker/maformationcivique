@@ -77,7 +77,12 @@ function InscriptionForm() {
       fetch('/api/auth/welcome', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name }),
+        body: JSON.stringify({
+          email,
+          name,
+          isFromCabinet: !!inviteToken,
+          cabinetName: cabinetInvite?.cabinet_name ?? '',
+        }),
       }).catch(() => { /* fail silently */ });
 
       // Invitation cabinet (?invite_token=) : associe le compte au cabinet

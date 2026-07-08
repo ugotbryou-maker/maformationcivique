@@ -12,7 +12,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { isAdminEmail } from '@/lib/admin';
-import { sendEmail, cabinetInviteTemplate } from '@/lib/brevo';
+import { sendEmail, cabinetAdminInviteTemplate } from '@/lib/brevo';
 
 interface CreateCabinetPayload {
   name:            string;
@@ -83,8 +83,8 @@ export async function POST(req: NextRequest) {
     try {
       await sendEmail({
         to: [{ email: admin_email }],
-        subject: `Votre espace cabinet ${name} sur maformationcivique.fr`,
-        htmlContent: cabinetInviteTemplate(name, inviteLink, 'admin'),
+        subject: `Votre espace partenaire maformationcivique.fr est prêt`,
+        htmlContent: cabinetAdminInviteTemplate(name, inviteLink),
       });
     } catch (brevoErr) {
       console.error('[cabinet/admin/create] brevo error:', brevoErr);

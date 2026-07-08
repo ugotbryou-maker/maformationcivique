@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
 import { getStripe, STRIPE_PLANS, type PlanKey } from '@/lib/stripe';
-import { sendEmail } from '@/lib/brevo';
+import { sendEmail, premiumActivatedTemplate, adminNewPaymentTemplate } from '@/lib/brevo';
 import { createServerClient } from '@supabase/ssr';
 import type Stripe from 'stripe';
 
@@ -12,9 +12,9 @@ function planFromKey(planKey: string | undefined): string {
 }
 
 const PLAN_LABELS: Record<string, string> = {
-  premium: 'Civique — 12€/mois',
-  langue:  'Langue — 12€/mois',
-  bundle:  'Bundle — 20€/mois',
+  premium: 'Formation Civique — 12 €/mois',
+  langue:  'Cours de Français — 12 €/mois',
+  bundle:  'Bundle Civique + Français — 20 €/mois',
 };
 
 export async function POST(req: Request) {
@@ -28,7 +28,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
-  // Service role client (no cookie auth needed for webhooks)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -43,13 +42,13 @@ export async function POST(req: Request) {
 
       const planKey = session.metadata?.planKey;
       const planValue = planFromKey(planKey);
+      const planLabel = PLAN_LABELS[planValue] ?? planValue;
       const customerId = session.customer as string;
       const subscriptionId = session.subscription as string;
       const subscription = await getStripe().subscriptions.retrieve(subscriptionId);
       const subData = subscription as unknown as { current_period_end: number };
       const periodEnd = new Date(subData.current_period_end * 1000).toISOString();
 
-      // Récupérer l'email utilisateur pour la notif admin
       const { data: userRow } = await supabase
         .from('users')
         .select('email, name')
@@ -68,23 +67,27 @@ export async function POST(req: Request) {
           .eq('id', userId);
       }
 
-      // Notif admin — nouveau paiement
       const now = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
-      sendEmail({
-        to: [{ email: 'ugotbr.you@gmail.com', name: 'Ugo' }],
-        subject: `Nouveau paiement — ${userRow?.email ?? userId}`,
-        htmlContent: `
-          <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px;border:1px solid #e5e7eb;border-radius:8px">
-            <h2 style="color:#003189;margin-top:0">Nouveau paiement reçu 💳</h2>
-            <table style="width:100%;border-collapse:collapse">
-              <tr><td style="padding:8px 0;color:#6b7280;width:120px">Email</td><td style="padding:8px 0;font-weight:600">${userRow?.email ?? userId}</td></tr>
-              <tr><td style="padding:8px 0;color:#6b7280">Nom</td><td style="padding:8px 0">${userRow?.name ?? '—'}</td></tr>
-              <tr><td style="padding:8px 0;color:#6b7280">Plan</td><td style="padding:8px 0"><span style="background:#D1FAE5;color:#065F46;padding:2px 8px;border-radius:4px;font-size:13px">${PLAN_LABELS[planValue] ?? planValue}</span></td></tr>
-              <tr><td style="padding:8px 0;color:#6b7280">Date</td><td style="padding:8px 0">${now}</td></tr>
-            </table>
-            <p style="margin-top:20px;font-size:13px;color:#9ca3af">maformationcivique.fr</p>
-          </div>`,
-      }).catch(() => {/* ne pas bloquer le webhook */});
+      const userEmail = userRow?.email ?? '';
+      const userName = userRow?.name || userEmail.split('@')[0] || 'vous';
+      const amount = session.amount_total ? `${(session.amount_total / 100).toFixed(2)} €` : '—';
+
+      await Promise.all([
+        // Confirmation → utilisateur
+        userEmail ? sendEmail({
+          to: [{ email: userEmail, name: userName }],
+          subject: `Votre accès Premium est activé ✅ — prêt(e) pour l'examen ?`,
+          htmlContent: premiumActivatedTemplate(userName, planLabel),
+        }).catch(() => {}) : Promise.resolve(),
+
+        // Notif interne → admin
+        sendEmail({
+          to: [{ email: 'ugotbr.you@gmail.com', name: 'Ugo' }],
+          subject: `Nouveau paiement — ${userEmail || userId}`,
+          htmlContent: adminNewPaymentTemplate(userEmail || userId, userName, planLabel, amount, session.id, now),
+        }).catch(() => {}),
+      ]);
+
       break;
     }
 

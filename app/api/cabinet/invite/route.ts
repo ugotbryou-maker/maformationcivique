@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
-import { sendEmail, cabinetInviteTemplate } from '@/lib/brevo';
+import { sendEmail, cabinetMemberInviteTemplate } from '@/lib/brevo';
 
 export async function POST(req: NextRequest) {
   try {
@@ -91,8 +91,8 @@ export async function POST(req: NextRequest) {
     try {
       await sendEmail({
         to: [{ email: cleanEmail }],
-        subject: `${cabinet.name} vous offre un accès Premium sur maformationcivique.fr`,
-        htmlContent: cabinetInviteTemplate(cabinet.name, inviteLink, 'member'),
+        subject: `${cabinet.name} vous offre votre formation civique Premium 🎓`,
+        htmlContent: cabinetMemberInviteTemplate(cabinet.name, inviteLink),
       });
     } catch (brevoErr) {
       console.error('[cabinet/invite] brevo error:', brevoErr);
