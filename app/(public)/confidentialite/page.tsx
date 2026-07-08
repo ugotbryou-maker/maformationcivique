@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Politique de confidentialité — maformationcivique.fr',
   description: 'Politique de confidentialité et de protection des données personnelles de maformationcivique.fr. Conformité RGPD, droits des utilisateurs, cookies.',
-  alternates: { canonical: 'https://maformationcivique.fr/confidentialite' },
+  alternates: { canonical: 'https://www.maformationcivique.fr/confidentialite' },
 };
 
 export default function ConfidentialitePage() {

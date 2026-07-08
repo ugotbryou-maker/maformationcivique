@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
     const appUrl =
       process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, '') ??
-      'https://maformationcivique.fr';
+      'https://www.maformationcivique.fr';
 
     const { data, error: genError } = await supabaseAdmin.auth.admin.generateLink({
       type: 'recovery',

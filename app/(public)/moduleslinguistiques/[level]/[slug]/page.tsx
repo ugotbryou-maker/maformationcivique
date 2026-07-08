@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title: `${exam.title} — maformationcivique.fr`,
       description: exam.description,
-      alternates: { canonical: `https://maformationcivique.fr/langue/examens/${slug}` },
+      alternates: { canonical: `https://www.maformationcivique.fr/moduleslinguistiques/examens/${slug}` },
     };
   }
   const found = findLessonAcrossModules(level, slug);
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${found.lesson.title} — Français ${LEVEL_LABEL[level]} | maformationcivique.fr`,
     description: found.lesson.description,
-    alternates: { canonical: `https://maformationcivique.fr/langue/${level}/${slug}` },
+    alternates: { canonical: `https://www.maformationcivique.fr/moduleslinguistiques/${level}/${slug}` },
   };
 }
 
@@ -188,11 +188,11 @@ export default async function LangueLessonPage({ params }: Props) {
     '@type': 'LearningResource',
     name: lesson.title,
     description: lesson.description,
-    url: `https://maformationcivique.fr/langue/${level}/${lesson.slug}`,
+    url: `https://www.maformationcivique.fr/moduleslinguistiques/${level}/${lesson.slug}`,
     educationalLevel: level.toUpperCase(),
     inLanguage: 'fr',
-    isPartOf: { '@type': 'Course', name: mod.title, url: `https://maformationcivique.fr/langue/${level}` },
-    provider: { '@type': 'Organization', name: 'maformationcivique.fr', url: 'https://maformationcivique.fr' },
+    isPartOf: { '@type': 'Course', name: mod.title, url: `https://www.maformationcivique.fr/moduleslinguistiques/${level}` },
+    provider: { '@type': 'Organization', name: 'maformationcivique.fr', url: 'https://www.maformationcivique.fr' },
     timeRequired: `PT${lesson.duration}M`,
   };
 

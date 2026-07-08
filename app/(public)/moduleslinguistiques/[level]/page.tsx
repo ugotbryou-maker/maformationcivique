@@ -61,7 +61,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${data.title} — Cours de français | maformationcivique.fr`,
     description: `${data.subtitle}. Leçons de français avec dialogues, points de grammaire et exercices corrigés.`,
-    alternates: { canonical: `https://maformationcivique.fr/langue/${level}` },
+    alternates: { canonical: `https://www.maformationcivique.fr/moduleslinguistiques/${level}` },
   };
 }
 

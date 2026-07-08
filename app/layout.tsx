@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
-const BASE_URL = 'https://maformationcivique.fr';
+const BASE_URL = 'https://www.maformationcivique.fr';
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),

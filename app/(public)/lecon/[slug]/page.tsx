@@ -151,11 +151,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       return {
         title: `${lesson.title} — Formation civique`,
         description,
-        alternates: { canonical: `https://maformationcivique.fr/lecon/${slug}` },
+        alternates: { canonical: `https://www.maformationcivique.fr/lecon/${slug}` },
         openGraph: {
           title: `${lesson.title} — maformationcivique.fr`,
           description,
-          url: `https://maformationcivique.fr/lecon/${slug}`,
+          url: `https://www.maformationcivique.fr/lecon/${slug}`,
           type: 'article',
         },
       };
@@ -246,15 +246,15 @@ export default async function LessonPage({ params }: Props) {
     '@type': 'LearningResource',
     name: lesson.title,
     description: lesson.keyPoints?.slice(0, 3).join(' · ') ?? lesson.title,
-    url: `https://maformationcivique.fr/lecon/${lesson.slug}`,
+    url: `https://www.maformationcivique.fr/lecon/${lesson.slug}`,
     educationalLevel: 'beginner',
     inLanguage: 'fr',
     isPartOf: {
       '@type': 'Course',
       name: mod.title,
-      url: `https://maformationcivique.fr/module/${mod.slug}`,
+      url: `https://www.maformationcivique.fr/module/${mod.slug}`,
     },
-    provider: { '@type': 'Organization', name: 'maformationcivique.fr', url: 'https://maformationcivique.fr' },
+    provider: { '@type': 'Organization', name: 'maformationcivique.fr', url: 'https://www.maformationcivique.fr' },
     timeRequired: `PT${lesson.duration}M`,
   };
 

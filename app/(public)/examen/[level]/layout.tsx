@@ -30,11 +30,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: meta.title,
     description: meta.description,
-    alternates: { canonical: `https://maformationcivique.fr/examen/${level}` },
+    alternates: { canonical: `https://www.maformationcivique.fr/examen/${level}` },
     openGraph: {
       title: meta.title,
       description: meta.description,
-      url: `https://maformationcivique.fr/examen/${level}`,
+      url: `https://www.maformationcivique.fr/examen/${level}`,
       type: 'website',
     },
     // Pas d'indexation des pages d'examen en cours (elles sont dynamiques/client)

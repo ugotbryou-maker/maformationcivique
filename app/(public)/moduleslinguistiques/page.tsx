@@ -6,7 +6,7 @@ import { a2Modules, b1Modules, b2Modules, transversalModules, examenModules } fr
 export const metadata: Metadata = {
   title: 'Cours de français — A2, B1, B2 | maformationcivique.fr',
   description: 'Apprenez le français pour vos démarches administratives : leçons A2, B1, B2, modules transversaux (phonétique, orthographe) et examens blancs pour l\'OFII, le DELF/TEF et la naturalisation.',
-  alternates: { canonical: 'https://maformationcivique.fr/langue' },
+  alternates: { canonical: 'https://www.maformationcivique.fr/moduleslinguistiques' },
 };
 
 const LEVELS = [
