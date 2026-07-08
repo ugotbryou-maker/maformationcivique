@@ -1,13 +1,9 @@
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { modules } from '@/data/modules';
 import { CabinetInviteForm } from '@/components/app/CabinetInviteForm';
-import { ProgressBar } from '@/components/app/ProgressBar';
-import {
-  Building2, Users, FileDown, AlertTriangle,
-  ArrowUpRight, BarChart3, Award, ChevronRight,
-} from 'lucide-react';
+import { CabinetGmbForm } from '@/components/app/CabinetGmbForm';
+import { Building2, Users, AlertTriangle, ArrowUpRight, Star, Wrench } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -26,6 +22,20 @@ const TIER_NEXT: Record<string, { label: string; price: string }> = {
   pro:          { label: 'Cabinet+',  price: '1 990 €/an' },
   cabinet_plus: { label: 'Réseau',    price: 'sur devis' },
 };
+
+const AVATAR_COLORS = [
+  { bg: '#DBEAFE', color: '#1E40AF' },
+  { bg: '#D1FAE5', color: '#065F46' },
+  { bg: '#EDE9FE', color: '#5B21B6' },
+  { bg: '#FEF3C7', color: '#92400E' },
+  { bg: '#FCE7F3', color: '#9D174D' },
+  { bg: '#FEE2E2', color: '#991B1B' },
+];
+
+function getAvatarStyle(name: string) {
+  const code = (name || 'U').toUpperCase().charCodeAt(0);
+  return AVATAR_COLORS[code % AVATAR_COLORS.length];
+}
 
 export default async function CabinetDashboardPage() {
   const supabase = await createServerSupabaseClient();
@@ -88,47 +98,49 @@ export default async function CabinetDashboardPage() {
   const daysLeft = subEndAt ? Math.ceil((subEndAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)) : null;
   const showExpiryBanner = daysLeft !== null && daysLeft < 30;
 
-  // KPIs
   const activeMembers = (members ?? []).filter((m) => m.cabinet_role !== 'admin');
-  const avgProgress = activeMembers.length > 0
-    ? Math.round(activeMembers.reduce((sum, m) => sum + (progressByUser.get(m.id) ?? 0), 0) / activeMembers.length)
-    : 0;
-  const attestationsCount = activeMembers.filter((m) => (progressByUser.get(m.id) ?? 0) === 100).length;
-
   const nextTier = TIER_NEXT[cabinet?.tier ?? 'starter'];
 
-  function formatLastActive(dateStr: string | null | undefined): string {
-    if (!dateStr) return 'Jamais connecté';
-    const d = new Date(dateStr);
-    const diffDays = Math.floor((Date.now() - d.getTime()) / 86400000);
-    if (diffDays === 0) return 'Aujourd\'hui';
-    if (diffDays === 1) return 'Hier';
-    if (diffDays < 7) return `Il y a ${diffDays}j`;
-    if (diffDays < 30) return `Il y a ${Math.floor(diffDays / 7)}sem`;
-    return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
-  }
-
   return (
-    <div style={{ maxWidth: '900px' }}>
+    <div style={{ maxWidth: '720px' }}>
 
-      {/* ── Header ──────────────────────────────────────────────────── */}
-      <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'flex-start', gap: '14px', flexWrap: 'wrap' }}>
+      {/* ── Expiry banner ───────────────────────────────────────────── */}
+      {showExpiryBanner && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '10px',
+          padding: '14px 18px', borderRadius: 'var(--radius-md)',
+          background: '#FEF2F2', border: '1px solid #FECACA',
+          color: '#B91C1C', fontSize: 'var(--font-size-sm)', marginBottom: '20px',
+        }}>
+          <AlertTriangle size={18} style={{ flexShrink: 0 }} />
+          {daysLeft! < 0
+            ? `Votre abonnement cabinet a expiré le ${subEndAt!.toLocaleDateString('fr-FR')}. Contactez-nous pour le renouveler.`
+            : `Votre abonnement expire dans ${daysLeft} jour${daysLeft! > 1 ? 's' : ''} (${subEndAt!.toLocaleDateString('fr-FR')}). Contactez-nous pour le renouveler.`}
+        </div>
+      )}
+
+      {/* ── Header card ─────────────────────────────────────────────── */}
+      <div style={{
+        background: 'var(--color-surface)', border: 'var(--border-default)',
+        borderRadius: 'var(--radius-xl)', padding: '20px 24px',
+        display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20,
+        flexWrap: 'wrap',
+      }}>
         <div style={{
           width: 48, height: 48, borderRadius: 'var(--radius-lg)',
           background: 'var(--gradient-primary)', display: 'flex',
           alignItems: 'center', justifyContent: 'center', flexShrink: 0,
         }}>
-          <Building2 size={24} color="#fff" />
+          <Building2 size={22} color="#fff" />
         </div>
-        <div style={{ flex: 1 }}>
-          <h1 style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text-primary)', marginBottom: '4px' }}>
+        <div style={{ flex: 1, minWidth: 160 }}>
+          <h1 style={{ fontSize: 18, fontWeight: 800, color: 'var(--color-text-primary)', margin: '0 0 2px' }}>
             {cabinet?.name ?? 'Votre cabinet'}
           </h1>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>
-            Palier {TIER_LABELS[cabinet?.tier ?? 'starter'] ?? cabinet?.tier} · {used} / {maxInvitations} invitations utilisées
+          <p style={{ fontSize: 13, color: 'var(--color-text-muted)', margin: 0 }}>
+            Palier {TIER_LABELS[cabinet?.tier ?? 'starter'] ?? cabinet?.tier} · {used} / {maxInvitations} invitations
           </p>
         </div>
-        {/* Upgrade */}
         {nextTier && (
           <a
             href={`mailto:contact@maformationcivique.fr?subject=Upgrade vers ${nextTier.label}`}
@@ -148,191 +160,203 @@ export default async function CabinetDashboardPage() {
         )}
       </div>
 
-      {/* ── KPI bar ─────────────────────────────────────────────────── */}
-      <div style={{
-        display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12,
-        marginBottom: 20,
-      }}>
-        {[
-          { icon: Users,     value: activeMembers.length,  label: 'Clients actifs' },
-          { icon: BarChart3, value: `${avgProgress}%`,     label: 'Progression moyenne' },
-          { icon: Award,     value: attestationsCount,      label: 'Apprentissages effectués' },
-        ].map(({ icon: Icon, value, label }) => (
-          <div key={label} style={{
-            background: 'var(--color-surface)', border: 'var(--border-default)',
-            borderRadius: 'var(--radius-lg)', padding: '16px 18px',
-            display: 'flex', gap: 12, alignItems: 'center',
-          }}>
-            <div style={{
-              width: 36, height: 36, flexShrink: 0,
-              borderRadius: 'var(--radius-md)', background: 'var(--color-blue-light)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <Icon size={16} color="var(--color-blue-france)" />
-            </div>
-            <div>
-              <p style={{ fontSize: 20, fontWeight: 800, color: 'var(--color-text-primary)', lineHeight: 1 }}>{value}</p>
-              <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 3 }}>{label}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* ── Expiry banner ───────────────────────────────────────────── */}
-      {showExpiryBanner && (
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: '10px',
-          padding: '14px 18px', borderRadius: 'var(--radius-md)',
-          background: '#FEF2F2', border: '1px solid #FECACA',
-          color: '#B91C1C', fontSize: 'var(--font-size-sm)', marginBottom: '20px',
-        }}>
-          <AlertTriangle size={18} style={{ flexShrink: 0 }} />
-          {daysLeft! < 0
-            ? `Votre abonnement cabinet a expiré le ${subEndAt!.toLocaleDateString('fr-FR')}. Contactez-nous pour le renouveler.`
-            : `Votre abonnement expire dans ${daysLeft} jour${daysLeft! > 1 ? 's' : ''} (${subEndAt!.toLocaleDateString('fr-FR')}). Contactez-nous pour le renouveler.`}
+      {/* ── Client list ─────────────────────────────────────────────── */}
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, paddingLeft: 4 }}>
+          <Users size={15} color="var(--color-text-muted)" />
+          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-secondary)' }}>
+            Clients ({activeMembers.length})
+          </span>
         </div>
-      )}
 
-      {/* ── Invite form ─────────────────────────────────────────────── */}
-      <div style={{
-        padding: '24px', borderRadius: 'var(--radius-xl)',
-        background: 'var(--color-surface)', border: 'var(--border-default)',
-        marginBottom: '20px',
-      }}>
-        <h2 style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-primary)', marginBottom: '4px' }}>
-          Inviter un client
-        </h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', marginBottom: '16px' }}>
-          Votre client recevra un email pour créer son compte Premium offert par {cabinet?.name ?? 'votre cabinet'}.
-        </p>
-        <CabinetInviteForm disabled={quotaReached} />
-      </div>
-
-      {/* ── Members table ───────────────────────────────────────────── */}
-      <div style={{
-        padding: '24px', borderRadius: 'var(--radius-xl)',
-        background: 'var(--color-surface)', border: 'var(--border-default)',
-      }}>
-        <h2 style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-primary)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Users size={18} /> Clients ({activeMembers.length})
-        </h2>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {(members ?? []).map((member) => {
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {/* Active members */}
+          {activeMembers.map((member) => {
             const pct = progressByUser.get(member.id) ?? 0;
-            const isAdmin = member.cabinet_role === 'admin';
+            const displayName = member.name || member.email || 'Utilisateur';
+            const initial = displayName[0].toUpperCase();
+            const avatarStyle = getAvatarStyle(displayName);
             return (
-              <Link
-                key={member.id}
-                href={`/cabinet/membre/${member.id}`}
-                className="cabinet-member-row"
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '14px',
-                  padding: '14px', borderRadius: 'var(--radius-md)',
-                  border: 'var(--border-default)', flexWrap: 'wrap',
-                  textDecoration: 'none', cursor: 'pointer',
-                  transition: 'background 150ms',
-                }}
-              >
-                <div style={{ flex: '1 1 200px', minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2, flexWrap: 'wrap' }}>
-                    <p style={{ fontWeight: 500, color: 'var(--color-text-primary)', margin: 0 }}>
-                      {member.name || member.email}
+              <div key={member.id} style={{
+                background: 'var(--color-surface)', border: 'var(--border-default)',
+                borderRadius: 'var(--radius-lg)', padding: '14px 18px',
+                display: 'flex', alignItems: 'center', gap: 14,
+              }}>
+                <div style={{
+                  width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
+                  background: avatarStyle.bg, color: avatarStyle.color,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 16, fontWeight: 700,
+                }}>
+                  {initial}
+                </div>
+
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 8 }}>
+                    <p style={{ fontWeight: 600, fontSize: 14, color: 'var(--color-text-primary)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {displayName}
                     </p>
-                    {!isAdmin && pct >= 80 && (
-                      <span style={{
-                        fontSize: 10, fontWeight: 700, letterSpacing: '0.04em',
-                        color: '#1D9E75', background: '#ECFDF5',
-                        padding: '2px 8px', borderRadius: 'var(--radius-pill)',
-                        border: '1px solid #A7F3D0', whiteSpace: 'nowrap',
-                      }}>
-                        ✓ Prêt pour l&apos;entretien
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: pct === 100 ? '#1D9E75' : 'var(--color-text-muted)' }}>
+                        {pct}%
                       </span>
-                    )}
+                      {pct === 100 && (
+                        <a
+                          href={`/api/cabinet/attestation/${member.id}`}
+                          style={{
+                            fontSize: 11, fontWeight: 700, color: '#1D9E75',
+                            background: '#ECFDF5', border: '1px solid #A7F3D0',
+                            padding: '3px 10px', borderRadius: 'var(--radius-pill)',
+                            whiteSpace: 'nowrap', textDecoration: 'none',
+                          }}
+                        >
+                          Attestation ✓
+                        </a>
+                      )}
+                    </div>
                   </div>
-                  <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
-                    {member.email} · {isAdmin ? 'Administrateur' : 'Client'} · {formatLastActive((member as { last_active?: string }).last_active)}
-                  </p>
-                </div>
-                {!isAdmin && (
-                  <div style={{ flex: '1 1 160px', minWidth: 0 }}>
-                    <ProgressBar value={pct} showPercent height={6} />
+                  <div style={{ height: 6, borderRadius: 99, background: 'var(--color-border)', overflow: 'hidden' }}>
+                    <div style={{
+                      height: '100%', width: `${pct}%`, borderRadius: 99,
+                      background: pct === 100 ? '#1D9E75' : 'var(--gradient-primary)',
+                    }} />
                   </div>
-                )}
-                <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  {!isAdmin && (
-                    <>
-                      {/* XP badge */}
-                      <span style={{
-                        fontSize: 'var(--font-size-xs)', fontWeight: 600,
-                        color: '#F59E0B', background: '#FFFBEB',
-                        padding: '4px 10px', borderRadius: 'var(--radius-pill)',
-                        border: '1px solid #FDE68A',
-                      }}>
-                        ⚡ {member.xp ?? 0} XP
-                      </span>
-                      {/* Statut / Attestation */}
-                      <Link
-                        href={`/api/cabinet/attestation/${member.id}`}
-                        style={{
-                          display: 'flex', alignItems: 'center', gap: '6px',
-                          padding: '8px 14px', borderRadius: 'var(--radius-pill)',
-                          border: pct === 100 ? '1.5px solid #1D9E75' : 'var(--border-default)',
-                          background: pct === 100 ? '#ECFDF5' : 'transparent',
-                          fontSize: 'var(--font-size-xs)',
-                          color: pct === 100 ? '#1D9E75' : 'var(--color-text-secondary)',
-                          fontWeight: 600,
-                          textDecoration: 'none', minHeight: '36px', whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {pct === 100 ? <><Award size={14} /> Apprentissage effectué</> : <><FileDown size={14} /> Attestation</>}
-                      </Link>
-                    </>
-                  )}
-                  <ChevronRight size={15} color="var(--color-text-muted)" />
                 </div>
-              </Link>
+              </div>
             );
           })}
 
-          {/* Invitations en attente */}
+          {/* Pending invites */}
           {(pendingInvites ?? []).map((invite) => (
-            <div
-              key={invite.id}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '14px',
-                padding: '14px', borderRadius: 'var(--radius-md)',
-                border: 'var(--border-default)', opacity: 0.65, flexWrap: 'wrap',
-              }}
-            >
-              <div style={{ flex: '1 1 200px', minWidth: 0 }}>
-                <p style={{ fontWeight: 500, color: 'var(--color-text-primary)', marginBottom: '2px' }}>
+            <div key={invite.id} style={{
+              background: 'var(--color-surface)', border: '1px dashed var(--color-border)',
+              borderRadius: 'var(--radius-lg)', padding: '14px 18px',
+              display: 'flex', alignItems: 'center', gap: 14, opacity: 0.65,
+            }}>
+              <div style={{
+                width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
+                background: 'var(--color-off-white)', border: '2px dashed var(--color-border)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 18, color: 'var(--color-text-muted)',
+              }}>
+                ?
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontWeight: 500, fontSize: 14, color: 'var(--color-text-secondary)', margin: 0 }}>
                   {invite.email}
                 </p>
-                <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
-                  Invité le {new Date(invite.created_at).toLocaleDateString('fr-FR')}
+                <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 2 }}>
+                  Invitation envoyée le {new Date(invite.created_at).toLocaleDateString('fr-FR')}
                 </p>
               </div>
-              <div style={{ flexShrink: 0 }}>
-                <span style={{
-                  fontSize: 'var(--font-size-xs)', fontWeight: 500,
-                  color: 'var(--color-text-muted)', background: 'var(--color-off-white)',
-                  padding: '4px 10px', borderRadius: 'var(--radius-pill)',
-                }}>
-                  En attente
-                </span>
-              </div>
+              <span style={{
+                fontSize: 11, fontWeight: 500, color: 'var(--color-text-muted)',
+                background: 'var(--color-off-white)',
+                padding: '3px 10px', borderRadius: 'var(--radius-pill)',
+                border: 'var(--border-default)', whiteSpace: 'nowrap',
+              }}>
+                En attente
+              </span>
             </div>
           ))}
 
-          <style>{`.cabinet-member-row:hover { background: var(--color-off-white) !important; }`}</style>
-
-          {(members?.length ?? 0) === 0 && (pendingInvites?.length ?? 0) === 0 && (
-            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textAlign: 'center', padding: '24px 0' }}>
+          {activeMembers.length === 0 && (pendingInvites?.length ?? 0) === 0 && (
+            <div style={{ textAlign: 'center', padding: '32px 0', color: 'var(--color-text-muted)', fontSize: 14 }}>
               Aucun client invité pour le moment.
-            </p>
+            </div>
           )}
         </div>
+      </div>
+
+      {/* ── Invite section ──────────────────────────────────────────── */}
+      <div style={{
+        borderRadius: 'var(--radius-xl)', overflow: 'hidden',
+        border: 'var(--border-default)', boxShadow: 'var(--shadow-card)',
+        marginBottom: 20,
+      }}>
+        <div style={{
+          background: 'var(--color-blue-france)', padding: '16px 24px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        }}>
+          <span style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>+ Inviter un client</span>
+          {maxInvitations > 0 && (
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.72)' }}>
+              {Math.max(0, maxInvitations - used)} place{Math.max(0, maxInvitations - used) !== 1 ? 's' : ''} restante{Math.max(0, maxInvitations - used) !== 1 ? 's' : ''}
+            </span>
+          )}
+        </div>
+        <div style={{ background: 'var(--color-surface)', padding: '20px 24px' }}>
+          <p style={{ fontSize: 13, color: 'var(--color-text-muted)', marginBottom: 16 }}>
+            Votre client recevra un email pour créer son compte Premium offert par {cabinet?.name ?? 'votre cabinet'}.
+          </p>
+          <CabinetInviteForm disabled={quotaReached} />
+        </div>
+      </div>
+
+      {/* ── Google My Business ──────────────────────────────────────── */}
+      <div style={{
+        borderRadius: 'var(--radius-xl)', overflow: 'hidden',
+        border: 'var(--border-default)', boxShadow: 'var(--shadow-card)',
+        marginBottom: 20,
+      }}>
+        <div style={{
+          padding: '16px 24px',
+          background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+          display: 'flex', alignItems: 'center', gap: 10,
+        }}>
+          <Star size={16} color="#fff" />
+          <span style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>Avis Google My Business</span>
+        </div>
+        <div style={{ background: 'var(--color-surface)', padding: '20px 24px' }}>
+          <p style={{ fontSize: 13, color: 'var(--color-text-muted)', marginBottom: 16, lineHeight: 1.5 }}>
+            Collez ici le lien de votre page Google My Business. Vos clients recevront automatiquement un email les invitant à laisser un avis après avoir terminé leur formation.
+          </p>
+          <CabinetGmbForm current={(cabinet as Record<string, unknown>)?.google_review_link as string | null} />
+          <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 12, lineHeight: 1.5 }}>
+            L'email est envoyé une seule fois, dès que le client atteint 80 % de complétion. Conformément à nos CGU et au contrat cabinet.
+          </p>
+        </div>
+      </div>
+
+      {/* ── Support technique ───────────────────────────────────────── */}
+      <div style={{
+        borderRadius: 'var(--radius-xl)',
+        border: '1px dashed var(--color-border)',
+        padding: '20px 24px',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        gap: 16, flexWrap: 'wrap',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{
+            width: 38, height: 38, borderRadius: 'var(--radius-md)',
+            background: 'var(--color-off-white)', border: 'var(--border-default)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+          }}>
+            <Wrench size={16} color="var(--color-text-muted)" />
+          </div>
+          <div>
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', margin: 0 }}>
+              Signaler un problème technique
+            </p>
+            <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 2 }}>
+              Notre équipe technique vous répondra sous 24h ouvrées.
+            </p>
+          </div>
+        </div>
+        <a
+          href={`mailto:support@maformationcivique.fr?subject=Problème technique — Cabinet ${encodeURIComponent(cabinet?.name ?? '')}&body=Bonjour,%0A%0AJe signale un problème technique sur mon espace cabinet.%0A%0ADescription du problème :%0A%0AMerci.`}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            padding: '9px 18px', borderRadius: 'var(--radius-pill)',
+            background: 'var(--color-off-white)',
+            border: '1.5px solid var(--color-border)',
+            color: 'var(--color-text-secondary)',
+            fontSize: 'var(--font-size-sm)', fontWeight: 600,
+            textDecoration: 'none', whiteSpace: 'nowrap',
+          }}
+        >
+          Contacter le support →
+        </a>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { ProgressBar } from '@/components/app/ProgressBar';
 import { XPBadge } from '@/components/app/XPBadge';
 import { ReferralCard } from '@/components/app/ReferralCard';
 import { getLevel, getLevelProgress, BADGES } from '@/lib/gamification';
-import { BookOpen, ChevronRight, Trophy, Target } from 'lucide-react';
+import { BookOpen, ChevronRight, Trophy, Target, Wrench } from 'lucide-react';
 import { isAdminEmail } from '@/lib/admin';
 import type { Metadata } from 'next';
 
@@ -303,6 +303,33 @@ export default async function DashboardPage() {
             );
           })}
         </div>
+      </div>
+
+      {/* ── Support utilisateur ─────────────────────────────────────── */}
+      <div style={{
+        borderRadius: 'var(--radius-xl)',
+        border: '1px dashed var(--color-border)',
+        padding: '16px 20px',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        gap: 12, flexWrap: 'wrap',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <Wrench size={15} color="var(--color-text-muted)" style={{ flexShrink: 0 }} />
+          <p style={{ fontSize: 13, color: 'var(--color-text-muted)', margin: 0 }}>
+            Un problème sur la plateforme ?
+          </p>
+        </div>
+        <a
+          href="mailto:support@maformationcivique.fr?subject=Signalement d'un problème technique&body=Bonjour,%0A%0AJe signale un problème sur la plateforme.%0A%0ADescription :%0A%0AMerci."
+          style={{
+            fontSize: 13, fontWeight: 600,
+            color: 'var(--color-blue-france)',
+            textDecoration: 'none',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Signaler un problème →
+        </a>
       </div>
     </div>
   );

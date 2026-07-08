@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X, Globe, User, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { BrandLogo } from '@/components/ui/BrandLogo';
 import { createClient } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 
@@ -107,8 +108,8 @@ export function Navbar() {
       <nav className="container" style={{ display: 'flex', alignItems: 'center', height: '64px', gap: '32px' }}>
 
         {/* Logo */}
-        <Link href="/" style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-text-primary)', flexShrink: 0 }}>
-          ma<span style={{ color: 'var(--color-blue-france)' }}>formation</span>civique.fr
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
+          <BrandLogo height={38} variant="color" />
         </Link>
 
         {/* Nav links — desktop */}

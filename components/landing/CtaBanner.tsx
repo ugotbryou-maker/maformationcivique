@@ -6,7 +6,7 @@ export function CtaBanner() {
       <div className="container" style={{ padding: '0 24px' }}>
         <div
           style={{
-            background: 'linear-gradient(135deg, #9F1239 0%, #CC1A1A 40%, #EF4135 75%, #FF6040 100%)',
+            background: 'linear-gradient(135deg, rgba(159,18,57,0.88) 0%, rgba(204,26,26,0.85) 40%, rgba(239,65,53,0.82) 75%, rgba(255,96,64,0.88) 100%), url("/images/modules/visa-france.jpg") center/cover no-repeat',
             borderRadius: '20px',
             padding: 'clamp(40px, 6vw, 64px) clamp(24px, 5vw, 56px)',
             textAlign: 'center',

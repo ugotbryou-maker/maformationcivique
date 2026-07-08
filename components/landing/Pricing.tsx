@@ -8,6 +8,7 @@ const freePlan = {
   price: '0€',
   period: '',
   desc: 'Pour commencer votre préparation',
+  filigrane: '/images/modules/le-louvre.jpg',
   features: [
     'Module 1 complet (5 leçons)',
     "20 questions d'entraînement",
@@ -32,6 +33,7 @@ const premiumPlan = {
   price: '12€',
   period: '/ mois',
   desc: 'Accès complet à la préparation civique',
+  filigrane: '/images/modules/daumier-la-republique.jpg',
   features: [
     'Les 5 modules complets (19 leçons)',
     '177 questions officielles',
@@ -54,6 +56,7 @@ const languePlan = {
   price: '12€',
   period: '/ mois',
   desc: 'Français A2, B1, B2 pour vos démarches',
+  filigrane: '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
   features: [
     'Modules A2, B1, B2 + transversal',
     'Leçons dialogues + points linguistiques',
@@ -74,6 +77,7 @@ const bundlePlan = {
   price: '20€',
   period: '/ mois',
   desc: 'Civique + Langue — tout inclus',
+  filigrane: '/images/modules/chateau-versailles.jpg',
   features: [
     'Tout le contenu Civique (5 modules)',
     'Tout le contenu Langue (A2 · B1 · B2)',
@@ -131,14 +135,21 @@ export function Pricing() {
           <PricingCard plan={languePlan} />
           <PricingCard plan={bundlePlan} />
         </div>
-        <style>{`
+        <style dangerouslySetInnerHTML={{ __html: `
           @media (max-width: 900px) {
             .pricing-grid { grid-template-columns: repeat(2, 1fr) !important; }
           }
           @media (max-width: 560px) {
             .pricing-grid { grid-template-columns: 1fr !important; }
           }
-        `}</style>
+          .pricing-card {
+            transition: transform 220ms ease, box-shadow 220ms ease;
+          }
+          .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 48px rgba(0,0,0,0.13) !important;
+          }
+        ` }} />
 
         {/* Note garantie */}
         <div style={{ textAlign: 'center', marginTop: '32px', display: 'flex', justifyContent: 'center' }}>
@@ -162,13 +173,17 @@ export function Pricing() {
 
 type Plan = typeof freePlan | typeof premiumPlan | typeof languePlan | typeof bundlePlan;
 
+
 function PricingCard({ plan }: { plan: Plan }) {
   return (
     <div
+      className="pricing-card"
       style={{
         borderRadius: 'var(--radius-xl)',
         overflow: 'hidden',
-        background: plan.highlight ? 'var(--color-blue-night)' : 'var(--color-surface)',
+        background: plan.highlight
+          ? `linear-gradient(rgba(0,5,40,0.86), rgba(0,5,40,0.86)), url('${plan.filigrane}') center/cover no-repeat`
+          : `linear-gradient(rgba(255,255,255,0.95), rgba(255,255,255,0.95)), url('${plan.filigrane}') center/cover no-repeat`,
         border: plan.highlight ? 'none' : 'var(--border-default)',
         boxShadow: plan.highlight ? 'var(--shadow-lg)' : 'var(--shadow-card)',
         position: 'relative',

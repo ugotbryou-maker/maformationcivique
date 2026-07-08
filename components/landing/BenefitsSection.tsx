@@ -1,4 +1,5 @@
 import { Brain, Clock, Trophy, Languages } from 'lucide-react';
+import { GuillemetDecor } from '@/components/ui/BrandIcon';
 
 const benefits = [
   {
@@ -90,17 +91,19 @@ export function BenefitsSection() {
           </div>
 
           {/* Droite : liste des bénéfices */}
-          <div>
+          <div style={{ position: 'relative' }}>
+            {/* Guillemet décoratif en filigrane */}
+            <GuillemetDecor side="left" size={160} color="#002395" opacity={0.05} style={{ position: 'absolute', top: '-40px', left: '-20px', pointerEvents: 'none' }} />
             <p style={{
               fontSize: 'var(--font-size-xs)', fontWeight: 600,
               textTransform: 'uppercase', letterSpacing: '0.08em',
-              color: 'var(--color-blue-france)', marginBottom: '10px',
+              color: 'var(--color-blue-france)', marginBottom: '10px', position: 'relative',
             }}>
               Pourquoi nous choisir
             </p>
             <h2 style={{
               fontSize: 'var(--font-size-xl)', fontWeight: 700,
-              color: 'var(--color-text-primary)', marginBottom: '12px', lineHeight: 1.2,
+              color: 'var(--color-text-primary)', marginBottom: '12px', lineHeight: 1.2, position: 'relative',
             }}>
               Les avantages de notre{' '}
               <span style={{ color: 'var(--color-blue-france)' }}>formation en ligne</span>

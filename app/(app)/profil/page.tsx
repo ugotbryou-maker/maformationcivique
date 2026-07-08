@@ -2,10 +2,10 @@
 
 export const dynamic = 'force-dynamic';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createClient } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
-import { User, CreditCard, LogOut, Lock, Eye, EyeOff, CheckCircle } from 'lucide-react';
+import { User, CreditCard, LogOut, Lock, Eye, EyeOff, CheckCircle, Camera } from 'lucide-react';
 
 export default function ProfilPage() {
   const router = useRouter();
@@ -13,6 +13,9 @@ export default function ProfilPage() {
   const [loading, setLoading] = useState(true);
   const [portalLoading, setPortalLoading] = useState(false);
   const [adminToggling, setAdminToggling] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [avatarLoading, setAvatarLoading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Password change
   const [newPassword, setNewPassword] = useState('');
@@ -30,6 +33,7 @@ export default function ProfilPage() {
       if (!user) { router.push('/connexion'); return; }
       const { data } = await supabase.from('users').select('*').eq('id', user.id).single();
       setProfile({ ...data, email: user.email });
+      if (user.user_metadata?.avatar_url) setAvatarUrl(user.user_metadata.avatar_url);
       setLoading(false);
     }
     load();
@@ -82,6 +86,27 @@ export default function ProfilPage() {
     setAdminToggling(false);
   };
 
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setAvatarLoading(true);
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { setAvatarLoading(false); return; }
+    const ext = file.name.split('.').pop() ?? 'jpg';
+    const path = `${user.id}/avatar.${ext}`;
+    const { error: uploadError } = await supabase.storage
+      .from('avatars')
+      .upload(path, file, { upsert: true });
+    if (!uploadError) {
+      const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(path);
+      await supabase.auth.updateUser({ data: { avatar_url: publicUrl } });
+      setAvatarUrl(publicUrl + `?t=${Date.now()}`);
+    }
+    setAvatarLoading(false);
+    e.target.value = '';
+  };
+
   const handleUpgrade = async () => {
     const res = await fetch('/api/stripe/checkout', {
       method: 'POST',
@@ -120,19 +145,44 @@ export default function ProfilPage() {
         }}
       >
         <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '20px' }}>
-          <div
-            style={{
-              width: '56px',
-              height: '56px',
-              borderRadius: '50%',
-              background: 'var(--gradient-primary)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-            }}
-          >
-            <User size={24} color="#FFFFFF" />
+          <div style={{ position: 'relative', flexShrink: 0 }}>
+            <div
+              onClick={() => !avatarLoading && fileInputRef.current?.click()}
+              style={{
+                width: '56px', height: '56px', borderRadius: '50%',
+                background: avatarUrl ? 'transparent' : 'var(--gradient-primary)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                overflow: 'hidden', cursor: 'pointer',
+                opacity: avatarLoading ? 0.6 : 1,
+              }}
+            >
+              {avatarUrl
+                ? <img src={avatarUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                : <User size={24} color="#FFFFFF" />
+              }
+            </div>
+            <button
+              type="button"
+              onClick={() => !avatarLoading && fileInputRef.current?.click()}
+              title="Changer la photo"
+              style={{
+                position: 'absolute', bottom: 0, right: -2,
+                width: 22, height: 22, borderRadius: '50%',
+                background: 'var(--color-blue-france)',
+                border: '2px solid white', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                padding: 0,
+              }}
+            >
+              <Camera size={10} color="#fff" />
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleAvatarUpload}
+            />
           </div>
           <div>
             <p style={{ fontSize: 'var(--font-size-md)', fontWeight: 500, color: 'var(--color-text-primary)' }}>

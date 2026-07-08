@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { BrandLogo } from '@/components/ui/BrandLogo';
 
 const footerLinks = {
   Préparer: [
@@ -50,18 +51,8 @@ export function Footer() {
         >
           {/* Brand */}
           <div>
-            <Link
-              href="/"
-              style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: 'var(--font-size-md)',
-                fontWeight: 'var(--font-weight-medium)',
-                color: '#FFFFFF',
-                display: 'block',
-                marginBottom: '12px',
-              }}
-            >
-              ma<span style={{ color: '#6B8FFF' }}>formation</span>civique.fr
+            <Link href="/" style={{ display: 'inline-flex', textDecoration: 'none', marginBottom: '16px' }}>
+              <BrandLogo height={44} variant="white" />
             </Link>
             <p style={{ fontSize: 'var(--font-size-sm)', lineHeight: 1.6, maxWidth: '220px' }}>
               La plateforme de référence pour préparer votre examen civique en France.

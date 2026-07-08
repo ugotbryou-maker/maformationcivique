@@ -39,7 +39,7 @@ const steps = [
 
 export function ExamInfo() {
   return (
-    <section id="examen-info" style={{ padding: '96px 0', background: 'var(--color-surface)' }}>
+    <section id="examen-info" style={{ padding: '96px 0', background: 'linear-gradient(rgba(255,255,255,0.94), rgba(255,255,255,0.94)), url("/images/modules/visa-france.jpg") right center/440px auto no-repeat, var(--color-surface)' }}>
       <div className="container">
         {/* Header */}
         <div style={{ marginBottom: '64px' }}>
