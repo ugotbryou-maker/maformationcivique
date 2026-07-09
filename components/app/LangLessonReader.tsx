@@ -36,37 +36,39 @@ export function LangLessonReader({ lesson, accent, bg, modTitle, modIndex, modTo
   const stepIndex = step === 'dialogue' ? 0 : step === 'point' ? 1 : 2;
 
   return (
-    <div>
+    <div style={{ minWidth: 0 }}>
       {/* Stepper */}
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', alignItems: 'center' }}>
-        {['Dialogue', 'Leçon', 'Exercices'].map((label, i) => (
-          <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <button
-              onClick={() => {
-                if (i === 0) setStep('dialogue');
-                else if (i === 1) setStep('point');
-                else { setStep('exercises'); setQIndex(0); }
-              }}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '6px',
-                padding: '6px 14px', borderRadius: '100px',
-                fontSize: '13px', fontWeight: 600, cursor: 'pointer',
-                border: 'none',
-                background: i === stepIndex ? accent : 'var(--color-off-white)',
-                color: i === stepIndex ? '#fff' : 'var(--color-text-muted)',
-                transition: 'all 150ms',
-              }}
-            >
-              <span style={{
-                width: 20, height: 20, borderRadius: '50%', display: 'flex',
-                alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700,
-                background: i === stepIndex ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.08)',
-              }}>{i + 1}</span>
-              {label}
-            </button>
-            {i < 2 && <div style={{ width: 24, height: 1, background: 'var(--color-border)' }} />}
-          </div>
-        ))}
+      <div style={{ overflowX: 'auto', maxWidth: '100%', marginBottom: '24px', paddingBottom: '4px' }}>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', minWidth: 'max-content' }}>
+          {['Dialogue', 'Leçon', 'Exercices'].map((label, i) => (
+            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+              <button
+                onClick={() => {
+                  if (i === 0) setStep('dialogue');
+                  else if (i === 1) setStep('point');
+                  else { setStep('exercises'); setQIndex(0); }
+                }}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '6px',
+                  padding: '6px 14px', borderRadius: '100px',
+                  fontSize: '13px', fontWeight: 600, cursor: 'pointer',
+                  border: 'none', flexShrink: 0,
+                  background: i === stepIndex ? accent : 'var(--color-off-white)',
+                  color: i === stepIndex ? '#fff' : 'var(--color-text-muted)',
+                  transition: 'all 150ms',
+                }}
+              >
+                <span style={{
+                  width: 20, height: 20, borderRadius: '50%', display: 'flex',
+                  alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700,
+                  background: i === stepIndex ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.08)',
+                }}>{i + 1}</span>
+                {label}
+              </button>
+              {i < 2 && <div style={{ width: 24, height: 1, background: 'var(--color-border)', flexShrink: 0 }} />}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* ── STEP: Dialogue ──────────────────────────────────────────── */}

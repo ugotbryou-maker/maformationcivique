@@ -261,7 +261,7 @@ export default async function LangueLessonPage({ params }: Props) {
           </aside>
 
           {/* Contenu paginé */}
-          <div>
+          <div style={{ minWidth: 0 }}>
             <LangLessonReader
               lesson={lesson}
               accent={accent}
@@ -298,7 +298,8 @@ export default async function LangueLessonPage({ params }: Props) {
         .lang-lesson-layout { grid-template-columns: 260px 1fr; }
         @media (max-width: 900px) {
           .lang-lesson-layout { grid-template-columns: 1fr !important; }
-          .lang-lesson-layout aside { position: static !important; }
+          .lang-lesson-layout aside { position: static !important; order: 2; }
+          .lang-lesson-layout > div { order: 1; }
         }
       `}</style>
     </div>
