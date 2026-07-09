@@ -53,10 +53,12 @@ export function Testimonials() {
           {testimonials.map(({ name, role, avatar, rating, text }) => (
             <div
               key={name}
+              className="testimonial-card"
               style={{
                 background: '#fff', borderRadius: 'var(--radius-lg)',
                 padding: '28px', border: 'var(--border-default)',
                 boxShadow: 'var(--shadow-card)',
+                transition: 'transform 220ms ease-out, box-shadow 220ms ease-out',
               }}
             >
               {/* Étoiles */}
@@ -92,6 +94,13 @@ export function Testimonials() {
           ))}
         </div>
       </div>
+
+      <style>{`
+        .testimonial-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 12px 32px rgba(0,0,0,0.12) !important;
+        }
+      `}</style>
     </section>
   );
 }

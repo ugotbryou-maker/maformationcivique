@@ -16,17 +16,18 @@ const steps = [
 export function ExamInfo() {
   return (
     <section id="examen-info" style={{ position: 'relative', overflow: 'hidden', padding: '96px 0' }}>
-      {/* Fond rouge foncé + filigrane Liberté */}
+      {/* Fond rouge foncé */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(135deg, #6B0000 0%, #8F1020 50%, #A91A1A 100%)',
+        pointerEvents: 'none',
+      }} aria-hidden="true" />
+      {/* Filigrane Delacroix — au-dessus du dégradé */}
       <div style={{
         position: 'absolute', inset: 0,
         backgroundImage: "url('/images/hero/delacroix-watermark.jpg')",
         backgroundSize: 'cover', backgroundPosition: 'center 30%',
-        opacity: 0.12,
-        pointerEvents: 'none',
-      }} aria-hidden="true" />
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: 'linear-gradient(135deg, #7B0000 0%, #9F1239 50%, #B91C1C 100%)',
+        opacity: 0.18,
         pointerEvents: 'none',
       }} aria-hidden="true" />
 

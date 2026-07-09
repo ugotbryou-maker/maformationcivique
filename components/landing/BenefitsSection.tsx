@@ -30,18 +30,18 @@ export function BenefitsSection() {
       background: '#001A70',
       padding: '96px 0',
     }}>
-      {/* Filigrane Marianne */}
-      <div style={{
-        position: 'absolute', inset: 0,
-        backgroundImage: "url('/images/email/Marianne.png')",
-        backgroundSize: 'cover', backgroundPosition: 'center 15%',
-        opacity: 0.07,
-        pointerEvents: 'none',
-      }} aria-hidden="true" />
       {/* Overlay dégradé bleu profond */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(135deg, rgba(0,26,112,0.95) 0%, rgba(0,35,149,0.88) 100%)',
+        background: 'linear-gradient(135deg, rgba(0,20,90,0.97) 0%, rgba(0,30,130,0.94) 100%)',
+        pointerEvents: 'none',
+      }} aria-hidden="true" />
+      {/* Filigrane Caillebotte — au-dessus du dégradé */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: "url('/images/modules/Caillebotte_Rue_de_Paris.jpg')",
+        backgroundSize: 'cover', backgroundPosition: 'center 40%',
+        opacity: 0.14,
         pointerEvents: 'none',
       }} aria-hidden="true" />
 
