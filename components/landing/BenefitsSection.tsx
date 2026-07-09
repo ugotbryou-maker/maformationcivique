@@ -1,24 +1,23 @@
 import { Brain, Clock, Trophy, Languages } from 'lucide-react';
-import { GuillemetDecor } from '@/components/ui/BrandIcon';
 
 const benefits = [
   {
-    icon: Brain, color: 'var(--color-blue-france)', bg: 'var(--color-blue-light)',
+    icon: Brain, color: '#FFD66B', bg: 'rgba(255,214,107,0.15)',
     title: 'IA pédagogique',
     desc: "Après chaque mauvaise réponse, l'IA vous explique la bonne réponse en 2-3 phrases simples dans votre langue.",
   },
   {
-    icon: Clock, color: '#EA580C', bg: '#FFF7ED',
+    icon: Clock, color: '#FFA07A', bg: 'rgba(255,160,122,0.15)',
     title: 'Examens blancs chronométrés',
     desc: '40 questions en 30 minutes, exactement comme le vrai examen. Score immédiat, lacunes identifiées.',
   },
   {
-    icon: Trophy, color: '#16A34A', bg: '#F0FDF4',
+    icon: Trophy, color: '#90EE90', bg: 'rgba(144,238,144,0.15)',
     title: 'Gamification & progression',
     desc: 'Gagnez des XP, débloquez des badges, maintenez votre streak quotidien. Apprendre devient motivant.',
   },
   {
-    icon: Languages, color: '#7C3AED', bg: '#F5F3FF',
+    icon: Languages, color: '#ADD8E6', bg: 'rgba(173,216,230,0.15)',
     title: '4 langues disponibles',
     desc: 'Français, arabe, anglais et portugais. Préparez-vous dans la langue qui vous convient le mieux.',
   },
@@ -26,127 +25,100 @@ const benefits = [
 
 export function BenefitsSection() {
   return (
-    <section style={{ background: '#fff', padding: '80px 0' }}>
-      <div className="container" style={{ padding: '0 24px' }}>
-        <div className="benefits-grid" style={{ display: 'grid', gap: '64px', alignItems: 'center' }}>
+    <section style={{
+      position: 'relative', overflow: 'hidden',
+      background: '#001A70',
+      padding: '96px 0',
+    }}>
+      {/* Filigrane Marianne */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: "url('/images/email/Marianne.png')",
+        backgroundSize: 'cover', backgroundPosition: 'center 15%',
+        opacity: 0.07,
+        pointerEvents: 'none',
+      }} aria-hidden="true" />
+      {/* Overlay dégradé bleu profond */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(135deg, rgba(0,26,112,0.95) 0%, rgba(0,35,149,0.88) 100%)',
+        pointerEvents: 'none',
+      }} aria-hidden="true" />
 
-          {/* Gauche : collage photos */}
-          <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
-            {/* Cercle principal */}
-            <div style={{
-              width: '320px', height: '320px', borderRadius: '50%',
-              overflow: 'hidden', background: 'var(--color-blue-light)',
-              flexShrink: 0,
-            }}>
-              <img
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80"
-                alt="Étudiants en formation civique"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            </div>
+      <div className="container" style={{ position: 'relative', zIndex: 1, padding: '0 24px' }}>
 
-            {/* Petit cercle haut-droite */}
-            <div style={{
-              position: 'absolute', top: '-10px', right: '24px',
-              width: '108px', height: '108px', borderRadius: '50%',
-              overflow: 'hidden', border: '4px solid #fff',
-              boxShadow: 'var(--shadow-card)',
-            }}>
-              <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80"
-                alt="Étudiant"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            </div>
+        {/* En-tête */}
+        <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+          <p style={{
+            fontSize: '12px', fontWeight: 700,
+            textTransform: 'uppercase', letterSpacing: '0.1em',
+            color: '#FFD66B', marginBottom: '12px',
+          }}>
+            Pourquoi nous choisir
+          </p>
+          <h2 style={{ fontSize: 'clamp(26px, 4vw, 40px)', fontWeight: 800, color: '#fff', marginBottom: '16px', lineHeight: 1.2, letterSpacing: '-0.02em' }}>
+            Une plateforme conçue{' '}
+            <span style={{ color: '#FFD66B' }}>pour réussir</span>
+          </h2>
+          <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.65)', maxWidth: '480px', margin: '0 auto', lineHeight: 1.7 }}>
+            Des outils pédagogiques pensés pour les ressortissants étrangers qui préparent leur examen en France.
+          </p>
+        </div>
 
-            {/* Petit cercle bas-gauche */}
-            <div style={{
-              position: 'absolute', bottom: '0', left: '16px',
-              width: '88px', height: '88px', borderRadius: '50%',
-              overflow: 'hidden', border: '4px solid #fff',
-              boxShadow: 'var(--shadow-card)',
-            }}>
-              <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80"
-                alt="Étudiante"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            </div>
-
-            {/* Badge note */}
-            <div style={{
-              position: 'absolute', bottom: '24px', right: '8px',
-              background: '#fff', borderRadius: 'var(--radius-lg)',
-              padding: '10px 14px', boxShadow: 'var(--shadow-lg)',
-              textAlign: 'center', minWidth: '108px',
-            }}>
-              <div style={{ fontSize: '20px', fontWeight: 700, color: 'var(--color-blue-france)', lineHeight: 1 }}>4.8/5</div>
-              <div style={{ fontSize: '10px', color: 'var(--color-text-muted)', marginTop: '2px' }}>Note moyenne</div>
-              <div style={{ display: 'flex', gap: '2px', justifyContent: 'center', marginTop: '4px' }}>
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} style={{ color: '#F59E0B', fontSize: '11px' }}>★</span>
-                ))}
+        {/* Grille bénéfices */}
+        <div className="benefits-grid">
+          {benefits.map(({ icon: Icon, color, bg, title, desc }) => (
+            <div
+              key={title}
+              style={{
+                background: 'rgba(255,255,255,0.06)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '16px',
+                padding: '28px 24px',
+                backdropFilter: 'blur(8px)',
+                transition: 'background 250ms, transform 250ms',
+              }}
+              className="benefit-card"
+            >
+              <div style={{
+                width: 48, height: 48, background: bg,
+                borderRadius: '12px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '18px',
+              }}>
+                <Icon size={22} color={color} />
               </div>
+              <h3 style={{ fontSize: '17px', fontWeight: 700, color: '#fff', marginBottom: '8px', lineHeight: 1.3 }}>
+                {title}
+              </h3>
+              <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.62)', lineHeight: 1.7, margin: 0 }}>
+                {desc}
+              </p>
             </div>
-          </div>
+          ))}
+        </div>
 
-          {/* Droite : liste des bénéfices */}
-          <div style={{ position: 'relative' }}>
-            {/* Guillemet décoratif en filigrane */}
-            <GuillemetDecor side="left" size={160} color="#002395" opacity={0.05} style={{ position: 'absolute', top: '-40px', left: '-20px', pointerEvents: 'none' }} />
-            <p style={{
-              fontSize: 'var(--font-size-xs)', fontWeight: 600,
-              textTransform: 'uppercase', letterSpacing: '0.08em',
-              color: 'var(--color-blue-france)', marginBottom: '10px', position: 'relative',
-            }}>
-              Pourquoi nous choisir
-            </p>
-            <h2 style={{
-              fontSize: 'var(--font-size-xl)', fontWeight: 700,
-              color: 'var(--color-text-primary)', marginBottom: '12px', lineHeight: 1.2, position: 'relative',
-            }}>
-              Les avantages de notre{' '}
-              <span style={{ color: 'var(--color-blue-france)' }}>formation en ligne</span>
-            </h2>
-            <p style={{
-              fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)',
-              marginBottom: '36px', lineHeight: 1.65, maxWidth: '420px',
-            }}>
-              Une plateforme conçue spécifiquement pour la formation civique française, avec des outils pédagogiques adaptés à chaque profil.
-            </p>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '26px' }}>
-              {benefits.map(({ icon: Icon, color, bg, title, desc }) => (
-                <div key={title} style={{ display: 'flex', gap: '16px' }}>
-                  <div style={{
-                    width: 46, height: 46, background: bg,
-                    borderRadius: 'var(--radius-md)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                  }}>
-                    <Icon size={21} color={color} />
-                  </div>
-                  <div>
-                    <h3 style={{ fontSize: 'var(--font-size-base)', fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: '4px' }}>
-                      {title}
-                    </h3>
-                    <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', lineHeight: 1.65 }}>
-                      {desc}
-                    </p>
-                  </div>
-                </div>
-              ))}
+        {/* Stats bar */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '48px', flexWrap: 'wrap', marginTop: '64px', paddingTop: '48px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+          {[
+            { val: '177', label: 'Questions officielles' },
+            { val: '2 700+', label: 'Exercices langue' },
+            { val: '80%+', label: 'Taux de réussite' },
+            { val: '4', label: 'Langues disponibles' },
+          ].map(({ val, label }) => (
+            <div key={label} style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '32px', fontWeight: 900, color: '#FFD66B', letterSpacing: '-0.03em', lineHeight: 1 }}>{val}</div>
+              <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.55)', marginTop: '6px' }}>{label}</div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
 
-      <style dangerouslySetInnerHTML={{ __html: `
-        .benefits-grid { grid-template-columns: 1fr 1fr; }
-        @media (max-width: 900px) {
-          .benefits-grid { grid-template-columns: 1fr !important; }
-          .benefits-grid > div:first-child { display: none !important; }
-        }
-      ` }} />
+      <style>{`
+        .benefits-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .benefit-card:hover { background: rgba(255,255,255,0.1) !important; transform: translateY(-3px); }
+        @media (max-width: 1024px) { .benefits-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+        @media (max-width: 560px)  { .benefits-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
     </section>
   );
 }

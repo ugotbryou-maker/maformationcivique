@@ -1,121 +1,84 @@
 import { AlertCircle, ClipboardList, Award, MapPin } from 'lucide-react';
 
 const examLevels = [
-  {
-    code: 'CSP',
-    name: 'Carte de séjour pluriannuelle',
-    questions: 40,
-    score: '80%',
-    time: '30 min',
-    color: 'var(--color-blue-sky)',
-    bg: 'var(--color-blue-light)',
-  },
-  {
-    code: 'CR',
-    name: 'Carte de résident',
-    questions: 40,
-    score: '80%',
-    time: '30 min',
-    color: 'var(--color-blue-france)',
-    bg: 'var(--color-blue-light)',
-  },
-  {
-    code: 'NAT',
-    name: 'Naturalisation',
-    questions: 40,
-    score: '80%',
-    time: '30 min',
-    color: 'var(--color-red-france)',
-    bg: 'var(--color-red-light)',
-  },
+  { code: 'CSP', name: 'Carte de séjour pluriannuelle', questions: 40, score: '80%', time: '30 min' },
+  { code: 'CR',  name: 'Carte de résident',             questions: 40, score: '80%', time: '30 min' },
+  { code: 'NAT', name: 'Naturalisation',                 questions: 40, score: '80%', time: '30 min' },
 ];
 
 const steps = [
-  { num: '01', icon: MapPin, title: 'Convocation', desc: "Vous recevez une convocation de la préfecture ou de l'OFII." },
-  { num: '02', icon: ClipboardList, title: 'Formation civique', desc: 'Journée de formation sur les valeurs et institutions françaises.' },
-  { num: '03', icon: Award, title: "Test de connaissance", desc: '40 questions QCM en 30 minutes. Score minimum requis : 80%.' },
-  { num: '04', icon: AlertCircle, title: 'Résultat', desc: 'Le résultat est transmis à la préfecture pour votre dossier de titre de séjour ou de naturalisation.' },
+  { num: '01', icon: MapPin,         title: 'Convocation',          desc: "Vous recevez une convocation de la préfecture ou de l'OFII." },
+  { num: '02', icon: ClipboardList,  title: 'Formation civique',    desc: 'Journée de formation sur les valeurs et institutions françaises.' },
+  { num: '03', icon: Award,          title: 'Test de connaissance', desc: '40 questions QCM en 30 minutes. Score minimum requis : 80%.' },
+  { num: '04', icon: AlertCircle,    title: 'Résultat',             desc: 'Le résultat est transmis à la préfecture pour votre dossier.' },
 ];
 
 export function ExamInfo() {
   return (
-    <section id="examen-info" style={{ padding: '96px 0', background: 'var(--color-surface)' }}>
-      <div className="container">
+    <section id="examen-info" style={{ position: 'relative', overflow: 'hidden', padding: '96px 0' }}>
+      {/* Fond rouge foncé + filigrane Liberté */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: "url('/images/hero/delacroix-watermark.jpg')",
+        backgroundSize: 'cover', backgroundPosition: 'center 30%',
+        opacity: 0.12,
+        pointerEvents: 'none',
+      }} aria-hidden="true" />
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(135deg, #7B0000 0%, #9F1239 50%, #B91C1C 100%)',
+        pointerEvents: 'none',
+      }} aria-hidden="true" />
+
+      <div className="container" style={{ position: 'relative', zIndex: 1, padding: '0 24px' }}>
         {/* Header */}
-        <div style={{ marginBottom: '64px' }}>
-          <span
-            style={{
-              fontSize: 'var(--font-size-xs)',
-              fontWeight: 500,
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              color: 'var(--color-red-france)',
-              display: 'block',
-              marginBottom: '12px',
-            }}
-          >
+        <div style={{ marginBottom: '56px' }}>
+          <span style={{
+            fontSize: '12px', fontWeight: 700,
+            textTransform: 'uppercase', letterSpacing: '0.1em',
+            color: '#FFD66B', display: 'block', marginBottom: '12px',
+          }}>
             L'examen civique
           </span>
-          <h2 style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text-primary)', marginBottom: '12px' }}>
+          <h2 style={{ fontSize: 'clamp(26px, 4vw, 40px)', fontWeight: 800, color: '#fff', marginBottom: '14px', lineHeight: 1.2, letterSpacing: '-0.02em' }}>
             Tout savoir sur la formation civique
           </h2>
-          <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', maxWidth: '520px' }}>
+          <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.70)', maxWidth: '520px', lineHeight: 1.7, margin: 0 }}>
             Obligatoire depuis janvier 2026 pour tous les ressortissants étrangers souhaitant renouveler ou obtenir un titre de séjour, ou demander la naturalisation.
           </p>
         </div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '48px',
-            alignItems: 'start',
-          }}
-        >
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '48px', alignItems: 'start' }}>
           {/* Niveaux d'examen */}
           <div>
-            <h3 style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-primary)', marginBottom: '24px' }}>
+            <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '20px' }}>
               Les 3 niveaux d'examen
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {examLevels.map((level) => (
-                <div
-                  key={level.code}
-                  style={{
-                    padding: '16px 20px',
-                    borderRadius: 'var(--radius-lg)',
-                    background: level.bg,
-                    border: `1px solid ${level.color}22`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: '16px',
-                  }}
-                >
+                <div key={level.code} style={{
+                  padding: '16px 20px',
+                  borderRadius: '12px',
+                  background: 'rgba(255,255,255,0.10)',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  backdropFilter: 'blur(6px)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
+                }}>
                   <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                      <span
-                        style={{
-                          fontSize: 'var(--font-size-xs)',
-                          fontWeight: 500,
-                          padding: '2px 8px',
-                          borderRadius: 'var(--radius-pill)',
-                          background: level.color,
-                          color: '#FFFFFF',
-                        }}
-                      >
-                        {level.code}
-                      </span>
-                    </div>
-                    <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>
-                      {level.name}
-                    </p>
+                    <span style={{
+                      fontSize: '11px', fontWeight: 700, padding: '3px 10px',
+                      borderRadius: '100px', background: 'rgba(255,255,255,0.9)',
+                      color: '#9F1239', display: 'inline-block', marginBottom: '6px',
+                    }}>
+                      {level.code}
+                    </span>
+                    <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.80)', margin: 0 }}>{level.name}</p>
                   </div>
                   <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                    <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text-primary)' }}>
+                    <p style={{ fontSize: '14px', fontWeight: 600, color: '#FFD66B', margin: '0 0 2px' }}>
                       {level.questions} Q · {level.time}
                     </p>
-                    <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
+                    <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', margin: 0 }}>
                       Score requis : {level.score}
                     </p>
                   </div>
@@ -126,55 +89,26 @@ export function ExamInfo() {
 
           {/* Étapes */}
           <div>
-            <h3 style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-primary)', marginBottom: '24px' }}>
+            <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '20px' }}>
               Comment ça se passe ?
             </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
               {steps.map(({ num, icon: Icon, title, desc }, i) => (
-                <div
-                  key={num}
-                  style={{
-                    display: 'flex',
-                    gap: '16px',
-                    paddingBottom: i < steps.length - 1 ? '24px' : 0,
-                    position: 'relative',
-                  }}
-                >
-                  {/* Line */}
+                <div key={num} style={{ display: 'flex', gap: '16px', paddingBottom: i < steps.length - 1 ? '24px' : 0, position: 'relative' }}>
                   {i < steps.length - 1 && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        left: '19px',
-                        top: '40px',
-                        bottom: 0,
-                        width: '1px',
-                        background: 'var(--color-border)',
-                      }}
-                    />
+                    <div style={{ position: 'absolute', left: '19px', top: '40px', bottom: 0, width: '1px', background: 'rgba(255,255,255,0.2)' }} />
                   )}
-                  {/* Icon */}
-                  <div
-                    style={{
-                      width: '40px',
-                      height: '40px',
-                      borderRadius: 'var(--radius-md)',
-                      background: 'var(--color-blue-light)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                    }}
-                  >
-                    <Icon size={18} color="var(--color-blue-france)" />
+                  <div style={{
+                    width: '40px', height: '40px', borderRadius: '12px',
+                    background: 'rgba(255,255,255,0.15)',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                  }}>
+                    <Icon size={18} color="#FFD66B" />
                   </div>
                   <div>
-                    <p style={{ fontSize: 'var(--font-size-base)', fontWeight: 500, color: 'var(--color-text-primary)', marginBottom: '4px' }}>
-                      {title}
-                    </p>
-                    <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
-                      {desc}
-                    </p>
+                    <p style={{ fontSize: '15px', fontWeight: 600, color: '#fff', marginBottom: '4px' }}>{title}</p>
+                    <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.62)', lineHeight: 1.65, margin: 0 }}>{desc}</p>
                   </div>
                 </div>
               ))}
