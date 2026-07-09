@@ -98,6 +98,25 @@ export const postSchema = defineType({
       ],
     },
     {
+      name: 'faq',
+      title: 'FAQ (Questions fréquentes)',
+      description: 'Chaque question/réponse génère automatiquement un rich snippet Google (FAQPage schema). Idéal pour le EEAT et les featured snippets.',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          title: 'Question / Réponse',
+          fields: [
+            { name: 'question', title: 'Question', type: 'string' },
+            { name: 'answer', title: 'Réponse', type: 'text', rows: 3 },
+          ],
+          preview: {
+            select: { title: 'question', subtitle: 'answer' },
+          },
+        },
+      ],
+    },
+    {
       name: 'seo',
       title: 'SEO',
       type: 'object',

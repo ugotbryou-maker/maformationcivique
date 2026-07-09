@@ -188,7 +188,7 @@ export default async function ArticlePage({ params }: Props) {
             </div>
           )}
 
-          {/* FAQ — signal E-E-A-T / rich snippet Google */}
+          {/* FAQ accordéon — E-E-A-T + rich snippet FAQPage Google */}
           {post.faq && post.faq.length > 0 && (
             <div style={{ marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid #E2E8F0' }}>
               <h2 style={{
@@ -198,18 +198,42 @@ export default async function ArticlePage({ params }: Props) {
                 <HelpCircle size={20} color={cat.color} />
                 Questions fréquentes
               </h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {post.faq.map((item, i) => (
-                  <div key={i}>
-                    <p style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 700, color: '#1A1A2E' }}>
-                      {item.question}
-                    </p>
-                    <p style={{ margin: 0, fontSize: 14, lineHeight: 1.7, color: '#64748B' }}>
-                      {item.answer}
-                    </p>
-                  </div>
+                  <details key={i} className="faq-item" style={{
+                    borderRadius: 12,
+                    border: '1px solid #E2E8F0',
+                    background: '#fff',
+                    overflow: 'hidden',
+                  }}>
+                    <summary style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+                      padding: '14px 18px', cursor: 'pointer', listStyle: 'none',
+                      fontSize: 15, fontWeight: 700, color: '#1A1A2E', userSelect: 'none',
+                    }}>
+                      <span>{item.question}</span>
+                      <span className="faq-chevron" style={{
+                        flexShrink: 0, width: 22, height: 22, borderRadius: '50%',
+                        background: cat.bg, color: cat.color,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 900,
+                        transition: 'transform 200ms',
+                      }}>+</span>
+                    </summary>
+                    <div style={{
+                      padding: '0 18px 16px', fontSize: 14, lineHeight: 1.75,
+                      color: '#64748B', borderTop: '1px solid #F1F5F9',
+                    }}>
+                      <div style={{ paddingTop: 12 }}>{item.answer}</div>
+                    </div>
+                  </details>
                 ))}
               </div>
+              <style>{`
+                .faq-item[open] > summary .faq-chevron { transform: rotate(45deg); }
+                .faq-item > summary::-webkit-details-marker { display: none; }
+                .faq-item[open] { border-color: ${cat.color}44; }
+                .faq-item[open] > summary { color: ${cat.color}; }
+              `}</style>
             </div>
           )}
         </div>
