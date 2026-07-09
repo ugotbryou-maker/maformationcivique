@@ -5,39 +5,48 @@ import { useState } from 'react';
 import { modules } from '@/data/modules';
 import { a2Modules, b1Modules, b2Modules, transversalModules } from '@/data/langue';
 import { ModuleList } from '@/components/app/ModuleList';
-import { BookOpen, Clock } from 'lucide-react';
+import { BookOpen, ArrowRight } from 'lucide-react';
 
+// Identique à la page publique /moduleslinguistiques
 const LANG_LEVELS = [
   {
-    level: 'A2',
-    label: 'Niveau A2',
-    subtitle: 'Vie quotidienne · Démarches administratives',
-    color: '#059669', colorEnd: '#047857',
-    image: '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
+    level: 'a2',
+    badge: 'Carte de séjour pluriannuelle · OFII',
+    label: 'A2 — Découverte',
+    desc: 'Vie quotidienne, démarches administratives, logement, travail, santé, transports.',
+    image: '/images/modules/Mairie-de-Paris-l-hotel-de-toutes-les-batailles.jpg',
+    imagePos: 'center 40%',
+    gradient: 'linear-gradient(135deg, #001A70E6 0%, #002395CC 100%)',
     modules: a2Modules,
   },
   {
-    level: 'B1',
-    label: 'Niveau B1',
-    subtitle: 'Actualité · Société · Institutions',
-    color: '#1D4ED8', colorEnd: '#1E3A8A',
+    level: 'b1',
+    badge: 'Carte de résident · DELF · TEF',
+    label: 'B1 — Intermédiaire',
+    desc: 'Actualité, débats, argumentation, institutions françaises, rédaction administrative.',
     image: '/images/modules/hemicycle-parlement-europeen.jpg',
+    imagePos: 'center 35%',
+    gradient: 'linear-gradient(135deg, #002395E6 0%, #0057A8CC 100%)',
     modules: b1Modules,
   },
   {
-    level: 'B2',
-    label: 'Niveau B2',
-    subtitle: 'Expression avancée · Argumentation',
-    color: '#6D28D9', colorEnd: '#5B21B6',
-    image: '/images/modules/chateau-versailles.jpg',
+    level: 'b2',
+    badge: 'Naturalisation · depuis janvier 2026',
+    label: 'B2 — Avancé',
+    desc: 'Textes argumentatifs, débat formel, nuances culturelles, entretien de naturalisation.',
+    image: '/images/modules/palais-elysee.jpg',
+    imagePos: 'center 30%',
+    gradient: 'linear-gradient(135deg, #9F1239E6 0%, #CC1A1ACC 100%)',
     modules: b2Modules,
   },
   {
     level: 'transversal',
+    badge: 'Tous niveaux',
     label: 'Transversal',
-    subtitle: 'Phonétique · Orthographe · Erreurs fréquentes',
-    color: '#D97706', colorEnd: '#B45309',
-    image: '/images/modules/Blv-haussmann-lafayette.jpg',
+    desc: 'Phonétique, orthographe et erreurs fréquentes — utiles à tout moment de votre apprentissage.',
+    image: '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
+    imagePos: 'center 20%',
+    gradient: 'linear-gradient(135deg, #6D28D9E6 0%, #9333EACC 100%)',
     modules: transversalModules,
   },
 ];
@@ -133,98 +142,55 @@ export function DashboardModulesClient() {
       {/* ── Contenu Civique ── */}
       {tab === 'civique' && <ModuleList />}
 
-      {/* ── Contenu Langue ── */}
+      {/* ── Contenu Langue — 4 cartes identiques à /moduleslinguistiques ── */}
       {tab === 'langue' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '36px' }}>
-          {LANG_LEVELS.map((lvl) => (
-            <div key={lvl.level}>
-              {/* En-tête de niveau */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px', paddingBottom: '12px', borderBottom: 'var(--border-default)' }}>
-                <span style={{
-                  fontSize: '11px', fontWeight: 800, padding: '4px 14px',
-                  borderRadius: '100px',
-                  background: `${lvl.color}18`, color: lvl.color,
-                  letterSpacing: '0.08em',
-                }}>
-                  {lvl.level.toUpperCase()}
-                </span>
-                <span style={{ fontSize: 'var(--font-size-base)', fontWeight: 600, color: 'var(--color-text-primary)' }}>{lvl.label}</span>
-                <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>— {lvl.subtitle}</span>
-              </div>
-
-              {/* Liste modules — même style que ModuleList civique */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {lvl.modules.map((mod) => {
-                  const firstSlug = mod.lessons[0]?.slug;
-                  const levelKey = mod.level as string;
-                  const href = firstSlug
-                    ? `/moduleslinguistiques/${levelKey}/${firstSlug}`
-                    : `/moduleslinguistiques/${levelKey}`;
-                  return (
-                    <Link key={mod.slug} href={href} style={{ display: 'block', textDecoration: 'none' }}>
-                      <article className="lang-mod-card" style={{
-                        position: 'relative', borderRadius: '20px', overflow: 'hidden',
-                        height: '200px', cursor: 'pointer',
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          {LANG_LEVELS.map((lvl) => {
+            const lessonCount = lvl.modules.reduce((a, m) => a + m.lessons.length, 0);
+            return (
+              <Link key={lvl.level} href={`/moduleslinguistiques/${lvl.level}`} style={{ display: 'block', textDecoration: 'none' }} className="lang-level-card-db">
+                <article style={{ position: 'relative', borderRadius: '18px', overflow: 'hidden', height: '170px' }}>
+                  {/* Image */}
+                  <div style={{
+                    position: 'absolute', inset: 0,
+                    backgroundImage: `url(${lvl.image})`,
+                    backgroundSize: 'cover', backgroundPosition: lvl.imagePos,
+                    transition: 'transform 400ms ease-out',
+                  }} className="lang-level-img-db" />
+                  {/* Overlay */}
+                  <div style={{ position: 'absolute', inset: 0, background: lvl.gradient }} />
+                  {/* Contenu */}
+                  <div style={{ position: 'relative', zIndex: 2, padding: '22px 26px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                      <span style={{
+                        fontSize: '11px', fontWeight: 600, padding: '4px 12px', borderRadius: '100px',
+                        background: 'rgba(255,255,255,0.18)', color: 'rgba(255,255,255,0.92)',
+                        letterSpacing: '.05em', backdropFilter: 'blur(4px)',
                       }}>
-                        {/* Image de fond */}
-                        <div style={{
-                          position: 'absolute', inset: 0,
-                          backgroundImage: `url(${lvl.image})`,
-                          backgroundSize: 'cover', backgroundPosition: 'center',
-                          transition: 'transform 400ms ease-out',
-                        }} className="lang-mod-img" />
-                        {/* Overlay coloré */}
-                        <div style={{
-                          position: 'absolute', inset: 0,
-                          background: `linear-gradient(135deg, ${lvl.color}E6 0%, ${lvl.colorEnd}CC 100%)`,
-                        }} />
-                        {/* Contenu */}
-                        <div style={{
-                          position: 'relative', zIndex: 2, height: '100%',
-                          padding: '28px 32px',
-                          display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                        }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                            <span style={{ fontSize: '56px', fontWeight: 700, color: 'rgba(255,255,255,0.22)', lineHeight: 1 }}>
-                              {lvl.level.toUpperCase()}
-                            </span>
-                            <span style={{
-                              fontSize: '11px', fontWeight: 600, padding: '4px 12px',
-                              borderRadius: '100px', background: 'rgba(255,255,255,0.15)',
-                              color: 'rgba(255,255,255,0.9)', letterSpacing: '0.05em',
-                              backdropFilter: 'blur(4px)',
-                            }}>
-                              Langue
-                            </span>
-                          </div>
-                          <div>
-                            <h2 style={{ fontSize: '20px', fontWeight: 600, color: '#fff', marginBottom: '4px', letterSpacing: '-0.02em' }}>
-                              {mod.title}
-                            </h2>
-                            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.75)', marginBottom: '10px', lineHeight: 1.4 }}>
-                              {mod.subtitle}
-                            </p>
-                            <div style={{ display: 'flex', gap: '16px' }}>
-                              <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '11px', color: 'rgba(255,255,255,0.65)' }}>
-                                <BookOpen size={11} />{mod.lessons.length} leçons
-                              </span>
-                              <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '11px', color: 'rgba(255,255,255,0.65)' }}>
-                                <Clock size={11} />{mod.lessons.reduce((a, l) => a + (l.duration ?? 0), 0)} min
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </article>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+                        {lvl.badge}
+                      </span>
+                      <ArrowRight size={18} color="rgba(255,255,255,0.6)" />
+                    </div>
+                    <div>
+                      <h2 style={{ fontSize: '22px', fontWeight: 800, color: '#fff', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
+                        {lvl.label}
+                      </h2>
+                      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.78)', margin: '0 0 8px', lineHeight: 1.5 }}>
+                        {lvl.desc}
+                      </p>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: 'rgba(255,255,255,0.85)' }}>
+                        <BookOpen size={12} /> {lvl.modules.length} modules · {lessonCount} leçons
+                      </span>
+                    </div>
+                  </div>
+                </article>
+              </Link>
+            );
+          })}
           <style>{`
-            .lang-mod-card { transition: box-shadow 300ms ease-out, transform 300ms ease-out; }
-            .lang-mod-card:hover { box-shadow: 0 20px 60px rgba(0,0,0,0.25); transform: translateY(-2px); }
-            .lang-mod-card:hover .lang-mod-img { transform: scale(1.04); }
+            .lang-level-card-db article { box-shadow: 0 4px 20px rgba(0,0,0,0.12); transition: box-shadow 300ms, transform 300ms; }
+            .lang-level-card-db:hover article { box-shadow: 0 12px 40px rgba(0,0,0,0.22); transform: translateY(-2px); }
+            .lang-level-card-db:hover .lang-level-img-db { transform: scale(1.04); }
           `}</style>
         </div>
       )}
