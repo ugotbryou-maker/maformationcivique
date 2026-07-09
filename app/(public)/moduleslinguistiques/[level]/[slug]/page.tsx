@@ -162,7 +162,7 @@ export default async function LangueLessonPage({ params }: Props) {
                   {renderLangMarkdown(section.linguisticPoint, accent)}
                 </div>
               </div>
-              <LangLessonQuiz exercises={section.exercises} accent={accent} />
+              <LangLessonQuiz exercises={section.exercises} accent={accent} lessonSlug={section.slug} />
             </div>
           ))}
         </div>

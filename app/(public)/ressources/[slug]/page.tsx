@@ -22,14 +22,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) return {};
+  const canonical = `https://www.maformationcivique.fr/ressources/${post.slug?.current ?? slug}`;
   return {
     title: post.seo?.metaTitle ?? `${post.title} — maformationcivique.fr`,
     description: post.seo?.metaDescription ?? post.excerpt,
+    alternates: { canonical },
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      title: post.seo?.metaTitle ?? post.title,
+      description: post.seo?.metaDescription ?? post.excerpt,
       type: 'article',
       publishedTime: post.publishedAt,
+      url: canonical,
+      siteName: 'maformationcivique.fr',
+      locale: 'fr_FR',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.seo?.metaTitle ?? post.title,
+      description: post.seo?.metaDescription ?? post.excerpt,
     },
   };
 }
@@ -279,6 +289,38 @@ export default async function ArticlePage({ params }: Props) {
           </Link>
         </div>
       </div>
+
+      {/* Article JSON-LD — EEAT Google */}
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: post.title,
+            description: post.excerpt,
+            datePublished: post.publishedAt,
+            dateModified: post.publishedAt,
+            url: `https://www.maformationcivique.fr/ressources/${post.slug?.current ?? slug}`,
+            inLanguage: 'fr',
+            author: post.author?.name
+              ? { '@type': 'Person', name: post.author.name }
+              : { '@type': 'Organization', name: 'maformationcivique.fr', url: 'https://www.maformationcivique.fr' },
+            publisher: {
+              '@type': 'Organization',
+              name: 'maformationcivique.fr',
+              url: 'https://www.maformationcivique.fr',
+              logo: { '@type': 'ImageObject', url: 'https://www.maformationcivique.fr/brand-icon-color.svg' },
+            },
+            image: `https://www.maformationcivique.fr/ressources/${post.slug?.current ?? slug}/opengraph-image`,
+            mainEntityOfPage: {
+              '@type': 'WebPage',
+              '@id': `https://www.maformationcivique.fr/ressources/${post.slug?.current ?? slug}`,
+            },
+          }),
+        }}
+      />
 
       {/* Rich snippet FAQ — Google Search */}
       {post.faq && post.faq.length > 0 && (
