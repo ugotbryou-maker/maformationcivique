@@ -1,6 +1,7 @@
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { redirect } from 'next/navigation';
 import { modules } from '@/data/modules';
+import { a2Modules, b1Modules, b2Modules, transversalModules } from '@/data/langue';
 import { ProgressBar } from '@/components/app/ProgressBar';
 import { getLevel, getLevelProgress } from '@/lib/gamification';
 import { CheckCircle, Clock, Target } from 'lucide-react';
@@ -33,6 +34,16 @@ export default async function ProgressionPage() {
   const completedSet = new Set(
     progress.filter((p) => p.completed).map((p) => `${p.module_slug}:${p.lesson_slug}`)
   );
+  const completedSlugSet = new Set(
+    progress.filter((p) => p.completed).map((p) => p.lesson_slug)
+  );
+
+  const langLevels = [
+    { label: 'Niveau A2', key: 'a2', color: '#059669', mods: a2Modules },
+    { label: 'Niveau B1', key: 'b1', color: '#1D4ED8', mods: b1Modules },
+    { label: 'Niveau B2', key: 'b2', color: '#CC1A1A', mods: b2Modules },
+    { label: 'Transversal', key: 'transversal', color: '#7C3AED', mods: transversalModules },
+  ];
 
   const totalAnswered = results.length;
   const totalCorrect = results.filter((r) => r.is_correct).length;
@@ -99,17 +110,18 @@ export default async function ProgressionPage() {
         ))}
       </div>
 
-      {/* Modules détail */}
+      {/* Modules civique — détail */}
       <div
         style={{
           background: 'var(--color-surface)',
           borderRadius: 'var(--radius-xl)',
           border: 'var(--border-default)',
           padding: '24px',
+          marginBottom: '20px',
         }}
       >
         <h2 style={{ fontSize: 'var(--font-size-base)', fontWeight: 500, color: 'var(--color-text-primary)', marginBottom: '20px' }}>
-          Détail par module
+          Formation civique — détail par module
         </h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {modules.map((mod) => {
@@ -117,7 +129,6 @@ export default async function ProgressionPage() {
             const total = mod.lessons.length;
             const done = mod.lessons.filter((l) => completedSet.has(`${mod.slug}:${l.slug}`)).length;
             const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-
             return (
               <div key={mod.slug} style={{ opacity: locked ? 0.45 : 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
@@ -129,6 +140,58 @@ export default async function ProgressionPage() {
                   </span>
                 </div>
                 <ProgressBar value={pct} height={6} showPercent />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Langue française — détail par module */}
+      <div
+        style={{
+          background: 'var(--color-surface)',
+          borderRadius: 'var(--radius-xl)',
+          border: 'var(--border-default)',
+          padding: '24px',
+        }}
+      >
+        <h2 style={{ fontSize: 'var(--font-size-base)', fontWeight: 500, color: 'var(--color-text-primary)', marginBottom: '20px' }}>
+          Langue française — détail par niveau
+        </h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+          {langLevels.map(({ label, key, color, mods }) => {
+            const lvlSlugs = mods.flatMap((m) => m.lessons.map((l) => l.slug));
+            const lvlDone = lvlSlugs.filter((s) => completedSlugSet.has(s)).length;
+            const lvlPct = lvlSlugs.length > 0 ? Math.round((lvlDone / lvlSlugs.length) * 100) : 0;
+            return (
+              <div key={key}>
+                {/* Barre de niveau */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                  <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color }}>
+                    {label}
+                  </span>
+                  <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
+                    {lvlDone}/{lvlSlugs.length} leçons
+                  </span>
+                </div>
+                <ProgressBar value={lvlPct} height={6} color={color} showPercent />
+                {/* Barres par module */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '12px', paddingLeft: '12px', borderLeft: `2px solid ${color}22` }}>
+                  {mods.map((mod) => {
+                    const modSlugs = mod.lessons.map((l) => l.slug);
+                    const modDone = modSlugs.filter((s) => completedSlugSet.has(s)).length;
+                    const modPct = mod.lessons.length > 0 ? Math.round((modDone / mod.lessons.length) * 100) : 0;
+                    return (
+                      <div key={mod.slug}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                          <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>{mod.title}</span>
+                          <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{modDone}/{mod.lessons.length}</span>
+                        </div>
+                        <ProgressBar value={modPct} height={4} color={color} />
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             );
           })}
