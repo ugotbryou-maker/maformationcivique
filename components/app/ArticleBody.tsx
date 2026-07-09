@@ -31,16 +31,26 @@ export function ArticleBody({ value, accentColor = 'var(--color-blue-france)' }:
       },
     },
     block: {
-      h2: ({ children }) => (
-        <h2 style={{ fontSize: 22, fontWeight: 800, color: '#1A1A2E', margin: '2rem 0 1rem', lineHeight: 1.3 }}>
-          {children}
-        </h2>
-      ),
-      h3: ({ children }) => (
-        <h3 style={{ fontSize: 18, fontWeight: 700, color: '#1A1A2E', margin: '1.5rem 0 0.75rem', lineHeight: 1.3 }}>
-          {children}
-        </h3>
-      ),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      h2: ({ children, value }: any) => {
+        const text = (value?.children ?? []).map((c: { text?: string }) => c.text ?? '').join('');
+        const id = text.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        return (
+          <h2 id={id} style={{ fontSize: 22, fontWeight: 800, color: '#1A1A2E', margin: '2rem 0 1rem', lineHeight: 1.3, scrollMarginTop: '80px' }}>
+            {children}
+          </h2>
+        );
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      h3: ({ children, value }: any) => {
+        const text = (value?.children ?? []).map((c: { text?: string }) => c.text ?? '').join('');
+        const id = text.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        return (
+          <h3 id={id} style={{ fontSize: 18, fontWeight: 700, color: '#1A1A2E', margin: '1.5rem 0 0.75rem', lineHeight: 1.3, scrollMarginTop: '80px' }}>
+            {children}
+          </h3>
+        );
+      },
       normal: ({ children }) => (
         <p style={{ fontSize: 16, lineHeight: 1.8, color: '#374151', margin: '0 0 1rem' }}>{children}</p>
       ),
