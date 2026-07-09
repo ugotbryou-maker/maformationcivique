@@ -16,8 +16,15 @@ export const BADGES = [
   { slug: 'streak_5',       label: 'Persévérant',              icon: '🔥', desc: "5 jours consécutifs d'entraînement.",               xpRequired: 0 },
   { slug: 'streak_30',      label: 'Indestructible',           icon: '💪', desc: '30 jours consécutifs — impressionnant !',           xpRequired: 0 },
   { slug: 'all_modules',    label: 'Programme complet',        icon: '🏆', desc: 'Tous les modules terminés.',                        xpRequired: 0 },
-  { slug: 'exam_passed',    label: "Prêt pour l'examen",       icon: '🎓', desc: 'Score ≥ 80% à un examen blanc.',                   xpRequired: 0 },
-  { slug: 'perfect_exam',   label: 'Parfait !',                icon: '⭐', desc: '100% à un examen blanc.',                          xpRequired: 0 },
+  { slug: 'exam_passed',        label: "Prêt pour l'examen",       icon: '🎓', desc: 'Score ≥ 80% à un examen blanc.',                      xpRequired: 0 },
+  { slug: 'perfect_exam',       label: 'Parfait !',                icon: '⭐', desc: '100% à un examen blanc.',                             xpRequired: 0 },
+  // Langue française
+  { slug: 'first_lang_lesson',  label: 'Première leçon langue',   icon: '🗣️', desc: 'Vous avez terminé votre première leçon de français !',  xpRequired: 0 },
+  { slug: 'lang_a2_complete',   label: 'Niveau A2 maîtrisé',      icon: '🌱', desc: 'Tous les modules A2 terminés.',                         xpRequired: 0 },
+  { slug: 'lang_b1_complete',   label: 'Niveau B1 maîtrisé',      icon: '📗', desc: 'Tous les modules B1 terminés.',                         xpRequired: 0 },
+  { slug: 'lang_b2_complete',   label: 'Niveau B2 maîtrisé',      icon: '🏅', desc: 'Tous les modules B2 terminés.',                         xpRequired: 0 },
+  { slug: 'lang_50_exercises',  label: '50 exercices langue',      icon: '✍️', desc: '50 exercices de français réussis.',                     xpRequired: 0 },
+  { slug: 'lang_200_exercises', label: '200 exercices langue',     icon: '📚', desc: '200 exercices de français réussis.',                    xpRequired: 0 },
 ] as const;
 
 export type BadgeSlug = typeof BADGES[number]['slug'];

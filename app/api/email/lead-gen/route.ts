@@ -13,9 +13,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServiceRoleClient } from '@/lib/supabase-server';
 import { sendEmail, leadGenTemplate } from '@/lib/brevo';
 
+// Brevo envoie les attributs contact à la racine du body quand le toggle
+// "Inclure les informations relatives au contact" est activé dans l'automation.
+function parseBrevoBody(body: Record<string, unknown>): { email?: string; name?: string } {
+  const email = (body.email ?? body.EMAIL) as string | undefined;
+  // Brevo peut mettre les attributs à la racine ou dans body.attributes
+  const attrs = (body.attributes ?? body) as Record<string, unknown>;
+  const name = (attrs.PRENOM ?? attrs.prenom ?? body.name) as string | undefined;
+  return { email, name };
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const { email, name } = await req.json() as { email?: string; name?: string };
+    const raw = await req.json() as Record<string, unknown>;
+    const { email, name } = parseBrevoBody(raw);
 
     if (!email || typeof email !== 'string') {
       return NextResponse.json({ error: 'email requis' }, { status: 400 });

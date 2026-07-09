@@ -72,8 +72,17 @@ export function LangLessonQuiz({ exercises, accent = 'var(--color-blue-france)',
         }}>
           <Trophy size={28} color={pct >= 80 ? '#16A34A' : '#D97706'} />
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 700, color: pct >= 80 ? '#15803D' : '#92400E' }}>
-              {score} / {exercises.length} ({pct}%)
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+              <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 700, color: pct >= 80 ? '#15803D' : '#92400E' }}>
+                {score} / {exercises.length} ({pct}%)
+              </div>
+              {xpAwarded && (
+                <span style={{
+                  background: 'var(--color-blue-france)', color: '#fff',
+                  fontSize: '12px', fontWeight: 700, padding: '3px 10px',
+                  borderRadius: '100px', letterSpacing: '0.02em',
+                }}>+ 50 XP</span>
+              )}
             </div>
             <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>
               {pct >= 80 ? 'Excellent ! Vous maîtrisez cette leçon.' : 'Continuez à vous entraîner — relisez les explications ci-dessous.'}

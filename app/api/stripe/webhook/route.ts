@@ -72,6 +72,8 @@ export async function POST(req: Request) {
       const userName = userRow?.name || userEmail.split('@')[0] || 'vous';
       const amount = session.amount_total ? `${(session.amount_total / 100).toFixed(2)} €` : '—';
 
+      const brevoKey = process.env.BREVO_API_KEY;
+
       await Promise.all([
         // Confirmation → utilisateur
         userEmail ? sendEmail({
@@ -86,6 +88,13 @@ export async function POST(req: Request) {
           subject: `Nouveau paiement — ${userEmail || userId}`,
           htmlContent: adminNewPaymentTemplate(userEmail || userId, userName, planLabel, amount, session.id, now),
         }).catch(() => {}),
+
+        // Sync Brevo PLAN → bloque l'envoi de l'email promo J+5 si déjà premium
+        userEmail && brevoKey ? fetch('https://api.brevo.com/v3/contacts', {
+          method: 'POST',
+          headers: { accept: 'application/json', 'api-key': brevoKey, 'content-type': 'application/json' },
+          body: JSON.stringify({ email: userEmail, updateEnabled: true, attributes: { PLAN: planValue } }),
+        }).catch(() => {}) : Promise.resolve(),
       ]);
 
       break;

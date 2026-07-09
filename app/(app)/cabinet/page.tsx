@@ -6,6 +6,7 @@ import { CabinetInviteForm } from '@/components/app/CabinetInviteForm';
 import { CabinetGmbForm } from '@/components/app/CabinetGmbForm';
 import { CabinetExportBtn } from '@/components/app/CabinetExportBtn';
 import { CabinetMemberRow } from '@/components/app/CabinetMemberRow';
+import { CabinetInviteRow } from '@/components/app/CabinetInviteRow';
 import { Building2, Users, AlertTriangle, ArrowUpRight, Star, Wrench } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -179,36 +180,12 @@ export default async function CabinetDashboardPage() {
 
           {/* Pending invites */}
           {(pendingInvites ?? []).map((invite) => (
-            <div key={invite.id} style={{
-              background: 'var(--color-surface)', border: '1px dashed var(--color-border)',
-              borderRadius: 'var(--radius-lg)', padding: '14px 18px',
-              display: 'flex', alignItems: 'center', gap: 14, opacity: 0.65,
-            }}>
-              <div style={{
-                width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-                background: 'var(--color-off-white)', border: '2px dashed var(--color-border)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 18, color: 'var(--color-text-muted)',
-              }}>
-                ?
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontWeight: 500, fontSize: 14, color: 'var(--color-text-secondary)', margin: 0 }}>
-                  {invite.email}
-                </p>
-                <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 2 }}>
-                  Invitation envoyée le {new Date(invite.created_at).toLocaleDateString('fr-FR')}
-                </p>
-              </div>
-              <span style={{
-                fontSize: 11, fontWeight: 500, color: 'var(--color-text-muted)',
-                background: 'var(--color-off-white)',
-                padding: '3px 10px', borderRadius: 'var(--radius-pill)',
-                border: 'var(--border-default)', whiteSpace: 'nowrap',
-              }}>
-                En attente
-              </span>
-            </div>
+            <CabinetInviteRow
+              key={invite.id}
+              id={invite.id}
+              email={invite.email}
+              createdAt={invite.created_at}
+            />
           ))}
 
           {activeMembers.length === 0 && (pendingInvites?.length ?? 0) === 0 && (

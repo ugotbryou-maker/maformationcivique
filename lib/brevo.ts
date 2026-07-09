@@ -2,10 +2,11 @@
  * Brevo (ex-Sendinblue) — envoi d'emails transactionnels
  * Docs: https://developers.brevo.com/reference/sendtransacemail
  *
- * Images de fond (à placer dans public/images/email/) :
- *   statue.jpg   → lead gen, reset MDP, bienvenue cabinet, premium
- *   handshake.jpg → invitation cabinet admin + client
- *   payment.jpg  → promo, confirmation paiement
+ * Images de fond dans public/images/email/ :
+ *   Marianne.png    → bienvenue, reset MDP
+ *   Statue.png      → lead gen, premium activé
+ *   handshake.png   → invitations cabinet (admin + membre)
+ *   cartebancaire.png → promo, confirmation paiement
  */
 
 const CDN = 'https://www.maformationcivique.fr/images/email';
@@ -137,7 +138,7 @@ export function welcomeOrganicTemplate(name: string): string {
     </div>
     ${ctaBtn('https://www.maformationcivique.fr/dashboard', 'Commencer ma formation →', '#CC1A1A')}
   `;
-  return emailShell('#CC1A1A', `${CDN}/statue.jpg`, '0.72', content);
+  return emailShell('#CC1A1A', `${CDN}/Marianne.png`, '0.72', content);
 }
 
 // 2. Bienvenue — utilisateur invité par un cabinet (J0)
@@ -152,7 +153,7 @@ export function welcomeCabinetTemplate(name: string, cabinetName: string): strin
     </div>
     ${ctaBtn('https://www.maformationcivique.fr/dashboard', 'Commencer ma formation →', '#002395')}
   `;
-  return emailShell('#002395', `${CDN}/statue.jpg`, '0.72', content);
+  return emailShell('#002395', `${CDN}/Marianne.png`, '0.72', content);
 }
 
 // 3. Lead gen — mise en relation avocat / examen de langue (J+1, organique uniquement)
@@ -183,7 +184,7 @@ export function leadGenTemplate(name: string): string {
       </tr>
     </table>
   `;
-  return emailShell('#002395', `${CDN}/handshake.jpg`, '0.75', content);
+  return emailShell('#002395', `${CDN}/Statue.png`, '0.75', content);
 }
 
 // 4. Promotion — -15% premier mois (J+5, organique non-premium uniquement)
@@ -212,7 +213,7 @@ export function promoTemplate(name: string, promoCode = 'BIENVENUE15'): string {
       Offre valable 48h · Code <strong style="color:rgba(255,255,255,0.75);">${promoCode}</strong> appliqué automatiquement
     </p>
   `;
-  return emailShell('#CC1A1A', `${CDN}/payment.jpg`, '0.70', content);
+  return emailShell('#CC1A1A', `${CDN}/cartebancaire.png`, '0.70', content);
 }
 
 // 5. Réinitialisation mot de passe
@@ -230,7 +231,7 @@ export function resetPasswordTemplate(resetLink: string): string {
       Si vous n'avez pas fait cette demande, ignorez cet email.
     </p>
   `;
-  return emailShell('#002395', `${CDN}/statue.jpg`, '0.72', content);
+  return emailShell('#002395', `${CDN}/Marianne.png`, '0.72', content);
 }
 
 // 6. Invitation cabinet — admin
@@ -248,7 +249,7 @@ export function cabinetAdminInviteTemplate(cabinetName: string, inviteLink: stri
       Lien valable 30 jours.
     </p>
   `;
-  return emailShell('#002395', `${CDN}/handshake.jpg`, '0.74', content);
+  return emailShell('#002395', `${CDN}/handshake.png`, '0.74', content);
 }
 
 // 7. Invitation cabinet — membre/client
@@ -266,7 +267,7 @@ export function cabinetMemberInviteTemplate(cabinetName: string, inviteLink: str
       Lien valable 30 jours.
     </p>
   `;
-  return emailShell('#CC1A1A', `${CDN}/handshake.jpg`, '0.72', content);
+  return emailShell('#CC1A1A', `${CDN}/handshake.png`, '0.72', content);
 }
 
 // 8. Confirmation Premium activé (après paiement Stripe)
@@ -282,7 +283,7 @@ export function premiumActivatedTemplate(name: string, planLabel: string): strin
     </div>
     ${ctaBtn('https://www.maformationcivique.fr/dashboard', 'Accéder à ma formation →', '#002395')}
   `;
-  return emailShell('#002395', `${CDN}/payment.jpg`, '0.72', content);
+  return emailShell('#002395', `${CDN}/cartebancaire.png`, '0.72', content);
 }
 
 // ─── Templates admin (internes, pas de design visuel) ────────────────────────

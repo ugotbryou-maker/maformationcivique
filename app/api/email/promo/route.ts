@@ -13,13 +13,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServiceRoleClient } from '@/lib/supabase-server';
 import { sendEmail, promoTemplate } from '@/lib/brevo';
 
+function parseBrevoBody(body: Record<string, unknown>): { email?: string; name?: string; promoCode?: string } {
+  const email = (body.email ?? body.EMAIL) as string | undefined;
+  const attrs = (body.attributes ?? body) as Record<string, unknown>;
+  const name = (attrs.PRENOM ?? attrs.prenom ?? body.name) as string | undefined;
+  const promoCode = body.promoCode as string | undefined;
+  return { email, name, promoCode };
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const { email, name, promoCode } = await req.json() as {
-      email?: string;
-      name?: string;
-      promoCode?: string;
-    };
+    const raw = await req.json() as Record<string, unknown>;
+    const { email, name, promoCode } = parseBrevoBody(raw);
 
     if (!email || typeof email !== 'string') {
       return NextResponse.json({ error: 'email requis' }, { status: 400 });

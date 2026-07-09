@@ -1,7 +1,10 @@
+export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { ArrowRight, BookOpen, Clock, ListChecks, GraduationCap } from 'lucide-react';
 import { a2Modules, b1Modules, b2Modules, transversalModules, examenModules } from '@/data/langue';
+import { createServerSupabaseClient } from '@/lib/supabase-server';
 
 export const metadata: Metadata = {
   title: 'Cours de français — A2, B1, B2 | maformationcivique.fr',
@@ -56,11 +59,33 @@ const LEVELS = [
   },
 ] as const;
 
-export default function LanguePage() {
+export default async function LanguePage() {
   const totalLessons = [...a2Modules, ...b1Modules, ...b2Modules, ...transversalModules].reduce((a, m) => a + m.lessons.length, 0);
   const totalExercises = [...a2Modules, ...b1Modules, ...b2Modules, ...transversalModules].reduce(
     (a, m) => a + m.lessons.reduce((s, l) => s + l.exercises.length, 0), 0,
   );
+
+  // Progression utilisateur (optionnelle — null si non connecté)
+  let completedSlugs: Set<string> = new Set();
+  try {
+    const supabase = await createServerSupabaseClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data: prog } = await supabase
+        .from('progression')
+        .select('lesson_slug')
+        .eq('user_id', user.id)
+        .eq('completed', true);
+      completedSlugs = new Set((prog ?? []).map((r) => r.lesson_slug));
+    }
+  } catch { /* Supabase indisponible — pas de progression */ }
+
+  function levelPct(mods: typeof a2Modules): number {
+    const total = mods.reduce((a, m) => a + m.lessons.length, 0);
+    if (total === 0) return 0;
+    const done = mods.reduce((a, m) => a + m.lessons.filter((l) => completedSlugs.has(l.slug)).length, 0);
+    return Math.round((done / total) * 100);
+  }
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--color-off-white)' }}>
@@ -102,6 +127,7 @@ export default function LanguePage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
           {LEVELS.map(({ level, label, badge, desc, image, imagePos, gradient, color, modules }) => {
             const lessonCount = modules.reduce((a, m) => a + m.lessons.length, 0);
+            const pct = levelPct(modules as typeof a2Modules);
             return (
               <Link key={level} href={`/moduleslinguistiques/${level}`} style={{ textDecoration: 'none' }} className="lang-level-card">
                 <article style={{ position: 'relative', borderRadius: 18, overflow: 'hidden', height: 170 }}>
@@ -115,11 +141,22 @@ export default function LanguePage() {
                       <span style={{ fontSize: 11, fontWeight: 600, padding: '4px 12px', borderRadius: 100, background: 'rgba(255,255,255,0.18)', color: 'rgba(255,255,255,0.92)', letterSpacing: '.05em', backdropFilter: 'blur(4px)' }}>
                         {badge}
                       </span>
-                      <ArrowRight size={18} color="rgba(255,255,255,0.6)" />
+                      {pct > 0 ? (
+                        <span style={{ fontSize: 12, fontWeight: 700, color: '#fff', background: 'rgba(255,255,255,0.2)', padding: '3px 10px', borderRadius: 100, backdropFilter: 'blur(4px)' }}>
+                          {pct}%
+                        </span>
+                      ) : (
+                        <ArrowRight size={18} color="rgba(255,255,255,0.6)" />
+                      )}
                     </div>
                     <div>
                       <h2 style={{ fontSize: 22, fontWeight: 800, color: '#fff', margin: '0 0 4px', letterSpacing: '-0.02em' }}>{label}</h2>
-                      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.78)', margin: '0 0 10px', lineHeight: 1.5, maxWidth: 480 }}>{desc}</p>
+                      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.78)', margin: '0 0 8px', lineHeight: 1.5, maxWidth: 480 }}>{desc}</p>
+                      {pct > 0 && (
+                        <div style={{ height: 4, background: 'rgba(255,255,255,0.22)', borderRadius: 99, marginBottom: 8, overflow: 'hidden' }}>
+                          <div style={{ height: '100%', width: `${pct}%`, background: '#fff', borderRadius: 99, transition: 'width 0.4s ease' }} />
+                        </div>
+                      )}
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, color: 'rgba(255,255,255,0.85)' }}>
                         <BookOpen size={12} /> {modules.length} modules · {lessonCount} leçons
                       </span>

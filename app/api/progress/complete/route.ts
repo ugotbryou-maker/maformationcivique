@@ -7,6 +7,11 @@ import { XP_REWARDS } from '@/lib/gamification';
 import { modules } from '@/data/modules';
 import { a2Modules, b1Modules, b2Modules, transversalModules } from '@/data/langue';
 
+const a2Slugs  = new Set(a2Modules.flatMap((m) => m.lessons.map((l) => l.slug)));
+const b1Slugs  = new Set(b1Modules.flatMap((m) => m.lessons.map((l) => l.slug)));
+const b2Slugs  = new Set(b2Modules.flatMap((m) => m.lessons.map((l) => l.slug)));
+const langSlugs = new Set([...a2Slugs, ...b1Slugs, ...b2Slugs, ...transversalModules.flatMap((m) => m.lessons.map((l) => l.slug))]);
+
 const allLangModules = [...a2Modules, ...b1Modules, ...b2Modules, ...transversalModules];
 
 export async function POST(req: Request) {
@@ -178,6 +183,52 @@ export async function POST(req: Request) {
         .insert({ user_id: user.id, badge_slug: 'streak_5' })
         .select();
       if (!error) newBadges.push('streak_5');
+    }
+
+    // ── Badges langue ──────────────────────────────────────────────────────
+    if (langSlugs.has(lessonSlug)) {
+      // Compter les leçons langue complétées (toutes)
+      const { data: langCompleted } = await supabase
+        .from('progression')
+        .select('lesson_slug')
+        .eq('user_id', user.id)
+        .eq('completed', true);
+
+      const completedLangSlugs = new Set(
+        (langCompleted ?? []).map((r) => r.lesson_slug).filter((s) => langSlugs.has(s))
+      );
+      const langCount = completedLangSlugs.size;
+
+      // Première leçon langue
+      if (langCount === 1) {
+        const { error } = await supabase.from('user_badges').insert({ user_id: user.id, badge_slug: 'first_lang_lesson' });
+        if (!error) newBadges.push('first_lang_lesson');
+      }
+      // 50 exercices ≈ 6 leçons (chaque leçon ~8 exercices)
+      if (langCount >= 6 && langCount - 1 < 6) {
+        const { error } = await supabase.from('user_badges').insert({ user_id: user.id, badge_slug: 'lang_50_exercises' });
+        if (!error) newBadges.push('lang_50_exercises');
+      }
+      // 200 exercices ≈ 25 leçons
+      if (langCount >= 25 && langCount - 1 < 25) {
+        const { error } = await supabase.from('user_badges').insert({ user_id: user.id, badge_slug: 'lang_200_exercises' });
+        if (!error) newBadges.push('lang_200_exercises');
+      }
+      // Niveau A2 complet
+      if (a2Slugs.has(lessonSlug) && [...a2Slugs].every((s) => completedLangSlugs.has(s))) {
+        const { error } = await supabase.from('user_badges').insert({ user_id: user.id, badge_slug: 'lang_a2_complete' });
+        if (!error) newBadges.push('lang_a2_complete');
+      }
+      // Niveau B1 complet
+      if (b1Slugs.has(lessonSlug) && [...b1Slugs].every((s) => completedLangSlugs.has(s))) {
+        const { error } = await supabase.from('user_badges').insert({ user_id: user.id, badge_slug: 'lang_b1_complete' });
+        if (!error) newBadges.push('lang_b1_complete');
+      }
+      // Niveau B2 complet
+      if (b2Slugs.has(lessonSlug) && [...b2Slugs].every((s) => completedLangSlugs.has(s))) {
+        const { error } = await supabase.from('user_badges').insert({ user_id: user.id, badge_slug: 'lang_b2_complete' });
+        if (!error) newBadges.push('lang_b2_complete');
+      }
     }
 
     return NextResponse.json({

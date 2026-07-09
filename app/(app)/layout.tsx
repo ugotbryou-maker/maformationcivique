@@ -55,16 +55,24 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         <Link
           href="/"
           style={{
-            fontFamily: 'var(--font-sans)',
-            fontSize: '13px',
-            fontWeight: 500,
-            color: 'var(--color-text-primary)',
-            display: 'block',
-            marginBottom: '32px',
-            paddingLeft: '8px',
+            display: 'flex', alignItems: 'center', gap: '8px',
+            marginBottom: '32px', paddingLeft: '8px', textDecoration: 'none',
           }}
+          aria-label="maformationcivique.fr — accueil"
         >
-          ma<span style={{ color: 'var(--color-blue-france)' }}>formation</span>civique.fr
+          {/* MA logomark — crochets bleu/rouge */}
+          <svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ flexShrink: 0 }}>
+            <path d="M4 2 L1 2 L1 20 L4 20" stroke="#001C73" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+            <path d="M22 2 L25 2 L25 20 L22 20" stroke="#CC1A1A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+            <text x="7" y="16" fontFamily="serif" fontSize="11" fontWeight="800" fill="#001C73">M</text>
+            <text x="14" y="16" fontFamily="serif" fontSize="11" fontWeight="800" fill="#CC1A1A">A</text>
+          </svg>
+          <span style={{
+            fontFamily: 'var(--font-sans)', fontSize: '12px', fontWeight: 600,
+            color: 'var(--color-text-primary)', lineHeight: 1,
+          }}>
+            ma<span style={{ color: 'var(--color-blue-france)' }}>formation</span>civique.fr
+          </span>
         </Link>
 
         <nav style={{ flex: 1 }}>

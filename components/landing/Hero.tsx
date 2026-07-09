@@ -1,118 +1,121 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
-import { CheckCircle, BookOpen, Globe } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import { CheckCircle, BookOpen, Languages } from 'lucide-react';
 
 export function Hero() {
-  return (
-    <section style={{
-      position: 'relative',
-      background: 'var(--gradient-hero)',
-      padding: '88px 0 76px',
-      overflow: 'hidden',
-    }}>
-      {/* ── Filigrane — "La Liberté guidant le peuple" en surimpression douce ── */}
-      <Image
-        src="/images/hero/delacroix-watermark.jpg"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        style={{
-          objectFit: 'cover',
-          objectPosition: 'right center',
-          opacity: 0.55,
-          mixBlendMode: 'soft-light',
-          pointerEvents: 'none',
-        }}
-      />
+  const bgRef = useRef<HTMLDivElement>(null);
 
-      <div className="container" style={{ position: 'relative', zIndex: 1, padding: '0 24px' }}>
+  // Parallaxe douce — translate le fond au scroll
+  useEffect(() => {
+    const onScroll = () => {
+      if (bgRef.current) {
+        bgRef.current.style.transform = `translateY(${window.scrollY * 0.28}px)`;
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <section style={{ position: 'relative', overflow: 'hidden', minHeight: '88vh', display: 'flex', alignItems: 'center' }}>
+
+      {/* ── Fond Liberté guidant le peuple — rouge — parallaxe ── */}
+      <div
+        ref={bgRef}
+        style={{
+          position: 'absolute',
+          inset: '-15%',
+          backgroundImage: "url('/images/hero/delacroix-watermark.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 20%',
+          willChange: 'transform',
+        }}
+        aria-hidden="true"
+      />
+      {/* Overlay rouge tricolore */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(135deg, rgba(180,0,0,0.88) 0%, rgba(140,0,0,0.84) 50%, rgba(100,0,0,0.90) 100%)',
+      }} aria-hidden="true" />
+      {/* Grain subtil */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.04\'/%3E%3C/svg%3E")',
+        opacity: 0.4,
+        pointerEvents: 'none',
+      }} aria-hidden="true" />
+
+      <div className="container" style={{ position: 'relative', zIndex: 1, padding: '80px 24px 72px', width: '100%' }}>
         <div className="hero-grid" style={{ display: 'grid', gap: '56px', alignItems: 'center' }}>
 
           {/* ── Gauche : texte ── */}
           <div>
-            {/* Badge */}
-            <div className="hero-badge" style={{
-              display: 'inline-flex', alignItems: 'center', gap: '8px',
+            {/* Badge tricolore */}
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: '10px',
               background: 'rgba(255,255,255,0.12)', color: '#fff',
-              border: '1px solid rgba(255,255,255,0.18)',
-              padding: '6px 14px', borderRadius: 'var(--radius-pill)',
-              fontSize: 'var(--font-size-sm)', fontWeight: 500, marginBottom: '22px',
-              backdropFilter: 'blur(6px)',
+              border: '1px solid rgba(255,255,255,0.22)',
+              padding: '7px 16px', borderRadius: 'var(--radius-pill)',
+              fontSize: '12px', fontWeight: 600, marginBottom: '24px',
+              backdropFilter: 'blur(8px)', letterSpacing: '0.04em',
             }}>
-              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#FFD66B', display: 'inline-block', flexShrink: 0 }} />
-              Obligatoire depuis janvier 2026
+              <span style={{ display: 'flex', gap: 4 }}>
+                {['#002395','#fff','#EF4135'].map((c) => (
+                  <span key={c} style={{ width: 8, height: 8, borderRadius: '50%', background: c, border: c === '#fff' ? '1px solid rgba(0,0,0,0.15)' : 'none' }} />
+                ))}
+              </span>
+              Examen civique &amp; linguistique — 2026
             </div>
 
             {/* H1 */}
-            <h1 style={{
-              fontSize: 'clamp(34px, 5vw, 54px)', fontWeight: 700,
-              lineHeight: 1.12, color: '#fff', marginBottom: '20px',
-            }}>
-              Développez votre{' '}
-              <span style={{ color: '#FFD66B' }}>citoyenneté</span>
-              {' '}d&apos;une façon{' '}
+            <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 800, lineHeight: 1.1, color: '#fff', marginBottom: '22px', letterSpacing: '-0.02em' }}>
+              Préparez votre{' '}
+              <span style={{ color: '#FFD66B' }}>examen</span>
+              <br />
+              <span style={{ color: '#FFD66B' }}>civique</span>
+              {' '}&amp;{' '}
               <span style={{
-                background: 'linear-gradient(90deg, #FFD66B 0%, #FFFFFF 100%)',
+                background: 'linear-gradient(90deg, #FFD66B, #fff)',
                 WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-              }}>
-                nouvelle &amp; unique
-              </span>
+              }}>linguistique</span>
             </h1>
 
-            <p style={{
-              fontSize: 'var(--font-size-base)', color: 'rgba(255,255,255,0.82)',
-              lineHeight: 1.72, maxWidth: '460px', marginBottom: '34px',
-            }}>
-              Explorez une nouvelle approche pour maîtriser les 177 questions officielles de la formation civique française. Disponible en 4 langues, avec IA pédagogique incluse.
+            <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.7, maxWidth: '460px', marginBottom: '36px' }}>
+              177 questions officielles + cours de français A2 à B2 — la seule plateforme couvrant les deux examens requis pour votre titre de séjour ou naturalisation.
             </p>
 
             {/* CTAs */}
-            <div className="hero-ctas" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '40px' }}>
-              <Link
-                href="/inscription"
-                style={{
-                  display: 'inline-flex', alignItems: 'center',
-                  background: '#fff', color: 'var(--color-blue-france)',
-                  padding: '13px 28px', borderRadius: 'var(--radius-md)',
-                  fontWeight: 600, fontSize: 'var(--font-size-base)',
-                  textDecoration: 'none', minHeight: '48px',
-                  transition: 'opacity 150ms ease-out',
-                  fontFamily: 'var(--font-sans)',
-                }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = '0.88'; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = '1'; }}
-              >
-                S&apos;inscrire — gratuit
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '44px' }}>
+              <Link href="/inscription" style={{
+                display: 'inline-flex', alignItems: 'center',
+                background: '#fff', color: '#CC1A1A',
+                padding: '14px 30px', borderRadius: 'var(--radius-md)',
+                fontWeight: 700, fontSize: '15px', textDecoration: 'none',
+                transition: 'opacity 150ms', fontFamily: 'var(--font-sans)',
+              }}>
+                Commencer — gratuit
               </Link>
-              <Link
-                href="#examen-info"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '8px',
-                  color: '#fff',
-                  padding: '13px 20px', fontSize: 'var(--font-size-base)',
-                  textDecoration: 'none', fontWeight: 500,
-                  border: '1px solid rgba(255,255,255,0.32)', borderRadius: 'var(--radius-md)',
-                  minHeight: '48px', transition: 'border-color 150ms ease-out, background-color 150ms ease-out',
-                  fontFamily: 'var(--font-sans)',
-                }}
-                onMouseEnter={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.borderColor = 'rgba(255,255,255,0.6)'; el.style.backgroundColor = 'rgba(255,255,255,0.08)'; }}
-                onMouseLeave={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.borderColor = 'rgba(255,255,255,0.32)'; el.style.backgroundColor = 'transparent'; }}
-              >
-                <span style={{ fontSize: '10px' }}>▶</span> C&apos;est quoi l&apos;examen ?
+              <Link href="#tarifs" style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                color: '#fff', padding: '14px 22px',
+                fontSize: '15px', textDecoration: 'none', fontWeight: 500,
+                border: '1px solid rgba(255,255,255,0.35)', borderRadius: 'var(--radius-md)',
+                backdropFilter: 'blur(4px)',
+              }}>
+                Voir les tarifs
               </Link>
             </div>
 
             {/* Réassurance */}
-            <div className="hero-reassurance" style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '22px', flexWrap: 'wrap' }}>
               {[
-                { icon: CheckCircle, label: '177 questions officielles' },
-                { icon: BookOpen, label: 'Formation certifiée' },
-                { icon: Globe, label: '4 langues disponibles' },
+                { icon: BookOpen,  label: '177 questions civiques' },
+                { icon: Languages, label: 'Cours A2 → B2' },
+                { icon: CheckCircle, label: 'Taux de réussite 80%+' },
               ].map(({ icon: Icon, label }) => (
-                <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: 'var(--font-size-sm)', color: 'rgba(255,255,255,0.78)' }}>
+                <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '13px', color: 'rgba(255,255,255,0.8)' }}>
                   <Icon size={14} color="#FFD66B" />
                   {label}
                 </div>
@@ -120,98 +123,92 @@ export function Hero() {
             </div>
           </div>
 
-          {/* ── Droite : collage culturel ── */}
-          <div className="hero-visual">
-            <div className="hero-stage" style={{ position: 'relative', width: '100%', maxWidth: '540px', aspectRatio: '540 / 580', margin: '0 auto' }}>
+          {/* ── Droite : maquette téléphone ── */}
+          <div className="hero-visual" style={{ display: 'flex', justifyContent: 'center' }}>
+            <div style={{ position: 'relative' }}>
 
-              {/* Médaillon — Mont-Saint-Michel */}
+              {/* Téléphone */}
               <div style={{
-                position: 'absolute', top: '1.7%', left: '1.8%', width: '25%', aspectRatio: '1',
-                borderRadius: '50%', overflow: 'hidden',
-                border: '4px solid rgba(255,255,255,0.85)',
-                boxShadow: '0 14px 30px rgba(0,0,0,0.35)',
-                transform: 'rotate(-8deg)', zIndex: 1,
+                width: 260, height: 520,
+                background: '#0a0a0a', borderRadius: 42,
+                border: '8px solid #1a1a1a',
+                boxShadow: '0 40px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.07)',
+                overflow: 'hidden', position: 'relative',
               }}>
-                <Image src="/images/hero/mont-saint-michel.jpg" alt="Le Mont-Saint-Michel" fill sizes="160px" style={{ objectFit: 'cover' }} />
+                {/* Encoche */}
+                <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: 90, height: 26, background: '#0a0a0a', borderRadius: '0 0 16px 16px', zIndex: 10 }} />
+                {/* Écran — aperçu leçon */}
+                <div style={{ width: '100%', height: '100%', background: '#f8f9fa', overflowY: 'hidden' }}>
+                  {/* Header bleu leçon */}
+                  <div style={{ background: 'linear-gradient(135deg, #002395, #003CBB)', padding: '36px 16px 20px', color: '#fff' }}>
+                    <div style={{ fontSize: 9, opacity: 0.7, marginBottom: 4 }}>Module 1 · Leçon 3</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, lineHeight: 1.3 }}>Les symboles de la République</div>
+                  </div>
+                  {/* Contenu simulé */}
+                  <div style={{ padding: '14px 14px 0' }}>
+                    <div style={{ height: 8, background: '#e2e8f0', borderRadius: 4, marginBottom: 6, width: '100%' }}>
+                      <div style={{ height: '100%', width: '62%', background: '#002395', borderRadius: 4 }} />
+                    </div>
+                    <div style={{ fontSize: 7, color: '#64748b', marginBottom: 10, textAlign: 'right' }}>62% complété</div>
+                    {/* Texte simulé */}
+                    {[100, 88, 95, 72, 84].map((w, i) => (
+                      <div key={i} style={{ height: 7, background: '#e2e8f0', borderRadius: 3, marginBottom: 5, width: `${w}%` }} />
+                    ))}
+                    {/* Image simulée */}
+                    <div style={{ height: 80, background: 'linear-gradient(135deg, #fef3c7, #fde68a)', borderRadius: 8, margin: '10px 0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ fontSize: 28 }}>🇫🇷</span>
+                    </div>
+                    {[90, 76, 60].map((w, i) => (
+                      <div key={i} style={{ height: 7, background: '#e2e8f0', borderRadius: 3, marginBottom: 5, width: `${w}%` }} />
+                    ))}
+                    {/* Question */}
+                    <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: '8px 10px', marginTop: 10 }}>
+                      <div style={{ fontSize: 8, fontWeight: 700, color: '#1e293b', marginBottom: 4 }}>Question</div>
+                      {['Liberté, Égalité, Fraternité', 'Travail, Famille, Patrie', 'Honneur, Patrie'].map((opt, i) => (
+                        <div key={i} style={{
+                          display: 'flex', alignItems: 'center', gap: 5, padding: '4px 6px',
+                          borderRadius: 5, marginBottom: 3,
+                          background: i === 0 ? '#dbeafe' : '#f8fafc',
+                          border: i === 0 ? '1px solid #93c5fd' : '1px solid #e2e8f0',
+                        }}>
+                          <div style={{ width: 10, height: 10, borderRadius: '50%', border: i === 0 ? '2px solid #2563eb' : '2px solid #cbd5e1', background: i === 0 ? '#2563eb' : 'transparent', flexShrink: 0 }} />
+                          <span style={{ fontSize: 7, color: i === 0 ? '#1d4ed8' : '#64748b' }}>{opt}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Médaillon — Tour Eiffel illuminée */}
-              <div style={{
-                position: 'absolute', top: '5.2%', right: '1.8%', width: '21.5%', aspectRatio: '1',
-                borderRadius: '50%', overflow: 'hidden',
-                border: '4px solid rgba(255,255,255,0.85)',
-                boxShadow: '0 14px 30px rgba(0,0,0,0.35)',
-                transform: 'rotate(6deg)', zIndex: 1,
-              }}>
-                <Image src="/images/hero/eiffel-night.jpg" alt="La Tour Eiffel illuminée" fill sizes="140px" style={{ objectFit: 'cover' }} />
-              </div>
-
-              {/* Charles de Gaulle */}
-              <div style={{
-                position: 'absolute', top: '25.9%', left: '-1.8%', width: '41%', zIndex: 2,
-                filter: 'drop-shadow(0 16px 26px rgba(0,0,0,0.4))',
-              }}>
-                <Image src="/images/hero/degaulle.png" alt="Charles de Gaulle" width={480} height={621} style={{ width: '100%', height: 'auto' }} sizes="240px" />
-              </div>
-
-              {/* Marianne — buste */}
-              <div style={{
-                position: 'absolute', top: '10.3%', left: '30.4%', width: '44.6%', zIndex: 3,
-                filter: 'drop-shadow(0 16px 26px rgba(0,0,0,0.4))',
-              }}>
-                <Image src="/images/hero/marianne-bust.png" alt="Buste de Marianne, symbole de la République" width={560} height={748} style={{ width: '100%', height: 'auto' }} sizes="260px" />
-              </div>
-
-              {/* Victor Hugo */}
-              <div style={{
-                position: 'absolute', bottom: '0%', right: '5.4%', width: '48.2%', zIndex: 4,
-                filter: 'drop-shadow(0 18px 30px rgba(0,0,0,0.45))',
-              }}>
-                <Image src="/images/hero/victor-hugo.png" alt="Victor Hugo" width={560} height={682} style={{ width: '100%', height: 'auto' }} sizes="280px" priority />
-              </div>
-
-              {/* Card flottante — Questions */}
+              {/* Card flottante — XP */}
               <div className="hero-floating-card" style={{
-                position: 'absolute', top: '-22px', left: '34%',
-                background: '#fff', borderRadius: 'var(--radius-lg)',
-                padding: '12px 16px', boxShadow: '0 8px 28px rgba(0,0,0,0.28)',
-                display: 'flex', alignItems: 'center', gap: '10px', minWidth: '158px',
-                zIndex: 5,
+                position: 'absolute', top: 80, right: -70,
+                background: '#fff', borderRadius: 14, padding: '12px 16px',
+                boxShadow: '0 12px 32px rgba(0,0,0,0.25)',
+                display: 'flex', alignItems: 'center', gap: '10px', minWidth: 150,
               }}>
-                <div style={{
-                  width: 36, height: 36, background: 'var(--color-blue-light)',
-                  borderRadius: 'var(--radius-md)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                }}>
-                  <BookOpen size={17} color="var(--color-blue-france)" />
+                <div style={{ width: 36, height: 36, background: '#FEF3C7', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>🏆</div>
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: '#1a1a2e', lineHeight: 1 }}>+50 XP</div>
+                  <div style={{ fontSize: 10, color: '#64748b', marginTop: 2 }}>Leçon terminée</div>
+                </div>
+              </div>
+
+              {/* Card flottante — Progression */}
+              <div className="hero-floating-card" style={{
+                position: 'absolute', bottom: 90, left: -80,
+                background: '#fff', borderRadius: 14, padding: '12px 16px',
+                boxShadow: '0 12px 32px rgba(0,0,0,0.25)',
+                display: 'flex', alignItems: 'center', gap: '10px', minWidth: 160,
+              }}>
+                <div style={{ width: 36, height: 36, background: '#ECFDF5', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <CheckCircle size={18} color="#16A34A" />
                 </div>
                 <div>
-                  <div style={{ fontSize: '17px', fontWeight: 700, color: 'var(--color-text-primary)', lineHeight: 1 }}>177</div>
-                  <div style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: 2 }}>Questions officielles</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: '#1a1a2e', lineHeight: 1 }}>2 700+</div>
+                  <div style={{ fontSize: 10, color: '#64748b', marginTop: 2 }}>Exercices disponibles</div>
                 </div>
               </div>
-
-              {/* Card flottante — Taux de réussite */}
-              <div className="hero-floating-card" style={{
-                position: 'absolute', bottom: '6%', left: '-26px',
-                background: '#fff', borderRadius: 'var(--radius-lg)',
-                padding: '12px 16px', boxShadow: '0 8px 28px rgba(0,0,0,0.28)',
-                display: 'flex', alignItems: 'center', gap: '10px', minWidth: '158px',
-                zIndex: 5,
-              }}>
-                <div style={{
-                  width: 36, height: 36, background: '#F0FDF4',
-                  borderRadius: 'var(--radius-md)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                }}>
-                  <CheckCircle size={17} color="#16A34A" />
-                </div>
-                <div>
-                  <div style={{ fontSize: '17px', fontWeight: 700, color: 'var(--color-text-primary)', lineHeight: 1 }}>80%</div>
-                  <div style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: 2 }}>Taux de réussite</div>
-                </div>
-              </div>
-
             </div>
           </div>
         </div>
@@ -221,11 +218,9 @@ export function Hero() {
         .hero-grid { grid-template-columns: 1fr 1fr; }
         @media (max-width: 900px) {
           .hero-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
-          .hero-stage { max-width: 420px !important; }
         }
         @media (max-width: 480px) {
           .hero-floating-card { display: none !important; }
-          .hero-stage { max-width: 300px !important; }
         }
       `}</style>
     </section>

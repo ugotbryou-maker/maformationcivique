@@ -1,8 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { Download } from 'lucide-react';
-import { ProgressBar } from '@/components/app/ProgressBar';
+import { Download, UserX } from 'lucide-react';
 
 const AVATAR_COLORS = [
   { bg: '#DBEAFE', color: '#1E40AF' },
@@ -25,6 +25,25 @@ interface Props {
 }
 
 export function CabinetMemberRow({ id, displayName, pct }: Props) {
+  const [revoking, setRevoking] = useState(false);
+  const [revoked, setRevoked] = useState(false);
+
+  const handleRevoke = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!confirm(`Révoquer l'accès de ${displayName} ? Son plan repassera en gratuit et sa place sera libérée.`)) return;
+    setRevoking(true);
+    await fetch('/api/cabinet/member/revoke', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: id }),
+    });
+    setRevoked(true);
+    setRevoking(false);
+  };
+
+  if (revoked) return null;
+
   const initial = displayName[0].toUpperCase();
   const avatarStyle = getAvatarStyle(displayName);
 
@@ -86,6 +105,20 @@ export function CabinetMemberRow({ id, displayName, pct }: Props) {
                 <Download size={9} />
                 Attestation
               </a>
+              <button
+                onClick={handleRevoke}
+                disabled={revoking}
+                title="Révoquer l'accès — libère la place"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  width: 26, height: 26, borderRadius: 'var(--radius-pill)',
+                  border: '1px solid #FECACA', background: '#FEF2F2',
+                  color: '#B91C1C', cursor: revoking ? 'wait' : 'pointer',
+                  opacity: revoking ? 0.5 : 1, padding: 0, flexShrink: 0,
+                }}
+              >
+                <UserX size={12} />
+              </button>
             </div>
           </div>
           <div style={{ height: 6, borderRadius: 99, background: 'var(--color-border)', overflow: 'hidden' }}>

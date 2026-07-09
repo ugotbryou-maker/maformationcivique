@@ -264,9 +264,18 @@ export function LangLessonReader({ lesson, accent, bg, modTitle, modIndex, modTo
           <div style={{ fontSize: 56, marginBottom: '16px' }}>
             {score / totalQ >= 0.8 ? '🎉' : score / totalQ >= 0.5 ? '👍' : '💪'}
           </div>
-          <h2 style={{ fontSize: 28, fontWeight: 800, color: 'var(--color-text-primary)', margin: '0 0 8px' }}>
-            {score} / {totalQ}
-          </h2>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '8px' }}>
+            <h2 style={{ fontSize: 28, fontWeight: 800, color: 'var(--color-text-primary)', margin: 0 }}>
+              {score} / {totalQ}
+            </h2>
+            {xpAwarded && (
+              <span style={{
+                background: accent, color: '#fff',
+                fontSize: '13px', fontWeight: 700, padding: '4px 12px',
+                borderRadius: '100px', letterSpacing: '0.02em',
+              }}>+ 50 XP</span>
+            )}
+          </div>
           <p style={{ fontSize: 15, color: 'var(--color-text-muted)', marginBottom: '28px' }}>
             {score / totalQ >= 0.8
               ? 'Excellent ! Vous maîtrisez cette leçon.'
