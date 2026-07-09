@@ -71,6 +71,7 @@ export default async function LangueLevelPage({ params }: Props) {
   if (!data) notFound();
 
   let hasAccess = false;
+  let completedSlugs = new Set<string>();
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -82,9 +83,13 @@ export default async function LangueLevelPage({ params }: Props) {
       const { data: authData } = await supabase.auth.getUser();
       const user = authData?.user ?? null;
       if (user) {
-        const { data: profile } = await supabase.from('users').select('plan').eq('id', user.id).single();
-        hasAccess = profile?.plan === 'premium' || profile?.plan === 'langue' || profile?.plan === 'bundle';
+        const [profileRes, progressionRes] = await Promise.all([
+          supabase.from('users').select('plan').eq('id', user.id).single(),
+          supabase.from('progression').select('lesson_slug').eq('user_id', user.id).eq('completed', true),
+        ]);
+        hasAccess = profileRes.data?.plan === 'premium' || profileRes.data?.plan === 'langue' || profileRes.data?.plan === 'bundle';
         if (isAdminEmail(user.email)) hasAccess = true;
+        completedSlugs = new Set((progressionRes.data ?? []).map((p: { lesson_slug: string }) => p.lesson_slug));
       }
     }
   } catch { /* Supabase indisponible */ }
@@ -125,9 +130,13 @@ export default async function LangueLevelPage({ params }: Props) {
           {data.modules.map((mod, modIdx) => {
             const imgSrc = MODULE_IMAGE[mod.slug] ?? '/images/modules/Ecole_-_Salle_de_Classe_2.jpg';
             const freeLessons = mod.lessons.filter((l) => l.free).length;
+            const modCompleted = mod.lessons.filter((l) => completedSlugs.has(l.slug)).length;
+            const modTotal = mod.lessons.length;
+            const modPct = modTotal > 0 ? Math.round((modCompleted / modTotal) * 100) : 0;
+            const modDone = modCompleted === modTotal && modTotal > 0;
 
             return (
-              <div key={mod.slug} style={{ borderRadius: 'var(--radius-xl)', overflow: 'hidden', boxShadow: 'var(--shadow-card)', border: 'var(--border-default)' }}>
+              <div key={mod.slug} style={{ borderRadius: 'var(--radius-xl)', overflow: 'hidden', boxShadow: 'var(--shadow-card)', border: modDone ? `1.5px solid #16A34A` : 'var(--border-default)' }}>
                 {/* Header image + overlay */}
                 <div style={{ position: 'relative', height: 130, overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${imgSrc})`, backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
@@ -137,14 +146,20 @@ export default async function LangueLevelPage({ params }: Props) {
                       <span style={{ fontSize: 48, fontWeight: 800, color: 'rgba(255,255,255,0.2)', lineHeight: 1 }}>
                         {String(modIdx + 1).padStart(2, '0')}
                       </span>
-                      <span style={{
-                        fontSize: 11, fontWeight: 600, padding: '4px 12px', borderRadius: 100,
-                        background: freeLessons > 0 && !hasAccess ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.15)',
-                        color: freeLessons > 0 && !hasAccess ? data.color : 'rgba(255,255,255,0.9)',
-                        letterSpacing: '0.05em', textTransform: 'uppercase' as const, backdropFilter: 'blur(4px)',
-                      }}>
-                        {freeLessons > 0 && !hasAccess ? `${freeLessons} gratuite${freeLessons > 1 ? 's' : ''}` : hasAccess ? 'Débloqué' : 'Premium'}
-                      </span>
+                      {modDone ? (
+                        <span style={{ fontSize: 11, fontWeight: 700, padding: '4px 12px', borderRadius: 100, background: '#16A34A', color: '#fff', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: 5 }}>
+                          <CheckCircle size={12} /> Module terminé
+                        </span>
+                      ) : (
+                        <span style={{
+                          fontSize: 11, fontWeight: 600, padding: '4px 12px', borderRadius: 100,
+                          background: freeLessons > 0 && !hasAccess ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.15)',
+                          color: freeLessons > 0 && !hasAccess ? data.color : 'rgba(255,255,255,0.9)',
+                          letterSpacing: '0.05em', textTransform: 'uppercase' as const, backdropFilter: 'blur(4px)',
+                        }}>
+                          {freeLessons > 0 && !hasAccess ? `${freeLessons} gratuite${freeLessons > 1 ? 's' : ''}` : hasAccess ? 'Débloqué' : 'Premium'}
+                        </span>
+                      )}
                     </div>
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
@@ -155,10 +170,23 @@ export default async function LangueLevelPage({ params }: Props) {
                   </div>
                 </div>
 
+                {/* Barre de progression */}
+                {hasAccess && modCompleted > 0 && (
+                  <div style={{ background: modDone ? '#F0FDF4' : '#F8FAFC', padding: '8px 22px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{ flex: 1, height: 6, background: '#E2E8F0', borderRadius: 100, overflow: 'hidden' }}>
+                      <div style={{ height: '100%', width: `${modPct}%`, background: modDone ? '#16A34A' : data.color, borderRadius: 100, transition: 'width 0.4s ease' }} />
+                    </div>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: modDone ? '#16A34A' : data.color, whiteSpace: 'nowrap' }}>
+                      {modDone ? '✓ Terminé' : `${modCompleted}/${modTotal}`}
+                    </span>
+                  </div>
+                )}
+
                 {/* Leçons */}
                 <div style={{ background: '#fff' }}>
                   {mod.lessons.map((lesson, i) => {
                     const locked = !lesson.free && !hasAccess;
+                    const done = completedSlugs.has(lesson.slug);
                     return (
                       <Link
                         key={lesson.slug}
@@ -167,19 +195,22 @@ export default async function LangueLevelPage({ params }: Props) {
                           display: 'flex', alignItems: 'center', gap: '12px',
                           padding: '13px 22px', textDecoration: 'none',
                           borderTop: 'var(--border-default)',
+                          background: done ? '#F0FDF4' : undefined,
                         }}
                         className="lang-lesson-row"
                       >
-                        <span style={{ fontSize: 11, color: 'var(--color-text-muted)', width: 20, flexShrink: 0, fontWeight: 600 }}>{i + 1}</span>
+                        <span style={{ fontSize: 11, color: done ? '#16A34A' : 'var(--color-text-muted)', width: 20, flexShrink: 0, fontWeight: 600 }}>{i + 1}</span>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontSize: 14, fontWeight: 500, color: locked ? 'var(--color-text-muted)' : 'var(--color-text-primary)' }}>{lesson.title}</div>
+                          <div style={{ fontSize: 14, fontWeight: 500, color: locked ? 'var(--color-text-muted)' : done ? '#15803D' : 'var(--color-text-primary)' }}>{lesson.title}</div>
                           <div style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 1 }}>{lesson.duration} min · {lesson.exercises.length} exercices</div>
                         </div>
-                        {lesson.free
-                          ? <span style={{ fontSize: 11, fontWeight: 600, color: '#16A34A', background: '#F0FDF4', padding: '3px 10px', borderRadius: 100, flexShrink: 0 }}>Gratuit</span>
-                          : locked
-                            ? <Lock size={13} color="var(--color-text-muted)" style={{ flexShrink: 0 }} />
-                            : <CheckCircle size={13} color={data.color} style={{ flexShrink: 0 }} />}
+                        {done
+                          ? <CheckCircle size={14} color="#16A34A" style={{ flexShrink: 0 }} />
+                          : lesson.free
+                            ? <span style={{ fontSize: 11, fontWeight: 600, color: '#16A34A', background: '#F0FDF4', padding: '3px 10px', borderRadius: 100, flexShrink: 0 }}>Gratuit</span>
+                            : locked
+                              ? <Lock size={13} color="var(--color-text-muted)" style={{ flexShrink: 0 }} />
+                              : null}
                         <ChevronRight size={13} color="var(--color-text-muted)" style={{ flexShrink: 0 }} />
                       </Link>
                     );

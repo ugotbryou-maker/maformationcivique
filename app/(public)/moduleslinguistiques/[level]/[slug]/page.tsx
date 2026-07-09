@@ -12,6 +12,7 @@ import { renderLangMarkdown } from '@/lib/langue-markdown';
 import { LangLessonReader } from '@/components/app/LangLessonReader';
 import { LangLessonQuiz } from '@/components/app/LangLessonQuiz';
 import { LangScrollProgress } from '@/components/app/LangScrollProgress';
+import { LessonCompleteButton } from '@/components/app/LessonCompleteButton';
 import { isAdminEmail } from '@/lib/admin';
 
 const LEVEL_COLOR: Record<string, string> = {
@@ -271,25 +272,22 @@ export default async function LangueLessonPage({ params }: Props) {
               lessonSlug={slug}
             />
 
-            {/* Navigation entre leçons */}
-            <div id="lesson-nav" style={{ display: 'flex', gap: '12px', justifyContent: 'space-between', flexWrap: 'wrap', marginTop: '32px', paddingTop: '24px', borderTop: 'var(--border-default)' }}>
-              <div>
-                {prevLesson && (
-                  <Link href={`/moduleslinguistiques/${level}/${prevLesson.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: '#fff', color: 'var(--color-text-secondary)', padding: '10px 18px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 500, textDecoration: 'none', border: 'var(--border-default)', boxShadow: 'var(--shadow-card)' }}>
-                    <ChevronLeft size={14} /> Leçon précédente
-                  </Link>
-                )}
-              </div>
-              <div>
-                {nextLesson ? (
-                  <Link href={`/moduleslinguistiques/${level}/${nextLesson.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: accent, color: '#fff', padding: '10px 22px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 600, textDecoration: 'none' }}>
-                    Leçon suivante <ChevronRight size={14} />
-                  </Link>
-                ) : (
-                  <Link href={`/moduleslinguistiques/${level}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: accent, color: '#fff', padding: '10px 22px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 600, textDecoration: 'none' }}>
-                    Retour au module <ChevronRight size={14} />
-                  </Link>
-                )}
+            {/* Bouton "Terminer la leçon · +50 XP" */}
+            <div id="lesson-nav" style={{ marginTop: '32px', paddingTop: '24px', borderTop: 'var(--border-default)' }}>
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+                <div>
+                  {prevLesson && (
+                    <Link href={`/moduleslinguistiques/${level}/${prevLesson.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: '#fff', color: 'var(--color-text-secondary)', padding: '10px 18px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', fontWeight: 500, textDecoration: 'none', border: 'var(--border-default)', boxShadow: 'var(--shadow-card)' }}>
+                      <ChevronLeft size={14} /> Leçon précédente
+                    </Link>
+                  )}
+                </div>
+                <LessonCompleteButton
+                  lessonSlug={slug}
+                  nextHref={nextLesson ? `/moduleslinguistiques/${level}/${nextLesson.slug}` : null}
+                  moduleHref={`/moduleslinguistiques/${level}`}
+                  accentColor={accent}
+                />
               </div>
             </div>
           </div>

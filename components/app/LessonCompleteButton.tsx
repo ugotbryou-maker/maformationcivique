@@ -7,6 +7,10 @@ interface Props {
   lessonSlug: string;
   nextSlug?: string | null;
   moduleSlug?: string;
+  // Surcharge pour les leçons langue (chemins différents de /lecon/ et /module/)
+  nextHref?: string | null;
+  moduleHref?: string;
+  accentColor?: string;
 }
 
 interface CompletionResult {
@@ -17,28 +21,21 @@ interface CompletionResult {
   streakDays?: number;
 }
 
-export function LessonCompleteButton({ lessonSlug, nextSlug, moduleSlug }: Props) {
+export function LessonCompleteButton({ lessonSlug, nextSlug, moduleSlug, nextHref, moduleHref, accentColor }: Props) {
   const [state, setState] = useState<'idle' | 'loading' | 'done'>('idle');
   const [result, setResult] = useState<CompletionResult | null>(null);
   const [showToast, setShowToast] = useState(false);
 
-  // Vérifier si déjà complétée au chargement
   useEffect(() => {
-    async function check() {
-      try {
-        const res = await fetch('/api/progress/summary');
-        if (!res.ok) return;
-        const data = await res.json();
-        // Si ce module a une progression, on re-vérifie via complete (alreadyCompleted=true)
-        const modData = moduleSlug ? data[moduleSlug] : null;
-        if (modData && modData.completed > 0) {
-          // Vérification rapide : est-ce que cette leçon précise est done ?
-          // On laisse l'état idle — le bouton restera disponible
-        }
-      } catch { /* silencieux */ }
-    }
-    check();
+    // Vérifier si déjà complétée (silencieux, pour info seulement)
+    fetch('/api/progress/summary').catch(() => {});
   }, [lessonSlug, moduleSlug]);
+
+  const resolvedNextHref = nextHref ?? (nextSlug ? `/lecon/${nextSlug}` : null);
+  const resolvedModuleHref = moduleHref ?? (moduleSlug ? `/module/${moduleSlug}` : '/modulesciviques');
+  const btnGradient = accentColor
+    ? `linear-gradient(135deg, ${accentColor} 0%, #EF4135 100%)`
+    : 'linear-gradient(135deg, #002395 0%, #EF4135 100%)';
 
   const handleComplete = async () => {
     if (state === 'loading') return;
@@ -51,8 +48,7 @@ export function LessonCompleteButton({ lessonSlug, nextSlug, moduleSlug }: Props
       });
 
       if (res.status === 401) {
-        // Non connecté → rediriger
-        window.location.href = `/connexion?redirect=/lecon/${lessonSlug}`;
+        window.location.href = `/connexion`;
         return;
       }
 
@@ -115,7 +111,6 @@ export function LessonCompleteButton({ lessonSlug, nextSlug, moduleSlug }: Props
         flexWrap: 'wrap',
         justifyContent: 'flex-end',
       }}>
-        {/* Si déjà complétée */}
         {(state === 'done' && alreadyDone) ? (
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: '8px',
@@ -128,7 +123,6 @@ export function LessonCompleteButton({ lessonSlug, nextSlug, moduleSlug }: Props
             Leçon déjà complétée
           </div>
         ) : justCompleted ? (
-          /* Juste complétée → bouton "Leçon suivante" ou retour module */
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
@@ -140,13 +134,13 @@ export function LessonCompleteButton({ lessonSlug, nextSlug, moduleSlug }: Props
               <CheckCircle size={16} />
               Complétée !
             </div>
-            {nextSlug ? (
+            {resolvedNextHref ? (
               <a
-                href={`/lecon/${nextSlug}`}
+                href={resolvedNextHref}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '8px',
                   padding: '12px 28px', borderRadius: '100px',
-                  background: 'linear-gradient(135deg, #002395 0%, #EF4135 100%)',
+                  background: btnGradient,
                   color: '#fff', fontSize: '15px', fontWeight: 600,
                   textDecoration: 'none',
                   boxShadow: '0 4px 16px rgba(0,35,149,0.3)',
@@ -156,11 +150,11 @@ export function LessonCompleteButton({ lessonSlug, nextSlug, moduleSlug }: Props
               </a>
             ) : (
               <a
-                href={moduleSlug ? `/module/${moduleSlug}` : '/modules'}
+                href={resolvedModuleHref}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '8px',
                   padding: '12px 28px', borderRadius: '100px',
-                  background: 'linear-gradient(135deg, #002395 0%, #EF4135 100%)',
+                  background: btnGradient,
                   color: '#fff', fontSize: '15px', fontWeight: 600,
                   textDecoration: 'none',
                 }}
@@ -170,16 +164,13 @@ export function LessonCompleteButton({ lessonSlug, nextSlug, moduleSlug }: Props
             )}
           </div>
         ) : (
-          /* Bouton "Terminer" */
           <button
             onClick={handleComplete}
             disabled={state === 'loading'}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '10px',
               padding: '14px 32px', borderRadius: '100px',
-              background: state === 'loading'
-                ? '#E2E8F0'
-                : 'linear-gradient(135deg, #002395 0%, #EF4135 100%)',
+              background: state === 'loading' ? '#E2E8F0' : btnGradient,
               color: state === 'loading' ? '#94A3B8' : '#fff',
               fontSize: '15px', fontWeight: 700,
               border: 'none', cursor: state === 'loading' ? 'wait' : 'pointer',
