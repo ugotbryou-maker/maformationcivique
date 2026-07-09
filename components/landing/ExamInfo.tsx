@@ -27,7 +27,8 @@ export function ExamInfo() {
         position: 'absolute', inset: 0,
         backgroundImage: "url('/images/hero/delacroix-watermark.jpg')",
         backgroundSize: 'cover', backgroundPosition: 'center 30%',
-        opacity: 0.18,
+        opacity: 0.28,
+        mixBlendMode: 'luminosity',
         pointerEvents: 'none',
       }} aria-hidden="true" />
 

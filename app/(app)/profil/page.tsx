@@ -95,17 +95,22 @@ export default function ProfilPage() {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) { setAvatarLoading(false); return; }
-    const ext = file.name.split('.').pop() ?? 'jpg';
+    const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg';
     const path = `${user.id}/avatar.${ext}`;
     const { error: uploadError } = await supabase.storage
       .from('avatars')
-      .upload(path, file, { upsert: true });
+      .upload(path, file, { upsert: true, contentType: file.type });
     if (uploadError) {
-      setAvatarError('Impossible d\'enregistrer la photo. Contactez le support si le problème persiste.');
+      setAvatarError(`Erreur upload : ${uploadError.message}`);
     } else {
-      const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(path);
-      await supabase.auth.updateUser({ data: { avatar_url: publicUrl } });
-      setAvatarUrl(publicUrl + `?t=${Date.now()}`);
+      const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(path);
+      const publicUrl = urlData.publicUrl;
+      const { error: updateError } = await supabase.auth.updateUser({ data: { avatar_url: publicUrl } });
+      if (updateError) {
+        setAvatarError(`Erreur profil : ${updateError.message}`);
+      } else {
+        setAvatarUrl(publicUrl + `?t=${Date.now()}`);
+      }
     }
     setAvatarLoading(false);
     e.target.value = '';

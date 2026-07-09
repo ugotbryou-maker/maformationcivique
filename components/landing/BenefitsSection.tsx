@@ -33,7 +33,7 @@ export function BenefitsSection() {
       {/* Overlay dégradé bleu profond */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(135deg, rgba(0,20,90,0.97) 0%, rgba(0,30,130,0.94) 100%)',
+        background: 'linear-gradient(135deg, rgba(0,20,90,0.88) 0%, rgba(0,30,130,0.84) 100%)',
         pointerEvents: 'none',
       }} aria-hidden="true" />
       {/* Filigrane Caillebotte — au-dessus du dégradé */}
@@ -41,7 +41,8 @@ export function BenefitsSection() {
         position: 'absolute', inset: 0,
         backgroundImage: "url('/images/modules/Caillebotte_Rue_de_Paris.jpg')",
         backgroundSize: 'cover', backgroundPosition: 'center 40%',
-        opacity: 0.14,
+        opacity: 0.32,
+        mixBlendMode: 'luminosity',
         pointerEvents: 'none',
       }} aria-hidden="true" />
 

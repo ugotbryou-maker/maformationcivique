@@ -233,23 +233,21 @@ export default async function DashboardPage() {
               </div>
               <ProgressBar value={langPercent} showPercent label={`${completedLangCount} / ${totalLangLessons} exercices`} height={8} color="#6D28D9" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '14px' }}>
-                {[
-                  { level: 'A2', mods: a2Modules, color: '#059669' },
-                  { level: 'B1', mods: b1Modules, color: '#1D4ED8' },
-                  { level: 'B2', mods: b2Modules, color: '#CC1A1A' },
-                ].map(({ level: lv, mods, color }) => {
-                  const lvSlugs = mods.flatMap((m) => m.lessons.map((l) => l.slug));
-                  const lvCompleted = lvSlugs.filter((s) => completedSlugs.has(s)).length;
-                  const pct = lvSlugs.length > 0 ? Math.round((lvCompleted / lvSlugs.length) * 100) : 0;
+                {[...a2Modules.slice(0, 2), ...b1Modules.slice(0, 1)].map((mod, i) => {
+                  const modSlugs = mod.lessons.map((l) => l.slug);
+                  const modCompleted = modSlugs.filter((s) => completedSlugs.has(s)).length;
+                  const pct = mod.lessons.length > 0 ? Math.round((modCompleted / mod.lessons.length) * 100) : 0;
+                  const levelColors: Record<string, string> = { a2: '#059669', b1: '#1D4ED8', b2: '#CC1A1A', transversal: '#D97706' };
+                  const color = levelColors[mod.level as string] ?? '#6D28D9';
                   return (
-                    <div key={lv} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', width: '20px', flexShrink: 0, fontWeight: 600 }}>
-                        {lv}
+                    <div key={mod.slug} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <span style={{ fontSize: 'var(--font-size-xs)', color, width: '24px', flexShrink: 0, fontWeight: 700, textTransform: 'uppercase' as const }}>
+                        {String(mod.level).toUpperCase()}
                       </span>
                       <div style={{ flex: 1 }}>
                         <ProgressBar value={pct} height={4} color={color} />
                       </div>
-                      <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', width: '32px', textAlign: 'right' }}>
+                      <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', width: '32px', textAlign: 'right' as const }}>
                         {pct}%
                       </span>
                     </div>
