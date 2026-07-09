@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { ArrowRight, BookOpen, Clock, ListChecks, GraduationCap } from 'lucide-react';
+import { ArrowRight, BookOpen, ListChecks } from 'lucide-react';
 import { a2Modules, b1Modules, b2Modules, transversalModules, examenModules } from '@/data/langue';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 
@@ -87,119 +87,117 @@ export default async function LanguePage() {
     return Math.round((done / total) * 100);
   }
 
+  const totalModules = a2Modules.length + b1Modules.length + b2Modules.length + transversalModules.length;
+
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--color-off-white)' }}>
-      {/* Hero */}
-      <div style={{ background: 'linear-gradient(135deg, #001A70 0%, #002395 55%, #6D28D9 100%)', padding: '4rem 1.5rem 3rem', textAlign: 'center' }}>
-        <div style={{ maxWidth: 680, margin: '0 auto' }}>
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            background: 'rgba(255,255,255,0.12)', borderRadius: 100,
-            padding: '6px 18px', marginBottom: '1.5rem',
-            fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.85)',
-            letterSpacing: '.07em', textTransform: 'uppercase',
-          }}>
-            <GraduationCap size={13} /> Cours de français langue étrangère
-          </div>
-          <h1 style={{ fontSize: 'clamp(28px,5vw,40px)', fontWeight: 900, color: '#fff', margin: '0 0 1rem', lineHeight: 1.15 }}>
-            Apprenez le français pour réussir vos démarches
+    <div style={{ minHeight: '80vh', padding: '64px 0' }}>
+      <div className="container">
+        {/* Header — même structure que /modulesciviques */}
+        <div style={{ marginBottom: '48px' }}>
+          <h1 style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text-primary)', marginBottom: '12px' }}>
+            Les {totalModules} modules de langue française
           </h1>
-          <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.78)', margin: '0 0 1.5rem', lineHeight: 1.7 }}>
-            Des leçons conçues pour les situations réelles de la vie en France — administration, travail, logement, santé — du niveau A2 à B2.
+          <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', maxWidth: '520px' }}>
+            Des leçons conçues pour les situations réelles de la vie en France — du niveau A2 à B2.
           </p>
-          <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '24px', marginTop: '20px', flexWrap: 'wrap' }}>
             {[
-              { val: String(a2Modules.length + b1Modules.length + b2Modules.length + transversalModules.length), label: 'modules' },
+              { val: '4', label: 'niveaux' },
+              { val: String(totalModules), label: 'modules' },
               { val: String(totalLessons), label: 'leçons' },
               { val: String(totalExercises), label: 'exercices' },
             ].map(({ val, label }) => (
-              <div key={label} style={{ color: '#fff' }}>
-                <span style={{ fontSize: 22, fontWeight: 800 }}>{val}</span>
-                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginLeft: 6 }}>{label}</span>
+              <div key={label}>
+                <span style={{ fontSize: 'var(--font-size-lg)', fontWeight: 500, color: 'var(--color-blue-france)' }}>{val}</span>
+                <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', marginLeft: '6px' }}>{label}</span>
               </div>
             ))}
           </div>
         </div>
-      </div>
 
-      {/* Cards niveaux */}
-      <div style={{ maxWidth: 880, margin: '0 auto', padding: '2.5rem 1.25rem 1rem' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
-          {LEVELS.map(({ level, label, badge, desc, image, imagePos, gradient, color, modules }) => {
+        {/* Cards niveaux — même hauteur/padding/gap que ModuleList civique */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {LEVELS.map(({ level, label, badge, desc, image, imagePos, gradient, modules }) => {
             const lessonCount = modules.reduce((a, m) => a + m.lessons.length, 0);
             const pct = levelPct(modules as typeof a2Modules);
             return (
-              <Link key={level} href={`/moduleslinguistiques/${level}`} style={{ textDecoration: 'none' }} className="lang-level-card">
-                <article style={{ position: 'relative', borderRadius: 18, overflow: 'hidden', height: 170 }}>
-                  {/* Filigrane */}
+              <Link key={level} href={`/moduleslinguistiques/${level}`} style={{ display: 'block', textDecoration: 'none' }} className="lang-level-card">
+                <article style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden', height: '200px', cursor: 'pointer' }}>
+                  {/* Image de fond */}
                   <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: imagePos, transition: 'transform 400ms ease-out' }} className="lang-level-img" />
                   {/* Overlay */}
                   <div style={{ position: 'absolute', inset: 0, background: gradient }} />
                   {/* Contenu */}
-                  <div style={{ position: 'relative', zIndex: 2, padding: '22px 26px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div style={{ position: 'relative', zIndex: 2, height: '100%', padding: '28px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    {/* Top row */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <span style={{ fontSize: 11, fontWeight: 600, padding: '4px 12px', borderRadius: 100, background: 'rgba(255,255,255,0.18)', color: 'rgba(255,255,255,0.92)', letterSpacing: '.05em', backdropFilter: 'blur(4px)' }}>
+                      <span style={{ fontSize: '11px', fontWeight: 600, padding: '4px 12px', borderRadius: '100px', background: 'rgba(255,255,255,0.18)', color: 'rgba(255,255,255,0.92)', letterSpacing: '.05em', backdropFilter: 'blur(4px)' }}>
                         {badge}
                       </span>
                       {pct > 0 ? (
-                        <span style={{ fontSize: 12, fontWeight: 700, color: '#fff', background: 'rgba(255,255,255,0.2)', padding: '3px 10px', borderRadius: 100, backdropFilter: 'blur(4px)' }}>
+                        <span style={{ fontSize: '12px', fontWeight: 700, color: '#fff', background: 'rgba(255,255,255,0.2)', padding: '3px 10px', borderRadius: '100px', backdropFilter: 'blur(4px)' }}>
                           {pct}%
                         </span>
                       ) : (
                         <ArrowRight size={18} color="rgba(255,255,255,0.6)" />
                       )}
                     </div>
+                    {/* Bottom */}
                     <div>
-                      <h2 style={{ fontSize: 22, fontWeight: 800, color: '#fff', margin: '0 0 4px', letterSpacing: '-0.02em' }}>{label}</h2>
-                      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.78)', margin: '0 0 8px', lineHeight: 1.5, maxWidth: 480 }}>{desc}</p>
+                      <h2 style={{ fontSize: '20px', fontWeight: 600, color: '#fff', marginBottom: '4px', letterSpacing: '-0.02em' }}>{label}</h2>
+                      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.75)', marginBottom: '10px', lineHeight: 1.4 }}>{desc}</p>
                       {pct > 0 && (
-                        <div style={{ height: 4, background: 'rgba(255,255,255,0.22)', borderRadius: 99, marginBottom: 8, overflow: 'hidden' }}>
-                          <div style={{ height: '100%', width: `${pct}%`, background: '#fff', borderRadius: 99, transition: 'width 0.4s ease' }} />
+                        <div style={{ height: '4px', background: 'rgba(255,255,255,0.2)', borderRadius: '100px', overflow: 'hidden', marginBottom: '10px' }}>
+                          <div style={{ height: '100%', width: `${pct}%`, background: '#fff', borderRadius: '100px', transition: 'width 0.4s ease' }} />
                         </div>
                       )}
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, color: 'rgba(255,255,255,0.85)' }}>
-                        <BookOpen size={12} /> {modules.length} modules · {lessonCount} leçons
-                      </span>
+                      <div style={{ display: 'flex', gap: '16px' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '11px', color: 'rgba(255,255,255,0.65)' }}>
+                          <BookOpen size={11} />{modules.length} modules
+                        </span>
+                        <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.65)' }}>{lessonCount} leçons</span>
+                      </div>
                     </div>
                   </div>
                 </article>
               </Link>
             );
           })}
+        </div>
+
+        {/* Examens blancs */}
+        <div style={{ marginTop: '48px' }}>
+          <h2 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 700, color: 'var(--color-text-primary)', marginBottom: '16px' }}>
+            Examens blancs
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+            {examenModules.map((exam, i) => {
+              const imgs = ['/images/modules/Ecole_-_Salle_de_Classe_2.jpg', '/images/modules/hemicycle-parlement-europeen.jpg', '/images/modules/palais-elysee.jpg'];
+              const grads = ['linear-gradient(135deg,#001A70E0,#002395CC)', 'linear-gradient(135deg,#002395E0,#0057A8CC)', 'linear-gradient(135deg,#9F1239E0,#CC1A1ACC)'];
+              return (
+                <Link key={exam.slug} href={`/moduleslinguistiques/examens/${exam.slug}`} style={{ display: 'block', textDecoration: 'none' }} className="lang-level-card">
+                  <article style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden', height: '110px', cursor: 'pointer' }}>
+                    <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${imgs[i]})`, backgroundSize: 'cover', backgroundPosition: 'center 30%', transition: 'transform 400ms ease-out' }} className="lang-level-img" />
+                    <div style={{ position: 'absolute', inset: 0, background: grads[i] }} />
+                    <div style={{ position: 'relative', zIndex: 2, padding: '16px 20px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <ListChecks size={16} color="rgba(255,255,255,0.7)" />
+                      <div>
+                        <div style={{ fontSize: '14px', fontWeight: 700, color: '#fff', marginBottom: '2px' }}>{exam.title}</div>
+                        <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.72)' }}>{exam.subtitle}</div>
+                      </div>
+                    </div>
+                  </article>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      {/* Examens blancs */}
-      <div style={{ maxWidth: 880, margin: '0 auto', padding: '1.5rem 1.25rem 4rem' }}>
-        <h2 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 700, color: 'var(--color-text-primary)', marginBottom: '14px' }}>
-          Examens blancs
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
-          {examenModules.map((exam, i) => {
-            const imgs = ['/images/modules/Ecole_-_Salle_de_Classe_2.jpg', '/images/modules/hemicycle-parlement-europeen.jpg', '/images/modules/palais-elysee.jpg'];
-            const grads = ['linear-gradient(135deg,#001A70E0,#002395CC)', 'linear-gradient(135deg,#002395E0,#0057A8CC)', 'linear-gradient(135deg,#9F1239E0,#CC1A1ACC)'];
-            return (
-              <Link key={exam.slug} href={`/moduleslinguistiques/examens/${exam.slug}`} style={{ textDecoration: 'none' }} className="lang-level-card">
-                <article style={{ position: 'relative', borderRadius: 'var(--radius-lg)', overflow: 'hidden', height: 110 }}>
-                  <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${imgs[i]})`, backgroundSize: 'cover', backgroundPosition: 'center 30%', transition: 'transform 400ms ease-out' }} className="lang-level-img" />
-                  <div style={{ position: 'absolute', inset: 0, background: grads[i] }} />
-                  <div style={{ position: 'relative', zIndex: 2, padding: '16px 20px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                    <ListChecks size={16} color="rgba(255,255,255,0.7)" />
-                    <div>
-                      <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 2 }}>{exam.title}</div>
-                      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.72)' }}>{exam.subtitle}</div>
-                    </div>
-                  </div>
-                </article>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
       <style>{`
+        .lang-level-card article { transition: box-shadow 300ms ease-out, transform 300ms ease-out; }
+        .lang-level-card:hover article { box-shadow: 0 20px 60px rgba(0,0,0,0.25); transform: translateY(-2px); }
         .lang-level-card:hover .lang-level-img { transform: scale(1.04); }
-        .lang-level-card article { box-shadow: 0 4px 20px rgba(0,0,0,0.12); transition: box-shadow 300ms, transform 300ms; }
-        .lang-level-card:hover article { box-shadow: 0 12px 40px rgba(0,0,0,0.22); transform: translateY(-2px); }
       `}</style>
     </div>
   );
