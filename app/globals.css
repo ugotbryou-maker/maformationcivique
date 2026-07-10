@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 
 :root {
   /* Bleus */
@@ -35,7 +34,7 @@
   --gradient-tricolor: linear-gradient(90deg, #002395 0%, #FFFFFF 50%, #CC1A1A 100%);
 
   /* Typographie */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
   --font-size-xs:   11px;
   --font-size-sm:   13px;
   --font-size-base: 15px;
