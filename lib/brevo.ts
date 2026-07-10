@@ -271,6 +271,54 @@ export function premiumActivatedTemplate(name: string, planLabel: string): strin
   return emailShell('#002395', `${CDN}/modules/serment-du-jeu-de-paume.jpg`, '0.72', content);
 }
 
+// 9. Résultats examen blanc — visiteur anonyme (lead capture)
+export function examLeadEmailTemplate(
+  level: string,
+  levelLabel: string,
+  score: number,
+  total: number,
+  pct: number,
+  passed: boolean,
+  demarche: string,
+): string {
+  const statusColor = passed ? '#4ADE80' : '#F87171';
+  const statusLabel = passed ? '✓ Examen réussi' : '✗ Examen non validé';
+
+  const content = `
+    <h1 style="font-family:Georgia,serif;font-size:clamp(24px,6vw,32px);font-weight:400;color:#ffffff;margin:0 0 8px;line-height:1.2;">
+      Vos résultats d'examen blanc
+    </h1>
+    <p style="font-family:Arial,sans-serif;font-size:14px;color:rgba(255,255,255,0.7);margin:0 0 28px;">
+      Niveau ${level} — ${levelLabel}
+    </p>
+
+    <!-- Score -->
+    <div style="background:rgba(255,255,255,0.12);border-radius:16px;padding:28px 24px;margin-bottom:24px;text-align:center;">
+      <div style="font-family:Arial,sans-serif;font-size:64px;font-weight:900;color:#ffffff;line-height:1;">${pct}%</div>
+      <div style="font-family:Arial,sans-serif;font-size:15px;font-weight:700;color:${statusColor};margin-top:10px;">${statusLabel}</div>
+      <div style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.65);margin-top:6px;">
+        ${score} bonnes réponses sur ${total} · Score requis : 80%
+      </div>
+    </div>
+
+    <!-- Démarche -->
+    <div style="font-family:Arial,sans-serif;font-size:14px;color:rgba(255,255,255,0.85);text-align:left;margin-bottom:24px;line-height:1.6;">
+      <strong style="color:#ffffff;">Votre démarche :</strong> ${demarche}
+      <br/>
+      ${passed
+        ? 'Félicitations ! Continuez à vous entraîner pour consolider vos connaissances.'
+        : 'Ne vous découragez pas — avec les bons modules, vous progresserez rapidement.'}
+    </div>
+
+    ${ctaBtn('https://www.maformationcivique.fr/inscription?utm_source=email-exam-lead&utm_medium=email', 'Créer mon compte gratuit →', '#001A70')}
+
+    <p style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.55);margin:0;line-height:1.6;text-align:center;">
+      Accédez à vos résultats détaillés, suivez votre progression et préparez-vous avec les modules adaptés à votre démarche.
+    </p>
+  `;
+  return emailShell('#001A70', `${CDN}/modules/republique.jpg`, '0.72', content);
+}
+
 // ─── Templates admin (internes, pas de design visuel) ────────────────────────
 
 export function adminNewUserTemplate(email: string, name: string, date: string): string {

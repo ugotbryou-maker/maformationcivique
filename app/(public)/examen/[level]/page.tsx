@@ -5,11 +5,12 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
   ChevronRight, ChevronLeft, Clock, CheckCircle, XCircle,
-  Trophy, AlertCircle, Mail, ArrowRight, RotateCcw, Home,
-  Shield, Star, Award, Zap,
+  AlertCircle, Mail, ArrowRight, RotateCcw, Home,
+  Shield, Star, Award, Zap, Lock, UserPlus,
 } from 'lucide-react';
 import { getExamQuestions, type Question, type ExamLevel } from '@/data/questions';
 import { BADGES } from '@/lib/gamification';
+import { createClient } from '@/lib/supabase';
 
 // ── Config niveaux ────────────────────────────────────────────────────────────
 const LEVEL_CONFIG: Record<ExamLevel, {
@@ -71,9 +72,20 @@ export default function ExamPage() {
   const [timerActive, setTimerActive] = useState(false);
   const [email, setEmail] = useState('');
   const [emailSent, setEmailSent] = useState(false);
+  const [demarche, setDemarche] = useState('');
+  const [leadSubmitting, setLeadSubmitting] = useState(false);
   const [xpEarned, setXpEarned] = useState<number | null>(null);
   const [newBadges, setNewBadges] = useState<string[]>([]);
   const examResultSent = useRef(false);
+  const isAuthRef = useRef(false);
+
+  // Vérifier si l'utilisateur est connecté (pour sauter la phase lead)
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => {
+      isAuthRef.current = !!data.user;
+    });
+  }, []);
 
   // Charger les questions
   useEffect(() => {
@@ -98,7 +110,8 @@ export default function ExamPage() {
 
   const handleFinish = useCallback(() => {
     setTimerActive(false);
-    setPhase('result');
+    // Visiteurs non connectés → phase lead (capture email) avant les résultats
+    setPhase(isAuthRef.current ? 'result' : 'lead');
   }, []);
 
   const startExam = () => {
@@ -403,6 +416,166 @@ export default function ExamPage() {
     );
   }
 
+  const handleLeadSubmit = async () => {
+    if (!email.includes('@') || !demarche) return;
+    setLeadSubmitting(true);
+    try {
+      await fetch('/api/exam/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, demarche, level, score, total: questions.length }),
+      });
+    } catch { /* non bloquant */ }
+    setLeadSubmitting(false);
+    setEmailSent(true);
+    setPhase('result');
+  };
+
+  // ── LEAD GATE (visiteurs non connectés) ────────────────────────────────────
+  const DEMARCHES = [
+    { value: 'Langue française (A2/B1)', label: 'Langue française (A2 ou B1)' },
+    { value: 'Titre de séjour pluriannuelle (CSP)', label: 'Titre de séjour pluriannuelle (CSP)' },
+    { value: 'Carte de résident', label: 'Carte de résident (CR)' },
+    { value: 'Naturalisation', label: 'Naturalisation' },
+  ];
+
+  if (phase === 'lead') return (
+    <div style={{ minHeight: '100vh', background: 'var(--color-off-white)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.5rem' }}>
+      <div style={{ maxWidth: 520, width: '100%' }}>
+
+        {/* Score verrouillé */}
+        <div style={{
+          position: 'relative', borderRadius: 24, overflow: 'hidden',
+          marginBottom: '1.5rem',
+          background: config.gradient,
+          padding: '2.5rem',
+          textAlign: 'center',
+        }}>
+          {/* Score flou */}
+          <div style={{ filter: 'blur(10px)', opacity: 0.4, pointerEvents: 'none', userSelect: 'none' }}>
+            <div style={{ fontSize: 72, fontWeight: 900, color: '#fff' }}>??%</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: '#fff', marginTop: 4 }}>Résultat disponible</div>
+          </div>
+          {/* Overlay verrou */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10,
+          }}>
+            <div style={{
+              width: 52, height: 52, borderRadius: '50%',
+              background: 'rgba(255,255,255,0.2)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <Lock size={24} color="#fff" />
+            </div>
+            <div style={{ color: '#fff', fontWeight: 800, fontSize: 17 }}>Vos résultats sont prêts</div>
+            <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: 13 }}>
+              Vous avez répondu à {Object.keys(selected).length} questions sur {questions.length}
+            </div>
+          </div>
+        </div>
+
+        {/* Gate card */}
+        <div style={{
+          background: '#fff', borderRadius: 20, padding: '2rem',
+          boxShadow: '0 4px 24px rgba(0,0,35,0.08)',
+        }}>
+          <h2 style={{ fontSize: 20, fontWeight: 800, color: 'var(--color-blue-night)', margin: '0 0 .4rem' }}>
+            Pour accéder à vos résultats
+          </h2>
+          <p style={{ fontSize: 14, color: '#64748B', margin: '0 0 1.5rem', lineHeight: 1.6 }}>
+            Choisissez comment recevoir votre bilan détaillé.
+          </p>
+
+          {/* Option 1 — Créer un compte */}
+          <Link
+            href={`/inscription?utm_source=exam-lead&utm_medium=gate&level=${level}`}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              width: '100%', padding: '1rem', borderRadius: 12, border: 'none',
+              background: config.gradient, color: '#fff',
+              fontSize: 15, fontWeight: 700, cursor: 'pointer', textDecoration: 'none',
+              marginBottom: '1.25rem',
+            }}
+          >
+            <UserPlus size={18} /> Créer mon compte gratuit
+          </Link>
+
+          {/* Séparateur */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
+            <div style={{ flex: 1, height: 1, background: '#E2E8F0' }} />
+            <span style={{ fontSize: 13, color: '#94A3B8', whiteSpace: 'nowrap' }}>ou recevoir par email</span>
+            <div style={{ flex: 1, height: 1, background: '#E2E8F0' }} />
+          </div>
+
+          {/* Option 2 — Email + démarche */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '1rem' }}>
+            <label style={{ fontSize: 13, fontWeight: 600, color: '#374151' }}>Je prépare :</label>
+            {DEMARCHES.map((d) => (
+              <label
+                key={d.value}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '0.6rem',
+                  cursor: 'pointer',
+                  padding: '0.6rem 0.75rem', borderRadius: 8,
+                  border: `1.5px solid ${demarche === d.value ? config.color : '#E2E8F0'}`,
+                  background: demarche === d.value ? config.bg : '#FAFAFA',
+                  transition: 'all .15s',
+                }}
+              >
+                <input
+                  type="radio"
+                  name="demarche"
+                  value={d.value}
+                  checked={demarche === d.value}
+                  onChange={() => setDemarche(d.value)}
+                  style={{ accentColor: config.color, flexShrink: 0 }}
+                />
+                <span style={{ fontSize: 13, color: demarche === d.value ? config.color : '#374151', fontWeight: demarche === d.value ? 600 : 400 }}>
+                  {d.label}
+                </span>
+              </label>
+            ))}
+          </div>
+
+          <input
+            type="email"
+            placeholder="votre@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') handleLeadSubmit(); }}
+            style={{
+              width: '100%', padding: '.75rem 1rem', borderRadius: 10,
+              border: '2px solid #E2E8F0', fontSize: 14, outline: 'none',
+              boxSizing: 'border-box', marginBottom: '0.75rem',
+            }}
+          />
+
+          <button
+            onClick={handleLeadSubmit}
+            disabled={!email.includes('@') || !demarche || leadSubmitting}
+            style={{
+              width: '100%', padding: '1rem', borderRadius: 12, border: 'none',
+              background: !email.includes('@') || !demarche ? '#E2E8F0' : config.gradient,
+              color: !email.includes('@') || !demarche ? '#94A3B8' : '#fff',
+              fontSize: 15, fontWeight: 700, cursor: !email.includes('@') || !demarche ? 'not-allowed' : 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              transition: 'all .2s',
+            }}
+          >
+            <Mail size={16} />
+            {leadSubmitting ? 'Envoi en cours…' : 'Voir mes résultats'}
+            {!leadSubmitting && <ArrowRight size={16} />}
+          </button>
+
+          <p style={{ fontSize: 11, color: '#CBD5E1', textAlign: 'center', marginTop: '0.75rem', lineHeight: 1.5 }}>
+            Vos données ne sont pas revendues. Email utilisé uniquement pour vous envoyer vos résultats.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+
   // ── RÉSULTATS ──────────────────────────────────────────────────────────────
   if (phase === 'result') return (
     <div style={{ minHeight: '100vh', background: 'var(--color-off-white)', padding: '2rem 1.5rem' }}>
@@ -461,66 +634,20 @@ export default function ExamPage() {
           </div>
         </div>
 
-        {/* Lead gen card */}
-        <div style={{
-          background: '#fff', borderRadius: 20, padding: '2rem',
-          boxShadow: '0 4px 24px rgba(0,0,35,0.08)', marginBottom: '1.5rem',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1rem' }}>
-            <div style={{
-              width: 36, height: 36, borderRadius: '50%',
-              background: config.gradient,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <Mail size={18} color="#fff" />
-            </div>
+        {/* Confirmation email envoyé (visiteurs passés par le lead gate) */}
+        {emailSent && (
+          <div style={{
+            background: '#fff', borderRadius: 20, padding: '1.25rem 1.5rem',
+            boxShadow: '0 4px 24px rgba(0,0,35,0.08)', marginBottom: '1.5rem',
+            display: 'flex', alignItems: 'center', gap: 10,
+          }}>
+            <CheckCircle size={20} color="#22C55E" style={{ flexShrink: 0 }} />
             <div>
-              <div style={{ fontWeight: 700, color: 'var(--color-blue-night)', fontSize: 15 }}>
-                Vous préparez votre {level === 'CSP' ? 'carte de séjour pluriannuelle' : level === 'CR' ? 'carte de résident' : 'naturalisation'} ?
-              </div>
-              <div style={{ fontSize: 12, color: '#64748B' }}>Recevez votre bilan personnalisé + conseils</div>
+              <div style={{ fontWeight: 700, color: '#15803D', fontSize: 14 }}>Résultats envoyés à {email}</div>
+              <div style={{ fontSize: 13, color: '#64748B', marginTop: 2 }}>Créez un compte pour suivre votre progression et accéder aux cours.</div>
             </div>
           </div>
-
-          {!emailSent ? (
-            <>
-              <p style={{ fontSize: 14, color: '#475569', marginBottom: '1rem', lineHeight: 1.6 }}>
-                Laissez votre email pour recevoir votre résultat détaillé et être contacté par
-                un conseiller spécialisé <strong>{level === 'CSP' ? 'titres de séjour' : level === 'CR' ? 'carte de résident' : 'naturalisation'}</strong>.
-              </p>
-              <div style={{ display: 'flex', gap: '.75rem' }}>
-                <input
-                  type="email"
-                  placeholder="votre@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  style={{
-                    flex: 1, padding: '.75rem 1rem', borderRadius: 10,
-                    border: '2px solid #E2E8F0', fontSize: 14, outline: 'none',
-                  }}
-                />
-                <button
-                  onClick={() => {
-                    if (email.includes('@')) setEmailSent(true);
-                  }}
-                  style={{
-                    padding: '.75rem 1.25rem', borderRadius: 10, border: 'none',
-                    background: config.gradient, color: '#fff',
-                    fontWeight: 700, fontSize: 14, cursor: 'pointer',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  Envoyer <ArrowRight size={14} style={{ display: 'inline' }} />
-                </button>
-              </div>
-            </>
-          ) : (
-            <div style={{ background: '#F0FDF4', padding: '1rem', borderRadius: 10, color: '#15803D', fontWeight: 600, fontSize: 14 }}>
-              <CheckCircle size={16} style={{ display: 'inline', marginRight: 6 }} />
-              Parfait ! Vous serez contacté sous 24h par un conseiller spécialisé.
-            </div>
-          )}
-        </div>
+        )}
 
         {/* Détail par question */}
         <div style={{ background: '#fff', borderRadius: 20, padding: '1.5rem', boxShadow: '0 2px 16px rgba(0,0,35,0.06)', marginBottom: '1.5rem' }}>
