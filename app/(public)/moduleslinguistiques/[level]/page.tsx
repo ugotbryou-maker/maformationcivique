@@ -190,7 +190,7 @@ export default async function LangueLevelPage({ params }: Props) {
                     return (
                       <Link
                         key={lesson.slug}
-                        href={`/moduleslinguistiques/${level}/${lesson.slug}`}
+                        href={`/moduleslinguistiques/${level}/${level === 'examens' ? mod.slug : lesson.slug}`}
                         style={{
                           display: 'flex', alignItems: 'center', gap: '12px',
                           padding: '13px 22px', textDecoration: 'none',
