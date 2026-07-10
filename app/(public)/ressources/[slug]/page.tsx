@@ -93,7 +93,7 @@ export default async function ArticlePage({ params }: Props) {
       }}>
         {/* Image de couverture — plein fond */}
         {post.coverImage && (
-          <div style={{ position: 'absolute', inset: 0 }}>
+          <div style={{ position: 'absolute', inset: 0, animation: 'article-hero-img-in 350ms ease both' }}>
             <PostVisual post={post} sizes="100vw" priority />
           </div>
         )}
@@ -304,6 +304,7 @@ export default async function ArticlePage({ params }: Props) {
                           {/* Vignette */}
                           {rel.coverImage && (
                             <div style={{
+                              position: 'relative',
                               width: 80, height: 64, borderRadius: 10, overflow: 'hidden',
                               flexShrink: 0, background: '#E2E8F0',
                             }}>
@@ -512,6 +513,10 @@ export default async function ArticlePage({ params }: Props) {
       )}
 
       <style>{`
+        @keyframes article-hero-img-in {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
         .article-layout {
           display: grid;
           grid-template-columns: 1fr 300px;
