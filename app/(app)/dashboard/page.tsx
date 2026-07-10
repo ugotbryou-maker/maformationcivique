@@ -233,16 +233,17 @@ export default async function DashboardPage() {
               </div>
               <ProgressBar value={langPercent} showPercent label={`${completedLangCount} / ${totalLangLessons} exercices`} height={8} color="#6D28D9" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '14px' }}>
-                {[...a2Modules.slice(0, 2), ...b1Modules.slice(0, 1)].map((mod, i) => {
+                {[...a2Modules.slice(0, 2), ...b1Modules.slice(0, 1)].map((mod) => {
                   const modSlugs = mod.lessons.map((l) => l.slug);
                   const modCompleted = modSlugs.filter((s) => completedSlugs.has(s)).length;
                   const pct = mod.lessons.length > 0 ? Math.round((modCompleted / mod.lessons.length) * 100) : 0;
                   const levelColors: Record<string, string> = { a2: '#059669', b1: '#1D4ED8', b2: '#CC1A1A', transversal: '#D97706' };
-                  const color = levelColors[mod.level as string] ?? '#6D28D9';
+                  const color = levelColors[String(mod.level).toLowerCase()] ?? '#6D28D9';
+                  const shortTitle = mod.title.split(/\s+/)[0];
                   return (
-                    <div key={mod.slug} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <span style={{ fontSize: 'var(--font-size-xs)', color, width: '24px', flexShrink: 0, fontWeight: 700, textTransform: 'uppercase' as const }}>
-                        {String(mod.level).toUpperCase()}
+                    <div key={mod.slug} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span style={{ fontSize: '10px', color, width: '56px', flexShrink: 0, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>
+                        {shortTitle}
                       </span>
                       <div style={{ flex: 1 }}>
                         <ProgressBar value={pct} height={4} color={color} />
