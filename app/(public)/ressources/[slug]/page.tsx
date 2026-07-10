@@ -5,6 +5,7 @@ import { urlFor } from '@/lib/sanity/client';
 import { CategoryTag, PostVisual, formatDate } from '@/components/app/PostUI';
 import { ArticleBody } from '@/components/app/ArticleBody';
 import { ArticleReadingProgress } from '@/components/app/ArticleReadingProgress';
+import { ArticleContactForm } from '@/components/app/ArticleContactForm';
 import { Clock, ArrowLeft, ArrowRight, Tag, HelpCircle, BookOpen } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -70,41 +71,62 @@ export default async function ArticlePage({ params }: Props) {
   return (
     <div style={{ minHeight: '100vh', background: '#F8F9FC' }}>
 
-      {/* Barre de lecture rouge */}
+      {/* Barre de lecture */}
       <ArticleReadingProgress color={cat.color} />
 
-      {/* Hero article */}
+      {/* ── Hero plein format ── */}
       <div style={{
-        position: 'relative', overflow: 'hidden',
-        background: `linear-gradient(135deg, #001A70 0%, #002395 60%, ${cat.color} 100%)`,
+        position: 'relative',
+        minHeight: '520px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        overflow: 'hidden',
+        background: '#001A70',
       }}>
+        {/* Image de couverture — plein fond */}
         {post.coverImage && (
-          <div style={{ position: 'absolute', inset: 0, opacity: 0.18 }}>
+          <div style={{ position: 'absolute', inset: 0 }}>
             <PostVisual post={post} sizes="100vw" priority />
           </div>
         )}
-        <div className="container" style={{ position: 'relative', zIndex: 1, padding: '2.5rem 24px 2rem' }}>
+        {/* Gradient sombre ancré en bas pour lisibilité */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to top, rgba(0,10,60,0.96) 0%, rgba(0,20,90,0.75) 40%, rgba(0,20,90,0.25) 75%, rgba(0,20,90,0.08) 100%)',
+        }} />
+
+        {/* Contenu — ancré en bas */}
+        <div className="container" style={{ position: 'relative', zIndex: 1, padding: '0 24px 3rem' }}>
           <Link href="/ressources" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
-            color: 'rgba(255,255,255,0.65)', fontSize: 13, textDecoration: 'none', marginBottom: '1.25rem',
+            color: 'rgba(255,255,255,0.6)', fontSize: 13, textDecoration: 'none',
+            marginBottom: '1.25rem',
           }}>
             <ArrowLeft size={13} /> Retour aux ressources
           </Link>
-          <div style={{ marginBottom: '0.875rem' }}>
+
+          <div style={{ marginBottom: '0.75rem' }}>
             <CategoryTag category={post.category} size="md" />
           </div>
+
           <h1 style={{
-            fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900,
-            color: '#fff', margin: '0 0 0.875rem', lineHeight: 1.2,
-            maxWidth: 760,
+            fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 900,
+            color: '#fff', margin: '0 0 0.875rem', lineHeight: 1.15,
+            maxWidth: 780, textShadow: '0 2px 12px rgba(0,0,0,0.35)',
           }}>
             {post.title}
           </h1>
-          <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.8)', lineHeight: 1.65, margin: 0, maxWidth: 680 }}>
+
+          <p style={{
+            fontSize: 17, color: 'rgba(255,255,255,0.82)',
+            lineHeight: 1.65, margin: '0 0 1.25rem', maxWidth: 640,
+          }}>
             {post.excerpt}
           </p>
+
           {/* Meta strip */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '1.25rem', alignItems: 'center' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
             {post.author?.name && (
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 {post.author.avatar ? (
@@ -112,25 +134,26 @@ export default async function ArticlePage({ params }: Props) {
                   <img
                     src={(urlFor(post.author.avatar) as { width?: (n: number) => { url: () => string } })?.width?.(32)?.url?.() ?? ''}
                     alt={post.author.name}
-                    style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.3)' }}
+                    style={{ width: 30, height: 30, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(255,255,255,0.4)' }}
                   />
                 ) : (
                   <div style={{
-                    width: 28, height: 28, borderRadius: '50%',
+                    width: 30, height: 30, borderRadius: '50%',
                     background: 'rgba(255,255,255,0.2)', color: '#fff',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 12, fontWeight: 700,
+                    fontSize: 13, fontWeight: 700,
                   }}>
                     {post.author.name[0]?.toUpperCase()}
                   </div>
                 )}
-                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', fontWeight: 600 }}>{post.author.name}</span>
+                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>{post.author.name}</span>
               </div>
             )}
-            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>
+            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)' }}>·</span>
+            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)' }}>
               {formatDate(post.publishedAt)}
             </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, color: 'rgba(255,255,255,0.65)' }}>
               <Clock size={12} /> {post.readingTime} min de lecture
             </span>
           </div>
@@ -143,17 +166,6 @@ export default async function ArticlePage({ params }: Props) {
 
           {/* ── Colonne gauche : corps de l'article ── */}
           <main id="article-body">
-
-            {/* Image de couverture (si présente) */}
-            {post.coverImage && (
-              <div style={{
-                borderRadius: 16, overflow: 'hidden',
-                aspectRatio: '16 / 9', background: '#E2E8F0', marginBottom: '2rem',
-                boxShadow: '0 4px 24px rgba(0,0,0,0.1)',
-              }}>
-                <PostVisual post={post} sizes="(max-width: 900px) 100vw, 60vw" priority />
-              </div>
-            )}
 
             {/* Corps */}
             <div style={{ fontSize: 16, lineHeight: 1.85, color: '#374151' }}>
@@ -280,6 +292,9 @@ export default async function ArticlePage({ params }: Props) {
           {/* ── Colonne droite : sidebar sticky ── */}
           <aside className="article-sidebar">
 
+            {/* Formulaire "Besoin d'aide" — en premier, sticky */}
+            <ArticleContactForm />
+
             {/* Table des matières */}
             {toc.length > 0 && (
               <div className="sidebar-card">
@@ -318,78 +333,62 @@ export default async function ArticlePage({ params }: Props) {
               </div>
             )}
 
-            {/* Auteur */}
-            {post.author?.name && (
-              <div className="sidebar-card">
-                <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.08em', textTransform: 'uppercase', color: '#94A3B8', marginBottom: '0.875rem' }}>
-                  Écrit par
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  {post.author.avatar ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={(urlFor(post.author.avatar) as { width?: (n: number) => { url: () => string } })?.width?.(56)?.url?.() ?? ''}
-                      alt={post.author.name}
-                      style={{ width: 48, height: 48, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
-                    />
-                  ) : (
-                    <div style={{
-                      width: 48, height: 48, borderRadius: '50%', flexShrink: 0,
-                      background: 'var(--gradient-primary)', color: '#fff',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 18, fontWeight: 700,
-                    }}>
-                      {post.author.name[0]?.toUpperCase()}
-                    </div>
-                  )}
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>{post.author.name}</div>
-                    {post.author.bio && (
-                      <p style={{ margin: '4px 0 0', fontSize: 12, color: '#94A3B8', lineHeight: 1.5 }}>
-                        {post.author.bio}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Meta */}
+            {/* Meta compact */}
             <div className="sidebar-card">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <div>
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase', color: '#94A3B8', marginBottom: 4 }}>Publié le</div>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: '#1A1A2E' }}>{formatDate(post.publishedAt)}</div>
-                </div>
-                <div>
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase', color: '#94A3B8', marginBottom: 4 }}>Lecture</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 14, fontWeight: 600, color: '#1A1A2E' }}>
-                    <Clock size={13} color={cat.color} /> {post.readingTime} min
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {post.author?.name && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingBottom: '10px', borderBottom: '1px solid #F1F5F9' }}>
+                    {post.author.avatar ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={(urlFor(post.author.avatar) as { width?: (n: number) => { url: () => string } })?.width?.(40)?.url?.() ?? ''}
+                        alt={post.author.name}
+                        style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+                      />
+                    ) : (
+                      <div style={{
+                        width: 36, height: 36, borderRadius: '50%', flexShrink: 0,
+                        background: 'var(--gradient-primary)', color: '#fff',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: 15, fontWeight: 700,
+                      }}>
+                        {post.author.name[0]?.toUpperCase()}
+                      </div>
+                    )}
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E' }}>{post.author.name}</div>
+                      {post.author.bio && (
+                        <p style={{ margin: 0, fontSize: 11, color: '#94A3B8', lineHeight: 1.4 }}>{post.author.bio}</p>
+                      )}
+                    </div>
                   </div>
+                )}
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: '#64748B' }}>
+                  <span>{formatDate(post.publishedAt)}</span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <Clock size={12} color={cat.color} /> {post.readingTime} min
+                  </span>
                 </div>
-                <div>
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6 }}>Catégorie</div>
-                  <CategoryTag category={post.category} />
-                </div>
+                <CategoryTag category={post.category} />
               </div>
             </div>
 
-            {/* Mini CTA */}
+            {/* Mini CTA examen */}
             <div style={{
-              background: 'linear-gradient(135deg, #001A70 0%, #002395 80%)',
-              borderRadius: 16, padding: '1.25rem',
+              background: 'linear-gradient(135deg, #001A70 0%, #002395 100%)',
+              borderRadius: 16, padding: '1.1rem',
             }}>
-              <div style={{ fontSize: 14, fontWeight: 800, color: '#fff', marginBottom: 6 }}>Prêt à vous tester ?</div>
-              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', margin: '0 0 1rem', lineHeight: 1.6 }}>
-                Examen blanc officiel · 40 questions · Résultats immédiats
+              <div style={{ fontSize: 13, fontWeight: 800, color: '#fff', marginBottom: 4 }}>Testez vos connaissances</div>
+              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', margin: '0 0 0.875rem', lineHeight: 1.6 }}>
+                Examen blanc · 40 questions · Résultats immédiats
               </p>
               <Link href="/examen" style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
                 background: '#fff', color: '#002395',
-                padding: '10px 16px', borderRadius: 10,
+                padding: '9px 14px', borderRadius: 10,
                 fontSize: 13, fontWeight: 700, textDecoration: 'none',
               }}>
-                Commencer <ArrowRight size={14} />
+                Commencer <ArrowRight size={13} />
               </Link>
             </div>
 
