@@ -2,14 +2,14 @@
  * Brevo (ex-Sendinblue) — envoi d'emails transactionnels
  * Docs: https://developers.brevo.com/reference/sendtransacemail
  *
- * Images de fond dans public/images/email/ :
- *   Marianne.png    → bienvenue, reset MDP
- *   Statue.png      → lead gen, premium activé
- *   handshake.png   → invitations cabinet (admin + membre)
- *   cartebancaire.png → promo, confirmation paiement
+ * Images de fond hébergées sur le site (dans public/images/) :
+ *   /images/modules/republique.jpg     → bienvenue, reset MDP   (~488 KB)
+ *   /images/modules/fronton-hotel-dieu.jpg → lead gen, statue   (~572 KB)
+ *   /images/partenaires/handshake.jpg  → invitations cabinet    (~1.1 MB)
+ *   /images/modules/serment-du-jeu-de-paume.jpg → premium/promo (~508 KB)
  */
 
-const CDN = 'https://www.maformationcivique.fr/images/email';
+const CDN = 'https://www.maformationcivique.fr/images';
 
 interface EmailRecipient {
   email: string;
@@ -47,8 +47,10 @@ export async function sendEmail(options: SendEmailOptions): Promise<void> {
 }
 
 // ─── Shell ───────────────────────────────────────────────────────────────────
-// L'image est superposée d'un overlay couleur semi-transparent via linear-gradient.
-// Le background-color est le fallback pour Outlook desktop (qui ignore les background-image sur div).
+// background-color est le fallback Outlook (qui ignore background-image sur div).
+// SVG non supporté dans les clients email → logo text-only.
+// Les <a> sont enveloppés d'un <span style="color:#fff"> pour contourner
+// l'override Gmail qui force les liens en bleu.
 
 function emailShell(bgColor: string, bgImage: string, overlayOpacity: string, content: string): string {
   const overlayColor = bgColor === '#CC1A1A'
@@ -69,24 +71,11 @@ function emailShell(bgColor: string, bgImage: string, overlayOpacity: string, co
 <body style="margin:0;padding:0;font-family:Georgia,serif;">
 <div style="${bgStyle}min-height:600px;padding:40px 24px 48px;text-align:center;">
 
-  <!-- Logo -->
+  <!-- Logo text-only (SVG non supporté dans les clients email) -->
   <div style="margin-bottom:36px;">
-    <table role="presentation" style="margin:0 auto;border-spacing:0;">
-      <tr>
-        <td style="vertical-align:middle;padding-right:10px;">
-          <svg width="36" height="36" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <rect width="100" height="100" rx="14" fill="white"/>
-            <svg x="10" y="24" width="80" height="52" viewBox="80 146 276 178">
-              <path d="M236.431 146C271.185 147.209 300.47 161.915 320.697 185.675C340.924 209.435 349.481 240.703 344.979 271.519L344.924 271.504C343.461 281.199 338.022 289.909 329.865 295.447C321.709 300.985 311.593 302.844 302.018 300.584C292.444 298.323 284.206 292.139 279.251 283.572C274.296 275.005 273.064 264.77 275.839 255.258C279.08 244.192 278.278 232.35 273.565 221.832C268.853 211.315 260.513 202.826 250.063 197.846L236.431 146Z" fill="#DE0019"/>
-              <path d="M199.827 323.516C165.073 322.307 135.788 307.601 115.561 283.841C95.334 260.081 86.7765 228.813 91.279 197.997L91.3337 198.012C92.797 188.317 98.2358 179.607 106.392 174.069C114.549 168.531 124.664 166.672 134.239 168.932C143.814 171.193 152.052 177.377 157.007 185.944C161.962 194.511 163.193 204.746 160.419 214.258C157.177 225.324 157.979 237.166 162.692 247.684C167.404 258.201 175.744 266.69 186.195 271.67L199.827 323.516Z" fill="#031E6C"/>
-            </svg>
-          </svg>
-        </td>
-        <td style="vertical-align:middle;text-align:left;">
-          <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;color:#ffffff;line-height:1.3;letter-spacing:0.06em;text-transform:uppercase;">MA<br/>FORMATION<br/>CIVIQUE.FR</span>
-        </td>
-      </tr>
-    </table>
+    <a href="https://www.maformationcivique.fr" style="text-decoration:none;">
+      <span style="font-family:Arial,sans-serif;font-size:13px;font-weight:800;color:#ffffff;letter-spacing:0.10em;text-transform:uppercase;">ma<span style="opacity:0.75;">formation</span>civique.fr</span>
+    </a>
   </div>
 
   <!-- Content -->
@@ -96,20 +85,14 @@ function emailShell(bgColor: string, bgImage: string, overlayOpacity: string, co
 
   <!-- Footer -->
   <div style="margin-top:44px;">
-    <p style="font-family:Arial,sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,0.85);margin:0 0 14px;">maformationcivique.fr</p>
-    <table role="presentation" style="margin:0 auto;border-spacing:0;">
-      <tr>
-        <td style="padding:0 8px;">
-          <a href="https://www.facebook.com/maformationcivique" style="display:inline-block;width:34px;height:34px;line-height:34px;background:rgba(255,255,255,0.18);border-radius:50%;color:#fff;font-family:Arial,sans-serif;font-size:15px;font-weight:900;text-decoration:none;text-align:center;">f</a>
-        </td>
-        <td style="padding:0 8px;">
-          <a href="https://www.instagram.com/maformationcivique" style="display:inline-block;width:34px;height:34px;line-height:32px;background:rgba(255,255,255,0.18);border-radius:50%;color:#fff;font-family:Arial,sans-serif;font-size:12px;font-weight:700;text-decoration:none;text-align:center;border:1px solid rgba(255,255,255,0.35);">◎</a>
-        </td>
-      </tr>
-    </table>
-    <p style="font-family:Arial,sans-serif;font-size:11px;color:rgba(255,255,255,0.4);margin:14px 0 0;">
-      © 2025 maformationcivique.fr ·
-      <a href="https://www.maformationcivique.fr/confidentialite" style="color:rgba(255,255,255,0.4);text-decoration:underline;">Confidentialité</a>
+    <a href="https://www.maformationcivique.fr" style="text-decoration:none;">
+      <span style="font-family:Arial,sans-serif;font-size:13px;font-weight:700;color:#ffffff;">maformationcivique.fr</span>
+    </a>
+    <p style="font-family:Arial,sans-serif;font-size:11px;color:rgba(255,255,255,0.55);margin:14px 0 0;">
+      © 2026 maformationcivique.fr ·
+      <a href="https://www.maformationcivique.fr/confidentialite" style="text-decoration:underline;">
+        <span style="color:rgba(255,255,255,0.55);">Confidentialité</span>
+      </a>
     </p>
   </div>
 
@@ -120,7 +103,9 @@ function emailShell(bgColor: string, bgImage: string, overlayOpacity: string, co
 
 // CTA principal (bouton blanc, texte coloré)
 function ctaBtn(href: string, label: string, textColor: string): string {
-  return `<a href="${href}" style="display:inline-block;padding:16px 0;width:100%;max-width:360px;background:#ffffff;color:${textColor};text-decoration:none;border-radius:12px;font-family:Arial,sans-serif;font-size:17px;font-weight:800;letter-spacing:0.01em;margin:24px 0;">${label}</a>`;
+  return `<a href="${href}" style="display:inline-block;padding:16px 0;width:100%;max-width:360px;background:#ffffff;text-decoration:none;border-radius:12px;margin:24px 0;">
+    <span style="font-family:Arial,sans-serif;font-size:17px;font-weight:800;letter-spacing:0.01em;color:${textColor};">${label}</span>
+  </a>`;
 }
 
 // ─── Templates ───────────────────────────────────────────────────────────────
@@ -138,7 +123,7 @@ export function welcomeOrganicTemplate(name: string): string {
     </div>
     ${ctaBtn('https://www.maformationcivique.fr/dashboard', 'Commencer ma formation →', '#CC1A1A')}
   `;
-  return emailShell('#CC1A1A', `${CDN}/Marianne.png`, '0.72', content);
+  return emailShell('#CC1A1A', `${CDN}/modules/republique.jpg`, '0.72', content);
 }
 
 // 2. Bienvenue — utilisateur invité par un cabinet (J0)
@@ -153,7 +138,7 @@ export function welcomeCabinetTemplate(name: string, cabinetName: string): strin
     </div>
     ${ctaBtn('https://www.maformationcivique.fr/dashboard', 'Commencer ma formation →', '#002395')}
   `;
-  return emailShell('#002395', `${CDN}/Marianne.png`, '0.72', content);
+  return emailShell('#002395', `${CDN}/modules/republique.jpg`, '0.72', content);
 }
 
 // 3. Lead gen — mise en relation avocat / examen de langue (J+1, organique uniquement)
@@ -184,7 +169,7 @@ export function leadGenTemplate(name: string): string {
       </tr>
     </table>
   `;
-  return emailShell('#002395', `${CDN}/Statue.png`, '0.75', content);
+  return emailShell('#002395', `${CDN}/modules/fronton-hotel-dieu.jpg`, '0.75', content);
 }
 
 // 4. Promotion — -15% premier mois (J+5, organique non-premium uniquement)
@@ -209,11 +194,11 @@ export function promoTemplate(name: string, promoCode = 'BIENVENUE15'): string {
 
     ${ctaBtn(promoUrl, 'Je m\'abonne moins cher', '#CC1A1A')}
 
-    <p style="font-family:Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.5);margin:0;line-height:1.5;">
-      Offre valable 48h · Code <strong style="color:rgba(255,255,255,0.75);">${promoCode}</strong> appliqué automatiquement
+    <p style="font-family:Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.55);margin:0;line-height:1.5;">
+      Offre valable 48h · Code <strong style="color:rgba(255,255,255,0.8);">${promoCode}</strong> appliqué automatiquement
     </p>
   `;
-  return emailShell('#CC1A1A', `${CDN}/cartebancaire.png`, '0.70', content);
+  return emailShell('#CC1A1A', `${CDN}/modules/serment-du-jeu-de-paume.jpg`, '0.70', content);
 }
 
 // 5. Réinitialisation mot de passe
@@ -227,11 +212,11 @@ export function resetPasswordTemplate(resetLink: string): string {
       <p style="margin:0;"><strong>Le lien est valable 1 heure.</strong></p>
     </div>
     ${ctaBtn(resetLink, 'Réinitialiser le mot de passe →', '#002395')}
-    <p style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.5);margin:0;line-height:1.6;">
+    <p style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.55);margin:0;line-height:1.6;">
       Si vous n'avez pas fait cette demande, ignorez cet email.
     </p>
   `;
-  return emailShell('#002395', `${CDN}/Marianne.png`, '0.72', content);
+  return emailShell('#002395', `${CDN}/modules/republique.jpg`, '0.72', content);
 }
 
 // 6. Invitation cabinet — admin
@@ -245,11 +230,11 @@ export function cabinetAdminInviteTemplate(cabinetName: string, inviteLink: stri
       <p style="margin:0;"><strong>Vous avez été désigné(e) administrateur</strong> : invitez vos clients et suivez leur progression depuis votre espace.</p>
     </div>
     ${ctaBtn(inviteLink, 'Gérer mon espace →', '#002395')}
-    <p style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.5);margin:0;line-height:1.6;">
+    <p style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.55);margin:0;line-height:1.6;">
       Lien valable 30 jours.
     </p>
   `;
-  return emailShell('#002395', `${CDN}/handshake.png`, '0.74', content);
+  return emailShell('#002395', `${CDN}/partenaires/handshake.jpg`, '0.74', content);
 }
 
 // 7. Invitation cabinet — membre/client
@@ -263,11 +248,11 @@ export function cabinetMemberInviteTemplate(cabinetName: string, inviteLink: str
       <p style="margin:0;">Préparez votre examen civique et linguistique à votre rythme.</p>
     </div>
     ${ctaBtn(inviteLink, 'Créer mon compte →', '#CC1A1A')}
-    <p style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.5);margin:0;line-height:1.6;">
+    <p style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.55);margin:0;line-height:1.6;">
       Lien valable 30 jours.
     </p>
   `;
-  return emailShell('#CC1A1A', `${CDN}/handshake.png`, '0.72', content);
+  return emailShell('#CC1A1A', `${CDN}/partenaires/handshake.jpg`, '0.72', content);
 }
 
 // 8. Confirmation Premium activé (après paiement Stripe)
@@ -283,7 +268,7 @@ export function premiumActivatedTemplate(name: string, planLabel: string): strin
     </div>
     ${ctaBtn('https://www.maformationcivique.fr/dashboard', 'Accéder à ma formation →', '#002395')}
   `;
-  return emailShell('#002395', `${CDN}/cartebancaire.png`, '0.72', content);
+  return emailShell('#002395', `${CDN}/modules/serment-du-jeu-de-paume.jpg`, '0.72', content);
 }
 
 // ─── Templates admin (internes, pas de design visuel) ────────────────────────
