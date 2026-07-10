@@ -83,12 +83,13 @@ export default async function ArticlePage({ params }: Props) {
       {/* ── Hero plein format ── */}
       <div style={{
         position: 'relative',
-        minHeight: '520px',
+        minHeight: 'max(520px, 60vh)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-end',
         overflow: 'hidden',
         background: '#001A70',
+        borderRadius: '0 0 28px 28px',
       }}>
         {/* Image de couverture — plein fond */}
         {post.coverImage && (
