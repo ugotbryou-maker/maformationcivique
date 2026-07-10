@@ -1,5 +1,7 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { BrandLogo } from '@/components/ui/BrandLogo';
+import type { TenantConfig } from '@/lib/tenants';
 
 const footerLinks = {
   Préparer: [
@@ -27,7 +29,7 @@ const footerLinks = {
   ],
 };
 
-export function Footer() {
+export function Footer({ tenant }: { tenant?: TenantConfig | null }) {
   return (
     <footer
       style={{
@@ -52,11 +54,31 @@ export function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" style={{ display: 'inline-flex', textDecoration: 'none', marginBottom: '16px' }}>
-              <BrandLogo height={44} variant="white" />
+              {tenant ? (
+                <Image
+                  src={tenant.logoLightPath}
+                  alt={tenant.name}
+                  height={44}
+                  width={Math.round(44 * tenant.logoAspect)}
+                  style={{ height: 44, width: 'auto' }}
+                />
+              ) : (
+                <BrandLogo height={44} variant="white" />
+              )}
             </Link>
             <p style={{ fontSize: 'var(--font-size-sm)', lineHeight: 1.6, maxWidth: '220px' }}>
-              La plateforme de référence pour préparer votre examen civique en France.
+              {tenant
+                ? `La plateforme partenaire de ${tenant.name} pour préparer votre examen civique en France.`
+                : 'La plateforme de référence pour préparer votre examen civique en France.'}
             </p>
+            {tenant && (
+              <p style={{ fontSize: 'var(--font-size-xs)', marginTop: '10px', color: 'rgba(255,255,255,0.4)' }}>
+                Propulsé par{' '}
+                <Link href="https://www.maformationcivique.fr" style={{ color: 'rgba(255,255,255,0.55)', textDecoration: 'underline' }}>
+                  maformationcivique.fr
+                </Link>
+              </p>
+            )}
             <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
               {['FR', 'AR', 'EN', 'PT'].map((l) => (
                 <span
@@ -119,7 +141,7 @@ export function Footer() {
           }}
         >
           <p style={{ fontSize: 'var(--font-size-xs)' }}>
-            © {new Date().getFullYear()} maformationcivique.fr — Tous droits réservés
+            © {new Date().getFullYear()} {tenant ? `${tenant.name} · Propulsé par maformationcivique.fr` : 'maformationcivique.fr'} — Tous droits réservés
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             {/* Instagram */}

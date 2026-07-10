@@ -4,8 +4,10 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X, Globe, User, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import Image from 'next/image';
 import { BrandLogo } from '@/components/ui/BrandLogo';
 import { createClient } from '@/lib/supabase';
+import type { TenantConfig } from '@/lib/tenants';
 import { useRouter } from 'next/navigation';
 
 const navLinks = [
@@ -25,7 +27,7 @@ const resourcesLinks = [
 
 const langs = ['FR', 'AR', 'EN', 'PT'];
 
-export function Navbar() {
+export function Navbar({ tenant }: { tenant?: TenantConfig | null }) {
   const router = useRouter();
   const [menuOpen, setMenuOpen]   = useState(false);
   const [lang, setLang]           = useState('FR');
@@ -109,7 +111,18 @@ export function Navbar() {
 
         {/* Logo */}
         <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
-          <BrandLogo height={38} variant="color" />
+          {tenant ? (
+            <Image
+              src={tenant.logoPath}
+              alt={tenant.name}
+              height={38}
+              width={Math.round(38 * tenant.logoAspect)}
+              style={{ height: 38, width: 'auto' }}
+              priority
+            />
+          ) : (
+            <BrandLogo height={38} variant="color" />
+          )}
         </Link>
 
         {/* Nav links — desktop */}

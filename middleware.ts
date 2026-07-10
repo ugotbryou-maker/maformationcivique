@@ -2,6 +2,18 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { ADMIN_EMAILS } from '@/lib/admin';
+import { getTenantConfig } from '@/lib/tenants';
+
+function detectTenantSlug(request: NextRequest): string | null {
+  // Dev / démo : ?tenant=papiers-francais dans l'URL
+  const param = request.nextUrl.searchParams.get('tenant');
+  if (param) return param;
+  // Production : sous-domaine papiers-francais.maformationcivique.fr
+  const host = request.headers.get('host') ?? '';
+  const sub = host.split('.')[0];
+  if (sub && sub !== 'www' && sub !== 'maformationcivique' && sub !== 'localhost') return sub;
+  return null;
+}
 
 const PROTECTED_PATHS = ['/dashboard', '/progression', '/profil', '/cabinet'];
 
@@ -10,12 +22,19 @@ export async function middleware(request: NextRequest) {
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   const pathname = request.nextUrl.pathname;
 
-  // ── Si Supabase non configuré : laisser passer sans vérification auth ──────
-  if (!supabaseUrl || !supabaseKey) {
-    return NextResponse.next({ request });
+  // ── Injection du tenant dans les headers de la request ───────────────────
+  const tenantSlug = detectTenantSlug(request);
+  const requestHeaders = new Headers(request.headers);
+  if (tenantSlug && getTenantConfig(tenantSlug)) {
+    requestHeaders.set('x-tenant', tenantSlug);
   }
 
-  let response = NextResponse.next({ request });
+  // ── Si Supabase non configuré : laisser passer sans vérification auth ──────
+  if (!supabaseUrl || !supabaseKey) {
+    return NextResponse.next({ request: { headers: requestHeaders } });
+  }
+
+  let response = NextResponse.next({ request: { headers: requestHeaders } });
   let user = null;
 
   // ── Tout le bloc Supabase est protégé par try/catch ───────────────────────
@@ -29,7 +48,7 @@ export async function middleware(request: NextRequest) {
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-          response = NextResponse.next({ request });
+          response = NextResponse.next({ request: { headers: requestHeaders } });
           cookiesToSet.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, options)
           );
@@ -44,6 +63,16 @@ export async function middleware(request: NextRequest) {
   } catch {
     // Supabase indisponible ou credentials invalides — on continue sans session
     // Les pages publiques restent accessibles, les pages protégées redirigent
+  }
+
+  // ── Tenant : rediriger la racine vers les modules ────────────────────────
+  if (tenantSlug && getTenantConfig(tenantSlug) && pathname === '/') {
+    const dest = new URL('/modulesciviques', request.url);
+    // En dev (?tenant=...) on conserve le param ; en prod le sous-domaine suffit
+    if (request.nextUrl.searchParams.has('tenant')) {
+      dest.searchParams.set('tenant', tenantSlug);
+    }
+    return NextResponse.redirect(dest);
   }
 
   // ── Protection des pages connectées ───────────────────────────────────────
