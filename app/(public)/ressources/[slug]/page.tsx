@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { getPostBySlug, getAllPostSlugs, POST_CATEGORIES } from '@/lib/sanity/queries';
+import { getPostBySlug, getAllPostSlugs, getAllPosts, POST_CATEGORIES } from '@/lib/sanity/queries';
 import { urlFor } from '@/lib/sanity/client';
 import { CategoryTag, PostVisual, formatDate } from '@/components/app/PostUI';
 import { ArticleBody } from '@/components/app/ArticleBody';
@@ -61,12 +61,18 @@ function extractToc(body: unknown): { id: string; text: string; level: 2 | 3 }[]
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const [post, allPosts] = await Promise.all([getPostBySlug(slug), getAllPosts()]);
   if (!post) notFound();
 
   const cat = POST_CATEGORIES[post.category];
   const toc = extractToc(post.body);
   const canonicalSlug = post.slug?.current ?? slug;
+
+  // Articles liés : même catégorie d'abord, sinon les plus récents — max 3
+  const related = [
+    ...allPosts.filter((p) => p.slug?.current !== canonicalSlug && p.category === post.category),
+    ...allPosts.filter((p) => p.slug?.current !== canonicalSlug && p.category !== post.category),
+  ].slice(0, 3);
 
   return (
     <div style={{ minHeight: '100vh', background: '#F8F9FC' }}>
@@ -276,6 +282,61 @@ export default async function ArticlePage({ params }: Props) {
               </div>
             </div>
 
+            {/* Articles liés */}
+            {related.length > 0 && (
+              <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid #E2E8F0' }}>
+                <h2 style={{ fontSize: 18, fontWeight: 800, color: '#1A1A2E', margin: '0 0 1.25rem' }}>
+                  À lire aussi
+                </h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {related.map((rel) => {
+                    const relCat = POST_CATEGORIES[rel.category];
+                    const relSlug = rel.slug?.current ?? '';
+                    return (
+                      <Link key={relSlug} href={`/ressources/${relSlug}`} style={{ textDecoration: 'none' }} className="related-card">
+                        <article style={{
+                          display: 'flex', gap: '14px', alignItems: 'flex-start',
+                          background: '#fff', borderRadius: '14px',
+                          border: '1px solid #E2E8F0', padding: '14px',
+                          transition: 'box-shadow 200ms, transform 200ms',
+                        }}>
+                          {/* Vignette */}
+                          {rel.coverImage && (
+                            <div style={{
+                              width: 80, height: 64, borderRadius: 10, overflow: 'hidden',
+                              flexShrink: 0, background: '#E2E8F0',
+                            }}>
+                              <PostVisual post={rel} sizes="80px" />
+                            </div>
+                          )}
+                          <div style={{ minWidth: 0 }}>
+                            <div style={{ marginBottom: 4 }}>
+                              <CategoryTag category={rel.category} />
+                            </div>
+                            <p style={{
+                              fontSize: 14, fontWeight: 700, color: '#1A1A2E',
+                              margin: '0 0 4px', lineHeight: 1.4,
+                              display: '-webkit-box', WebkitLineClamp: 2,
+                              WebkitBoxOrient: 'vertical', overflow: 'hidden',
+                            }}>
+                              {rel.title}
+                            </p>
+                            <span style={{ fontSize: 12, color: '#94A3B8', display: 'flex', alignItems: 'center', gap: 4 }}>
+                              <Clock size={11} color={relCat.color} /> {rel.readingTime} min · {formatDate(rel.publishedAt)}
+                            </span>
+                          </div>
+                        </article>
+                      </Link>
+                    );
+                  })}
+                </div>
+                <style>{`
+                  .related-card article { transition: box-shadow 200ms, transform 200ms; }
+                  .related-card:hover article { box-shadow: 0 4px 20px rgba(0,0,0,0.1); transform: translateY(-1px); }
+                `}</style>
+              </div>
+            )}
+
             <div style={{ marginTop: '2rem' }}>
               <Link href="/ressources" style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
@@ -289,11 +350,8 @@ export default async function ArticlePage({ params }: Props) {
             </div>
           </main>
 
-          {/* ── Colonne droite : sidebar sticky ── */}
+          {/* ── Colonne droite : sidebar ── */}
           <aside className="article-sidebar">
-
-            {/* Formulaire "Besoin d'aide" — en premier, sticky */}
-            <ArticleContactForm />
 
             {/* Table des matières */}
             {toc.length > 0 && (
@@ -390,6 +448,11 @@ export default async function ArticlePage({ params }: Props) {
               }}>
                 Commencer <ArrowRight size={13} />
               </Link>
+            </div>
+
+            {/* Formulaire "Besoin d'aide" — dernier élément, sticky */}
+            <div style={{ position: 'sticky', top: '24px' }}>
+              <ArticleContactForm />
             </div>
 
           </aside>
