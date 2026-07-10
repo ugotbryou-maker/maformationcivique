@@ -20,7 +20,7 @@ const MODULE_CONFIG = [
 
 const LANG_LEVELS = [
   {
-    level: 'A2',
+    level: 'a2',
     label: 'Niveau A2',
     subtitle: 'Vie quotidienne · Démarches administratives',
     color: '#059669', colorEnd: '#047857',
@@ -28,7 +28,7 @@ const LANG_LEVELS = [
     modules: a2Modules,
   },
   {
-    level: 'B1',
+    level: 'b1',
     label: 'Niveau B1',
     subtitle: 'Actualité · Société · Institutions',
     color: '#1D4ED8', colorEnd: '#1E3A8A',
@@ -36,7 +36,7 @@ const LANG_LEVELS = [
     modules: b1Modules,
   },
   {
-    level: 'B2',
+    level: 'b2',
     label: 'Niveau B2',
     subtitle: 'Expression avancée · Argumentation',
     color: '#6D28D9', colorEnd: '#5B21B6',
