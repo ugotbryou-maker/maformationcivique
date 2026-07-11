@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { FileText, Clock, CheckCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 // ─── Textes de compréhension ─────────────────────────────────────────────────
 
@@ -12,8 +12,7 @@ const READING_TEXTS: Record<string, { label: string; text: string }> = {
 
 Suite à votre demande de rendez-vous, nous vous informons qu'une place est disponible le 15 mars à 14h30 à la préfecture. Veuillez vous présenter avec votre passeport et votre justificatif de domicile. En cas d'empêchement, contactez-nous au 01 23 45 67 89.
 
-Cordialement,
-Le Service des Étrangers`,
+Cordialement, Le Service des Étrangers`,
   },
   t2: {
     label: 'Lisez ce texte, puis répondez aux questions :',
@@ -41,290 +40,190 @@ interface Question {
 }
 
 const QUESTIONS: Question[] = [
-  // ── Vocabulaire — A2 ──────────────────────────────────────────────────────
-  {
-    id: 1, section: 'Vocabulaire', level: 'A2',
-    text: "Quel mot décrit une personne qui n'a pas de travail ?",
-    options: ['Retraité', 'Chômeur', 'Étudiant', 'Directeur'],
-    answer: 1,
-  },
-  {
-    id: 2, section: 'Vocabulaire', level: 'A2',
-    text: 'Complétez : "Je dois ___ ce formulaire avant vendredi."',
-    options: ['conduire', 'chanter', 'remplir', 'construire'],
-    answer: 2,
-  },
-  {
-    id: 3, section: 'Vocabulaire', level: 'A2',
-    text: 'Quel document prouve où vous habitez ?',
-    options: ['Un ticket de caisse', 'Un justificatif de domicile', 'Une ordonnance', 'Un diplôme'],
-    answer: 1,
-  },
-  // ── Vocabulaire — B1 ──────────────────────────────────────────────────────
-  {
-    id: 4, section: 'Vocabulaire', level: 'B1',
-    text: 'Choisissez le synonyme de "réclamer" :',
-    options: ['Donner', 'Exiger', 'Recevoir', 'Oublier'],
-    answer: 1,
-  },
-  {
-    id: 5, section: 'Vocabulaire', level: 'B1',
-    text: '"Malgré ses efforts, il n\'a pas ___ à obtenir un rendez-vous."',
-    options: ['essayé', 'réussi', 'voulu', 'pensé'],
-    answer: 1,
-  },
-  {
-    id: 6, section: 'Vocabulaire', level: 'B1',
-    text: 'Le mot "bienveillant" signifie :',
-    options: ['Méchant', 'Indifférent', 'Attentionné', 'Maladroit'],
-    answer: 2,
-  },
-  {
-    id: 7, section: 'Vocabulaire', level: 'B1',
-    text: '"Sa demande a été ___ car il manquait des pièces justificatives."',
-    options: ['acceptée', 'rejetée', 'signée', 'ouverte'],
-    answer: 1,
-  },
-  // ── Vocabulaire — B2 ──────────────────────────────────────────────────────
-  {
-    id: 8, section: 'Vocabulaire', level: 'B2',
-    text: '"Cette prestation est ___ aux personnes en situation régulière."',
-    options: ['réservée', 'offerte', 'donnée', 'transmise'],
-    answer: 0,
-  },
-  {
-    id: 9, section: 'Vocabulaire', level: 'B2',
-    text: "Quel terme désigne le fait d'acquérir la nationalité française ?",
-    options: ['La résidence', 'La régularisation', 'La naturalisation', "L'intégration"],
-    answer: 2,
-  },
-  {
-    id: 10, section: 'Vocabulaire', level: 'B2',
-    text: '"Il convient de ___ les arguments pour et contre avant de décider."',
-    options: ['ignorer', 'peser', 'oublier', 'éviter'],
-    answer: 1,
-  },
-  // ── Grammaire — A2 ────────────────────────────────────────────────────────
-  {
-    id: 11, section: 'Grammaire', level: 'A2',
-    text: 'Complétez : "Hier, je ___ au bureau à 8 heures."',
-    options: ['vais', 'suis allé(e)', 'allais', 'irai'],
-    answer: 1,
-  },
-  {
-    id: 12, section: 'Grammaire', level: 'A2',
-    text: 'Elle ___ en France depuis 2 ans. Choisissez la bonne forme :',
-    options: ['vivait', 'a vécu', 'vit', 'vivra'],
-    answer: 2,
-  },
-  {
-    id: 13, section: 'Grammaire', level: 'A2',
-    text: '"Je travaille ___ lundi ___ vendredi." Choisissez les bonnes prépositions :',
-    options: ['de / à', 'du / au', "depuis / jusqu'à", 'de / pour'],
-    answer: 1,
-  },
-  {
-    id: 14, section: 'Grammaire', level: 'A2',
-    text: '"C\'est ___ appartement dont je t\'avais parlé." Quel article ?',
-    options: ['le', 'un', "l'", 'ce'],
-    answer: 2,
-  },
-  // ── Grammaire — B1 ────────────────────────────────────────────────────────
-  {
-    id: 15, section: 'Grammaire', level: 'B1',
-    text: 'Complétez : "Je voudrais que tu ___ ce document."',
-    options: ['signe', 'signes', 'signais', 'signeras'],
-    answer: 1,
-  },
-  {
-    id: 16, section: 'Grammaire', level: 'B1',
-    text: '"Si j\'avais plus de temps, je ___ un cours de français."',
-    options: ['prendrai', 'prends', 'prendrais', 'ai pris'],
-    answer: 2,
-  },
-  {
-    id: 17, section: 'Grammaire', level: 'B1',
-    text: '"C\'est l\'employée ___ s\'occupe des dossiers de naturalisation."',
-    options: ['qui', 'que', 'dont', 'où'],
-    answer: 0,
-  },
-  {
-    id: 18, section: 'Grammaire', level: 'B1',
-    text: '"Il m\'a dit ___ il serait absent la semaine suivante." Quel mot ?',
-    options: ['que', "qu'", 'si', 'quand'],
-    answer: 1,
-  },
-  // ── Grammaire — B2 ────────────────────────────────────────────────────────
-  {
-    id: 19, section: 'Grammaire', level: 'B2',
-    text: '"La décision ___ par le préfet a été contestée." Complétez :',
-    options: ['a pris', 'prise', 'prenait', 'prend'],
-    answer: 1,
-  },
-  {
-    id: 20, section: 'Grammaire', level: 'B2',
-    text: '"___ que les conditions soient remplies, le titre sera renouvelé." Complétez :',
-    options: ['À condition', 'Supposer', 'À moins', 'À partir'],
-    answer: 0,
-  },
-  // ── Compréhension — Texte 1 A2 ────────────────────────────────────────────
-  {
-    id: 21, section: 'Compréhension', level: 'A2',
-    context: 't1',
-    text: "Quel est l'objet principal de ce message ?",
-    options: ['Annuler un rendez-vous', 'Confirmer un rendez-vous disponible', 'Demander des documents manquants', 'Proposer un emploi'],
-    answer: 1,
-  },
-  {
-    id: 22, section: 'Compréhension', level: 'A2',
-    context: 't1',
-    text: 'Quels documents faut-il apporter ?',
-    options: ['Le passeport seulement', 'Le justificatif de domicile seulement', 'Le passeport et le justificatif de domicile', 'La carte de séjour et le passeport'],
-    answer: 2,
-  },
-  {
-    id: 23, section: 'Compréhension', level: 'A2',
-    context: 't1',
-    text: "Que doit faire la personne si elle ne peut pas venir ?",
-    options: ['Envoyer un email', 'Appeler le numéro indiqué', 'Se présenter quand même', 'Attendre un nouveau message'],
-    answer: 1,
-  },
-  // ── Compréhension — Texte 2 B1 ────────────────────────────────────────────
-  {
-    id: 24, section: 'Compréhension', level: 'B1',
-    context: 't2',
-    text: "Quand faut-il faire la demande de renouvellement ?",
-    options: ["Le jour de l'expiration", "Un mois avant l'expiration", "Deux mois avant l'expiration", "Trois mois avant l'expiration"],
-    answer: 2,
-  },
-  {
-    id: 25, section: 'Compréhension', level: 'B1',
-    context: 't2',
-    text: "Où doit-on soumettre la demande ?",
-    options: ['À la préfecture directement', "Sur le site de l'ANEF en ligne", 'Par courrier postal', 'Au commissariat'],
-    answer: 1,
-  },
-  {
-    id: 26, section: 'Compréhension', level: 'B1',
-    context: 't2',
-    text: "Que se passe-t-il si le dossier est incomplet ?",
-    options: ['Il sera traité avec un délai supplémentaire', "Il faudra payer une amende", 'Il ne sera pas traité', 'Il sera retourné par courrier'],
-    answer: 2,
-  },
-  // ── Compréhension — Texte 3 B2 ────────────────────────────────────────────
-  {
-    id: 27, section: 'Compréhension', level: 'B2',
-    context: 't3',
-    text: "Quel niveau de français est exigé pour la naturalisation depuis 2026 ?",
-    options: ['A2', 'B1', 'B2', 'C1'],
-    answer: 2,
-  },
-  {
-    id: 28, section: 'Compréhension', level: 'B2',
-    context: 't3',
-    text: "Quel était le niveau requis avant la réforme de 2026 ?",
-    options: ['A1', 'A2', 'B1', 'B2'],
-    answer: 2,
-  },
-  {
-    id: 29, section: 'Compréhension', level: 'B2',
-    context: 't3',
-    text: "Qui est dispensé de fournir une preuve de niveau de français ?",
-    options: ['Les personnes nées en France', 'Les personnes parlant anglais', "Les titulaires d'un baccalauréat français", 'Les personnes mariées à un Français'],
-    answer: 2,
-  },
-  {
-    id: 30, section: 'Compréhension', level: 'B2',
-    context: 't3',
-    text: "Quelle est la durée de validité maximale du diplôme de langue accepté ?",
-    options: ['1 an', '2 ans', '3 ans', '5 ans'],
-    answer: 3,
-  },
+  { id: 1,  section: 'Vocabulaire',   level: 'A2', text: "Quel mot décrit une personne qui n'a pas de travail ?", options: ['Retraité', 'Chômeur', 'Étudiant', 'Directeur'], answer: 1 },
+  { id: 2,  section: 'Vocabulaire',   level: 'A2', text: 'Complétez : "Je dois ___ ce formulaire avant vendredi."', options: ['conduire', 'chanter', 'remplir', 'construire'], answer: 2 },
+  { id: 3,  section: 'Vocabulaire',   level: 'A2', text: 'Quel document prouve où vous habitez ?', options: ['Un ticket de caisse', 'Un justificatif de domicile', 'Une ordonnance', 'Un diplôme'], answer: 1 },
+  { id: 4,  section: 'Vocabulaire',   level: 'B1', text: 'Choisissez le synonyme de "réclamer" :', options: ['Donner', 'Exiger', 'Recevoir', 'Oublier'], answer: 1 },
+  { id: 5,  section: 'Vocabulaire',   level: 'B1', text: '"Malgré ses efforts, il n\'a pas ___ à obtenir un rendez-vous."', options: ['essayé', 'réussi', 'voulu', 'pensé'], answer: 1 },
+  { id: 6,  section: 'Vocabulaire',   level: 'B1', text: 'Le mot "bienveillant" signifie :', options: ['Méchant', 'Indifférent', 'Attentionné', 'Maladroit'], answer: 2 },
+  { id: 7,  section: 'Vocabulaire',   level: 'B1', text: '"Sa demande a été ___ car il manquait des pièces justificatives."', options: ['acceptée', 'rejetée', 'signée', 'ouverte'], answer: 1 },
+  { id: 8,  section: 'Vocabulaire',   level: 'B2', text: '"Cette prestation est ___ aux personnes en situation régulière."', options: ['réservée', 'offerte', 'donnée', 'transmise'], answer: 0 },
+  { id: 9,  section: 'Vocabulaire',   level: 'B2', text: "Quel terme désigne le fait d'acquérir la nationalité française ?", options: ['La résidence', 'La régularisation', 'La naturalisation', "L'intégration"], answer: 2 },
+  { id: 10, section: 'Vocabulaire',   level: 'B2', text: '"Il convient de ___ les arguments pour et contre avant de décider."', options: ['ignorer', 'peser', 'oublier', 'éviter'], answer: 1 },
+  { id: 11, section: 'Grammaire',     level: 'A2', text: 'Complétez : "Hier, je ___ au bureau à 8 heures."', options: ['vais', 'suis allé(e)', 'allais', 'irai'], answer: 1 },
+  { id: 12, section: 'Grammaire',     level: 'A2', text: 'Elle ___ en France depuis 2 ans. Choisissez la bonne forme :', options: ['vivait', 'a vécu', 'vit', 'vivra'], answer: 2 },
+  { id: 13, section: 'Grammaire',     level: 'A2', text: '"Je travaille ___ lundi ___ vendredi." Prépositions :', options: ['de / à', 'du / au', "depuis / jusqu'à", 'de / pour'], answer: 1 },
+  { id: 14, section: 'Grammaire',     level: 'A2', text: '"C\'est ___ appartement dont je t\'avais parlé." Quel article ?', options: ['le', 'un', "l'", 'ce'], answer: 2 },
+  { id: 15, section: 'Grammaire',     level: 'B1', text: 'Complétez : "Je voudrais que tu ___ ce document."', options: ['signe', 'signes', 'signais', 'signeras'], answer: 1 },
+  { id: 16, section: 'Grammaire',     level: 'B1', text: '"Si j\'avais plus de temps, je ___ un cours de français."', options: ['prendrai', 'prends', 'prendrais', 'ai pris'], answer: 2 },
+  { id: 17, section: 'Grammaire',     level: 'B1', text: '"C\'est l\'employée ___ s\'occupe des dossiers de naturalisation."', options: ['qui', 'que', 'dont', 'où'], answer: 0 },
+  { id: 18, section: 'Grammaire',     level: 'B1', text: '"Il m\'a dit ___ il serait absent la semaine suivante." Quel mot ?', options: ['que', "qu'", 'si', 'quand'], answer: 1 },
+  { id: 19, section: 'Grammaire',     level: 'B2', text: '"La décision ___ par le préfet a été contestée." Complétez :', options: ['a pris', 'prise', 'prenait', 'prend'], answer: 1 },
+  { id: 20, section: 'Grammaire',     level: 'B2', text: '"___ que les conditions soient remplies, le titre sera renouvelé."', options: ['À condition', 'Supposer', 'À moins', 'À partir'], answer: 0 },
+  { id: 21, section: 'Compréhension', level: 'A2', context: 't1', text: "Quel est l'objet principal de ce message ?", options: ['Annuler un rendez-vous', 'Confirmer un rendez-vous disponible', 'Demander des documents manquants', 'Proposer un emploi'], answer: 1 },
+  { id: 22, section: 'Compréhension', level: 'A2', context: 't1', text: 'Quels documents faut-il apporter ?', options: ['Le passeport seulement', 'Le justificatif de domicile seulement', 'Le passeport et le justificatif de domicile', 'La carte de séjour et le passeport'], answer: 2 },
+  { id: 23, section: 'Compréhension', level: 'A2', context: 't1', text: "Que doit faire la personne si elle ne peut pas venir ?", options: ['Envoyer un email', 'Appeler le numéro indiqué', 'Se présenter quand même', 'Attendre un nouveau message'], answer: 1 },
+  { id: 24, section: 'Compréhension', level: 'B1', context: 't2', text: "Quand faut-il faire la demande de renouvellement ?", options: ["Le jour de l'expiration", "Un mois avant l'expiration", "Deux mois avant l'expiration", "Trois mois avant l'expiration"], answer: 2 },
+  { id: 25, section: 'Compréhension', level: 'B1', context: 't2', text: "Où doit-on soumettre la demande ?", options: ['À la préfecture directement', "Sur le site de l'ANEF en ligne", 'Par courrier postal', 'Au commissariat'], answer: 1 },
+  { id: 26, section: 'Compréhension', level: 'B1', context: 't2', text: "Que se passe-t-il si le dossier est incomplet ?", options: ['Il sera traité avec un délai supplémentaire', "Il faudra payer une amende", 'Il ne sera pas traité', 'Il sera retourné par courrier'], answer: 2 },
+  { id: 27, section: 'Compréhension', level: 'B2', context: 't3', text: "Quel niveau de français est exigé pour la naturalisation depuis 2026 ?", options: ['A2', 'B1', 'B2', 'C1'], answer: 2 },
+  { id: 28, section: 'Compréhension', level: 'B2', context: 't3', text: "Quel était le niveau requis avant la réforme de 2026 ?", options: ['A1', 'A2', 'B1', 'B2'], answer: 2 },
+  { id: 29, section: 'Compréhension', level: 'B2', context: 't3', text: "Qui est dispensé de fournir une preuve de niveau de français ?", options: ['Les personnes nées en France', 'Les personnes parlant anglais', "Les titulaires d'un baccalauréat français", 'Les personnes mariées à un Français'], answer: 2 },
+  { id: 30, section: 'Compréhension', level: 'B2', context: 't3', text: "Quelle est la durée de validité maximale du diplôme de langue accepté ?", options: ['1 an', '2 ans', '3 ans', '5 ans'], answer: 3 },
 ];
 
 // ─── Calcul du résultat ───────────────────────────────────────────────────────
 
 interface Result {
   level: 'A1' | 'A2' | 'B1' | 'B2';
-  levelLabel: string;
-  levelColor: string;
-  demarche: string;
-  vocScore: number;
-  gramScore: number;
-  compScore: number;
-  a2Correct: number;
-  b1Correct: number;
-  b2Correct: number;
+  total: number;
+  correct: number;
 }
 
 function calculateResult(answers: (number | null)[]): Result {
-  let vocScore = 0, gramScore = 0, compScore = 0;
+  let correct = 0;
   let a2Correct = 0, b1Correct = 0, b2Correct = 0;
 
   QUESTIONS.forEach((q, i) => {
-    const correct = answers[i] === q.answer;
-    if (q.section === 'Vocabulaire') vocScore += correct ? 1 : 0;
-    if (q.section === 'Grammaire') gramScore += correct ? 1 : 0;
-    if (q.section === 'Compréhension') compScore += correct ? 1 : 0;
-    if (q.level === 'A2') a2Correct += correct ? 1 : 0;
-    if (q.level === 'B1') b1Correct += correct ? 1 : 0;
-    if (q.level === 'B2') b2Correct += correct ? 1 : 0;
+    if (answers[i] === q.answer) {
+      correct++;
+      if (q.level === 'A2') a2Correct++;
+      if (q.level === 'B1') b1Correct++;
+      if (q.level === 'B2') b2Correct++;
+    }
   });
 
-  const a2Rate = a2Correct / 10;
-  const b1Rate = b1Correct / 10;
-  const b2Rate = b2Correct / 10;
-
   let level: Result['level'];
-  let levelLabel: string;
-  let levelColor: string;
-  let demarche: string;
+  if (b2Correct / 10 >= 0.65) level = 'B2';
+  else if (b1Correct / 10 >= 0.6) level = 'B1';
+  else if (a2Correct / 10 >= 0.55) level = 'A2';
+  else level = 'A1';
 
-  if (b2Rate >= 0.65) {
-    level = 'B2'; levelLabel = 'Avancé'; levelColor = '#1B5E20';
-    demarche = "Votre niveau correspond aux exigences de la naturalisation française (réforme janvier 2026). Vous pouvez envisager de préparer un diplôme certifiant : DELF B2, TCF ou TEF.";
-  } else if (b1Rate >= 0.6) {
-    level = 'B1'; levelLabel = 'Intermédiaire'; levelColor = '#002395';
-    demarche = "Votre niveau correspond à la carte de résident (10 ans). Pour la naturalisation, un renforcement vers le B2 est nécessaire depuis janvier 2026.";
-  } else if (a2Rate >= 0.55) {
-    level = 'A2'; levelLabel = 'Élémentaire'; levelColor = '#B45309';
-    demarche = "Votre niveau correspond à la première carte de séjour pluriannuelle. Une formation linguistique vous aidera à progresser vers le B1, puis le B2 pour la naturalisation.";
-  } else {
-    level = 'A1'; levelLabel = 'Débutant'; levelColor = '#9F1239';
-    demarche = "Votre niveau de français est encore débutant. Une formation linguistique est recommandée pour atteindre le niveau A2, requis pour votre titre de séjour.";
-  }
-
-  return { level, levelLabel, levelColor, demarche, vocScore, gramScore, compScore, a2Correct, b1Correct, b2Correct };
+  return { level, total: QUESTIONS.length, correct };
 }
 
-// ─── Constantes UI ───────────────────────────────────────────────────────────
+// ─── Carte rouge Papiers Français ────────────────────────────────────────────
 
 const SECTION_COLORS: Record<Section, string> = {
-  Vocabulaire: '#002395',
-  Grammaire: '#6B21A8',
+  Vocabulaire: '#1D4ED8',
+  Grammaire: '#7C3AED',
   Compréhension: '#065F46',
 };
 
-type Phase = 'intro' | 'quiz' | 'result';
+function RedCard({
+  children,
+  showLogo = true,
+}: {
+  children: React.ReactNode;
+  showLogo?: boolean;
+}) {
+  return (
+    <div style={{
+      minHeight: '100svh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '20px 16px',
+      background: '#EBEBEB',
+      fontFamily: 'var(--font-sans, system-ui)',
+    }}>
+      <div style={{
+        width: '100%',
+        maxWidth: 680,
+        borderRadius: 22,
+        overflow: 'hidden',
+        position: 'relative',
+        backgroundImage: `linear-gradient(rgba(185,5,18,0.80), rgba(195,8,22,0.87)), url('/images/modules/republique.jpg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 62%',
+        padding: '52px 36px 48px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        textAlign: 'center',
+        color: '#fff',
+        boxShadow: '0 24px 64px rgba(185,5,18,0.22)',
+      }}>
+        {showLogo && (
+          <Image
+            src="/tenants/papiers-francais/logo-light.svg"
+            alt="Papiers Français"
+            width={150}
+            height={43}
+            style={{ marginBottom: 40, opacity: 0.97 }}
+          />
+        )}
+        {children}
+      </div>
+    </div>
+  );
+}
 
-// ─── Page ────────────────────────────────────────────────────────────────────
+function PillButton({
+  onClick,
+  children,
+  disabled = false,
+  variant = 'white',
+}: {
+  onClick: () => void;
+  children: React.ReactNode;
+  disabled?: boolean;
+  variant?: 'white' | 'ghost';
+}) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      style={{
+        padding: '14px 48px',
+        borderRadius: 100,
+        border: variant === 'ghost' ? '2px solid rgba(255,255,255,0.5)' : 'none',
+        background: disabled ? 'rgba(255,255,255,0.25)' : variant === 'white' ? '#fff' : 'transparent',
+        color: disabled ? 'rgba(255,255,255,0.5)' : variant === 'white' ? '#C0060F' : '#fff',
+        fontSize: 15,
+        fontWeight: 700,
+        cursor: disabled ? 'default' : 'pointer',
+        letterSpacing: '0.01em',
+        transition: 'opacity 150ms',
+        marginTop: 8,
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+// ─── Page principale ──────────────────────────────────────────────────────────
+
+type Phase = 'welcome' | 'before' | 'quiz' | 'result' | 'form' | 'done';
+
+interface LeadForm {
+  nom: string;
+  prenom: string;
+  telephone: string;
+  email: string;
+  rgpd: boolean;
+}
 
 export default function TestLanguePage() {
-  const [phase, setPhase] = useState<Phase>('intro');
+  const [phase, setPhase] = useState<Phase>('welcome');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(Array(30).fill(null));
   const [selected, setSelected] = useState<number | null>(null);
   const [result, setResult] = useState<Result | null>(null);
+  const [lead, setLead] = useState<LeadForm>({ nom: '', prenom: '', telephone: '', email: '', rgpd: false });
+  const [submitting, setSubmitting] = useState(false);
 
-  const question = QUESTIONS[currentIndex];
-  const sectionColor = question ? SECTION_COLORS[question.section] : '#002395';
+  // Scroll to top on phase change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [phase]);
 
-  function handleStart() {
-    setPhase('quiz');
+  function startQuiz() {
     setCurrentIndex(0);
     setAnswers(Array(30).fill(null));
     setSelected(null);
-    setResult(null);
+    setPhase('quiz');
   }
 
   function handleNext() {
@@ -342,286 +241,351 @@ export default function TestLanguePage() {
     }
   }
 
-  // ── Écran d'introduction ──────────────────────────────────────────────────
+  async function handleFormSubmit() {
+    if (!lead.nom || !lead.prenom || !lead.email || !lead.telephone || !lead.rgpd) return;
+    setSubmitting(true);
+    // Placeholder — intégration CRM à venir
+    await new Promise(r => setTimeout(r, 800));
+    setSubmitting(false);
+    setPhase('done');
+  }
 
-  if (phase === 'intro') {
+  // ── Bienvenue ───────────────────────────────────────────────────────────────
+
+  if (phase === 'welcome') {
     return (
-      <div style={{ maxWidth: 560, margin: '0 auto', padding: '48px 20px 80px', fontFamily: 'var(--font-sans, system-ui)' }}>
-        <div style={{ textAlign: 'center', marginBottom: 36 }}>
-          <div style={{
-            display: 'inline-block', background: '#EFF6FF', borderRadius: 100,
-            padding: '6px 18px', marginBottom: 20,
-          }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: '#002395', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-              Test de positionnement en langue française
-            </span>
-          </div>
-          <h1 style={{ fontSize: 30, fontWeight: 800, color: '#0A0F2E', margin: '0 0 14px', lineHeight: 1.2 }}>
-            Quel est votre niveau de français ?
-          </h1>
-          <p style={{ fontSize: 15, color: '#475569', margin: 0, lineHeight: 1.65 }}>
-            Ce test évalue votre niveau selon le référentiel européen CECRL. Le résultat aide votre conseiller à vous proposer la formation adaptée.
-          </p>
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 32 }}>
-          {([
-            { Icon: FileText, title: '30 questions', desc: 'Vocabulaire, grammaire et compréhension écrite' },
-            { Icon: Clock, title: 'Environ 12 minutes', desc: "Pas de chronomètre — prenez votre temps" },
-            { Icon: CheckCircle, title: 'Résultat immédiat', desc: 'Votre niveau estimé apparaît à la fin' },
-          ] as const).map(({ Icon, title, desc }) => (
-            <div key={title} style={{
-              display: 'flex', alignItems: 'center', gap: 14,
-              background: '#F8FAFF', border: '1px solid #E2E8F0',
-              borderRadius: 12, padding: '14px 16px',
-            }}>
-              <div style={{ width: 36, height: 36, borderRadius: 10, background: '#EFF6FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <Icon size={18} color="#002395" />
-              </div>
-              <div>
-                <p style={{ margin: '0 0 2px', fontWeight: 700, fontSize: 14, color: '#0A0F2E' }}>{title}</p>
-                <p style={{ margin: 0, fontSize: 13, color: '#64748B' }}>{desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <button
-          onClick={handleStart}
-          style={{
-            width: '100%', padding: '16px', borderRadius: 14,
-            background: '#002395', color: '#fff', border: 'none',
-            fontSize: 16, fontWeight: 700, cursor: 'pointer',
-          }}
-        >
-          Commencer le test →
-        </button>
-
-        <p style={{ textAlign: 'center', fontSize: 12, color: '#94A3B8', marginTop: 14, lineHeight: 1.5 }}>
-          Ce test est indicatif et ne remplace pas un diplôme officiel (DELF, TCF, TEF).
+      <RedCard>
+        <h1 style={{ fontSize: 28, fontWeight: 800, margin: '0 0 16px', lineHeight: 1.25, color: '#fff' }}>
+          Bienvenue sur le test de langue
+        </h1>
+        <p style={{ fontSize: 15, lineHeight: 1.7, opacity: 0.9, margin: '0 0 40px', maxWidth: 440 }}>
+          Un conseiller va bientôt vous accueillir.<br />
+          En attendant, nous vous invitons à effectuer ce test afin de déterminer votre niveau en français.
         </p>
-      </div>
+        <PillButton onClick={() => setPhase('before')}>suivant</PillButton>
+      </RedCard>
     );
   }
 
-  // ── Écran résultat ────────────────────────────────────────────────────────
+  // ── Avant de commencer ──────────────────────────────────────────────────────
 
-  if (phase === 'result' && result) {
-    const total = result.vocScore + result.gramScore + result.compScore;
+  if (phase === 'before') {
     return (
-      <div style={{ maxWidth: 560, margin: '0 auto', padding: '40px 20px 80px', fontFamily: 'var(--font-sans, system-ui)' }}>
-        {/* Badge niveau */}
-        <div style={{ textAlign: 'center', marginBottom: 28 }}>
-          <div style={{
-            display: 'inline-flex', flexDirection: 'column', alignItems: 'center',
-            background: result.levelColor, color: '#fff', borderRadius: 20,
-            padding: '28px 48px', marginBottom: 20, boxShadow: `0 8px 32px ${result.levelColor}40`,
-          }}>
-            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', opacity: 0.8, marginBottom: 4 }}>
-              Niveau estimé
-            </span>
-            <span style={{ fontSize: 64, fontWeight: 900, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
-              {result.level}
-            </span>
-            <span style={{ fontSize: 15, fontWeight: 500, marginTop: 8, opacity: 0.9 }}>
-              {result.levelLabel}
-            </span>
-          </div>
-          <p style={{ fontSize: 14, color: '#334155', lineHeight: 1.7, margin: '0 auto', maxWidth: 440 }}>
-            {result.demarche}
-          </p>
-        </div>
-
-        {/* Scores par compétence */}
-        <div style={{ background: '#F8FAFF', border: '1px solid #E2E8F0', borderRadius: 16, padding: 20, marginBottom: 16 }}>
-          <h3 style={{ margin: '0 0 18px', fontSize: 13, fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Résultats par compétence
-          </h3>
-          {([
-            { label: 'Vocabulaire', score: result.vocScore, color: SECTION_COLORS.Vocabulaire },
-            { label: 'Grammaire', score: result.gramScore, color: SECTION_COLORS.Grammaire },
-            { label: 'Compréhension', score: result.compScore, color: SECTION_COLORS.Compréhension },
-          ]).map(({ label, score, color }) => (
-            <div key={label} style={{ marginBottom: 16 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 7 }}>
-                <span style={{ fontSize: 14, fontWeight: 600, color: '#334155' }}>{label}</span>
-                <span style={{ fontSize: 14, fontWeight: 700, color }}>{score} / 10</span>
-              </div>
-              <div style={{ height: 8, borderRadius: 100, background: '#E2E8F0', overflow: 'hidden' }}>
-                <div style={{
-                  height: '100%', borderRadius: 100, background: color,
-                  width: `${(score / 10) * 100}%`,
-                }} />
-              </div>
+      <RedCard>
+        <h2 style={{ fontSize: 26, fontWeight: 800, margin: '0 0 16px', lineHeight: 1.25, color: '#fff' }}>
+          Avant de commencer
+        </h2>
+        <p style={{ fontSize: 15, lineHeight: 1.75, opacity: 0.9, margin: '0 0 32px', maxWidth: 400 }}>
+          Ce test comprend <strong>30 questions</strong> et durera jusqu&apos;à <strong>20 minutes</strong>.<br />
+          Il évalue votre vocabulaire, votre grammaire et votre compréhension écrite.
+        </p>
+        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 40 }}>
+          {[
+            { num: '30', label: 'questions' },
+            { num: '~12', label: 'minutes' },
+            { num: '3', label: 'compétences' },
+          ].map(({ num, label }) => (
+            <div key={label} style={{
+              background: 'rgba(255,255,255,0.15)',
+              borderRadius: 12,
+              padding: '12px 24px',
+              minWidth: 80,
+            }}>
+              <div style={{ fontSize: 22, fontWeight: 800 }}>{num}</div>
+              <div style={{ fontSize: 12, opacity: 0.8, marginTop: 2 }}>{label}</div>
             </div>
           ))}
-          <div style={{ borderTop: '1px solid #E2E8F0', paddingTop: 14, marginTop: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: 14, fontWeight: 700, color: '#0A0F2E' }}>Score total</span>
-            <span style={{ fontSize: 16, fontWeight: 800, color: '#0A0F2E' }}>{total} / 30</span>
+        </div>
+        <PillButton onClick={startQuiz}>commencer</PillButton>
+      </RedCard>
+    );
+  }
+
+  // ── Quiz ────────────────────────────────────────────────────────────────────
+
+  if (phase === 'quiz') {
+    const question = QUESTIONS[currentIndex];
+    const prevQuestion = currentIndex > 0 ? QUESTIONS[currentIndex - 1] : null;
+    const showContextText = !!question.context && question.context !== prevQuestion?.context;
+    const sectionColor = SECTION_COLORS[question.section];
+
+    return (
+      <div style={{
+        maxWidth: 600,
+        margin: '0 auto',
+        padding: '28px 20px 80px',
+        fontFamily: 'var(--font-sans, system-ui)',
+      }}>
+        {/* Progression */}
+        <div style={{ marginBottom: 28 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: sectionColor, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              {question.section}
+            </span>
+            <span style={{ fontSize: 12, color: '#94A3B8', fontWeight: 600 }}>
+              {currentIndex + 1} / {QUESTIONS.length}
+            </span>
+          </div>
+          <div style={{ height: 5, borderRadius: 100, background: '#E2E8F0', overflow: 'hidden' }}>
+            <div style={{
+              height: '100%', borderRadius: 100, background: sectionColor,
+              width: `${((currentIndex + 1) / QUESTIONS.length) * 100}%`,
+              transition: 'width 300ms ease-out',
+            }} />
           </div>
         </div>
 
-        {/* Échelle CECRL */}
-        <div style={{ background: '#F8FAFF', border: '1px solid #E2E8F0', borderRadius: 16, padding: 20, marginBottom: 16 }}>
-          <h3 style={{ margin: '0 0 14px', fontSize: 13, fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Niveaux CECRL et démarches administratives
-          </h3>
-          {([
-            { lvl: 'A2', label: 'Élémentaire', demarche: 'Carte de séjour pluriannuelle (CSP)', color: '#B45309' },
-            { lvl: 'B1', label: 'Intermédiaire', demarche: 'Carte de résident — 10 ans', color: '#002395' },
-            { lvl: 'B2', label: 'Avancé', demarche: 'Naturalisation (exigé depuis jan. 2026)', color: '#1B5E20' },
-          ]).map(({ lvl, label, demarche, color }, i, arr) => {
-            const isUser = result.level === lvl;
+        {/* Texte de lecture */}
+        {showContextText && question.context && (
+          <div style={{
+            background: '#FAFAFA', border: '1px solid #E2E8F0',
+            borderLeft: `4px solid ${sectionColor}`,
+            borderRadius: 12, padding: 18, marginBottom: 24,
+          }}>
+            <p style={{ margin: '0 0 10px', fontSize: 11, fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              {READING_TEXTS[question.context].label}
+            </p>
+            <p style={{ margin: 0, fontSize: 14, color: '#334155', lineHeight: 1.75, whiteSpace: 'pre-line' }}>
+              {READING_TEXTS[question.context].text}
+            </p>
+          </div>
+        )}
+
+        {/* Question */}
+        <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0A0F2E', margin: '0 0 22px', lineHeight: 1.4 }}>
+          {question.text}
+        </h2>
+
+        {/* Options */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
+          {question.options.map((opt, i) => {
+            const isSelected = selected === i;
             return (
-              <div key={lvl} style={{
-                display: 'flex', alignItems: 'center', gap: 12,
-                padding: '10px 0',
-                borderBottom: i < arr.length - 1 ? '1px solid #F1F5F9' : undefined,
-                opacity: isUser ? 1 : 0.45,
-              }}>
-                <span style={{ fontWeight: 900, fontSize: 16, color, minWidth: 30, flexShrink: 0 }}>{lvl}</span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ margin: '0 0 2px', fontSize: 13, fontWeight: 700, color: '#334155' }}>{label}</p>
-                  <p style={{ margin: 0, fontSize: 12, color: '#64748B' }}>{demarche}</p>
-                </div>
-                {isUser && (
-                  <span style={{
-                    flexShrink: 0, fontSize: 11, background: color, color: '#fff',
-                    borderRadius: 100, padding: '3px 10px', fontWeight: 700, whiteSpace: 'nowrap',
-                  }}>
-                    Votre niveau
-                  </span>
-                )}
-              </div>
+              <button
+                key={i}
+                onClick={() => setSelected(i)}
+                style={{
+                  textAlign: 'left', padding: '14px 16px', borderRadius: 12,
+                  border: isSelected ? `2px solid ${sectionColor}` : '2px solid #E2E8F0',
+                  background: isSelected ? `${sectionColor}0F` : '#fff',
+                  cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12,
+                  transition: 'border-color 120ms, background 120ms',
+                }}
+              >
+                <span style={{
+                  width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
+                  border: `2px solid ${isSelected ? sectionColor : '#CBD5E1'}`,
+                  background: isSelected ? sectionColor : 'transparent',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 11, fontWeight: 800,
+                  color: isSelected ? '#fff' : '#94A3B8',
+                  transition: 'all 120ms',
+                }}>
+                  {['A', 'B', 'C', 'D'][i]}
+                </span>
+                <span style={{
+                  fontSize: 14, fontWeight: isSelected ? 600 : 400,
+                  color: isSelected ? sectionColor : '#334155',
+                  lineHeight: 1.4, flex: 1,
+                }}>
+                  {opt}
+                </span>
+              </button>
             );
           })}
         </div>
 
-        {/* Note expert */}
-        <div style={{ background: '#EFF6FF', border: '1px solid #BFDBFE', borderRadius: 12, padding: 16, marginBottom: 24 }}>
-          <p style={{ margin: 0, fontSize: 13, color: '#1E40AF', lineHeight: 1.6 }}>
-            Votre conseiller va analyser ces résultats avec vous et vous proposer la formation linguistique adaptée à votre parcours.
-          </p>
-        </div>
-
         <button
-          onClick={handleStart}
+          onClick={handleNext}
+          disabled={selected === null}
           style={{
-            width: '100%', padding: '14px', borderRadius: 12,
-            background: '#F1F5F9', color: '#475569', border: 'none',
-            fontSize: 14, fontWeight: 600, cursor: 'pointer',
+            width: '100%', padding: '15px', borderRadius: 14, border: 'none',
+            background: selected !== null ? '#C0060F' : '#E2E8F0',
+            color: selected !== null ? '#fff' : '#94A3B8',
+            fontSize: 15, fontWeight: 700,
+            cursor: selected !== null ? 'pointer' : 'default',
+            transition: 'background 150ms, color 150ms',
           }}
         >
-          Refaire le test
+          {currentIndex === QUESTIONS.length - 1 ? 'Voir mon résultat →' : 'Question suivante →'}
         </button>
       </div>
     );
   }
 
-  // ── Écran quiz ────────────────────────────────────────────────────────────
+  // ── Résultat ────────────────────────────────────────────────────────────────
 
-  const prevQuestion = currentIndex > 0 ? QUESTIONS[currentIndex - 1] : null;
-  const showContextText = !!question.context && question.context !== prevQuestion?.context;
+  if (phase === 'result' && result) {
+    const levelDescriptions: Record<string, string> = {
+      A1: "Niveau débutant — une formation linguistique intensive est recommandée.",
+      A2: "Niveau élémentaire — correspond à la première carte de séjour pluriannuelle.",
+      B1: "Niveau intermédiaire — correspond à la carte de résident (10 ans).",
+      B2: "Niveau avancé — correspond aux exigences de la naturalisation (depuis 2026).",
+    };
 
-  return (
-    <div style={{ maxWidth: 560, margin: '0 auto', padding: '28px 20px 80px', fontFamily: 'var(--font-sans, system-ui)' }}>
-      {/* Barre de progression */}
-      <div style={{ marginBottom: 28 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-          <span style={{
-            fontSize: 11, fontWeight: 700, color: sectionColor,
-            textTransform: 'uppercase', letterSpacing: '0.06em',
-          }}>
-            {question.section}
-          </span>
-          <span style={{ fontSize: 12, color: '#94A3B8', fontWeight: 600 }}>
-            {currentIndex + 1} / {QUESTIONS.length}
-          </span>
-        </div>
-        <div style={{ height: 5, borderRadius: 100, background: '#E2E8F0', overflow: 'hidden' }}>
-          <div style={{
-            height: '100%', borderRadius: 100, background: sectionColor,
-            width: `${((currentIndex + 1) / QUESTIONS.length) * 100}%`,
-            transition: 'width 300ms ease-out',
-          }} />
-        </div>
-      </div>
-
-      {/* Texte de lecture (compréhension) */}
-      {showContextText && question.context && (
+    return (
+      <RedCard>
         <div style={{
-          background: '#FAFAFA', border: '1px solid #E2E8F0',
-          borderLeft: `4px solid ${sectionColor}`,
-          borderRadius: 12, padding: 18, marginBottom: 24,
+          background: 'rgba(255,255,255,0.15)',
+          borderRadius: 16,
+          padding: '20px 32px',
+          marginBottom: 24,
         }}>
-          <p style={{ margin: '0 0 10px', fontSize: 11, fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            {READING_TEXTS[question.context].label}
+          <p style={{ margin: '0 0 4px', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', opacity: 0.8 }}>
+            {result.correct} / {result.total} BONNES RÉPONSES
           </p>
-          <p style={{ margin: 0, fontSize: 14, color: '#334155', lineHeight: 1.75, whiteSpace: 'pre-line' }}>
-            {READING_TEXTS[question.context].text}
+          <p style={{ margin: 0, fontSize: 28, fontWeight: 800 }}>
+            Votre niveau estimé est <span style={{ fontSize: 36 }}>{result.level}</span>
           </p>
         </div>
-      )}
+        <p style={{ fontSize: 14, opacity: 0.88, lineHeight: 1.65, margin: '0 0 40px', maxWidth: 400 }}>
+          {levelDescriptions[result.level]}
+        </p>
+        <PillButton onClick={() => setPhase('form')}>suivant</PillButton>
+      </RedCard>
+    );
+  }
 
-      {/* Question */}
-      <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0A0F2E', margin: '0 0 22px', lineHeight: 1.4 }}>
-        {question.text}
-      </h2>
+  // ── Formulaire RGPD ─────────────────────────────────────────────────────────
 
-      {/* Options */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
-        {question.options.map((opt, i) => {
-          const isSelected = selected === i;
-          return (
-            <button
-              key={i}
-              onClick={() => setSelected(i)}
+  if (phase === 'form') {
+    const isValid = lead.nom && lead.prenom && lead.email && lead.telephone && lead.rgpd;
+
+    const inputStyle: React.CSSProperties = {
+      width: '100%',
+      padding: '12px 16px',
+      borderRadius: 10,
+      border: '1.5px solid rgba(255,255,255,0.35)',
+      background: 'rgba(255,255,255,0.15)',
+      color: '#fff',
+      fontSize: 15,
+      outline: 'none',
+      boxSizing: 'border-box',
+    };
+
+    const labelStyle: React.CSSProperties = {
+      fontSize: 12,
+      fontWeight: 700,
+      letterSpacing: '0.04em',
+      opacity: 0.75,
+      marginBottom: 6,
+      display: 'block',
+      textAlign: 'left',
+    };
+
+    return (
+      <RedCard>
+        <h2 style={{ fontSize: 22, fontWeight: 800, margin: '0 0 8px', color: '#fff' }}>
+          Pour finaliser votre évaluation
+        </h2>
+        <p style={{ fontSize: 14, opacity: 0.85, margin: '0 0 28px', lineHeight: 1.6 }}>
+          Renseignez vos coordonnées afin que votre conseiller puisse vous contacter.
+        </p>
+
+        <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 14, textAlign: 'left' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div>
+              <label style={labelStyle}>NOM</label>
+              <input
+                type="text"
+                placeholder="Dupont"
+                value={lead.nom}
+                onChange={e => setLead(l => ({ ...l, nom: e.target.value }))}
+                style={inputStyle}
+              />
+            </div>
+            <div>
+              <label style={labelStyle}>PRÉNOM</label>
+              <input
+                type="text"
+                placeholder="Marie"
+                value={lead.prenom}
+                onChange={e => setLead(l => ({ ...l, prenom: e.target.value }))}
+                style={inputStyle}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label style={labelStyle}>TÉLÉPHONE</label>
+            <input
+              type="tel"
+              placeholder="+33 6 12 34 56 78"
+              value={lead.telephone}
+              onChange={e => setLead(l => ({ ...l, telephone: e.target.value }))}
+              style={inputStyle}
+            />
+          </div>
+
+          <div>
+            <label style={labelStyle}>EMAIL</label>
+            <input
+              type="email"
+              placeholder="marie.dupont@email.com"
+              value={lead.email}
+              onChange={e => setLead(l => ({ ...l, email: e.target.value }))}
+              style={inputStyle}
+            />
+          </div>
+
+          {/* RGPD */}
+          <label style={{
+            display: 'flex', alignItems: 'flex-start', gap: 12,
+            cursor: 'pointer', marginTop: 4,
+          }}>
+            <div
+              onClick={() => setLead(l => ({ ...l, rgpd: !l.rgpd }))}
               style={{
-                textAlign: 'left', padding: '14px 16px', borderRadius: 12,
-                border: isSelected ? `2px solid ${sectionColor}` : '2px solid #E2E8F0',
-                background: isSelected ? `${sectionColor}0F` : '#fff',
-                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12,
-                transition: 'border-color 120ms, background 120ms',
+                width: 20, height: 20, borderRadius: 5, flexShrink: 0, marginTop: 1,
+                border: '2px solid rgba(255,255,255,0.6)',
+                background: lead.rgpd ? '#fff' : 'transparent',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'background 120ms',
               }}
             >
-              <span style={{
-                width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
-                border: `2px solid ${isSelected ? sectionColor : '#CBD5E1'}`,
-                background: isSelected ? sectionColor : 'transparent',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 11, fontWeight: 800,
-                color: isSelected ? '#fff' : '#94A3B8',
-                transition: 'all 120ms',
-              }}>
-                {['A', 'B', 'C', 'D'][i]}
-              </span>
-              <span style={{
-                fontSize: 14, fontWeight: isSelected ? 600 : 400,
-                color: isSelected ? sectionColor : '#334155',
-                lineHeight: 1.4, flex: 1,
-              }}>
-                {opt}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+              {lead.rgpd && (
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6l3 3 5-5" stroke="#C0060F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              )}
+            </div>
+            <span style={{ fontSize: 12, lineHeight: 1.55, opacity: 0.82 }}>
+              J&apos;accepte que mes données personnelles soient utilisées par Papiers Français dans le cadre de mon accompagnement administratif, conformément au RGPD.
+            </span>
+          </label>
+        </div>
 
-      {/* Bouton suivant */}
-      <button
-        onClick={handleNext}
-        disabled={selected === null}
-        style={{
-          width: '100%', padding: '15px', borderRadius: 14, border: 'none',
-          background: selected !== null ? sectionColor : '#E2E8F0',
-          color: selected !== null ? '#fff' : '#94A3B8',
-          fontSize: 15, fontWeight: 700,
-          cursor: selected !== null ? 'pointer' : 'default',
-          transition: 'background 150ms, color 150ms',
-        }}
-      >
-        {currentIndex === QUESTIONS.length - 1 ? 'Voir mon résultat →' : 'Question suivante →'}
-      </button>
-    </div>
-  );
+        <div style={{ marginTop: 28 }}>
+          <PillButton onClick={handleFormSubmit} disabled={!isValid || submitting}>
+            {submitting ? 'Envoi...' : 'Envoyer'}
+          </PillButton>
+        </div>
+      </RedCard>
+    );
+  }
+
+  // ── Confirmation ────────────────────────────────────────────────────────────
+
+  if (phase === 'done') {
+    return (
+      <RedCard>
+        <div style={{ fontSize: 48, marginBottom: 20 }}>
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="28" cy="28" r="28" fill="rgba(255,255,255,0.2)"/>
+            <path d="M18 28l8 8 12-14" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+        <h2 style={{ fontSize: 24, fontWeight: 800, margin: '0 0 14px', color: '#fff' }}>
+          Merci !
+        </h2>
+        <p style={{ fontSize: 15, opacity: 0.9, lineHeight: 1.7, margin: 0, maxWidth: 380 }}>
+          Vos informations ont bien été enregistrées.<br />
+          Votre conseiller va vous accueillir dans quelques instants.
+        </p>
+      </RedCard>
+    );
+  }
+
+  return null;
 }
