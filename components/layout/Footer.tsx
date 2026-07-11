@@ -25,7 +25,7 @@ const footerLinks = {
     { label: 'Mentions légales', href: '/mentions-legales' },
     { label: 'CGU', href: '/cgu' },
     { label: 'Politique de confidentialité', href: '/confidentialite' },
-    { label: 'Gestion des cookies', href: '#' },
+    { label: 'Gestion des cookies', href: '#cookies' },
   ],
 };
 
