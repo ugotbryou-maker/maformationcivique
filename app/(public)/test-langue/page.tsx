@@ -306,8 +306,7 @@ export default function TestLanguePage() {
 
   if (phase === 'quiz') {
     const question = QUESTIONS[currentIndex];
-    const prevQuestion = currentIndex > 0 ? QUESTIONS[currentIndex - 1] : null;
-    const showContextText = !!question.context && question.context !== prevQuestion?.context;
+    const showContextText = !!question.context;
     const sectionColor = SECTION_COLORS[question.section];
 
     return (
