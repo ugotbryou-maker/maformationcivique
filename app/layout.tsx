@@ -5,7 +5,6 @@ import './globals.css';
 import { CookieConsent } from '@/components/ui/CookieConsent';
 
 const GTM_ID = 'GTM-KVQ94QBZ';
-const GA4_ID = 'G-KB7R6RCZVG';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -57,18 +56,6 @@ export default function RootLayout({
   return (
     <html lang="fr" className={inter.variable}>
       <head>
-        {/* GA4 direct — filet de sécurité si GTM est bloqué */}
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script id="ga4-init" strategy="afterInteractive">{`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${GA4_ID}', { page_path: window.location.pathname });
-        `}</Script>
-
         {/* Google Tag Manager — dans le head, pas besoin de consentement (conteneur neutre) */}
         <Script id="gtm-head" strategy="beforeInteractive">{`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
