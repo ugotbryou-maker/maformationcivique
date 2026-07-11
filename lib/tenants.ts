@@ -22,7 +22,7 @@ const TENANTS: Record<string, TenantConfig> = {
     accentColor: '#E42314',
     logoPath: '/tenants/papiers-francais/logo-dark.svg',
     logoLightPath: '/tenants/papiers-francais/logo-light.svg',
-    logoAspect: 260 / 74,   // viewBox 260×74
+    logoAspect: 325 / 84,   // viewBox 325×84
     website: 'https://www.papiers-francais.com',
   },
 };

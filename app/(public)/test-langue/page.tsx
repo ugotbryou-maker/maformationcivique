@@ -213,6 +213,7 @@ export default function TestLanguePage() {
   const [result, setResult] = useState<Result | null>(null);
   const [lead, setLead] = useState<LeadForm>({ nom: '', prenom: '', telephone: '', email: '', rgpd: false });
   const [submitting, setSubmitting] = useState(false);
+  const [rgpdOpen, setRgpdOpen] = useState(false);
 
   // Scroll to top on phase change
   useEffect(() => {
@@ -529,31 +530,81 @@ export default function TestLanguePage() {
           </div>
 
           {/* RGPD */}
-          <label style={{
-            display: 'flex', alignItems: 'flex-start', gap: 12,
-            cursor: 'pointer', marginTop: 4,
-          }}>
-            <div
-              onClick={() => setLead(l => ({ ...l, rgpd: !l.rgpd }))}
-              style={{
-                width: 20, height: 20, borderRadius: 5, flexShrink: 0, marginTop: 1,
-                border: '2px solid rgba(255,255,255,0.6)',
-                background: lead.rgpd ? '#fff' : 'transparent',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer',
-                transition: 'background 120ms',
-              }}
-            >
-              {lead.rgpd && (
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 6l3 3 5-5" stroke="#C0060F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              )}
+          <div style={{ marginTop: 4 }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+              <div
+                onClick={() => setLead(l => ({ ...l, rgpd: !l.rgpd }))}
+                style={{
+                  width: 20, height: 20, borderRadius: 5, flexShrink: 0, marginTop: 2,
+                  border: '2px solid rgba(255,255,255,0.6)',
+                  background: lead.rgpd ? '#fff' : 'transparent',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'background 120ms',
+                }}
+              >
+                {lead.rgpd && (
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6l3 3 5-5" stroke="#C0060F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                )}
+              </div>
+              <div style={{ flex: 1 }}>
+                <span
+                  onClick={() => setLead(l => ({ ...l, rgpd: !l.rgpd }))}
+                  style={{ fontSize: 12, lineHeight: 1.55, opacity: 0.85, cursor: 'pointer' }}
+                >
+                  J&apos;accepte que mes données personnelles soient utilisées par Papiers Français dans le cadre de mon accompagnement administratif, conformément au RGPD.
+                </span>
+                {' '}
+                <button
+                  type="button"
+                  onClick={() => setRgpdOpen(o => !o)}
+                  style={{
+                    background: 'none', border: 'none', padding: 0,
+                    fontSize: 12, color: 'rgba(255,255,255,0.7)',
+                    textDecoration: 'underline', cursor: 'pointer',
+                    fontWeight: 600,
+                  }}
+                >
+                  {rgpdOpen ? 'Masquer' : 'En savoir plus'}
+                </button>
+
+                {rgpdOpen && (
+                  <div style={{
+                    marginTop: 10,
+                    background: 'rgba(0,0,0,0.25)',
+                    borderRadius: 10,
+                    padding: '14px 16px',
+                    fontSize: 11,
+                    lineHeight: 1.7,
+                    color: 'rgba(255,255,255,0.85)',
+                    textAlign: 'left',
+                  }}>
+                    <p style={{ margin: '0 0 8px', fontWeight: 700, fontSize: 12 }}>Politique de confidentialité — Collecte de données</p>
+                    <p style={{ margin: '0 0 6px' }}>
+                      <strong>Responsable du traitement :</strong> Papiers Français, cabinet d&apos;expertise en droit des étrangers.
+                    </p>
+                    <p style={{ margin: '0 0 6px' }}>
+                      <strong>Données collectées :</strong> nom, prénom, adresse email, numéro de téléphone, résultat du test de niveau de français.
+                    </p>
+                    <p style={{ margin: '0 0 6px' }}>
+                      <strong>Finalité :</strong> prise de contact pour vous proposer un accompagnement administratif et linguistique adapté à votre situation.
+                    </p>
+                    <p style={{ margin: '0 0 6px' }}>
+                      <strong>Durée de conservation :</strong> 3 ans à compter de votre dernier contact avec notre cabinet.
+                    </p>
+                    <p style={{ margin: '0 0 6px' }}>
+                      <strong>Vos droits :</strong> conformément au RGPD (Règlement UE 2016/679), vous disposez d&apos;un droit d&apos;accès, de rectification, d&apos;effacement et de portabilité de vos données. Pour exercer ces droits, contactez-nous par email.
+                    </p>
+                    <p style={{ margin: 0 }}>
+                      <strong>Partage des données :</strong> vos données ne sont pas transmises à des tiers sans votre consentement explicite.
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
-            <span style={{ fontSize: 12, lineHeight: 1.55, opacity: 0.82 }}>
-              J&apos;accepte que mes données personnelles soient utilisées par Papiers Français dans le cadre de mon accompagnement administratif, conformément au RGPD.
-            </span>
-          </label>
+          </div>
         </div>
 
         <div style={{ marginTop: 28 }}>
