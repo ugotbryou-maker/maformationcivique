@@ -2,13 +2,12 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Examens blancs — Préparez votre formation civique | maformationcivique.fr',
-  description: 'Passez nos examens blancs chronométrés : CSP, Carte de résident, Naturalisation. Questions officielles, corrigées et adaptées à votre démarche.',
+  description: "Passez un examen blanc chronométré pour préparer votre démarche d'intégration. 3 niveaux : Carte de séjour pluriannuelle (CSP), Carte de résident (10 ans) et Naturalisation. Questions officielles.",
   alternates: { canonical: 'https://www.maformationcivique.fr/examen' },
   openGraph: {
-    title: 'Examens blancs formation civique — maformationcivique.fr',
-    description: '3 niveaux d\'examen blanc : Carte de séjour, Carte de résident, Naturalisation. Préparez-vous avec les vraies questions officielles.',
+    title: 'Examens blancs civiques — CSP, Carte de résident, Naturalisation',
+    description: "Entraînez-vous avec des examens blancs chronométrés sur les 3 niveaux de la formation civique obligatoire en France.",
     url: 'https://www.maformationcivique.fr/examen',
-    type: 'website',
   },
 };
 
