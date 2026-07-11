@@ -6,7 +6,7 @@ import { getTenantConfig } from '@/lib/tenants';
 
 const TENANT_ALLOWED_PREFIXES = [
   '/modulesciviques', '/moduleslinguistiques', '/examen',
-  '/test-langue',
+  '/test-langue', '/test-civique',
   '/dashboard', '/profil', '/progression',
   '/connexion', '/inscription', '/onboarding', '/auth',
   '/mentions-legales', '/cgu', '/confidentialite',
