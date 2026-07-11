@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
 import { Eye, EyeOff, Mail, Lock, User, CheckCircle, Building2 } from 'lucide-react';
+import { fbqTrack } from '@/lib/fbq';
 
 function InscriptionForm() {
   const router = useRouter();
@@ -72,6 +73,8 @@ function InscriptionForm() {
         last_active: new Date().toISOString().slice(0, 10),
         ...(isUuid && ref !== signUpData.user.id ? { referred_by: ref } : {}),
       }, { onConflict: 'id' });
+
+      fbqTrack('CompleteRegistration');
 
       // Email de bienvenue via Brevo (non bloquant)
       fetch('/api/auth/welcome', {

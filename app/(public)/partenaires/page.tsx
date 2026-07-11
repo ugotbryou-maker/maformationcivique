@@ -3,6 +3,7 @@ import Image from 'next/image';
 import {
   Building2, Users, FileDown, BarChart3, CheckCircle2,
   ArrowRight, ShieldCheck, Clock, Star, Briefcase, MessageSquarePlus,
+  Palette, Globe, EyeOff,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -116,7 +117,7 @@ const steps = [
     num: '05',
     icon: MessageSquarePlus,
     title: 'Vos clients vous laissent un avis',
-    desc: 'Dès 80 % de formation, un email automatique invite votre client à laisser un avis sur votre page Google My Business — configurez votre lien en 30 secondes depuis votre espace.',
+    desc: 'À 50 %, 80 % et 100 % de formation, un email invite votre client à laisser un avis Google My Business — séquence stoppée dès le premier avis posté. Configurez votre lien en 30 secondes.',
     accent: '#D97706',
   },
 ];
@@ -378,6 +379,308 @@ export default function PartenairesPage() {
         </div>
       </section>
 
+      {/* ── MARQUE BLANCHE ───────────────────────────────────────────── */}
+      <section style={{ background: 'var(--color-off-white)', padding: '88px 0' }}>
+        <div className="container" style={{ padding: '0 24px' }}>
+          <div className="wb-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 72, alignItems: 'center' }}>
+
+            {/* Mockup animé */}
+            <div>
+              <div style={{
+                borderRadius: 16,
+                overflow: 'hidden',
+                boxShadow: '0 32px 80px rgba(0,0,0,0.18)',
+                border: '1px solid rgba(0,0,0,0.08)',
+                background: '#fff',
+              }}>
+                {/* Browser chrome */}
+                <div style={{ background: '#F1F5F9', padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 8, borderBottom: '1px solid #E2E8F0' }}>
+                  <div style={{ display: 'flex', gap: 5 }}>
+                    {['#FF5F57','#FEBC2E','#28C840'].map(c => (
+                      <div key={c} style={{ width: 10, height: 10, borderRadius: '50%', background: c }} />
+                    ))}
+                  </div>
+                  <div style={{ flex: 1, background: '#fff', borderRadius: 6, padding: '4px 12px', fontSize: 11, color: '#94A3B8', border: '1px solid #E2E8F0' }}>
+                    votre-cabinet.maformationcivique.fr
+                  </div>
+                </div>
+
+                {/* Navbars animées — 3 marques */}
+                <div style={{ position: 'relative', height: 52 }}>
+                  {[
+                    { name: 'Cabinet Moreau & Associés', color: '#002395', cls: 'wb-brand-1' },
+                    { name: 'Centre Accueil Île-de-France', color: '#1B5E20', cls: 'wb-brand-2' },
+                    { name: 'Association Avenir Commun', color: '#5B21B6', cls: 'wb-brand-3' },
+                  ].map(({ name, color, cls }) => (
+                    <div key={cls} className={cls} style={{
+                      position: 'absolute', inset: 0,
+                      background: color,
+                      display: 'flex', alignItems: 'center', padding: '0 20px', gap: 10,
+                    }}>
+                      <div style={{
+                        width: 28, height: 28, borderRadius: 6,
+                        background: 'rgba(255,255,255,0.22)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      }}>
+                        <span style={{ fontSize: 12, fontWeight: 800, color: '#fff' }}>{name[0]}</span>
+                      </div>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: '#fff', letterSpacing: '-0.01em', flex: 1, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{name}</span>
+                      <div style={{ display: 'flex', gap: 14, flexShrink: 0 }}>
+                        {['Civique', 'Langue', 'Examens'].map(item => (
+                          <span key={item} style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)' }}>{item}</span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Contenu (identique pour toutes les marques) */}
+                <div style={{ padding: '20px 20px 24px', background: '#fff' }}>
+                  <p style={{ fontSize: 11, color: '#94A3B8', marginBottom: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Formation civique · Module 1</p>
+                  {[
+                    { label: 'Les valeurs de la République', pct: 100, done: true },
+                    { label: 'Les institutions françaises', pct: 67, done: false },
+                    { label: 'Droits et devoirs du citoyen', pct: 20, done: false },
+                  ].map(({ label, pct, done }) => (
+                    <div key={label} style={{
+                      background: '#F8FAFC', borderRadius: 8, padding: '10px 12px', marginBottom: 8,
+                      display: 'flex', alignItems: 'center', gap: 10, border: '1px solid #E2E8F0',
+                    }}>
+                      <div style={{
+                        width: 24, height: 24, borderRadius: '50%', flexShrink: 0,
+                        background: done ? '#ECFDF5' : '#EEF2FF',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11,
+                      }}>
+                        {done ? '✓' : '→'}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <p style={{ fontSize: 11, fontWeight: 600, color: '#1E293B', marginBottom: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{label}</p>
+                        <div style={{ height: 3, borderRadius: 99, background: '#E2E8F0', overflow: 'hidden' }}>
+                          <div style={{ height: '100%', width: `${pct}%`, background: done ? '#1D9E75' : '#002395', borderRadius: 99 }} />
+                        </div>
+                      </div>
+                      <span style={{ fontSize: 10, color: done ? '#1D9E75' : '#64748B', fontWeight: 600, flexShrink: 0 }}>{pct}%</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Texte */}
+            <div>
+              <p style={{
+                fontSize: 'var(--font-size-xs)', fontWeight: 700,
+                textTransform: 'uppercase', letterSpacing: '0.1em',
+                color: 'var(--color-blue-france)', marginBottom: 10,
+              }}>
+                Marque blanche
+              </p>
+              <h2 style={{
+                fontSize: 'var(--font-size-xl)', fontWeight: 700,
+                color: 'var(--color-text-primary)', marginBottom: 18, lineHeight: 1.2,
+              }}>
+                Votre logo.<br />
+                <span style={{ color: 'var(--color-blue-france)' }}>Notre technologie.</span>
+              </h2>
+              <p style={{
+                fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)',
+                lineHeight: 1.75, marginBottom: 32,
+              }}>
+                En offre Cabinet+, vos clients accèdent à la plateforme entièrement
+                sous votre identité visuelle — votre logo, vos couleurs.
+                Une expérience premium qui porte votre cabinet, pas le nôtre.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginBottom: 32 }}>
+                {[
+                  { Icon: Palette, color: '#002395', title: 'Votre charte graphique', desc: 'Logo + couleurs appliqués sur l\'ensemble des modules en quelques minutes de configuration.' },
+                  { Icon: Globe, color: '#1B5E20', title: 'URL personnalisée', desc: 'Sous-domaine dédié : votre-cabinet.maformationcivique.fr' },
+                  { Icon: EyeOff, color: '#5B21B6', title: 'Expérience transparente', desc: 'Vos clients voient votre cabinet — l\'infrastructure reste invisible.' },
+                ].map(({ Icon, color, title, desc }) => (
+                  <div key={title} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                    <div style={{
+                      width: 36, height: 36, borderRadius: 'var(--radius-md)', flexShrink: 0,
+                      background: color + '14',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <Icon size={16} color={color} />
+                    </div>
+                    <div style={{ paddingTop: 6 }}>
+                      <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--color-text-primary)', marginBottom: 2 }}>{title}</p>
+                      <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>{desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: 'var(--color-blue-light)',
+                borderRadius: 'var(--radius-pill)',
+                padding: '8px 18px',
+                fontSize: 13, color: 'var(--color-blue-france)', fontWeight: 600,
+              }}>
+                ✦ Disponible à partir du palier Cabinet+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── BOOST AVIS GOOGLE ────────────────────────────────────────── */}
+      <section style={{ background: '#fff', padding: '88px 0' }}>
+        <div className="container" style={{ padding: '0 24px' }}>
+          <div className="gmb-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 72, alignItems: 'center' }}>
+
+            {/* Texte */}
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                <p style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#4285F4' }}>
+                  Google My Business
+                </p>
+              </div>
+              <h2 style={{
+                fontSize: 'var(--font-size-xl)', fontWeight: 700,
+                color: 'var(--color-text-primary)', marginBottom: 18, lineHeight: 1.2,
+              }}>
+                Chaque client formé<br />
+                <span style={{ color: '#4285F4' }}>booste votre note Google.</span>
+              </h2>
+              <p style={{
+                fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)',
+                lineHeight: 1.75, marginBottom: 32,
+              }}>
+                La plateforme envoie automatiquement jusqu&apos;à 3 invitations à laisser
+                un avis Google, à des moments clés de la progression de l&apos;apprenant.
+                Dès qu&apos;un avis est posté, la séquence s&apos;arrête. Configurez votre
+                lien GMB en 30 secondes depuis votre dashboard.
+              </p>
+
+              {/* Flow 3 paliers */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                {[
+                  { pct: '50 %', color: '#4285F4', label: '1ʳᵉ invitation — à mi-parcours', sub: 'Premier contact au moment de l\'engagement' },
+                  { pct: '80 %', color: '#34A853', label: '2ᵉ invitation — presque au bout', sub: 'Rappel quand la satisfaction est au plus haut' },
+                  { pct: '100 %', color: '#FBBC05', label: '3ᵉ invitation — formation complète', sub: 'Dernier rappel au moment de la réussite' },
+                ].map(({ pct, color, label, sub }, i, arr) => (
+                  <div key={pct} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <div style={{
+                        width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
+                        background: color + '18', border: `2px solid ${color}`,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: 10, fontWeight: 800, color,
+                      }}>
+                        {pct}
+                      </div>
+                      {i < arr.length - 1 && (
+                        <div style={{ width: 2, height: 20, background: '#E2E8F0', margin: '4px 0' }} />
+                      )}
+                    </div>
+                    <div style={{ paddingTop: 8, paddingBottom: i < arr.length - 1 ? 0 : 0 }}>
+                      <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-text-primary)', lineHeight: 1.3, marginBottom: 2 }}>{label}</p>
+                      <p style={{ fontSize: 11, color: 'var(--color-text-muted)', lineHeight: 1.4, marginBottom: i < arr.length - 1 ? 8 : 0 }}>{sub}</p>
+                    </div>
+                  </div>
+                ))}
+                <div style={{
+                  marginTop: 12,
+                  display: 'flex', alignItems: 'center', gap: 8,
+                  background: '#F0FDF4', borderRadius: 8, padding: '8px 12px',
+                  border: '1px solid #BBF7D0',
+                }}>
+                  <CheckCircle2 size={14} color="#16A34A" style={{ flexShrink: 0 }} />
+                  <p style={{ fontSize: 12, color: '#15803D', fontWeight: 600 }}>
+                    Dès qu&apos;un avis est posté — séquence stoppée automatiquement
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Mockup fiche Google */}
+            <div>
+              <div style={{
+                borderRadius: 'var(--radius-xl)',
+                border: '1px solid #E2E8F0',
+                boxShadow: '0 20px 60px rgba(0,0,0,0.10)',
+                overflow: 'hidden',
+                background: '#fff',
+              }}>
+                {/* Header fiche */}
+                <div style={{ background: '#F8F9FA', padding: '20px 20px 16px', borderBottom: '1px solid #E2E8F0' }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                    <div style={{
+                      width: 48, height: 48, borderRadius: 8, flexShrink: 0,
+                      background: 'var(--gradient-primary)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: 18, fontWeight: 800, color: '#fff',
+                    }}>D</div>
+                    <div>
+                      <p style={{ fontSize: 15, fontWeight: 700, color: '#202124', marginBottom: 2 }}>Cabinet Dupont & Associés</p>
+                      <p style={{ fontSize: 12, color: '#5F6368' }}>Cabinet d&apos;avocats · Paris 8e</p>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 4 }}>
+                        <span style={{ fontSize: 14, fontWeight: 700, color: '#202124' }}>4,8</span>
+                        <div style={{ display: 'flex', gap: 1 }}>
+                          {[1,2,3,4,5].map(i => (
+                            <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill={i <= 5 ? '#FBBC05' : '#E2E8F0'}>
+                              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                          ))}
+                        </div>
+                        <span style={{ fontSize: 11, color: '#5F6368' }}>47 avis</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Avis */}
+                {[
+                  { init: 'A', name: 'Amira K.', stars: 5, date: 'Il y a 2 jours', text: 'Cabinet très sérieux — ils m\'ont recommandé la plateforme pour préparer mon entretien de naturalisation. J\'ai obtenu mon passeport français !' },
+                  { init: 'Y', name: 'Youssef M.', stars: 5, date: 'Il y a 1 semaine', text: 'Suivi impeccable tout au long de ma démarche. La formation civique recommandée était parfaite.' },
+                ].map(({ init, name, stars, date, text }) => (
+                  <div key={name} style={{ padding: '16px 20px', borderBottom: '1px solid #F1F3F4' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+                      <div style={{
+                        width: 32, height: 32, borderRadius: '50%', background: '#4285F4',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: 13, fontWeight: 700, color: '#fff', flexShrink: 0,
+                      }}>{init}</div>
+                      <div>
+                        <p style={{ fontSize: 13, fontWeight: 600, color: '#202124', marginBottom: 1 }}>{name}</p>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                          <div style={{ display: 'flex', gap: 1 }}>
+                            {Array.from({ length: stars }).map((_, i) => (
+                              <svg key={i} width="11" height="11" viewBox="0 0 24 24" fill="#FBBC05">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                              </svg>
+                            ))}
+                          </div>
+                          <span style={{ fontSize: 11, color: '#80868B' }}>{date}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p style={{ fontSize: 12, color: '#3C4043', lineHeight: 1.6 }}>{text}</p>
+                  </div>
+                ))}
+
+                {/* CTA config */}
+                <div style={{ padding: '16px 20px', background: '#F0F7FF', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                  <p style={{ fontSize: 12, color: '#4285F4', fontWeight: 600 }}>⚙️ Votre lien GMB configuré en 30 secondes</p>
+                  <div style={{ fontSize: 11, background: '#4285F4', color: '#fff', padding: '5px 12px', borderRadius: 99, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                    Activer →
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── COMMENT ÇA MARCHE ────────────────────────────────────────── */}
       <section style={{ background: 'var(--color-off-white)', padding: '88px 0' }}>
         <div className="container" style={{ padding: '0 24px' }}>
@@ -582,7 +885,7 @@ export default function PartenairesPage() {
             },
             {
               q: 'Comment fonctionne la fonctionnalité Google My Business ?',
-              a: 'Une fois votre lien GMB configuré dans votre espace cabinet, vos clients reçoivent automatiquement un email les invitant à laisser un avis sur votre page Google dès qu\'ils atteignent 80 % de formation. L\'email est envoyé une seule fois et inclut un lien de désinscription, conformément à nos CGU.',
+              a: 'Une fois votre lien GMB configuré, la plateforme envoie automatiquement jusqu\'à 3 emails à votre client : à 50 %, 80 % et 100 % de formation. Dès qu\'un avis est posté, la séquence s\'arrête — votre client ne reçoit plus de rappel. Chaque email inclut un lien de désinscription, conformément à nos CGU.',
             },
             {
               q: 'Les contenus sont-ils à jour avec la réforme 2024 ?',
@@ -671,10 +974,39 @@ export default function PartenairesPage() {
           box-shadow: 0 4px 20px rgba(0,35,149,0.08) !important;
         }
 
+        /* ── Animation marque blanche ── */
+        .wb-brand-1 { opacity: 1; animation: wbFade1 9s ease-in-out infinite; }
+        .wb-brand-2 { opacity: 0; animation: wbFade2 9s ease-in-out infinite; }
+        .wb-brand-3 { opacity: 0; animation: wbFade3 9s ease-in-out infinite; }
+        @keyframes wbFade1 {
+          0%   { opacity: 1; }
+          28%  { opacity: 1; }
+          36%  { opacity: 0; }
+          94%  { opacity: 0; }
+          100% { opacity: 1; }
+        }
+        @keyframes wbFade2 {
+          0%   { opacity: 0; }
+          30%  { opacity: 0; }
+          38%  { opacity: 1; }
+          61%  { opacity: 1; }
+          69%  { opacity: 0; }
+          100% { opacity: 0; }
+        }
+        @keyframes wbFade3 {
+          0%   { opacity: 0; }
+          63%  { opacity: 0; }
+          71%  { opacity: 1; }
+          92%  { opacity: 1; }
+          100% { opacity: 0; }
+        }
+
         @media (max-width: 900px) {
           .proof-grid { grid-template-columns: 1fr !important; }
           .dash-grid { grid-template-columns: 1fr !important; }
           .tiers-grid { grid-template-columns: 1fr !important; }
+          .wb-grid { grid-template-columns: 1fr !important; }
+          .gmb-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </main>

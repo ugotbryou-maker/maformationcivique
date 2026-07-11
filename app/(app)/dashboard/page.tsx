@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { redirect } from 'next/navigation';
 import { modules } from '@/data/modules';
@@ -6,6 +7,7 @@ import { a2Modules, b1Modules, b2Modules, transversalModules } from '@/data/lang
 import { ProgressBar } from '@/components/app/ProgressBar';
 import { XPBadge } from '@/components/app/XPBadge';
 import { ReferralCard } from '@/components/app/ReferralCard';
+import { PurchaseTracker } from '@/components/ui/PurchaseTracker';
 import { getLevel, getLevelProgress, BADGES } from '@/lib/gamification';
 import { BookOpen, ChevronRight, Trophy, Target, Wrench } from 'lucide-react';
 import { isAdminEmail } from '@/lib/admin';
@@ -101,6 +103,7 @@ export default async function DashboardPage() {
 
   return (
     <div style={{ maxWidth: '1100px' }}>
+      <Suspense><PurchaseTracker /></Suspense>
       {/* Welcome */}
       <div style={{ marginBottom: '28px' }}>
         <h1 style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text-primary)', marginBottom: '4px' }}>

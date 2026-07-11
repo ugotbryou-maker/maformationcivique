@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CheckCircle, ArrowRight, ChevronRight, Star, Shield, Award, Sparkles } from 'lucide-react';
+import { fbqTrack } from '@/lib/fbq';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type Demarche      = 'CSP' | 'carte_resident' | 'naturalisation';
@@ -83,6 +84,7 @@ export default function OnboardingPage() {
 
   // ── Checkout Stripe ──────────────────────────────────────────────────────
   const handleUpgrade = async () => {
+    fbqTrack('Lead');
     setCheckoutLoading(true);
     try {
       const res = await fetch('/api/stripe/checkout', {
