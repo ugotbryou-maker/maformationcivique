@@ -4,6 +4,20 @@ import type { NextRequest } from 'next/server';
 import { ADMIN_EMAILS } from '@/lib/admin';
 import { getTenantConfig } from '@/lib/tenants';
 
+const TENANT_ALLOWED_PREFIXES = [
+  '/modulesciviques', '/moduleslinguistiques', '/examen',
+  '/dashboard', '/profil', '/progression',
+  '/connexion', '/inscription', '/onboarding', '/auth',
+  '/mentions-legales', '/cgu', '/confidentialite',
+  '/api', '/_next',
+];
+
+function isTenantAllowed(pathname: string): boolean {
+  return TENANT_ALLOWED_PREFIXES.some(
+    (p) => pathname === p || pathname.startsWith(p + '/')
+  );
+}
+
 function detectTenantSlug(request: NextRequest): string | null {
   // Dev / démo : ?tenant=papiers-francais dans l'URL
   const param = request.nextUrl.searchParams.get('tenant');
@@ -65,14 +79,15 @@ export async function middleware(request: NextRequest) {
     // Les pages publiques restent accessibles, les pages protégées redirigent
   }
 
-  // ── Tenant : rediriger la racine vers les modules ────────────────────────
-  if (tenantSlug && getTenantConfig(tenantSlug) && pathname === '/') {
-    const dest = new URL('/modulesciviques', request.url);
-    // En dev (?tenant=...) on conserve le param ; en prod le sous-domaine suffit
-    if (request.nextUrl.searchParams.has('tenant')) {
-      dest.searchParams.set('tenant', tenantSlug);
+  // ── Tenant : circuit fermé ───────────────────────────────────────────────
+  if (tenantSlug && getTenantConfig(tenantSlug)) {
+    if (!isTenantAllowed(pathname)) {
+      const dest = new URL('/modulesciviques', request.url);
+      if (request.nextUrl.searchParams.has('tenant')) {
+        dest.searchParams.set('tenant', tenantSlug);
+      }
+      return NextResponse.redirect(dest);
     }
-    return NextResponse.redirect(dest);
   }
 
   // ── Protection des pages connectées ───────────────────────────────────────

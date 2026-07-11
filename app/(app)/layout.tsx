@@ -1,7 +1,10 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import { headers } from 'next/headers';
 import { BookOpen, LayoutDashboard, Trophy, TrendingUp, User, Building2 } from 'lucide-react';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { isAdminEmail } from '@/lib/admin';
+import { getTenantConfig, tenantCssVars } from '@/lib/tenants';
 
 const baseNav = [
   { icon: LayoutDashboard, label: 'Dashboard',  href: '/dashboard' },
@@ -14,6 +17,11 @@ const baseNav = [
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
+
+  // Tenant
+  const headersList = await headers();
+  const tenantSlug = headersList.get('x-tenant');
+  const tenant = tenantSlug ? getTenantConfig(tenantSlug) : null;
 
   let appNav = baseNav;
 
@@ -35,6 +43,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', overflowX: 'hidden' }}>
+      {tenant && <style dangerouslySetInnerHTML={{ __html: tenantCssVars(tenant) }} />}
       {/* Sidebar — desktop only */}
       <aside
         style={{
@@ -53,24 +62,32 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         className="app-sidebar"
       >
         <Link
-          href="/"
+          href={tenant ? '/dashboard' : '/'}
           style={{
             display: 'flex', alignItems: 'center', gap: '8px',
             marginBottom: '32px', paddingLeft: '8px', textDecoration: 'none',
           }}
-          aria-label="maformationcivique.fr — accueil"
+          aria-label={tenant ? tenant.name : 'maformationcivique.fr — accueil'}
         >
-          {/* Brand icon — pièces rouge + bleue */}
-          <svg width="30" height="22" viewBox="93 140 280 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ flexShrink: 0 }}>
-            <path d="M248.431 151C283.185 152.209 319.187 157.99 345.096 183.882C354.241 192.901 360.845 204.172 364.242 216.56C368.241 231.3 367.116 255.377 367.098 271.391L367.107 328.507L311.261 328.511L248.313 328.515C248.234 324.547 248.229 320.416 248.285 316.448C248.655 290.217 247.72 263.7 248.389 237.496L304.048 237.456C303.074 230.697 302.216 225.644 296.935 220.419C285.799 209.402 262.929 208.382 248.286 208.334C248.271 191.645 247.564 167.332 248.431 151Z" fill="#DE0019"/>
-            <path d="M211.827 328.516C177.073 327.307 141.071 321.526 115.162 295.634C106.017 286.614 99.4131 275.344 96.0161 262.955C92.0171 248.216 93.1421 224.138 93.1597 208.125L93.1509 151.009L148.997 151.005L211.945 151C212.024 154.969 212.029 159.099 211.973 163.068C211.603 189.299 212.538 215.815 211.869 242.02L156.21 242.059C157.184 248.818 158.041 253.872 163.323 259.097C174.458 270.114 197.329 271.134 211.972 271.182C211.987 287.87 212.694 312.184 211.827 328.516Z" fill="#031E6C"/>
-          </svg>
-          <span style={{
-            fontFamily: 'var(--font-sans)', fontSize: '12px', fontWeight: 600,
-            color: 'var(--color-text-primary)', lineHeight: 1,
-          }}>
-            ma<span style={{ color: 'var(--color-blue-france)' }}>formation</span>civique.fr
-          </span>
+          {tenant ? (
+            <Image
+              src={tenant.logoPath}
+              alt={tenant.name}
+              height={32}
+              width={Math.round(32 * tenant.logoAspect)}
+              style={{ height: 32, width: 'auto' }}
+            />
+          ) : (
+            <>
+              <svg width="30" height="22" viewBox="93 140 280 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ flexShrink: 0 }}>
+                <path d="M248.431 151C283.185 152.209 319.187 157.99 345.096 183.882C354.241 192.901 360.845 204.172 364.242 216.56C368.241 231.3 367.116 255.377 367.098 271.391L367.107 328.507L311.261 328.511L248.313 328.515C248.234 324.547 248.229 320.416 248.285 316.448C248.655 290.217 247.72 263.7 248.389 237.496L304.048 237.456C303.074 230.697 302.216 225.644 296.935 220.419C285.799 209.402 262.929 208.382 248.286 208.334C248.271 191.645 247.564 167.332 248.431 151Z" fill="#DE0019"/>
+                <path d="M211.827 328.516C177.073 327.307 141.071 321.526 115.162 295.634C106.017 286.614 99.4131 275.344 96.0161 262.955C92.0171 248.216 93.1421 224.138 93.1597 208.125L93.1509 151.009L148.997 151.005L211.945 151C212.024 154.969 212.029 159.099 211.973 163.068C211.603 189.299 212.538 215.815 211.869 242.02L156.21 242.059C157.184 248.818 158.041 253.872 163.323 259.097C174.458 270.114 197.329 271.134 211.972 271.182C211.987 287.87 212.694 312.184 211.827 328.516Z" fill="#031E6C"/>
+              </svg>
+              <span style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', fontWeight: 600, color: 'var(--color-text-primary)', lineHeight: 1 }}>
+                ma<span style={{ color: 'var(--color-blue-france)' }}>formation</span>civique.fr
+              </span>
+            </>
+          )}
         </Link>
 
         <nav style={{ flex: 1 }}>
