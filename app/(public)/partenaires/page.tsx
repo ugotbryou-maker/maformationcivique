@@ -8,8 +8,14 @@ import {
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Espace partenaires — Cabinets d\'avocats | maformationcivique.fr',
-  description: 'Offrez la formation civique à vos clients étrangers. Tableau de bord dédié, suivi de progression, attestations PDF — à partir de 390 €/an.',
+  title: "Espace partenaires — Cabinets d'avocats | maformationcivique.fr",
+  description: "Offrez la formation civique à vos clients étrangers : tableau de bord dédié, suivi de progression et attestations PDF. À partir de 390 €/an.",
+  alternates: { canonical: 'https://www.maformationcivique.fr/partenaires' },
+  openGraph: {
+    title: "Espace partenaires — Cabinets d'avocats",
+    description: "Tableau de bord dédié, suivi de progression et attestations PDF pour vos clients étrangers. À partir de 390 €/an.",
+    url: 'https://www.maformationcivique.fr/partenaires',
+  },
 };
 
 const tiers = [

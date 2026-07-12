@@ -3,9 +3,14 @@ import { fiches } from '@/data/fiches';
 import { FicheCard } from '@/components/app/FicheCard';
 
 export const metadata: Metadata = {
-  title: 'Fiches — Grandes figures et grands lieux de France | maformationcivique.fr',
-  description:
-    'Fiches bonus sur les grandes figures et les grands lieux de France au programme de la formation civique : Marianne, Marie Curie, Victor Hugo, la Tour Eiffel, Versailles et bien d\'autres.',
+  title: "Fiches : figures et lieux de l'histoire de France",
+  description: "Fiches mémo sur les grandes figures et grands lieux de l'histoire de France : des repères essentiels pour réussir votre examen civique 2026.",
+  alternates: { canonical: 'https://www.maformationcivique.fr/fiches' },
+  openGraph: {
+    title: "Fiches : figures et lieux de l'histoire de France",
+    description: "Fiches mémo sur les grandes figures et grands lieux de l'histoire de France pour l'examen civique 2026.",
+    url: 'https://www.maformationcivique.fr/fiches',
+  },
 };
 
 export default function FichesPage() {

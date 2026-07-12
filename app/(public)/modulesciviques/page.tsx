@@ -5,8 +5,14 @@ import { ModuleList } from '@/components/app/ModuleList';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Modules — maformationcivique.fr',
-  description: 'Les 5 modules de préparation à la formation civique : principes de la République, droits & devoirs, institutions, histoire et vie en France.',
+  title: "Modules de préparation à l'examen civique 2026",
+  description: "Les 5 modules de préparation à l'examen civique 2026 : valeurs de la République, droits et devoirs, institutions, histoire de France et vie en société.",
+  alternates: { canonical: 'https://www.maformationcivique.fr/modulesciviques' },
+  openGraph: {
+    title: "Modules de préparation à l'examen civique 2026",
+    description: "5 modules interactifs : valeurs de la République, droits, institutions et histoire de France.",
+    url: 'https://www.maformationcivique.fr/modulesciviques',
+  },
 };
 
 export default function ModulesPage() {

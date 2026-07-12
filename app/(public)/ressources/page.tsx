@@ -8,9 +8,14 @@ import { CATEGORY_ICONS } from '@/components/app/PostUI';
 import RessourcesGrid from './RessourcesGrid';
 
 export const metadata: Metadata = {
-  title: 'Ressources — maformationcivique.fr',
-  description:
-    'Guides pratiques, articles et actualités pour préparer votre formation civique : démarches administratives, vie en France, examens, dernières actualités.',
+  title: 'Ressources : examen civique, naturalisation, séjour',
+  description: "Guides et articles sur l'examen civique, la naturalisation, les titres de séjour et l'intégration en France. Conseils pratiques et démarches à jour.",
+  alternates: { canonical: 'https://www.maformationcivique.fr/ressources' },
+  openGraph: {
+    title: 'Ressources : examen civique, naturalisation, séjour',
+    description: "Guides et articles sur l'examen civique, la naturalisation et les titres de séjour en France.",
+    url: 'https://www.maformationcivique.fr/ressources',
+  },
 };
 
 export default async function RessourcesPage() {
