@@ -43,7 +43,7 @@ export function ExamInfo() {
             L'examen civique
           </span>
           <h2 style={{ fontSize: 'clamp(26px, 4vw, 40px)', fontWeight: 800, color: '#fff', marginBottom: '14px', lineHeight: 1.2, letterSpacing: '-0.02em' }}>
-            Tout savoir sur la formation civique
+            Tout savoir sur l'examen civique
           </h2>
           <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.70)', maxWidth: '520px', lineHeight: 1.7, margin: 0 }}>
             Obligatoire depuis janvier 2026 pour tous les ressortissants étrangers souhaitant renouveler ou obtenir un titre de séjour, ou demander la naturalisation.
