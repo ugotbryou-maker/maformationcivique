@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { BrandLogo } from '@/components/ui/BrandLogo';
 import type { TenantConfig } from '@/lib/tenants';
 
@@ -55,13 +54,11 @@ export function Footer({ tenant }: { tenant?: TenantConfig | null }) {
           <div>
             <Link href="/" style={{ display: 'inline-flex', textDecoration: 'none', marginBottom: '16px' }}>
               {tenant ? (
-                <Image
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
                   src={tenant.logoLightPath}
                   alt={tenant.name}
-                  height={44}
-                  width={Math.round(44 * tenant.logoAspect)}
                   style={{ height: 44, width: 'auto' }}
-                  unoptimized
                 />
               ) : (
                 <BrandLogo height={44} variant="white" />

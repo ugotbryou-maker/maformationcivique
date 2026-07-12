@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X, Globe, User, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import Image from 'next/image';
 import { BrandLogo } from '@/components/ui/BrandLogo';
 import { createClient } from '@/lib/supabase';
 import type { TenantConfig } from '@/lib/tenants';
@@ -112,14 +111,11 @@ export function Navbar({ tenant }: { tenant?: TenantConfig | null }) {
         {/* Logo */}
         <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
           {tenant ? (
-            <Image
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
               src={tenant.logoPath}
               alt={tenant.name}
-              height={38}
-              width={Math.round(38 * tenant.logoAspect)}
               style={{ height: 38, width: 'auto' }}
-              priority
-              unoptimized
             />
           ) : (
             <BrandLogo height={38} variant="color" />

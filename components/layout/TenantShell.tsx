@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { BookOpen, FileText, LayoutDashboard } from 'lucide-react';
 import type { TenantConfig } from '@/lib/tenants';
 
@@ -36,13 +35,11 @@ export function TenantShell({
         }}>
           {/* Logo cabinet */}
           <Link href="/modulesciviques" style={{ display: 'flex', flexShrink: 0, textDecoration: 'none' }}>
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={tenant.logoLightPath}
               alt={tenant.name}
-              height={34}
-              width={Math.round(34 * tenant.logoAspect)}
               style={{ height: 34, width: 'auto' }}
-              unoptimized
             />
           </Link>
 
