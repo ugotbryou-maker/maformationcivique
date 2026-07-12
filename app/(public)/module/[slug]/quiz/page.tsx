@@ -12,7 +12,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const mod = modules.find((m) => m.slug === slug);
   return mod
-    ? { title: `Quiz — ${mod.title} — maformationcivique.fr` }
+    ? {
+        title: `Quiz — ${mod.title} — maformationcivique.fr`,
+        description: `Testez le module ${mod.title} : questions officielles de l'examen civique 2026, corrigées, pour valider vos acquis avant l'examen blanc.`,
+      }
     : {};
 }
 

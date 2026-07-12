@@ -2,18 +2,18 @@ import type { Metadata } from 'next';
 
 const LEVEL_META: Record<string, { title: string; description: string; canonical: string }> = {
   CSP: {
-    title: 'Examen blanc CSP — Carte de séjour pluriannuelle | maformationcivique.fr',
-    description: "Entraînez-vous à l'examen blanc niveau CSP (Carte de séjour pluriannuelle). Questions officielles sur les symboles de la République, la laïcité, les institutions et les droits fondamentaux. Chronométré.",
+    title: 'Examen blanc CSP — carte de séjour pluriannuelle 2026',
+    description: 'Examen blanc carte de séjour pluriannuelle (CSP) : questions officielles sur la République, la laïcité, les institutions et les droits. Chronométré.',
     canonical: 'https://www.maformationcivique.fr/examen/CSP',
   },
   CR: {
-    title: 'Examen blanc Carte de résident (10 ans) | maformationcivique.fr',
-    description: "Examen blanc niveau Carte de résident : mécanismes institutionnels, droits et libertés, histoire contemporaine, Union européenne. Questions officielles chronométrées pour la formation civique.",
+    title: 'Examen blanc carte de résident 10 ans — 2026',
+    description: "Examen blanc carte de résident (10 ans) : institutions, droits et libertés, histoire, Union européenne. Questions officielles chronométrées, format 2026.",
     canonical: 'https://www.maformationcivique.fr/examen/CR',
   },
   NAT: {
-    title: 'Examen blanc Naturalisation française | maformationcivique.fr',
-    description: "Préparez l'examen de naturalisation avec notre examen blanc : questions avancées sur la République, les institutions, la citoyenneté et l'histoire de France. Niveau officiel, chronométré.",
+    title: 'Examen blanc de naturalisation française 2026',
+    description: "Examen blanc de naturalisation française : questions avancées sur la République, les institutions et l'histoire. Niveau officiel 2026, chronométré.",
     canonical: 'https://www.maformationcivique.fr/examen/NAT',
   },
 };

@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     default: 'maformationcivique.fr — Préparez votre examen civique',
     template: '%s | maformationcivique.fr',
   },
-  description: 'La plateforme de préparation à la formation civique obligatoire pour les ressortissants étrangers en France. 177 questions, 5 modules, examens blancs chronométrés.',
+  description: "Préparez l'examen civique 2026 : 177 questions officielles, 5 modules et examens blancs chronométrés. Pour vos démarches de séjour et de naturalisation.",
   keywords: ['formation civique', 'examen civique', 'naturalisation', 'carte de résident', 'France', 'e-learning', 'OFII', 'intégration'],
   authors: [{ name: 'maformationcivique.fr' }],
   alternates: { canonical: BASE_URL },
@@ -64,6 +64,17 @@ export default function RootLayout({
           'https://www.googletagmanager.com/gtm.js?id='+i+dl;
           f.parentNode.insertBefore(j,f);
           })(window,document,'script','dataLayer','${GTM_ID}');
+        `}</Script>
+        {/* JSON-LD Organization — Knowledge Panel Google */}
+        <Script id="jsonld-org" type="application/ld+json" strategy="afterInteractive">{`
+          {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "name":"maformationcivique.fr",
+            "url":"https://www.maformationcivique.fr",
+            "description":"Plateforme de préparation à l'examen civique pour les ressortissants étrangers en France (titre de séjour, carte de résident, naturalisation).",
+            "inLanguage":"fr"
+          }
         `}</Script>
       </head>
       <body>

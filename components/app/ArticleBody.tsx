@@ -1,10 +1,36 @@
 import { PortableText, type PortableTextComponents } from '@portabletext/react';
 import { urlFor } from '@/lib/sanity/client';
 
-/**
- * Rendu du corps d'article Sanity (Portable Text) avec un style cohérent
- * avec le reste du site (cf. lib/markdown.tsx pour le rendu des leçons).
- */
+const SITE = 'https://www.maformationcivique.fr';
+
+// Chemins à corriger (/modules → /modulesciviques suite à renommage de route)
+const PATH_REMAP: Record<string, string> = { '/modules': '/modulesciviques' };
+
+function fixPath(p: string): string {
+  for (const [from, to] of Object.entries(PATH_REMAP)) {
+    if (p === from || p.startsWith(from + '/')) return to + p.slice(from.length);
+  }
+  return p;
+}
+
+function sanitizeHref(href: string | undefined): string {
+  if (!href) return '#';
+  // claude.ai/... → maformationcivique.fr/... (+ correction de chemin)
+  if (/^https?:\/\/claude\.ai/.test(href)) {
+    try {
+      const url = new URL(href);
+      return SITE + fixPath(url.pathname) + url.search + url.hash;
+    } catch { return SITE; }
+  }
+  // Chemins relatifs : correction de route uniquement
+  if (href.startsWith('/')) return fixPath(href);
+  return href;
+}
+
+function isInternalHref(href: string): boolean {
+  return href.startsWith('/') || href.includes('maformationcivique.fr');
+}
+
 export function ArticleBody({ value, accentColor = 'var(--color-blue-france)' }: { value: unknown; accentColor?: string }) {
   const components: PortableTextComponents = {
     types: {
@@ -82,16 +108,20 @@ export function ArticleBody({ value, accentColor = 'var(--color-blue-france)' }:
     },
     marks: {
       strong: ({ children }) => <strong style={{ fontWeight: 700, color: accentColor }}>{children}</strong>,
-      link: ({ value: link, children }) => (
-        <a
-          href={link?.href}
-          target={link?.href?.startsWith('http') ? '_blank' : undefined}
-          rel={link?.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-          style={{ color: accentColor, textDecoration: 'underline' }}
-        >
-          {children}
-        </a>
-      ),
+      link: ({ value: link, children }) => {
+        const href = sanitizeHref(link?.href);
+        const external = !isInternalHref(href);
+        return (
+          <a
+            href={href}
+            target={external ? '_blank' : undefined}
+            rel={external ? 'noopener noreferrer' : undefined}
+            style={{ color: accentColor, textDecoration: 'underline' }}
+          >
+            {children}
+          </a>
+        );
+      },
     },
   };
 

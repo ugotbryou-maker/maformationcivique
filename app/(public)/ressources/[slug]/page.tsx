@@ -74,8 +74,38 @@ export default async function ArticlePage({ params }: Props) {
     ...allPosts.filter((p) => p.slug?.current !== canonicalSlug && p.category !== post.category),
   ].slice(0, 3);
 
+  const canonical = `https://www.maformationcivique.fr/ressources/${canonicalSlug}`;
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Article',
+        headline: post.title.slice(0, 110),
+        description: post.seo?.metaDescription ?? post.excerpt,
+        datePublished: post.publishedAt,
+        inLanguage: 'fr',
+        url: canonical,
+        author: { '@type': 'Organization', name: 'maformationcivique.fr' },
+        publisher: {
+          '@type': 'Organization',
+          name: 'maformationcivique.fr',
+          url: 'https://www.maformationcivique.fr',
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://www.maformationcivique.fr/' },
+          { '@type': 'ListItem', position: 2, name: 'Ressources', item: 'https://www.maformationcivique.fr/ressources' },
+          { '@type': 'ListItem', position: 3, name: post.title },
+        ],
+      },
+    ],
+  };
+
   return (
     <div style={{ minHeight: '100vh', background: '#F8F9FC' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
 
       {/* Barre de lecture */}
       <ArticleReadingProgress color={cat.color} />

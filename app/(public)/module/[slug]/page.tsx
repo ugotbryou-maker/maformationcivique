@@ -88,18 +88,34 @@ export default async function ModulePage({ params }: Props) {
 
   const moduleQuizQuestions = moduleQuizzes[mod.slug] ?? [];
 
+  const pageUrl = `https://www.maformationcivique.fr/module/${mod.slug}`;
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Course',
-    name: mod.title,
-    description: mod.subtitle,
-    provider: { '@type': 'Organization', name: 'maformationcivique.fr', url: 'https://www.maformationcivique.fr' },
-    url: `https://www.maformationcivique.fr/module/${mod.slug}`,
-    hasCourseInstance: mod.lessons.map((l) => ({
-      '@type': 'CourseInstance',
-      name: l.title,
-      url: `https://www.maformationcivique.fr/lecon/${l.slug}`,
-    })),
+    '@graph': [
+      {
+        '@type': 'Course',
+        name: mod.title,
+        description: `${mod.subtitle}. ${mod.questionCount ?? mod.lessons.length} questions officielles de l'examen civique 2026.`,
+        url: pageUrl,
+        inLanguage: 'fr',
+        isAccessibleForFree: false,
+        provider: { '@type': 'Organization', name: 'maformationcivique.fr', url: 'https://www.maformationcivique.fr' },
+        hasCourseInstance: {
+          '@type': 'CourseInstance',
+          courseMode: 'online',
+          courseWorkload: 'PT2H',
+          inLanguage: 'fr',
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://www.maformationcivique.fr/' },
+          { '@type': 'ListItem', position: 2, name: 'Modules civiques', item: 'https://www.maformationcivique.fr/modulesciviques' },
+          { '@type': 'ListItem', position: 3, name: mod.title },
+        ],
+      },
+    ],
   };
 
   return (

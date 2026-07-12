@@ -8,7 +8,7 @@ import { createServerSupabaseClient } from '@/lib/supabase-server';
 
 export const metadata: Metadata = {
   title: 'Cours de français — A2, B1, B2 | maformationcivique.fr',
-  description: 'Apprenez le français pour vos démarches administratives : leçons A2, B1, B2, modules transversaux (phonétique, orthographe) et examens blancs pour l\'OFII, le DELF/TEF et la naturalisation.',
+  description: "Cours de français A2, B1, B2 pour vos démarches : leçons, grammaire, phonétique et examens blancs pour l'OFII, le DELF/TEF et la naturalisation.",
   alternates: { canonical: 'https://www.maformationcivique.fr/moduleslinguistiques' },
 };
 
