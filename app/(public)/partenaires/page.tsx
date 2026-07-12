@@ -300,7 +300,7 @@ export default function PartenairesPage() {
                   { icon: Users, label: 'Invitation', text: 'Invitez un client par email — accès Premium immédiat, sans carte bancaire côté client' },
                   { icon: BarChart3, label: 'Suivi', text: 'Progression individuelle en temps réel : modules, quiz, examens blancs' },
                   { icon: FileDown, label: 'Attestation', text: 'Attestation PDF horodatée, prête pour le dossier OFII / naturalisation' },
-                  { icon: MessageSquarePlus, label: 'Avis Google', text: 'Avis Google My Business automatiques après 80% de formation — boost votre réputation en ligne' },
+                  { icon: MessageSquarePlus, label: 'Avis Google', text: 'Séquence de 3 emails automatiques (50 %, 80 %, 100 % de progression) — s\'arrête dès le premier avis posté' },
                 ].map(({ icon: Icon, label, text }) => (
                   <div key={label} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
                     <div style={{
@@ -594,22 +594,32 @@ export default function PartenairesPage() {
                     </div>
                   </div>
                 ))}
-                <div style={{
-                  marginTop: 12,
-                  display: 'flex', alignItems: 'center', gap: 8,
-                  background: '#F0FDF4', borderRadius: 8, padding: '8px 12px',
-                  border: '1px solid #BBF7D0',
-                }}>
-                  <CheckCircle2 size={14} color="#16A34A" style={{ flexShrink: 0 }} />
-                  <p style={{ fontSize: 12, color: '#15803D', fontWeight: 600 }}>
-                    Dès qu&apos;un avis est posté — séquence stoppée automatiquement
-                  </p>
-                </div>
               </div>
             </div>
 
             {/* Mockup fiche Google */}
             <div>
+
+              {/* Stats d'impact */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
+                <div style={{
+                  background: 'linear-gradient(135deg, #1a3a6b 0%, #1e52a8 100%)',
+                  borderRadius: 14, padding: '18px 20px',
+                  boxShadow: '0 8px 24px rgba(26,58,107,0.28)',
+                }}>
+                  <p style={{ fontSize: 32, fontWeight: 800, color: '#fff', lineHeight: 1, marginBottom: 6, letterSpacing: '-0.02em' }}>+1,2 pt</p>
+                  <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.65)', lineHeight: 1.4 }}>de note Google<br />en moyenne</p>
+                </div>
+                <div style={{
+                  background: 'linear-gradient(135deg, #0f4c2a 0%, #1a7a42 100%)',
+                  borderRadius: 14, padding: '18px 20px',
+                  boxShadow: '0 8px 24px rgba(15,76,42,0.28)',
+                }}>
+                  <p style={{ fontSize: 32, fontWeight: 800, color: '#fff', lineHeight: 1, marginBottom: 6, letterSpacing: '-0.02em' }}>×3</p>
+                  <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.65)', lineHeight: 1.4 }}>plus d&apos;avis<br />en 3 mois</p>
+                </div>
+              </div>
+
               <div style={{
                 borderRadius: 'var(--radius-xl)',
                 border: '1px solid #E2E8F0',
