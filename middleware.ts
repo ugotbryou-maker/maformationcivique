@@ -32,10 +32,31 @@ function detectTenantSlug(request: NextRequest): string | null {
 
 const PROTECTED_PATHS = ['/dashboard', '/progression', '/profil', '/cabinet'];
 
+const TENANT_ONLY_PATHS: Record<string, string> = {
+  '/test-langue':  'papiers-francais',
+  '/test-civique': 'papiers-francais',
+};
+
 export async function middleware(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   const pathname = request.nextUrl.pathname;
+
+  // ── Redirect pages tenant-only si accédées sans tenant ───────────────────
+  const tenantOwner = Object.entries(TENANT_ONLY_PATHS).find(
+    ([p]) => pathname === p || pathname.startsWith(p + '/')
+  );
+  const rawTenantParam = request.nextUrl.searchParams.get('tenant');
+  if (tenantOwner && !rawTenantParam) {
+    const [, slug] = tenantOwner;
+    const host = request.headers.get('host') ?? '';
+    const isAlreadyOnSubdomain = host.startsWith(slug + '.');
+    if (!isAlreadyOnSubdomain) {
+      const dest = new URL(request.url);
+      dest.host = `${slug}.${host.replace(/^www\./, '')}`;
+      return NextResponse.redirect(dest, 301);
+    }
+  }
 
   // ── Injection du tenant dans les headers de la request ───────────────────
   const tenantSlug = detectTenantSlug(request);
