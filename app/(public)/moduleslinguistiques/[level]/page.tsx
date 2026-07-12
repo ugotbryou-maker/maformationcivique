@@ -58,10 +58,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { level } = await params;
   const data = LEVEL_DATA[level];
   if (!data) return {};
+  const canonical = `https://www.maformationcivique.fr/moduleslinguistiques/${level}`;
   return {
     title: `${data.title} — Cours de français | maformationcivique.fr`,
     description: `${data.subtitle}. Leçons de français avec dialogues, points de grammaire et exercices corrigés.`,
-    alternates: { canonical: `https://www.maformationcivique.fr/moduleslinguistiques/${level}` },
+    alternates: { canonical },
+    openGraph: {
+      title: `${data.title} — Cours de français`,
+      description: `${data.subtitle}. Leçons avec dialogues, grammaire et exercices corrigés.`,
+      url: canonical,
+    },
   };
 }
 

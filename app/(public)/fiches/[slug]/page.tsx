@@ -18,9 +18,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const fiche = getFiche(slug);
   if (!fiche) return {};
+  const canonical = `https://www.maformationcivique.fr/fiches/${slug}`;
+  const description = fiche.paragraph.replace(/\*\*/g, '').slice(0, 140) + ` Un repère utile pour l'examen civique 2026.`;
   return {
     title: `${fiche.name} — Fiches | maformationcivique.fr`,
-    description: fiche.paragraph.replace(/\*\*/g, '').slice(0, 155),
+    description,
+    alternates: { canonical },
+    openGraph: {
+      title: `${fiche.name} — Fiches`,
+      description,
+      url: canonical,
+    },
   };
 }
 

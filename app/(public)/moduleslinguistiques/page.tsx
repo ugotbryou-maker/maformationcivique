@@ -10,6 +10,11 @@ export const metadata: Metadata = {
   title: 'Cours de français — A2, B1, B2 | maformationcivique.fr',
   description: "Cours de français A2, B1, B2 pour vos démarches : leçons, grammaire, phonétique et examens blancs pour l'OFII, le DELF/TEF et la naturalisation.",
   alternates: { canonical: 'https://www.maformationcivique.fr/moduleslinguistiques' },
+  openGraph: {
+    title: 'Cours de français A2, B1, B2 pour vos démarches',
+    description: "Leçons A2, B1, B2, phonétique et examens blancs pour l'OFII, le DELF/TEF et la naturalisation.",
+    url: 'https://www.maformationcivique.fr/moduleslinguistiques',
+  },
 };
 
 const LEVELS = [

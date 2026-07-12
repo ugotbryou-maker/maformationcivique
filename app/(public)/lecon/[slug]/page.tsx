@@ -243,19 +243,32 @@ export default async function LessonPage({ params }: Props) {
 
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'LearningResource',
-    name: lesson.title,
-    description: lesson.keyPoints?.slice(0, 3).join(' · ') ?? lesson.title,
-    url: `https://www.maformationcivique.fr/lecon/${lesson.slug}`,
-    educationalLevel: 'beginner',
-    inLanguage: 'fr',
-    isPartOf: {
-      '@type': 'Course',
-      name: mod.title,
-      url: `https://www.maformationcivique.fr/module/${mod.slug}`,
-    },
-    provider: { '@type': 'Organization', name: 'maformationcivique.fr', url: 'https://www.maformationcivique.fr' },
-    timeRequired: `PT${lesson.duration}M`,
+    '@graph': [
+      {
+        '@type': 'LearningResource',
+        name: lesson.title,
+        description: lesson.keyPoints?.slice(0, 3).join(' · ') ?? lesson.title,
+        url: `https://www.maformationcivique.fr/lecon/${lesson.slug}`,
+        educationalLevel: 'beginner',
+        inLanguage: 'fr',
+        isPartOf: {
+          '@type': 'Course',
+          name: mod.title,
+          url: `https://www.maformationcivique.fr/module/${mod.slug}`,
+        },
+        provider: { '@type': 'Organization', name: 'maformationcivique.fr', url: 'https://www.maformationcivique.fr' },
+        timeRequired: `PT${lesson.duration}M`,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://www.maformationcivique.fr/' },
+          { '@type': 'ListItem', position: 2, name: 'Modules civiques', item: 'https://www.maformationcivique.fr/modulesciviques' },
+          { '@type': 'ListItem', position: 3, name: mod.title, item: `https://www.maformationcivique.fr/module/${mod.slug}` },
+          { '@type': 'ListItem', position: 4, name: lesson.title },
+        ],
+      },
+    ],
   };
 
   return (
