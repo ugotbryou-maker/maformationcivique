@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: "Conditions Générales d'Utilisation — maformationcivique.fr",
   description: "Conditions générales d'utilisation et de vente de maformationcivique.fr",
+  alternates: { canonical: 'https://www.maformationcivique.fr/cgu' },
 };
 
 const LAST_UPDATE = '5 juillet 2026';
