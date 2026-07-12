@@ -18,11 +18,11 @@ const BASE_URL = 'https://www.maformationcivique.fr';
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'maformationcivique.fr — Préparez votre examen civique',
+    default: 'Examen civique & test de langue 2026 — maformationcivique.fr',
     template: '%s | maformationcivique.fr',
   },
-  description: "Préparez l'examen civique 2026 : 177 questions officielles, 5 modules et examens blancs chronométrés. Pour vos démarches de séjour et de naturalisation.",
-  keywords: ['formation civique', 'examen civique', 'naturalisation', 'carte de résident', 'France', 'e-learning', 'OFII', 'intégration'],
+  description: "Préparez l'examen civique 2026 et le test de langue (A2, B1, B2) : 177 questions officielles, 2 700 exercices de français, examens blancs chronométrés. Titre de séjour et naturalisation.",
+  keywords: ['examen civique', 'test de langue', 'formation civique', 'cours de français naturalisation', 'préparation examen civique 2026', 'test de français titre de séjour', 'naturalisation', 'carte de résident', 'TCF', 'TEF', 'OFII', 'intégration'],
   authors: [{ name: 'maformationcivique.fr' }],
   alternates: { canonical: BASE_URL },
   icons: {
@@ -31,8 +31,8 @@ export const metadata: Metadata = {
     apple: '/icon.svg',
   },
   openGraph: {
-    title: 'maformationcivique.fr — Préparez votre examen civique',
-    description: 'La plateforme de préparation à la formation civique obligatoire. 177 questions officielles, 5 modules thématiques, examens blancs chronométrés.',
+    title: 'Examen civique & test de langue 2026 — maformationcivique.fr',
+    description: 'Préparez l\'examen civique et le test de langue pour votre titre de séjour ou naturalisation. 177 questions officielles + 2 700 exercices de français A2→B2.',
     url: BASE_URL,
     siteName: 'maformationcivique.fr',
     locale: 'fr_FR',
@@ -41,8 +41,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'maformationcivique.fr — Préparez votre examen civique',
-    description: 'Formation civique en ligne : 177 questions officielles, 5 modules, examens blancs chronométrés.',
+    title: 'Examen civique & test de langue 2026 — maformationcivique.fr',
+    description: 'Préparez l\'examen civique et le test de langue pour votre titre de séjour ou naturalisation. 177 questions officielles + 2 700 exercices A2→B2.',
     images: ['/opengraph-image'],
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
@@ -72,7 +72,7 @@ export default function RootLayout({
             "@type":"Organization",
             "name":"maformationcivique.fr",
             "url":"https://www.maformationcivique.fr",
-            "description":"Plateforme de préparation à l'examen civique pour les ressortissants étrangers en France (titre de séjour, carte de résident, naturalisation).",
+            "description":"Plateforme de préparation à l'examen civique 2026 et au test de langue (A2, B1, B2) pour les ressortissants étrangers en France (titre de séjour, carte de résident, naturalisation).",
             "inLanguage":"fr"
           }
         `}</Script>

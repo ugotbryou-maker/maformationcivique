@@ -62,25 +62,25 @@ export function Hero() {
                   <span key={c} style={{ width: 8, height: 8, borderRadius: '50%', background: c, border: c === '#FFFFFF' ? '1px solid rgba(0,0,0,0.15)' : 'none' }} />
                 ))}
               </span>
-              Formation civique &amp; linguistique — 2026
+              Examen civique &amp; test de langue — 2026
             </div>
 
             {/* H1 */}
             <h1 style={{ fontSize: 'clamp(34px, 5.2vw, 62px)', fontWeight: 900, lineHeight: 1.05, color: '#fff', marginBottom: '8px', letterSpacing: '-0.03em' }}>
-              Obtenez votre
+              Réussissez votre
             </h1>
             <h1 style={{ fontSize: 'clamp(34px, 5.2vw, 62px)', fontWeight: 900, lineHeight: 1.05, marginBottom: '8px', letterSpacing: '-0.03em',
               background: 'linear-gradient(90deg, #FFD66B 0%, #FFB347 100%)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             }}>
-              titre de séjour
+              examen civique
             </h1>
             <h1 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, lineHeight: 1.1, color: 'rgba(255,255,255,0.88)', marginBottom: '28px', letterSpacing: '-0.02em' }}>
-              ou votre naturalisation.
+              et le test de langue.
             </h1>
 
             <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.80)', lineHeight: 1.75, maxWidth: '480px', marginBottom: '40px' }}>
-              La seule plateforme qui couvre <strong style={{ color: '#fff' }}>les deux examens requis</strong> — formation civique (177 questions officielles) et cours de français A2 à B2. Commencez gratuitement dès aujourd'hui.
+              Les deux examens obligatoires pour votre <strong style={{ color: '#fff' }}>titre de séjour ou naturalisation</strong> — 177 questions civiques officielles et 2 700 exercices de français (A2 à B2). Commencez gratuitement.
             </p>
 
             {/* CTAs */}
