@@ -113,6 +113,7 @@ function RedCard({ children, showLogo = true }: { children: React.ReactNode; sho
             alt="Papiers Français"
             width={150} height={43}
             style={{ marginBottom: 40, opacity: 0.97 }}
+            unoptimized
           />
         )}
         {children}

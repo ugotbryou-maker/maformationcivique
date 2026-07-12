@@ -61,6 +61,7 @@ export function Footer({ tenant }: { tenant?: TenantConfig | null }) {
                   height={44}
                   width={Math.round(44 * tenant.logoAspect)}
                   style={{ height: 44, width: 'auto' }}
+                  unoptimized
                 />
               ) : (
                 <BrandLogo height={44} variant="white" />

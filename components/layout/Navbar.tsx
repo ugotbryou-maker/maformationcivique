@@ -119,6 +119,7 @@ export function Navbar({ tenant }: { tenant?: TenantConfig | null }) {
               width={Math.round(38 * tenant.logoAspect)}
               style={{ height: 38, width: 'auto' }}
               priority
+              unoptimized
             />
           ) : (
             <BrandLogo height={38} variant="color" />

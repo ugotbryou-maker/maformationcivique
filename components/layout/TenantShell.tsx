@@ -42,6 +42,7 @@ export function TenantShell({
               height={34}
               width={Math.round(34 * tenant.logoAspect)}
               style={{ height: 34, width: 'auto' }}
+              unoptimized
             />
           </Link>
 
