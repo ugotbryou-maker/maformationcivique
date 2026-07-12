@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { PDFDocument, rgb, StandardFonts, degrees } from 'pdf-lib';
-import { Users, BarChart3, FileDown, Plus, Lock, Calendar, ArrowRight, BookOpen, CheckCircle } from 'lucide-react';
+import { Users, BarChart3, FileDown, Plus, Lock, ArrowRight, BookOpen, CheckCircle, Calendar } from 'lucide-react';
 import { LeadForm } from './LeadForm';
 
 interface Props {
@@ -35,18 +34,19 @@ const DEMO_MODULES_CIVIQUE = [
 ];
 
 async function generateAttestationPdf(cabinetName: string, accent: string): Promise<void> {
+  const { PDFDocument, rgb, StandardFonts, degrees } = await import('pdf-lib');
+
   const doc  = await PDFDocument.create();
   const page = doc.addPage([595.28, 841.89]); // A4
   const { width, height } = page.getSize();
 
-  const helveticaBold   = await doc.embedFont(StandardFonts.HelveticaBold);
-  const helvetica       = await doc.embedFont(StandardFonts.Helvetica);
+  const helveticaBold    = await doc.embedFont(StandardFonts.HelveticaBold);
+  const helvetica        = await doc.embedFont(StandardFonts.Helvetica);
   const helveticaOblique = await doc.embedFont(StandardFonts.HelveticaOblique);
 
-  // Parse accent hex → rgb
   const parseHex = (h: string): [number, number, number] => {
     const c = h.replace('#', '');
-    return [parseInt(c.slice(0,2),16)/255, parseInt(c.slice(2,4),16)/255, parseInt(c.slice(4,6),16)];
+    return [parseInt(c.slice(0,2),16)/255, parseInt(c.slice(2,4),16)/255, parseInt(c.slice(4,6),16)/255];
   };
   const [ar, ag, ab] = parseHex(accent);
   const accentRgb = rgb(ar, ag, ab);
@@ -54,9 +54,9 @@ async function generateAttestationPdf(cabinetName: string, accent: string): Prom
   // Header bar
   page.drawRectangle({ x:0, y: height - 60, width, height: 60, color: accentRgb });
   page.drawText('maformationcivique.fr', { x: 36, y: height - 38, size: 14, font: helveticaBold, color: rgb(1,1,1) });
-  page.drawText('ATTESTATION DE SUIVI', { x: width - 36 - 160, y: height - 38, size: 11, font: helvetica, color: rgb(1,1,1,) });
+  page.drawText('ATTESTATION DE SUIVI', { x: width - 36 - 160, y: height - 38, size: 11, font: helvetica, color: rgb(1,1,1) });
 
-  // Watermark diagonal
+  // Watermark
   page.drawText('DÉMONSTRATION', {
     x: 90, y: 320, size: 64, font: helveticaBold,
     color: rgb(0.85, 0.85, 0.85), opacity: 0.35,
@@ -68,24 +68,24 @@ async function generateAttestationPdf(cabinetName: string, accent: string): Prom
   page.drawText('DE FORMATION CIVIQUE', { x: 48, y: height - 136, size: 20, font: helveticaBold, color: rgb(0.04, 0.10, 0.44) });
   page.drawLine({ start: { x: 48, y: height - 148 }, end: { x: 48 + 140, y: height - 148 }, thickness: 3, color: accentRgb });
 
-  // Notice
+  // Notice banner
   page.drawRectangle({ x: 48, y: height - 175, width: width - 96, height: 20, color: rgb(1, 0.97, 0.76) });
   page.drawText('Document généré à titre de démonstration uniquement.', {
     x: 54, y: height - 168, size: 9, font: helveticaOblique, color: rgb(0.57, 0.25, 0.0),
   });
 
-  // Cabinet & client info
-  const info = [
-    ['Cabinet', cabinetName],
-    ['Client',  'Elena P. (démonstration)'],
-    ['Démarche', 'Naturalisation française'],
-    ['Date',    new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' })],
+  // Info rows
+  const info: [string, string][] = [
+    ['Cabinet',     cabinetName],
+    ['Client',      'Elena P. (démonstration)'],
+    ['Démarche',    'Naturalisation française'],
+    ['Date',        new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' })],
     ['Progression', '100 % — Formation complète ✓'],
   ];
   let y = height - 220;
   for (const [label, value] of info) {
     page.drawText(label + ' :', { x: 48, y, size: 10, font: helveticaBold, color: rgb(0.4, 0.4, 0.4) });
-    page.drawText(value, { x: 165, y, size: 10, font: helvetica, color: rgb(0.04, 0.10, 0.44) });
+    page.drawText(value,        { x: 165, y, size: 10, font: helvetica,      color: rgb(0.04, 0.10, 0.44) });
     y -= 24;
   }
 
@@ -94,7 +94,7 @@ async function generateAttestationPdf(cabinetName: string, accent: string): Prom
   page.drawLine({ start: { x: 48, y }, end: { x: width - 48, y }, thickness: 0.5, color: rgb(0.85, 0.87, 0.92) });
   y -= 24;
 
-  // Modules
+  // Modules list
   page.drawText('Modules validés', { x: 48, y, size: 11, font: helveticaBold, color: rgb(0.04, 0.10, 0.44) });
   y -= 20;
   for (const mod of DEMO_MODULES_CIVIQUE) {
@@ -112,11 +112,15 @@ async function generateAttestationPdf(cabinetName: string, accent: string): Prom
   });
 
   const bytes = await doc.save();
-  const blob  = new Blob([bytes as unknown as BlobPart], { type: 'application/pdf' });
-  const url   = URL.createObjectURL(blob);
-  const a     = document.createElement('a');
-  a.href = url; a.download = 'attestation-demo.pdf'; a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 5000);
+  const blob  = new Blob([bytes.buffer as ArrayBuffer], { type: 'application/pdf' });
+  const blobUrl = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = blobUrl;
+  a.download = 'attestation-demo.pdf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
 }
 
 export function ApercuDashboard({ slug, domain, cabinetName, logoUrl, monogram, accent }: Props) {
@@ -288,13 +292,13 @@ export function ApercuDashboard({ slug, domain, cabinetName, logoUrl, monogram, 
               Activer mon espace
               <ArrowRight size={16} />
             </button>
-            <a
-              href="mailto:ugotbr.you@gmail.com?subject=Demande de démo — maformationcivique.fr"
-              style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', color: 'var(--color-text-primary)', padding: '12px 22px', borderRadius: 12, border: '1.5px solid var(--color-border)', textDecoration: 'none', fontWeight: 600, fontSize: 14 }}
+            <button
+              onClick={() => document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', color: 'var(--color-text-primary)', padding: '12px 22px', borderRadius: 12, border: '1.5px solid var(--color-border)', cursor: 'pointer', fontWeight: 600, fontSize: 14 }}
             >
               <Calendar size={16} />
               Demander une démo
-            </a>
+            </button>
           </div>
         </div>
       </div>

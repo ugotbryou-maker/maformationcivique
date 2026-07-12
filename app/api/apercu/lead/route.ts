@@ -43,7 +43,10 @@ export async function POST(req: NextRequest) {
     // Notification email
     try {
       await sendEmail({
-        to: [{ email: 'ugotbr.you@gmail.com', name: 'Ugo' }],
+        to: [
+          { email: 'ugotbr.you@gmail.com',           name: 'Ugo' },
+          { email: 'contact@maformationcivique.fr',   name: 'Contact MFC' },
+        ],
         subject: `🎯 Nouveau lead aperçu — ${cabinet_name ?? domain}`,
         htmlContent: `<div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px;border:1px solid #e5e7eb;border-radius:8px">
           <h2 style="color:#002395;margin-top:0">Nouveau lead partenaire 🏛️</h2>
