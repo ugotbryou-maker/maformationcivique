@@ -31,10 +31,9 @@ function FeaturedPost({ post }: { post: SanityPost }) {
         }} />
 
         <div style={{
-          position: 'relative',
+          position: 'absolute',
+          inset: 0,
           zIndex: 1,
-          height: '100%',
-          minHeight: '380px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'flex-end',

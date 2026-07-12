@@ -20,6 +20,9 @@ export function getSanityClient() {
     dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production',
     apiVersion: '2024-01-01',
     useCdn: false,
+    // Désactive le Next.js Data Cache pour les requêtes Sanity :
+    // garantit que chaque rendu serveur obtient les données fraîches.
+    fetchOptions: { cache: 'no-store' },
   });
   return _client;
 }
