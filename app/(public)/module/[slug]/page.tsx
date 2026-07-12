@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!mod) return {};
   return {
     title: `${mod.title} — Formation civique`,
-    description: `${mod.subtitle}. ${mod.questionCount ?? ''} questions officielles réparties en ${mod.lessons.length} leçons interactives. Préparez votre examen civique.`,
+    description: `${mod.subtitle}. ${mod.questionCount ?? mod.lessons.length} questions officielles de l'examen civique 2026 en ${mod.lessons.length} leçons interactives. Entraînez-vous dès maintenant.`,
     alternates: { canonical: `https://www.maformationcivique.fr/module/${slug}` },
     openGraph: {
       title: `${mod.title} — maformationcivique.fr`,

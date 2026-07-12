@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!found) return {};
   return {
     title: `${found.lesson.title} — Français ${LEVEL_LABEL[level]} | maformationcivique.fr`,
-    description: found.lesson.description,
+    description: `${found.lesson.title} : leçon de français niveau ${LEVEL_LABEL[level]} avec dialogues, points de grammaire et exercices corrigés pour vos démarches administratives.`,
     alternates: { canonical: `https://www.maformationcivique.fr/moduleslinguistiques/${level}/${slug}` },
   };
 }
