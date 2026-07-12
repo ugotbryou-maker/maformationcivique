@@ -3,11 +3,11 @@ import { redirect } from 'next/navigation';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { modules } from '@/data/modules';
 import { CabinetInviteForm } from '@/components/app/CabinetInviteForm';
-import { CabinetGmbForm } from '@/components/app/CabinetGmbForm';
 import { CabinetExportBtn } from '@/components/app/CabinetExportBtn';
 import { CabinetMemberRow } from '@/components/app/CabinetMemberRow';
 import { CabinetInviteRow } from '@/components/app/CabinetInviteRow';
-import { Building2, Users, AlertTriangle, ArrowUpRight, Star, Wrench } from 'lucide-react';
+import { CabinetNav } from '@/components/app/CabinetNav';
+import { AlertTriangle, ArrowUpRight, Users, Wrench } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -15,18 +15,17 @@ export const metadata: Metadata = {
 };
 
 const TIER_LABELS: Record<string, string> = {
-  starter: 'Starter',
-  pro: 'Pro',
+  starter:      'Starter',
+  pro:          'Pro',
   cabinet_plus: 'Cabinet+',
-  reseau: 'Réseau',
+  reseau:       'Réseau',
 };
 
 const TIER_NEXT: Record<string, { label: string; price: string }> = {
-  starter:      { label: 'Pro',       price: '990 €/an' },
-  pro:          { label: 'Cabinet+',  price: '1 990 €/an' },
-  cabinet_plus: { label: 'Réseau',    price: 'sur devis' },
+  starter:      { label: 'Pro',      price: '990 €/an'   },
+  pro:          { label: 'Cabinet+', price: '1 990 €/an' },
+  cabinet_plus: { label: 'Réseau',   price: 'sur devis'  },
 };
-
 
 export default async function CabinetDashboardPage() {
   const supabase = await createServerSupabaseClient();
@@ -81,79 +80,170 @@ export default async function CabinetDashboardPage() {
   }
 
   const maxInvitations = cabinet?.max_invitations ?? 0;
-  const used = (members?.length ?? 0) + (pendingInvites?.length ?? 0);
-  const quotaReached = maxInvitations > 0 && used >= maxInvitations;
+  const activeMembers  = (members ?? []).filter((m) => m.cabinet_role !== 'admin');
+  const used           = activeMembers.length + (pendingInvites?.length ?? 0);
+  const quotaReached   = maxInvitations > 0 && used >= maxInvitations;
+  const remaining      = Math.max(0, maxInvitations - used);
+  const quotaPct       = maxInvitations > 0 ? Math.round((used / maxInvitations) * 100) : 0;
 
-  const subEndAt = cabinet?.sub_end_at ? new Date(cabinet.sub_end_at) : null;
-  const now = new Date();
-  const daysLeft = subEndAt ? Math.ceil((subEndAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)) : null;
-  const showExpiryBanner = daysLeft !== null && daysLeft < 30;
+  const subEndAt    = cabinet?.sub_end_at ? new Date(cabinet.sub_end_at) : null;
+  const now         = new Date();
+  const daysLeft    = subEndAt ? Math.ceil((subEndAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)) : null;
+  const showExpiry  = daysLeft !== null && daysLeft < 30;
 
-  const activeMembers = (members ?? []).filter((m) => m.cabinet_role !== 'admin');
   const nextTier = TIER_NEXT[cabinet?.tier ?? 'starter'];
 
-  return (
-    <div style={{ maxWidth: '720px' }}>
+  // KPIs
+  const avgPct = activeMembers.length > 0
+    ? Math.round(activeMembers.reduce((sum, m) => sum + (progressByUser.get(m.id) ?? 0), 0) / activeMembers.length)
+    : 0;
+  const readyCount = activeMembers.filter((m) => (progressByUser.get(m.id) ?? 0) >= 80).length;
 
-      {/* ── Expiry banner ───────────────────────────────────────────── */}
-      {showExpiryBanner && (
+  const kpis = [
+    { label: 'Clients actifs', value: activeMembers.length, sub: `+ ${pendingInvites?.length ?? 0} en attente`,       green: false, red: false },
+    { label: 'Progression moy.', value: `${avgPct}%`,       sub: 'sur tous les modules',                              green: false, red: false },
+    { label: 'Prêts entretien', value: readyCount,           sub: '≥ 80% de complétion',                              green: readyCount > 0, red: false },
+    { label: 'Places restantes', value: remaining,           sub: `quota ${TIER_LABELS[cabinet?.tier ?? 'starter']}`, green: false, red: remaining === 0 },
+  ];
+
+  return (
+    <div style={{ maxWidth: 780 }}>
+
+      {/* ── Expiry banner ─────────────────────────────────────────────────── */}
+      {showExpiry && (
         <div style={{
-          display: 'flex', alignItems: 'center', gap: '10px',
+          display: 'flex', alignItems: 'center', gap: 10,
           padding: '14px 18px', borderRadius: 'var(--radius-md)',
           background: '#FEF2F2', border: '1px solid #FECACA',
-          color: '#B91C1C', fontSize: 'var(--font-size-sm)', marginBottom: '20px',
+          color: '#B91C1C', fontSize: 'var(--font-size-sm)', marginBottom: 20,
         }}>
           <AlertTriangle size={18} style={{ flexShrink: 0 }} />
           {daysLeft! < 0
-            ? `Votre abonnement cabinet a expiré le ${subEndAt!.toLocaleDateString('fr-FR')}. Contactez-nous pour le renouveler.`
-            : `Votre abonnement expire dans ${daysLeft} jour${daysLeft! > 1 ? 's' : ''} (${subEndAt!.toLocaleDateString('fr-FR')}). Contactez-nous pour le renouveler.`}
+            ? `Votre abonnement a expiré le ${subEndAt!.toLocaleDateString('fr-FR')}. Contactez-nous pour le renouveler.`
+            : `Abonnement expirant dans ${daysLeft} jour${daysLeft! > 1 ? 's' : ''} (${subEndAt!.toLocaleDateString('fr-FR')}).`}
         </div>
       )}
 
-      {/* ── Header card ─────────────────────────────────────────────── */}
+      {/* ── Hero tricolore ────────────────────────────────────────────────── */}
       <div style={{
-        background: 'var(--color-surface)', border: 'var(--border-default)',
-        borderRadius: 'var(--radius-xl)', padding: '20px 24px',
-        display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20,
-        flexWrap: 'wrap',
+        background: '#001A70', borderRadius: 'var(--radius-xl)',
+        overflow: 'hidden', marginBottom: 20,
       }}>
-        <div style={{
-          width: 48, height: 48, borderRadius: 'var(--radius-lg)',
-          background: 'var(--gradient-primary)', display: 'flex',
-          alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-        }}>
-          <Building2 size={22} color="#fff" />
+        <div style={{ height: 3, background: 'linear-gradient(90deg,#002395 33%,#fff 33% 66%,#CC1A1A 66%)' }} />
+        <div style={{ padding: '24px 28px 28px' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+            <div>
+              <p style={{ fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6 }}>
+                Espace partenaire
+              </p>
+              <h1 style={{ fontSize: 22, fontWeight: 800, color: '#fff', margin: '0 0 10px' }}>
+                {cabinet?.name ?? 'Votre cabinet'}
+              </h1>
+              <span style={{
+                display: 'inline-flex', alignItems: 'center',
+                background: 'rgba(255,255,255,0.12)', border: '0.5px solid rgba(255,255,255,0.2)',
+                borderRadius: 100, padding: '4px 12px',
+                fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.85)',
+              }}>
+                {TIER_LABELS[cabinet?.tier ?? 'starter']}
+              </span>
+            </div>
+            {nextTier && (
+              <a
+                href={`mailto:contact@maformationcivique.fr?subject=Upgrade vers ${nextTier.label}`}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  padding: '9px 18px', borderRadius: 100,
+                  background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.25)',
+                  color: '#fff', fontSize: 13, fontWeight: 600,
+                  textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0,
+                }}
+              >
+                <ArrowUpRight size={14} />
+                Passer en {nextTier.label} — {nextTier.price}
+              </a>
+            )}
+          </div>
+
+          {/* Quota bar */}
+          <div style={{ marginTop: 22 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 7 }}>
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>Invitations utilisées</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.8)' }}>
+                {used} / {maxInvitations}
+              </span>
+            </div>
+            <div style={{ height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 99, overflow: 'hidden' }}>
+              <div style={{
+                height: '100%', borderRadius: 99, width: `${quotaPct}%`,
+                background: quotaReached
+                  ? 'linear-gradient(90deg,#EF4135,#CC1A1A)'
+                  : 'linear-gradient(90deg,#4A90D9,#7CB8F0)',
+                transition: 'width 600ms ease',
+              }} />
+            </div>
+          </div>
         </div>
-        <div style={{ flex: 1, minWidth: 160 }}>
-          <h1 style={{ fontSize: 18, fontWeight: 800, color: 'var(--color-text-primary)', margin: '0 0 2px' }}>
-            {cabinet?.name ?? 'Votre cabinet'}
-          </h1>
-          <p style={{ fontSize: 13, color: 'var(--color-text-muted)', margin: 0 }}>
-            Palier {TIER_LABELS[cabinet?.tier ?? 'starter'] ?? cabinet?.tier} · {used} / {maxInvitations} invitations
-          </p>
-        </div>
-        {nextTier && (
-          <a
-            href={`mailto:contact@maformationcivique.fr?subject=Upgrade vers ${nextTier.label}`}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 6,
-              padding: '8px 16px', borderRadius: 'var(--radius-pill)',
-              background: 'var(--color-blue-light)',
-              border: '1.5px solid var(--color-blue-france)',
-              color: 'var(--color-blue-france)',
-              fontSize: 'var(--font-size-xs)', fontWeight: 700,
-              textDecoration: 'none', whiteSpace: 'nowrap',
-            }}
-          >
-            <ArrowUpRight size={13} />
-            Passer en {nextTier.label} — {nextTier.price}
-          </a>
-        )}
       </div>
 
-      {/* ── Client list ─────────────────────────────────────────────── */}
-      <div style={{ marginBottom: 20 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 12, paddingLeft: 4, flexWrap: 'wrap' }}>
+      {/* ── KPI strip ─────────────────────────────────────────────────────── */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 12, marginBottom: 24 }}>
+        {kpis.map(({ label, value, sub, green, red }) => (
+          <div key={label} style={{
+            background: 'var(--color-surface)', border: 'var(--border-default)',
+            borderRadius: 'var(--radius-lg)', padding: '16px 18px',
+          }}>
+            <p style={{ fontSize: 11, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 6px' }}>
+              {label}
+            </p>
+            <p style={{
+              fontSize: 24, fontWeight: 800, margin: '0 0 4px',
+              color: green ? '#0F6E56' : red ? '#B91C1C' : 'var(--color-text-primary)',
+            }}>
+              {value}
+            </p>
+            <p style={{ fontSize: 11, color: 'var(--color-text-muted)', margin: 0 }}>{sub}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Navigation tabs ───────────────────────────────────────────────── */}
+      <CabinetNav />
+
+      {/* ── Invite section ────────────────────────────────────────────────── */}
+      <div style={{
+        border: '1.5px dashed var(--color-border)',
+        borderRadius: 'var(--radius-xl)', padding: '20px 24px', marginBottom: 20,
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
+          <div>
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', margin: 0 }}>
+              Inviter un client
+            </p>
+            <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 2 }}>
+              {quotaReached
+                ? 'Quota atteint — contactez-nous pour augmenter votre palier.'
+                : `Votre client reçoit un email pour créer son compte Premium offert par ${cabinet?.name ?? 'votre cabinet'}.`}
+            </p>
+          </div>
+          {maxInvitations > 0 && (
+            <span style={{
+              fontSize: 12, fontWeight: 600, flexShrink: 0,
+              color: quotaReached ? '#B91C1C' : 'var(--color-text-muted)',
+            }}>
+              {remaining} place{remaining !== 1 ? 's' : ''} restante{remaining !== 1 ? 's' : ''}
+            </span>
+          )}
+        </div>
+        <CabinetInviteForm disabled={quotaReached} />
+      </div>
+
+      {/* ── Liste clients ─────────────────────────────────────────────────── */}
+      <div style={{ marginBottom: 24 }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          gap: 8, marginBottom: 12, paddingLeft: 4, flexWrap: 'wrap',
+        }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <Users size={15} color="var(--color-text-muted)" />
             <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-secondary)' }}>
@@ -164,21 +254,20 @@ export default async function CabinetDashboardPage() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {/* Active members */}
           {activeMembers.map((member) => {
             const pct = progressByUser.get(member.id) ?? 0;
-            const displayName = member.name || member.email || 'Utilisateur';
             return (
               <CabinetMemberRow
                 key={member.id}
                 id={member.id}
-                displayName={displayName}
+                displayName={member.name || member.email || 'Utilisateur'}
+                email={member.email ?? ''}
                 pct={pct}
+                lastActive={member.last_active ?? null}
               />
             );
           })}
 
-          {/* Pending invites */}
           {(pendingInvites ?? []).map((invite) => (
             <CabinetInviteRow
               key={invite.id}
@@ -189,95 +278,47 @@ export default async function CabinetDashboardPage() {
           ))}
 
           {activeMembers.length === 0 && (pendingInvites?.length ?? 0) === 0 && (
-            <div style={{ textAlign: 'center', padding: '32px 0', color: 'var(--color-text-muted)', fontSize: 14 }}>
+            <div style={{
+              textAlign: 'center', padding: '40px 0',
+              color: 'var(--color-text-muted)', fontSize: 14,
+            }}>
               Aucun client invité pour le moment.
             </div>
           )}
         </div>
       </div>
 
-      {/* ── Invite section ──────────────────────────────────────────── */}
-      <div style={{
-        borderRadius: 'var(--radius-xl)', overflow: 'hidden',
-        border: 'var(--border-default)', boxShadow: 'var(--shadow-card)',
-        marginBottom: 20,
-      }}>
-        <div style={{
-          background: 'var(--color-blue-france)', padding: '16px 24px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        }}>
-          <span style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>+ Inviter un client</span>
-          {maxInvitations > 0 && (
-            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.72)' }}>
-              {Math.max(0, maxInvitations - used)} place{Math.max(0, maxInvitations - used) !== 1 ? 's' : ''} restante{Math.max(0, maxInvitations - used) !== 1 ? 's' : ''}
-            </span>
-          )}
-        </div>
-        <div style={{ background: 'var(--color-surface)', padding: '20px 24px' }}>
-          <p style={{ fontSize: 13, color: 'var(--color-text-muted)', marginBottom: 16 }}>
-            Votre client recevra un email pour créer son compte Premium offert par {cabinet?.name ?? 'votre cabinet'}.
-          </p>
-          <CabinetInviteForm disabled={quotaReached} />
-        </div>
-      </div>
-
-      {/* ── Google My Business ──────────────────────────────────────── */}
-      <div style={{
-        borderRadius: 'var(--radius-xl)', overflow: 'hidden',
-        border: 'var(--border-default)', boxShadow: 'var(--shadow-card)',
-        marginBottom: 20,
-      }}>
-        <div style={{
-          padding: '16px 24px',
-          background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-          display: 'flex', alignItems: 'center', gap: 10,
-        }}>
-          <Star size={16} color="#fff" />
-          <span style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>Avis Google My Business</span>
-        </div>
-        <div style={{ background: 'var(--color-surface)', padding: '20px 24px' }}>
-          <p style={{ fontSize: 13, color: 'var(--color-text-muted)', marginBottom: 16, lineHeight: 1.5 }}>
-            Collez ici le lien de votre page Google My Business. Vos clients recevront automatiquement un email les invitant à laisser un avis après avoir terminé leur formation.
-          </p>
-          <CabinetGmbForm current={(cabinet as Record<string, unknown>)?.google_review_link as string | null} />
-          <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 12, lineHeight: 1.5 }}>
-            L'email est envoyé une seule fois, dès que le client atteint 80 % de complétion. Conformément à nos CGU et au contrat cabinet.
-          </p>
-        </div>
-      </div>
-
-      {/* ── Support technique ───────────────────────────────────────── */}
+      {/* ── Support ───────────────────────────────────────────────────────── */}
       <div style={{
         borderRadius: 'var(--radius-xl)',
         border: '1px dashed var(--color-border)',
-        padding: '20px 24px',
+        padding: '18px 24px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         gap: 16, flexWrap: 'wrap',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{
-            width: 38, height: 38, borderRadius: 'var(--radius-md)',
+            width: 36, height: 36, borderRadius: 'var(--radius-md)',
             background: 'var(--color-off-white)', border: 'var(--border-default)',
             display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
           }}>
-            <Wrench size={16} color="var(--color-text-muted)" />
+            <Wrench size={15} color="var(--color-text-muted)" />
           </div>
           <div>
-            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', margin: 0 }}>
-              Signaler un problème technique
+            <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-primary)', margin: 0 }}>
+              Signaler un problème
             </p>
             <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 2 }}>
-              Notre équipe technique vous répondra sous 24h ouvrées.
+              Réponse sous 24 h ouvrées
             </p>
           </div>
         </div>
         <a
-          href={`mailto:contact@maformationcivique.fr?subject=Problème technique — Cabinet ${encodeURIComponent(cabinet?.name ?? '')}&body=Bonjour,%0A%0AJe signale un problème technique sur mon espace cabinet.%0A%0ADescription du problème :%0A%0AMerci.`}
+          href={`mailto:contact@maformationcivique.fr?subject=Problème technique — Cabinet ${encodeURIComponent(cabinet?.name ?? '')}&body=Bonjour,%0A%0AJe signale un problème technique sur mon espace cabinet.%0A%0ADescription :%0A%0AMerci.`}
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             padding: '9px 18px', borderRadius: 'var(--radius-pill)',
-            background: 'var(--color-off-white)',
-            border: '1.5px solid var(--color-border)',
+            background: 'var(--color-off-white)', border: '1.5px solid var(--color-border)',
             color: 'var(--color-text-secondary)',
             fontSize: 'var(--font-size-sm)', fontWeight: 600,
             textDecoration: 'none', whiteSpace: 'nowrap',
