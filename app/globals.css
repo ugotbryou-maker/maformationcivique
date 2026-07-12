@@ -181,3 +181,14 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+.apercu-cta-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 860px) {
+  .apercu-cta-grid {
+    grid-template-columns: 1fr;
+    gap: 40px !important;
+  }
+}

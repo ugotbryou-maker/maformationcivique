@@ -925,38 +925,80 @@ export default function PartenairesPage() {
         </div>
       </section>
 
-      {/* ── APERÇU ESPACE CABINET ────────────────────────────────────── */}
-      <section style={{ background: '#fff', padding: '88px 0' }}>
-        <div className="container" style={{ maxWidth: 680, padding: '0 24px', margin: '0 auto', textAlign: 'center' }}>
+      {/* ── APERÇU ESPACE CABINET — CTA MAJEUR ──────────────────────── */}
+      <section style={{
+        background: 'linear-gradient(135deg, #001A5E 0%, #002395 55%, #003080 100%)',
+        padding: '80px 0 88px',
+      }}>
+        <div className="container" style={{ padding: '0 24px' }}>
+          <div style={{
+            display: 'grid',
+            gap: 64,
+            alignItems: 'center',
+            maxWidth: 1080,
+            margin: '0 auto',
+          }}
+          className="apercu-cta-grid"
+          >
 
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#EEF4FF', borderRadius: 100, padding: '6px 16px', marginBottom: 24 }}>
-            <Building2 size={14} color="#002395" />
-            <span style={{ fontSize: 12, fontWeight: 700, color: '#002395', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-              Démonstration interactive
-            </span>
-          </div>
-
-          <h2 style={{ fontSize: 'var(--font-size-xl)', fontWeight: 800, color: 'var(--color-text-primary)', lineHeight: 1.2, marginBottom: 16 }}>
-            Votre espace cabinet,<br />
-            <span style={{ color: 'var(--color-blue-france)' }}>en 10 secondes.</span>
-          </h2>
-          <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', lineHeight: 1.7, maxWidth: 500, margin: '0 auto 36px' }}>
-            Saisissez l&apos;URL de votre cabinet — nous générons instantanément une simulation personnalisée à vos couleurs et avec votre logo.
-          </p>
-
-          <ApercuWidget />
-
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 36, marginTop: 40 }}>
-            {[
-              { num: '< 10 s', label: 'pour voir votre espace' },
-              { num: '100 %', label: 'personnalisé' },
-              { num: '0 €', label: 'pour essayer' },
-            ].map(({ num, label }) => (
-              <div key={label} style={{ textAlign: 'center' }}>
-                <p style={{ fontSize: 18, fontWeight: 800, color: 'var(--color-blue-france)', margin: '0 0 2px' }}>{num}</p>
-                <p style={{ fontSize: 12, color: 'var(--color-text-muted)', margin: 0 }}>{label}</p>
+            {/* ── Colonne gauche : pitch ── */}
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.12)', borderRadius: 100, padding: '6px 16px', marginBottom: 28 }}>
+                <Building2 size={14} color="rgba(255,255,255,0.9)" />
+                <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.9)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                  Essayer maintenant — gratuit
+                </span>
               </div>
-            ))}
+
+              <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 44px)', fontWeight: 800, color: '#fff', lineHeight: 1.15, marginBottom: 20, letterSpacing: '-0.02em' }}>
+                Voyez votre espace cabinet<br />
+                <span style={{ color: '#7BA7FF' }}>en 10 secondes.</span>
+              </h2>
+
+              <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.72)', lineHeight: 1.7, marginBottom: 36, maxWidth: 420 }}>
+                Entrez l&apos;URL de votre cabinet. En quelques secondes, votre espace est personnalisé à vos couleurs et prêt à partager avec vos clients.
+              </p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {[
+                  { icon: '🎨', text: 'Logo et couleurs extraits automatiquement' },
+                  { icon: '🔗', text: 'Lien personnalisé partageable en 1 clic' },
+                  { icon: '👀', text: 'Vos clients voient leur progression en temps réel' },
+                ].map(({ icon, text }) => (
+                  <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <span style={{ fontSize: 18, flexShrink: 0 }}>{icon}</span>
+                    <span style={{ fontSize: 15, color: 'rgba(255,255,255,0.80)', lineHeight: 1.45 }}>{text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Colonne droite : widget ── */}
+            <div style={{
+              background: '#fff',
+              borderRadius: 24,
+              padding: '36px 32px 32px',
+              boxShadow: '0 24px 64px rgba(0,0,0,0.28)',
+            }}>
+              <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 16 }}>
+                Votre URL de cabinet
+              </p>
+
+              <ApercuWidget />
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginTop: 28, paddingTop: 24, borderTop: '1px solid var(--color-border)' }}>
+                {[
+                  { num: '< 10 s', label: 'pour voir votre espace' },
+                  { num: '100 %', label: 'personnalisé' },
+                  { num: '0 €', label: 'pour essayer' },
+                ].map(({ num, label }) => (
+                  <div key={label} style={{ textAlign: 'center' }}>
+                    <p style={{ fontSize: 18, fontWeight: 800, color: '#002395', margin: '0 0 3px' }}>{num}</p>
+                    <p style={{ fontSize: 11, color: 'var(--color-text-muted)', margin: 0, lineHeight: 1.4 }}>{label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
