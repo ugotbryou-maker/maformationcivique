@@ -41,17 +41,33 @@ export default async function CabinetParamsPage() {
       }}>
         <div style={{ height: 3, background: 'linear-gradient(90deg,#002395 33%,#fff 33% 66%,#CC1A1A 66%)' }} />
         <svg
-          viewBox="93 140 280 200"
+          viewBox="0 0 200 260"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
           style={{
-            position: 'absolute', bottom: -20, right: -10,
-            width: 280, height: 'auto', opacity: 0.06,
+            position: 'absolute', top: 0, right: -15,
+            width: 180, height: 'auto', opacity: 0.06,
             pointerEvents: 'none', userSelect: 'none',
           }}
         >
-          <path d="M248.431 151C283.185 152.209 319.187 157.99 345.096 183.882C354.241 192.901 360.845 204.172 364.242 216.56C368.241 231.3 367.116 255.377 367.098 271.391L367.107 328.507L311.261 328.511L248.313 328.515C248.234 324.547 248.229 320.416 248.285 316.448C248.655 290.217 247.72 263.7 248.389 237.496L304.048 237.456C303.074 230.697 302.216 225.644 296.935 220.419C285.799 209.402 262.929 208.382 248.286 208.334C248.271 191.645 247.564 167.332 248.431 151Z" fill="white"/>
-          <path d="M211.827 328.516C177.073 327.307 141.071 321.526 115.162 295.634C106.017 286.614 99.4131 275.344 96.0161 262.955C92.0171 248.216 93.1421 224.138 93.1597 208.125L93.1509 151.009L148.997 151.005L211.945 151C212.024 154.969 212.029 159.099 211.973 163.068C211.603 189.299 212.538 215.815 211.869 242.02L156.21 242.059C157.184 248.818 158.041 253.872 163.323 259.097C174.458 270.114 197.329 271.134 211.972 271.182C211.987 287.87 212.694 312.184 211.827 328.516Z" fill="white"/>
+          <rect x="143" y="8" width="4" height="80" fill="white"/>
+          <path d="M147,8 L196,25 L194,48 L147,36 Z" fill="white"/>
+          <path d="M85,68 C88,54 93,42 100,36 C107,42 112,54 115,68 Z" fill="white"/>
+          <ellipse cx="100" cy="73" rx="15" ry="18" fill="white"/>
+          <path d="M113,82 C122,70 132,57 143,46" stroke="white" strokeWidth="11" fill="none" strokeLinecap="round"/>
+          <path d="M85,88 C79,97 72,110 65,127 C57,148 51,170 47,192 C44,207 43,220 42,232 L158,232 C157,220 156,207 153,192 C149,170 143,148 135,127 C128,110 121,97 115,88 C109,81 105,78 100,78 C95,78 90,82 85,88 Z" fill="white"/>
+          <path d="M87,102 C76,108 63,114 50,118" stroke="white" strokeWidth="10" fill="none" strokeLinecap="round"/>
+          <line x1="50" y1="118" x2="32" y2="128" stroke="white" strokeWidth="5" strokeLinecap="round"/>
+          <ellipse cx="38" cy="195" rx="21" ry="24" fill="white"/>
+          <ellipse cx="36" cy="170" rx="13" ry="15" fill="white"/>
+          <path d="M36,155 C32,142 31,130 34,120" stroke="white" strokeWidth="7" fill="none" strokeLinecap="round"/>
+          <ellipse cx="164" cy="192" rx="22" ry="26" fill="white"/>
+          <rect x="153" y="150" width="22" height="18" rx="2" fill="white"/>
+          <rect x="148" y="167" width="32" height="5" rx="2" fill="white"/>
+          <ellipse cx="164" cy="173" rx="12" ry="6" fill="white"/>
+          <ellipse cx="100" cy="245" rx="55" ry="12" fill="white"/>
+          <ellipse cx="35" cy="252" rx="30" ry="10" fill="white"/>
+          <ellipse cx="178" cy="250" rx="28" ry="9" fill="white"/>
         </svg>
         <div style={{ padding: '24px 28px 28px', position: 'relative' }}>
           <p style={{ fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6 }}>
