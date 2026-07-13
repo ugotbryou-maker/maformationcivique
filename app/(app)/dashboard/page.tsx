@@ -133,7 +133,6 @@ export default async function DashboardPage() {
               { label: 'XP total', val: xp.toLocaleString(), sub: level.label, color: level.color },
               { label: 'Progression globale', val: `${globalPercent}%`, sub: `${completedCiviqueCount + completedLangCount} leçons`, color: 'var(--color-blue-france)' },
               { label: 'Streak', val: `${streak}j`, sub: streak > 0 ? 'consécutifs' : 'Commencez !', color: streak > 0 ? 'var(--color-red-france)' : 'var(--color-text-muted)' },
-              { label: 'Abonnement', val: isAdmin ? 'Admin' : isPremium ? 'Premium' : 'Gratuit', sub: isAdmin ? 'Accès complet' : isPremium ? 'Actif' : 'Passer Premium', color: isAdmin ? '#7C3AED' : isPremium ? '#1D9E75' : 'var(--color-blue-france)' },
             ].map(({ label, val, sub, color }) => (
               <div
                 key={label}
@@ -150,7 +149,75 @@ export default async function DashboardPage() {
                 <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>{sub}</p>
               </div>
             ))}
+
+            {/* Carte Abonnement — cliquable si gratuit */}
+            {!isPremium && !isAdmin ? (
+              <Link href="/api/stripe/start?plan=bundle" style={{ textDecoration: 'none' }}>
+                <div style={{
+                  padding: '18px 20px',
+                  borderRadius: 'var(--radius-lg)',
+                  background: 'var(--gradient-primary)',
+                  boxShadow: 'var(--shadow-card)',
+                  cursor: 'pointer',
+                }}>
+                  <p style={{ fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.7)', marginBottom: '6px' }}>Abonnement</p>
+                  <p style={{ fontSize: 'var(--font-size-lg)', fontWeight: 600, color: '#fff', marginBottom: '2px' }}>Gratuit</p>
+                  <p style={{ fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.85)', fontWeight: 600 }}>Passer Premium →</p>
+                </div>
+              </Link>
+            ) : (
+              <div style={{
+                padding: '18px 20px',
+                borderRadius: 'var(--radius-lg)',
+                background: 'var(--color-surface)',
+                border: 'var(--border-default)',
+                boxShadow: 'var(--shadow-card)',
+              }}>
+                <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginBottom: '6px' }}>Abonnement</p>
+                <p style={{ fontSize: 'var(--font-size-lg)', fontWeight: 500, color: isAdmin ? '#7C3AED' : '#1D9E75', marginBottom: '2px' }}>{isAdmin ? 'Admin' : 'Premium'}</p>
+                <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>{isAdmin ? 'Accès complet' : 'Actif'}</p>
+              </div>
+            )}
           </div>
+
+          {/* Bandeau upsell pour les utilisateurs gratuits */}
+          {!isPremium && !isAdmin && (
+            <div style={{
+              borderRadius: 'var(--radius-xl)',
+              background: 'linear-gradient(135deg, #001050 0%, #002395 60%, #CC1A1A 100%)',
+              padding: '24px 28px',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap',
+            }}>
+              <div>
+                <p style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 4 }}>
+                  Débloquez tout le contenu — à partir de 5 €/mois
+                </p>
+                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>
+                  8 modules civiques · 2 700 exercices de français · Attestation PDF
+                </p>
+              </div>
+              <div style={{ display: 'flex', gap: 10, flexShrink: 0, flexWrap: 'wrap' }}>
+                <Link href="/api/stripe/start?plan=premium" style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  background: 'rgba(255,255,255,0.15)', border: '1.5px solid rgba(255,255,255,0.35)',
+                  color: '#fff', padding: '9px 16px', borderRadius: 100,
+                  fontWeight: 600, fontSize: 13, textDecoration: 'none',
+                }}>Civique — 5 €</Link>
+                <Link href="/api/stripe/start?plan=langue" style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  background: 'rgba(255,255,255,0.15)', border: '1.5px solid rgba(255,255,255,0.35)',
+                  color: '#fff', padding: '9px 16px', borderRadius: 100,
+                  fontWeight: 600, fontSize: 13, textDecoration: 'none',
+                }}>Langue — 5 €</Link>
+                <Link href="/api/stripe/start?plan=bundle" style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  background: '#fff', color: '#002395',
+                  padding: '9px 16px', borderRadius: 100,
+                  fontWeight: 800, fontSize: 13, textDecoration: 'none',
+                }}>Bundle — 10 € →</Link>
+              </div>
+            </div>
+          )}
 
           {/* Level progress */}
           <div
