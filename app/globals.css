@@ -186,9 +186,91 @@ button {
   grid-template-columns: 1fr 1fr;
 }
 
+/* Force grid children to shrink below min-content (prevents horizontal overflow) */
+.apercu-cta-grid > * {
+  min-width: 0;
+}
+
 @media (max-width: 860px) {
   .apercu-cta-grid {
     grid-template-columns: 1fr;
     gap: 40px !important;
   }
+
+  /* Centre le contenu de la colonne texte */
+  .apercu-cta-pitch {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .apercu-cta-pitch h2 { text-align: center; }
+  .apercu-cta-pitch p  { text-align: center; max-width: 100% !important; }
+
+  /* Badge : autoriser le retour à la ligne sur mobile */
+  .apercu-cta-pitch > div:first-child {
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* ── Page /partenaires ──────────────────────────────────────────────────── */
+
+.proof-grid { grid-template-columns: repeat(3, 1fr); }
+.dash-grid  { grid-template-columns: 1fr 1fr; }
+.tiers-grid { grid-template-columns: repeat(3, 1fr); }
+.wb-grid    { grid-template-columns: 1fr 1fr; }
+.gmb-grid   { grid-template-columns: 1fr 1fr; }
+
+.proof-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.10) !important;
+}
+.step-card:hover {
+  transform: translateX(4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.09) !important;
+}
+.tier-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.12) !important;
+}
+.faq-item:hover {
+  border-color: var(--color-blue-france) !important;
+  box-shadow: 0 4px 20px rgba(0,35,149,0.08) !important;
+}
+
+/* Animation marque blanche */
+.wb-brand-1 { opacity: 1; animation: wbFade1 9s ease-in-out infinite; }
+.wb-brand-2 { opacity: 0; animation: wbFade2 9s ease-in-out infinite; }
+.wb-brand-3 { opacity: 0; animation: wbFade3 9s ease-in-out infinite; }
+
+@keyframes wbFade1 {
+  0%   { opacity: 1; }
+  28%  { opacity: 1; }
+  36%  { opacity: 0; }
+  94%  { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes wbFade2 {
+  0%   { opacity: 0; }
+  30%  { opacity: 0; }
+  38%  { opacity: 1; }
+  61%  { opacity: 1; }
+  69%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes wbFade3 {
+  0%   { opacity: 0; }
+  63%  { opacity: 0; }
+  71%  { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (max-width: 900px) {
+  .proof-grid,
+  .dash-grid,
+  .wb-grid,
+  .gmb-grid   { grid-template-columns: 1fr !important; }
+  .tiers-grid { grid-template-columns: 1fr !important; }
 }

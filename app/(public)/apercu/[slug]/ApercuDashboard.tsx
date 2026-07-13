@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Users, BarChart3, FileDown, Plus, Lock, ArrowRight, BookOpen, CheckCircle, Calendar } from 'lucide-react';
+import { Users, BarChart3, FileDown, Plus, Lock, ArrowRight, BookOpen, CheckCircle, Calendar, ChevronDown } from 'lucide-react';
 import { LeadForm } from './LeadForm';
 
 interface Props {
@@ -24,6 +24,30 @@ const MODULES = [
   { num: '02', title: 'Les institutions',          theme: 'Parlement, Gouvernement', lessons: 6, done: 4 },
   { num: '03', title: 'Droits et libertés',        theme: 'Droits fondamentaux',     lessons: 7, done: 2 },
 ];
+
+const CLIENT_MODULES: Record<string, { num: string; title: string; pct: number }[]> = {
+  'Amira K.': [
+    { num: '01', title: 'La République française', pct: 100 },
+    { num: '02', title: 'Les institutions',         pct: 83  },
+    { num: '03', title: 'Droits et libertés',       pct: 57  },
+    { num: '04', title: 'La laïcité',               pct: 75  },
+    { num: '05', title: 'Histoire de France',        pct: 40  },
+  ],
+  'Youssef M.': [
+    { num: '01', title: 'La République française', pct: 100 },
+    { num: '02', title: 'Les institutions',         pct: 33  },
+    { num: '03', title: 'Droits et libertés',       pct: 0   },
+    { num: '04', title: 'La laïcité',               pct: 0   },
+    { num: '05', title: 'Histoire de France',        pct: 0   },
+  ],
+  'Elena P.': [
+    { num: '01', title: 'La République française', pct: 100 },
+    { num: '02', title: 'Les institutions',         pct: 100 },
+    { num: '03', title: 'Droits et libertés',       pct: 100 },
+    { num: '04', title: 'La laïcité',               pct: 100 },
+    { num: '05', title: 'Histoire de France',        pct: 100 },
+  ],
+};
 
 const DEMO_MODULES_CIVIQUE = [
   'La République française et ses valeurs',
@@ -112,7 +136,8 @@ async function generateAttestationPdf(cabinetName: string, accent: string): Prom
   });
 
   const bytes = await doc.save();
-  const blob  = new Blob([bytes.buffer as ArrayBuffer], { type: 'application/pdf' });
+  const slice = (bytes.buffer as ArrayBuffer).slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
+  const blob  = new Blob([slice], { type: 'application/pdf' });
   const blobUrl = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = blobUrl;
@@ -126,6 +151,7 @@ async function generateAttestationPdf(cabinetName: string, accent: string): Prom
 export function ApercuDashboard({ slug, domain, cabinetName, logoUrl, monogram, accent }: Props) {
   const [animated, setAnimated] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [expandedClient, setExpandedClient] = useState<string | null>(null);
 
   // Trigger progress bar animation after mount
   useEffect(() => {
@@ -183,44 +209,83 @@ export function ApercuDashboard({ slug, domain, cabinetName, logoUrl, monogram, 
 
         {/* Clients avec barres animées */}
         <div style={{ padding: '4px 0' }}>
-          {DEMO_CLIENTS.map(({ initials, name, pct, color, attestation }) => (
-            <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 24px', borderBottom: '1px solid #F8FAFC' }}>
-              <div style={{ width: 38, height: 38, borderRadius: '50%', flexShrink: 0, background: color + '22', border: `2px solid ${color}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color }}>{initials}</div>
+          {DEMO_CLIENTS.map(({ initials, name, pct, color, attestation }) => {
+            const isExpanded = expandedClient === name;
+            const clientMods = CLIENT_MODULES[name] ?? [];
+            return (
+              <div key={name} style={{ borderBottom: '1px solid #F8FAFC' }}>
+                {/* Ligne client — cliquable */}
+                <div
+                  onClick={() => setExpandedClient(isExpanded ? null : name)}
+                  style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 24px', cursor: 'pointer', transition: 'background 150ms', userSelect: 'none' }}
+                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = '#F8FAFC'}
+                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'transparent'}
+                >
+                  <div style={{ width: 38, height: 38, borderRadius: '50%', flexShrink: 0, background: color + '22', border: `2px solid ${color}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color }}>{initials}</div>
 
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 7 }}>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', margin: 0 }}>{name}</p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: accent }}>{pct} %</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 7 }}>
+                      <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', margin: 0 }}>{name}</p>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: accent }}>{pct} %</span>
+                        {attestation && (
+                          <span style={{ fontSize: 11, fontWeight: 700, background: '#D1FAE5', color: '#065F46', borderRadius: 100, padding: '2px 10px', border: '1px solid #A7F3D0' }}>
+                            Attestation ✓
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    {/* Barre animée */}
+                    <div style={{ height: 6, borderRadius: 99, background: '#F1F5F9', overflow: 'hidden' }}>
+                      <div style={{
+                        height: '100%', borderRadius: 99, background: accent,
+                        width: animated ? `${pct}%` : '0%',
+                        transition: 'width 1.1s cubic-bezier(0.4, 0, 0.2, 1)',
+                      }} />
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
                     {attestation && (
-                      <span style={{ fontSize: 11, fontWeight: 700, background: '#D1FAE5', color: '#065F46', borderRadius: 100, padding: '2px 10px', border: '1px solid #A7F3D0' }}>
-                        Attestation ✓
-                      </span>
+                      <button
+                        onClick={e => { e.stopPropagation(); handlePdf(); }}
+                        disabled={pdfLoading}
+                        title="Télécharger l'attestation de démonstration"
+                        style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, fontWeight: 600, color: accent, background: 'none', border: `1px solid ${accent}44`, borderRadius: 8, padding: '5px 10px', cursor: pdfLoading ? 'wait' : 'pointer', opacity: pdfLoading ? 0.6 : 1, transition: 'opacity 200ms' }}>
+                        <FileDown size={12} />
+                        {pdfLoading ? '…' : 'PDF'}
+                      </button>
                     )}
+                    <ChevronDown
+                      size={16}
+                      color="var(--color-text-muted)"
+                      style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 250ms', flexShrink: 0 }}
+                    />
                   </div>
                 </div>
-                {/* Barre animée */}
-                <div style={{ height: 6, borderRadius: 99, background: '#F1F5F9', overflow: 'hidden' }}>
-                  <div style={{
-                    height: '100%', borderRadius: 99, background: accent,
-                    width: animated ? `${pct}%` : '0%',
-                    transition: 'width 1.1s cubic-bezier(0.4, 0, 0.2, 1)',
-                  }} />
+
+                {/* Panneau expandable — progression par module */}
+                <div style={{
+                  maxHeight: isExpanded ? `${clientMods.length * 52 + 24}px` : '0px',
+                  overflow: 'hidden',
+                  transition: 'max-height 350ms cubic-bezier(0.4, 0, 0.2, 1)',
+                }}>
+                  <div style={{ padding: '4px 24px 16px 76px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    {clientMods.map(({ num, title, pct: modPct }) => (
+                      <div key={num} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <span style={{ fontSize: 10, fontWeight: 800, color: accent, background: accent + '15', borderRadius: 6, padding: '2px 6px', flexShrink: 0, minWidth: 28, textAlign: 'center' }}>{num}</span>
+                        <span style={{ fontSize: 12, color: 'var(--color-text-secondary)', flex: 1, minWidth: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{title}</span>
+                        <div style={{ width: 80, height: 4, borderRadius: 99, background: '#F1F5F9', overflow: 'hidden', flexShrink: 0 }}>
+                          <div style={{ height: '100%', borderRadius: 99, background: modPct === 100 ? '#059669' : accent, width: isExpanded ? `${modPct}%` : '0%', transition: 'width 0.8s cubic-bezier(0.4, 0, 0.2, 1) 100ms' }} />
+                        </div>
+                        <span style={{ fontSize: 11, fontWeight: 700, color: modPct === 100 ? '#059669' : accent, minWidth: 32, textAlign: 'right', flexShrink: 0 }}>{modPct} %</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-
-              {attestation && (
-                <button
-                  onClick={handlePdf}
-                  disabled={pdfLoading}
-                  title="Télécharger l'attestation de démonstration"
-                  style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, fontWeight: 600, color: accent, background: 'none', border: `1px solid ${accent}44`, borderRadius: 8, padding: '5px 10px', cursor: pdfLoading ? 'wait' : 'pointer', flexShrink: 0, opacity: pdfLoading ? 0.6 : 1, transition: 'opacity 200ms' }}>
-                  <FileDown size={12} />
-                  {pdfLoading ? '…' : 'PDF'}
-                </button>
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

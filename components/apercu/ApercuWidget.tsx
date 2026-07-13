@@ -62,7 +62,8 @@ export function ApercuWidget({ accent = '#002395' }: Props) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {/* Input */}
       <div style={{
         display: 'flex', alignItems: 'center',
         border: '1.5px solid rgba(0,35,149,0.18)', borderRadius: 14,
@@ -83,15 +84,17 @@ export function ApercuWidget({ accent = '#002395' }: Props) {
             color: 'var(--color-text-primary)',
           }}
         />
+        {/* Bouton inline — visible uniquement sur desktop */}
         <button
           onClick={generate}
           disabled={phase === 'loading' || !url.trim()}
+          className="apercu-widget-btn-inline"
           style={{
             display: 'flex', alignItems: 'center', gap: 8,
             background: accent, color: '#fff',
             padding: '13px 20px', margin: 4, borderRadius: 10,
             border: 'none', cursor: phase === 'loading' ? 'wait' : 'pointer',
-            fontWeight: 700, fontSize: 15, whiteSpace: 'nowrap',
+            fontWeight: 700, fontSize: 15, whiteSpace: 'nowrap', flexShrink: 0,
             opacity: !url.trim() || phase === 'loading' ? 0.55 : 1,
             transition: 'opacity 200ms',
           }}
@@ -102,6 +105,28 @@ export function ApercuWidget({ accent = '#002395' }: Props) {
           Générer mon espace
         </button>
       </div>
+
+      {/* Bouton pleine largeur — visible uniquement sur mobile */}
+      <button
+        onClick={generate}
+        disabled={phase === 'loading' || !url.trim()}
+        className="apercu-widget-btn-mobile"
+        style={{
+          display: 'none',
+          alignItems: 'center', justifyContent: 'center', gap: 10,
+          background: accent, color: '#fff',
+          padding: '15px 20px', borderRadius: 14,
+          border: 'none', cursor: phase === 'loading' ? 'wait' : 'pointer',
+          fontWeight: 700, fontSize: 16, width: '100%',
+          opacity: !url.trim() || phase === 'loading' ? 0.65 : 1,
+          transition: 'opacity 200ms',
+        }}
+      >
+        {phase === 'loading'
+          ? <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} />
+          : <ArrowRight size={18} />}
+        Générer mon espace
+      </button>
 
       {phase === 'loading' && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'center', padding: '4px 0' }}>
@@ -122,6 +147,10 @@ export function ApercuWidget({ accent = '#002395' }: Props) {
       <style>{`
         @keyframes spin  { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        @media (max-width: 540px) {
+          .apercu-widget-btn-inline { display: none !important; }
+          .apercu-widget-btn-mobile { display: flex !important; }
+        }
       `}</style>
     </div>
   );

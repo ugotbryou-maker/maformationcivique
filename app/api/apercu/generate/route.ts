@@ -45,6 +45,27 @@ export async function POST(req: NextRequest) {
     if (cached) {
       const age = Date.now() - new Date(cached.updated_at as string).getTime();
       if (age < CACHE_TTL_MS) {
+        // Notify on every request (cache hit) — fire-and-forget
+        sendEmail({
+          to: [
+            { email: 'ugotbr.you@gmail.com',          name: 'Ugo' },
+            { email: 'contact@maformationcivique.fr',  name: 'Contact MFC' },
+          ],
+          subject: `👀 Aperçu consulté — ${cached.cabinet_name} (${domain})`,
+          htmlContent: `<div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px;border:1px solid #e5e7eb;border-radius:8px">
+            <h2 style="color:#002395;margin-top:0">Prospect — aperçu reconsulté 🏛️</h2>
+            <p style="color:#374151">Un cabinet a de nouveau consulté son aperçu personnalisé :</p>
+            <table style="width:100%;border-collapse:collapse">
+              <tr><td style="padding:8px 0;color:#6b7280;width:120px">Cabinet</td><td style="padding:8px 0;font-weight:600">${cached.cabinet_name}</td></tr>
+              <tr><td style="padding:8px 0;color:#6b7280">Domaine</td><td style="padding:8px 0"><a href="https://${domain}" style="color:#002395">${domain}</a></td></tr>
+            </table>
+            <div style="margin-top:20px;padding:12px;background:#F0F7FF;border-radius:8px">
+              <a href="https://www.maformationcivique.fr/apercu/${slug}" style="color:#002395;font-weight:600">Voir l&apos;aperçu →</a>
+            </div>
+            <p style="font-size:13px;color:#9ca3af;margin-top:16px">maformationcivique.fr</p>
+          </div>`,
+        }).catch((e) => console.error('[apercu/generate] email (cache hit) failed:', e));
+
         return NextResponse.json({ slug, ...cached });
       }
     }

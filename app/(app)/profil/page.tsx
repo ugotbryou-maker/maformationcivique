@@ -5,13 +5,14 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect, useRef } from 'react';
 import { createClient } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
-import { User, CreditCard, LogOut, Lock, Eye, EyeOff, CheckCircle, Camera } from 'lucide-react';
+import { User, CreditCard, LogOut, Lock, Eye, EyeOff, CheckCircle, Camera, XCircle } from 'lucide-react';
 
 export default function ProfilPage() {
   const router = useRouter();
   const [profile, setProfile] = useState<{ name?: string; email?: string; plan?: string; lang?: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [portalLoading, setPortalLoading] = useState(false);
+  const [cancelConfirm, setCancelConfirm] = useState(false);
   const [adminToggling, setAdminToggling] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [avatarLoading, setAvatarLoading] = useState(false);
@@ -240,56 +241,137 @@ export default function ProfilPage() {
           Abonnement
         </h2>
         {isPremium ? (
-          <button
-            onClick={handleManageBilling}
-            disabled={portalLoading}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '12px 20px',
-              borderRadius: 'var(--radius-pill)',
-              background: 'transparent',
-              color: 'var(--color-blue-france)',
-              border: '1.5px solid var(--color-blue-france)',
-              fontSize: 'var(--font-size-sm)',
-              fontWeight: 500,
-              cursor: 'pointer',
-              fontFamily: 'var(--font-sans)',
-              minHeight: '44px',
-            }}
-          >
-            <CreditCard size={15} />
-            {portalLoading ? 'Chargement…' : 'Gérer mon abonnement'}
-          </button>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {/* Gérer (paiement, factures) */}
+            <button
+              onClick={handleManageBilling}
+              disabled={portalLoading}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '8px',
+                padding: '12px 20px', borderRadius: 'var(--radius-pill)',
+                background: 'transparent', color: 'var(--color-blue-france)',
+                border: '1.5px solid var(--color-blue-france)',
+                fontSize: 'var(--font-size-sm)', fontWeight: 500,
+                cursor: portalLoading ? 'wait' : 'pointer',
+                fontFamily: 'var(--font-sans)', minHeight: '44px',
+              }}
+            >
+              <CreditCard size={15} />
+              {portalLoading ? 'Chargement…' : 'Gérer mon abonnement'}
+            </button>
+
+            {/* Séparateur */}
+            <div style={{ borderTop: 'var(--border-default)', margin: '4px 0' }} />
+
+            {/* Bouton désabonnement — loi Chiquot */}
+            <div>
+              <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 8, lineHeight: 1.5 }}>
+                Vous pouvez résilier à tout moment. L&apos;accès reste actif jusqu&apos;à la fin de la période en cours.
+              </p>
+              <button
+                onClick={() => setCancelConfirm(true)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  padding: '11px 20px', borderRadius: 'var(--radius-pill)',
+                  background: 'transparent', color: 'var(--color-red-france)',
+                  border: '1.5px solid var(--color-red-france)',
+                  fontSize: 'var(--font-size-sm)', fontWeight: 600,
+                  cursor: 'pointer', fontFamily: 'var(--font-sans)', minHeight: '44px',
+                }}
+              >
+                <XCircle size={15} />
+                Se désabonner
+              </button>
+            </div>
+          </div>
         ) : (
           <div>
             <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginBottom: '16px' }}>
-              Passez à Premium pour accéder aux 5 modules, 177 questions et examens blancs illimités.
+              Accédez aux modules civiques, aux exercices de langue et aux examens blancs.
             </p>
             <button
               onClick={handleUpgrade}
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '12px 24px',
-                borderRadius: 'var(--radius-pill)',
-                background: 'var(--gradient-primary)',
-                color: '#FFFFFF',
-                border: 'none',
-                fontSize: 'var(--font-size-sm)',
-                fontWeight: 500,
-                cursor: 'pointer',
-                fontFamily: 'var(--font-sans)',
-                minHeight: '44px',
+                display: 'flex', alignItems: 'center', gap: '8px',
+                padding: '12px 24px', borderRadius: 'var(--radius-pill)',
+                background: 'var(--gradient-primary)', color: '#FFFFFF',
+                border: 'none', fontSize: 'var(--font-size-sm)', fontWeight: 500,
+                cursor: 'pointer', fontFamily: 'var(--font-sans)', minHeight: '44px',
               }}
             >
-              Passer Premium — 12€/mois
+              Voir les offres
             </button>
           </div>
         )}
       </div>
+
+      {/* ── Modale confirmation résiliation (loi Chiquot) ── */}
+      {cancelConfirm && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 200,
+          background: 'rgba(0,10,40,0.55)', backdropFilter: 'blur(4px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          padding: '24px',
+        }}
+          onClick={() => setCancelConfirm(false)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: '#fff', borderRadius: 20, padding: '32px 28px',
+              maxWidth: 420, width: '100%',
+              boxShadow: '0 24px 64px rgba(0,10,40,0.22)',
+            }}
+          >
+            <div style={{ width: 48, height: 48, borderRadius: 14, background: '#FEF2F2', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
+              <XCircle size={24} color="var(--color-red-france)" />
+            </div>
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--color-text-primary)', marginBottom: 10 }}>
+              Confirmer la résiliation
+            </h3>
+            <p style={{ fontSize: 14, color: 'var(--color-text-secondary)', lineHeight: 1.65, marginBottom: 24 }}>
+              Vous êtes sur le point de résilier votre abonnement.
+              Votre accès restera actif jusqu&apos;à la fin de la période en cours,
+              puis votre compte sera repassé en version gratuite.
+            </p>
+            <div style={{ background: '#FEF9C3', borderRadius: 10, padding: '12px 16px', marginBottom: 24, border: '1px solid #FDE68A' }}>
+              <p style={{ fontSize: 13, color: '#92400E', margin: 0, lineHeight: 1.55 }}>
+                Vous pouvez vous réabonner à tout moment depuis votre espace personnel.
+                Votre progression est conservée.
+              </p>
+            </div>
+            <div style={{ display: 'flex', gap: 10, flexDirection: 'column' }}>
+              {/* Bouton confirmer la résiliation — redirige vers Stripe Portal */}
+              <button
+                onClick={() => { setCancelConfirm(false); handleManageBilling(); }}
+                disabled={portalLoading}
+                style={{
+                  width: '100%', padding: '13px', borderRadius: 'var(--radius-pill)',
+                  background: 'var(--color-red-france)', color: '#fff',
+                  border: 'none', fontSize: 14, fontWeight: 700,
+                  cursor: portalLoading ? 'wait' : 'pointer',
+                  fontFamily: 'var(--font-sans)', minHeight: '46px',
+                }}
+              >
+                {portalLoading ? 'Chargement…' : 'Confirmer et résilier →'}
+              </button>
+              {/* Bouton rester abonné */}
+              <button
+                onClick={() => setCancelConfirm(false)}
+                style={{
+                  width: '100%', padding: '13px', borderRadius: 'var(--radius-pill)',
+                  background: 'transparent', color: 'var(--color-text-secondary)',
+                  border: '1.5px solid var(--color-border)',
+                  fontSize: 14, fontWeight: 500,
+                  cursor: 'pointer', fontFamily: 'var(--font-sans)', minHeight: '46px',
+                }}
+              >
+                Rester abonné
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Changer mot de passe ── */}
       <div

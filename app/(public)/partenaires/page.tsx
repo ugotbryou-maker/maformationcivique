@@ -3,7 +3,7 @@ import Image from 'next/image';
 import {
   Building2, Users, FileDown, BarChart3, CheckCircle2,
   ArrowRight, ShieldCheck, Clock, Star, Briefcase, MessageSquarePlus,
-  Palette, Globe, EyeOff,
+  Palette, Globe, EyeOff, Sparkles, Link2, Eye,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 import { ApercuWidget } from '@/components/apercu/ApercuWidget';
@@ -942,7 +942,7 @@ export default function PartenairesPage() {
           >
 
             {/* ── Colonne gauche : pitch ── */}
-            <div>
+            <div className="apercu-cta-pitch">
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.12)', borderRadius: 100, padding: '6px 16px', marginBottom: 28 }}>
                 <Building2 size={14} color="rgba(255,255,255,0.9)" />
                 <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.9)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
@@ -961,12 +961,14 @@ export default function PartenairesPage() {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {[
-                  { icon: '🎨', text: 'Logo et couleurs extraits automatiquement' },
-                  { icon: '🔗', text: 'Lien personnalisé partageable en 1 clic' },
-                  { icon: '👀', text: 'Vos clients voient leur progression en temps réel' },
-                ].map(({ icon, text }) => (
+                  { Icon: Sparkles, text: 'Logo et couleurs extraits automatiquement' },
+                  { Icon: Link2,    text: 'Lien personnalisé partageable en 1 clic' },
+                  { Icon: Eye,      text: 'Vos clients voient leur progression en temps réel' },
+                ].map(({ Icon, text }) => (
                   <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <span style={{ fontSize: 18, flexShrink: 0 }}>{icon}</span>
+                    <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(255,255,255,0.14)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <Icon size={16} color="rgba(255,255,255,0.9)" />
+                    </div>
                     <span style={{ fontSize: 15, color: 'rgba(255,255,255,0.80)', lineHeight: 1.45 }}>{text}</span>
                   </div>
                 ))}
@@ -985,19 +987,6 @@ export default function PartenairesPage() {
               </p>
 
               <ApercuWidget />
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginTop: 28, paddingTop: 24, borderTop: '1px solid var(--color-border)' }}>
-                {[
-                  { num: '< 10 s', label: 'pour voir votre espace' },
-                  { num: '100 %', label: 'personnalisé' },
-                  { num: '0 €', label: 'pour essayer' },
-                ].map(({ num, label }) => (
-                  <div key={label} style={{ textAlign: 'center' }}>
-                    <p style={{ fontSize: 18, fontWeight: 800, color: '#002395', margin: '0 0 3px' }}>{num}</p>
-                    <p style={{ fontSize: 11, color: 'var(--color-text-muted)', margin: 0, lineHeight: 1.4 }}>{label}</p>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>
@@ -1047,63 +1036,6 @@ export default function PartenairesPage() {
         </div>
       </section>
 
-      <style>{`
-        .proof-grid { grid-template-columns: repeat(3,1fr); }
-        .dash-grid { grid-template-columns: 1fr 1fr; }
-        .tiers-grid { grid-template-columns: repeat(3,1fr); }
-
-        .proof-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 16px 40px rgba(0,0,0,0.10) !important;
-        }
-        .step-card:hover {
-          transform: translateX(4px);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.09) !important;
-        }
-        .tier-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 20px 48px rgba(0,0,0,0.12) !important;
-        }
-        .faq-item:hover {
-          border-color: var(--color-blue-france) !important;
-          box-shadow: 0 4px 20px rgba(0,35,149,0.08) !important;
-        }
-
-        /* ── Animation marque blanche ── */
-        .wb-brand-1 { opacity: 1; animation: wbFade1 9s ease-in-out infinite; }
-        .wb-brand-2 { opacity: 0; animation: wbFade2 9s ease-in-out infinite; }
-        .wb-brand-3 { opacity: 0; animation: wbFade3 9s ease-in-out infinite; }
-        @keyframes wbFade1 {
-          0%   { opacity: 1; }
-          28%  { opacity: 1; }
-          36%  { opacity: 0; }
-          94%  { opacity: 0; }
-          100% { opacity: 1; }
-        }
-        @keyframes wbFade2 {
-          0%   { opacity: 0; }
-          30%  { opacity: 0; }
-          38%  { opacity: 1; }
-          61%  { opacity: 1; }
-          69%  { opacity: 0; }
-          100% { opacity: 0; }
-        }
-        @keyframes wbFade3 {
-          0%   { opacity: 0; }
-          63%  { opacity: 0; }
-          71%  { opacity: 1; }
-          92%  { opacity: 1; }
-          100% { opacity: 0; }
-        }
-
-        @media (max-width: 900px) {
-          .proof-grid { grid-template-columns: 1fr !important; }
-          .dash-grid { grid-template-columns: 1fr !important; }
-          .tiers-grid { grid-template-columns: 1fr !important; }
-          .wb-grid { grid-template-columns: 1fr !important; }
-          .gmb-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </main>
   );
 }

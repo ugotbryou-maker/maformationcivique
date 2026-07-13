@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.maformationcivique.fr/cgu' },
 };
 
-const LAST_UPDATE = '5 juillet 2026';
+const LAST_UPDATE = '13 juillet 2026';
 const COMPANY    = 'Ugo Tamburrini (Entrepreneur individuel — YOU.)';
 const SIRET      = '908 675 259 00018';
 const ADDRESS    = '7B Rue Monge, 94110 Arcueil, France';
@@ -34,7 +34,7 @@ export default function CguPage() {
             Conditions Générales d&apos;Utilisation
           </h1>
           <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>
-            Dernière mise à jour : <strong>{LAST_UPDATE}</strong> — Version 1.0
+            Dernière mise à jour : <strong>{LAST_UPDATE}</strong> — Version 2.0
           </p>
         </div>
 
@@ -53,9 +53,19 @@ export default function CguPage() {
               ['Hébergeur', 'Vercel Inc. — 340 Pine Street, Suite 1200, San Francisco, CA 94104, USA'],
             ]} />
             <p>
-              Le Site propose une plateforme de formation civique en ligne destinée aux personnes
-              souhaitant préparer leur intégration en France (carte de séjour pluriannuelle,
-              carte de résident, naturalisation).
+              Le Site propose une plateforme de formation en ligne destinée aux ressortissants
+              étrangers souhaitant préparer leur intégration en France, notamment en vue
+              de l&apos;obtention d&apos;une carte de séjour pluriannuelle, d&apos;une carte de résident
+              ou d&apos;une naturalisation.
+            </p>
+            <p>
+              Les services proposés comprennent : (i) une <strong>formation civique</strong>
+              conforme au programme officiel OFPRA, (ii) une <strong>formation linguistique
+              en français</strong> (niveaux A2 à B2), (iii) des <strong>offres à destination
+              des particuliers</strong> (B2C) sous forme d&apos;abonnements mensuels, et
+              (iv) des <strong>offres à destination des professionnels</strong> (B2B) — cabinets
+              d&apos;avocats, associations, structures d&apos;aide à l&apos;intégration — sous forme de
+              licences multi-utilisateurs et d&apos;outils d&apos;aperçu et de suivi.
             </p>
           </Section>
 
@@ -100,80 +110,147 @@ export default function CguPage() {
           </Section>
 
           {/* ── ARTICLE 4 ── */}
-          <Section num="4" title="Offres et tarifs">
+          <Section num="4" title="Offres B2C et tarifs">
             <h3>4.1 Offre Gratuite</h3>
             <p>
-              L&apos;offre gratuite permet l&apos;accès, sans inscription ni paiement, à la
-              première leçon de chaque module (5 leçons sur 24). L&apos;accès aux examens
-              blancs et à l&apos;ensemble du contenu nécessite la souscription à l&apos;offre Premium.
+              L&apos;offre gratuite permet l&apos;accès, sans inscription ni paiement, à un
+              aperçu limité du contenu (première leçon de chaque module). L&apos;accès aux
+              examens blancs et à l&apos;ensemble du contenu pédagogique nécessite la
+              souscription à l&apos;une des offres payantes ci-dessous.
             </p>
 
-            <h3>4.2 Offre Premium</h3>
+            <h3>4.2 Offre Civique</h3>
+            <p>
+              Formation civique conforme au programme officiel de l&apos;OFPRA,
+              destinée aux personnes préparant leur dossier de naturalisation ou
+              de carte de résident.
+            </p>
             <InfoBlock rows={[
-              ['Tarif standard', '12,00 € TTC / mois'],
-              ['Contenu inclus', '5 modules · 24 leçons · 177 questions · 3 examens blancs illimités'],
-              ['Suivi inclus', 'Tableau de bord XP · Progression par module · Badges'],
+              ['Tarif standard', '9,99 € TTC / mois'],
+              ['Contenu inclus', '8 modules civiques · leçons · quiz par module · examens blancs'],
+              ['Bonus inclus', 'Fiches de révision · Attestation PDF téléchargeable · Suivi de progression'],
               ['Durée', 'Sans engagement — renouvelable chaque mois'],
               ['Résiliation', 'À tout moment, effective à la fin de la période en cours'],
             ]} />
 
-            <h3>4.3 Offre de parrainage</h3>
+            <h3>4.3 Offre Langue française</h3>
             <p>
-              Tout abonné Premium actif peut inviter des tiers via un code de parrainage
-              unique généré depuis son espace personnel. L&apos;offre de parrainage est la suivante :
+              Formation linguistique progressive en français, couvrant les niveaux A2 à B2,
+              incluant la préparation spécifique à l&apos;entretien de naturalisation.
             </p>
             <InfoBlock rows={[
-              ["Pour l'invité", 'Premier mois à 6,00 € TTC (au lieu de 12,00 €)'],
-              ['Pour le parrain', '1 mois offert dès que son filleul souscrit et règle son premier mois'],
-              ['Limite', '5 parrainages maximum par compte'],
-              ['Cumulable ?', 'Non — une seule offre de parrainage par souscription'],
+              ['Tarif standard', '9,99 € TTC / mois'],
+              ['Contenu inclus', '2 700 exercices · grammaire · conjugaison · expression écrite · phonétique'],
+              ['Bonus inclus', 'Préparation à l\'entretien · Examens blancs langue (A2 / B1 / B2)'],
+              ['Durée', 'Sans engagement — renouvelable chaque mois'],
+              ['Résiliation', 'À tout moment, effective à la fin de la période en cours'],
             ]} />
+
+            <h3>4.4 Offre Bundle Complet</h3>
             <p>
-              Le code de parrainage est valable 30 jours à compter de sa génération.
-              Passé ce délai, le code expire et ne peut plus être utilisé.
-              L&apos;éditeur se réserve le droit de suspendre le programme de parrainage
-              à tout moment, avec un préavis de 15 jours notifié par e-mail.
+              Accès combiné aux formations Civique et Langue française — formule tout-en-un
+              recommandée pour une préparation complète à la naturalisation.
+            </p>
+            <InfoBlock rows={[
+              ['Tarif standard', '18,99 € TTC / mois'],
+              ['Contenu inclus', 'Intégralité des offres Civique et Langue française'],
+              ['Durée', 'Sans engagement — renouvelable chaque mois'],
+              ['Résiliation', 'À tout moment, effective à la fin de la période en cours'],
+            ]} />
+
+            <h3>4.5 Offres promotionnelles et réductions</h3>
+            <p>
+              L&apos;éditeur peut proposer ponctuellement des <strong>offres de lancement</strong>,
+              codes promotionnels ou tarifs réduits pour une durée limitée. Ces offres sont
+              communiquées sur le Site et/ou par e-mail et précisent explicitement leur
+              date de fin et leurs conditions d&apos;application.
+            </p>
+            <p>
+              Les tarifs promotionnels s&apos;appliquent uniquement aux <strong>nouveaux abonnements</strong>
+              souscrits pendant la période de l&apos;offre, sauf mention contraire. Le tarif
+              de lancement est maintenu tant que l&apos;abonnement reste actif et n&apos;est pas résilié.
+              En cas de résiliation puis de réabonnement, le tarif standard en vigueur à la date
+              de la nouvelle souscription s&apos;applique.
+            </p>
+            <p>
+              Les offres promotionnelles ne sont pas cumulables entre elles sauf indication
+              contraire explicite. L&apos;éditeur se réserve le droit de mettre fin à toute
+              promotion à la date annoncée ou par anticipation, sans préavis, dès lors que
+              les abonnements en cours ne sont pas affectés.
             </p>
 
-            <h3>4.4 Évolution des tarifs</h3>
+            <h3>4.6 Offre de parrainage</h3>
             <p>
-              L&apos;éditeur se réserve le droit de modifier ses tarifs. Toute modification
-              sera notifiée par e-mail au moins <strong>30 jours avant</strong> son entrée en vigueur.
-              L&apos;abonné pourra résilier sans frais avant l&apos;entrée en vigueur du nouveau tarif.
-              À défaut de résiliation, le nouveau tarif sera appliqué à la prochaine
-              échéance de facturation.
+              Tout abonné actif peut inviter des tiers via un lien de parrainage unique.
+              Les conditions détaillées (réduction pour l&apos;invité, avantage pour le parrain,
+              durée de validité) sont précisées sur la page de parrainage accessible depuis
+              l&apos;espace personnel. L&apos;éditeur se réserve le droit de modifier ou suspendre
+              ce programme à tout moment, avec un préavis de 15 jours par e-mail.
+            </p>
+
+            <h3>4.7 Évolution des tarifs</h3>
+            <p>
+              L&apos;éditeur se réserve le droit de modifier ses tarifs standards. Toute
+              modification sera notifiée par e-mail au moins <strong>30 jours avant</strong>
+              son entrée en vigueur. L&apos;abonné pourra résilier sans frais avant l&apos;entrée
+              en vigueur du nouveau tarif. À défaut de résiliation, le nouveau tarif sera
+              appliqué à la prochaine échéance de facturation.
             </p>
           </Section>
 
           {/* ── ARTICLE 4bis — Cabinet partenaire ── */}
-          <Section num="4bis" title="Offre cabinet partenaire (B2B)">
-            <h3>Accès via invitation cabinet</h3>
+          <Section num="4bis" title="Offres professionnelles (B2B)">
+            <h3>Outil d&apos;aperçu gratuit (prospection)</h3>
             <p>
-              Certains utilisateurs accèdent à la plateforme via l&apos;invitation d&apos;un cabinet
-              partenaire (cabinet d&apos;avocats, association d&apos;aide à l&apos;intégration ou tout autre
-              structure ayant souscrit une licence cabinet). Dans ce cas, l&apos;accès Premium est
-              offert par le cabinet et ne donne lieu à aucun paiement de la part de l&apos;utilisateur.
+              Le Site propose à titre gratuit un <strong>outil d&apos;aperçu</strong> accessible
+              depuis la page <em>/partenaires</em>, permettant à tout professionnel (cabinet
+              d&apos;avocats, association, structure d&apos;aide à l&apos;intégration) de générer un espace
+              de démonstration personnalisé à partir de l&apos;URL de son site internet. Cet aperçu
+              ne requiert aucune inscription et ne crée aucune relation contractuelle.
+              Les données saisies (domaine, logo) sont utilisées uniquement à des fins
+              d&apos;affichage et ne sont pas transmises à des tiers.
             </p>
+
+            <h3>Licence cabinet partenaire</h3>
+            <p>
+              Les cabinets et associations souhaitant offrir l&apos;accès à la plateforme à leurs
+              clients peuvent souscrire une <strong>licence cabinet</strong> multi-utilisateurs,
+              selon des paliers définis (nombre d&apos;invitations actives). Le tarif, la durée et
+              les conditions de la licence font l&apos;objet d&apos;une convention séparée entre le
+              cabinet et l&apos;éditeur.
+            </p>
+
+            <h3>Accès des utilisateurs via invitation cabinet</h3>
+            <p>
+              Les utilisateurs invités par un cabinet bénéficient d&apos;un accès Premium offert
+              par le cabinet, sans paiement de leur part. Leur compte reste soumis aux
+              présentes CGU pour tout ce qui concerne les droits et obligations individuels.
+            </p>
+
             <h3>Droits de l&apos;administrateur cabinet</h3>
             <p>
-              L&apos;administrateur du cabinet dispose d&apos;un accès limité aux données des utilisateurs
-              qu&apos;il a invités : pourcentage de progression global, modules complétés, et génération
-              d&apos;attestations de suivi. Il ne peut pas accéder aux réponses détaillées, aux données
-              de paiement, ni modifier le contenu pédagogique de l&apos;utilisateur.
+              L&apos;administrateur du cabinet dispose d&apos;un accès limité aux données des
+              utilisateurs qu&apos;il a invités : pourcentage de progression global, modules
+              complétés, et génération d&apos;attestations de suivi au format PDF. Il ne peut
+              pas accéder aux réponses détaillées, aux données de paiement, ni modifier
+              le contenu pédagogique accessible à l&apos;utilisateur.
             </p>
+
             <h3>Résiliation et révocation</h3>
             <p>
               L&apos;administrateur cabinet peut révoquer l&apos;accès d&apos;un utilisateur à tout moment.
-              En cas de révocation, le compte de l&apos;utilisateur est automatiquement repassé en offre
-              gratuite. L&apos;utilisateur conserve son historique de progression. En cas de non-renouvellement
-              de la licence cabinet, l&apos;éditeur peut mettre fin aux accès Premium des membres
-              associés, avec un préavis de 15 jours par email.
+              En cas de révocation, le compte est repassé en offre gratuite ; l&apos;utilisateur
+              conserve son historique de progression. En cas de non-renouvellement de la
+              licence cabinet, l&apos;éditeur peut mettre fin aux accès Premium des membres
+              associés avec un préavis de 15 jours par e-mail.
             </p>
+
             <h3>Responsabilité du cabinet</h3>
             <p>
-              Le cabinet partenaire s&apos;engage à n&apos;inviter que des personnes ayant consenti à recevoir
-              cet accès. Il est responsable de l&apos;usage des fonctionnalités d&apos;invitation et d&apos;attestation
-              dans le respect du RGPD et de la présente politique de confidentialité.
+              Le cabinet partenaire s&apos;engage à n&apos;inviter que des personnes ayant consenti à
+              recevoir cet accès. Il est responsable de l&apos;usage des fonctionnalités
+              d&apos;invitation, de suivi et d&apos;attestation dans le respect du RGPD et des
+              présentes CGU.
             </p>
           </Section>
 
@@ -265,14 +342,26 @@ export default function CguPage() {
               est soumis à la création d&apos;un compte gratuit.
             </p>
 
-            <h3>8.2 Contenu accessible avec un compte Premium</h3>
+            <h3>8.2 Contenu accessible selon l&apos;offre souscrite</h3>
+            <p><strong>Offre Civique :</strong></p>
             <ul>
-              <li>Intégralité des 5 modules et 24 leçons</li>
-              <li>Les 177 questions officielles de la formation civique</li>
-              <li>Examens blancs illimités (niveaux CSP, CR et Naturalisation)</li>
-              <li>Suivi de progression et tableau de bord personnalisé</li>
-              <li>Système de badges et d&apos;expérience (XP)</li>
-              <li>Exercices interactifs et aide à la compréhension</li>
+              <li>8 modules civiques complets conformes au programme OFPRA</li>
+              <li>Quiz par module et examens blancs (CSP, CR, Naturalisation)</li>
+              <li>Fiches de révision : grandes figures, lieux, dates clés</li>
+              <li>Attestation PDF de suivi téléchargeable</li>
+              <li>Tableau de bord et suivi de progression personnalisé</li>
+            </ul>
+            <p><strong>Offre Langue française :</strong></p>
+            <ul>
+              <li>2 700 exercices progressifs de niveau A2 à B2</li>
+              <li>Grammaire, conjugaison, expression écrite, phonétique, orthographe</li>
+              <li>Modules de préparation spécifique à l&apos;entretien de naturalisation</li>
+              <li>Examens blancs langue (A2 / B1 / B2)</li>
+              <li>Suivi de progression par niveau et par compétence</li>
+            </ul>
+            <p><strong>Offre Bundle Complet :</strong></p>
+            <ul>
+              <li>Accès à l&apos;intégralité des contenus Civique et Langue française</li>
             </ul>
 
             <h3>8.3 Limites d&apos;usage</h3>
@@ -311,20 +400,49 @@ export default function CguPage() {
           </Section>
 
           {/* ── ARTICLE 10 ── */}
-          <Section num="10" title="Exactitude du contenu pédagogique">
+          <Section num="10" title="Exactitude du contenu pédagogique et avertissement langue">
+            <h3>10.1 Contenu civique</h3>
             <p>
-              Le contenu pédagogique du Site est élaboré à partir des questions officielles
-              de la formation civique telles que publiées par les autorités françaises compétentes.
-            </p>
-            <p>
+              Le contenu de la formation civique est élaboré à partir des références
+              officielles publiées par les autorités françaises compétentes (OFPRA, OFII).
               L&apos;éditeur s&apos;efforce de maintenir ce contenu à jour mais ne garantit pas
               son exhaustivité ni son adéquation parfaite avec les épreuves réelles.
               <strong> Le Site ne remplace pas la formation civique officielle obligatoire
               délivrée par l&apos;OFII.</strong> Il constitue un outil de préparation complémentaire.
             </p>
+
+            <h3>10.2 Contenu linguistique</h3>
             <p>
-              L&apos;éditeur décline toute responsabilité quant au résultat obtenu
-              à l&apos;examen civique officiel.
+              Les exercices de langue française sont conçus pour accompagner la progression
+              de l&apos;utilisateur selon les niveaux du Cadre Européen Commun de Référence
+              pour les Langues (CECRL). Ils ne constituent pas un programme de formation
+              officiel certifiant et ne se substituent pas à un enseignement dispensé
+              par un organisme agréé.
+            </p>
+
+            <h3>10.3 Avertissement — affichage du contenu</h3>
+            <p>
+              La plateforme est conçue et délivrée <strong>exclusivement en langue française</strong>.
+              Toutefois, l&apos;utilisateur peut ponctuellement constater que certains éléments
+              d&apos;interface ou de contenu s&apos;affichent dans une autre langue, semblent incomplets
+              ou temporairement indisponibles. Ces situations sont susceptibles de survenir
+              lors d&apos;opérations de <strong>maintenance, de mise à jour du contenu ou de
+              modifications techniques</strong> en cours de déploiement.
+            </p>
+            <p>
+              De tels affichages temporaires ne constituent pas un défaut de la prestation
+              et <strong>n&apos;affectent pas la qualité globale du service</strong>, dont l&apos;accès
+              reste garanti en français. L&apos;éditeur s&apos;engage à corriger tout affichage
+              anormal dans les meilleurs délais. En cas d&apos;anomalie persistante, l&apos;utilisateur
+              est invité à le signaler à {EMAIL}.
+            </p>
+
+            <h3>10.4 Limitation de responsabilité pédagogique</h3>
+            <p>
+              L&apos;éditeur décline toute responsabilité quant au résultat obtenu à l&apos;entretien
+              de naturalisation, à un examen de langue ou à toute autre évaluation officielle.
+              Les résultats obtenus sur la plateforme sont indicatifs et ne garantissent pas
+              les résultats réels.
             </p>
           </Section>
 
@@ -524,7 +642,7 @@ export default function CguPage() {
             opacity: 0.8,
           }}>
             <p style={{ fontSize: '13px', color: 'var(--color-blue-france)', margin: 0 }}>
-              <strong>Document version 1.0 — {LAST_UPDATE}</strong><br />
+              <strong>Document version 2.0 — {LAST_UPDATE}</strong><br />
               Pour toute question relative à ces CGU : <a href={`mailto:${EMAIL}`}
               style={{ color: 'var(--color-blue-france)' }}>{EMAIL}</a>
             </p>
