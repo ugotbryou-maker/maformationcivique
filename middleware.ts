@@ -130,6 +130,10 @@ export async function middleware(request: NextRequest) {
 
   // ── Redirection si déjà connecté sur les pages auth ───────────────────────
   if ((pathname === '/connexion' || pathname === '/inscription') && user) {
+    const plan = request.nextUrl.searchParams.get('plan');
+    if (plan) {
+      return NextResponse.redirect(new URL(`/api/stripe/start?plan=${plan}`, request.url));
+    }
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 

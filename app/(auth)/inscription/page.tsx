@@ -113,6 +113,8 @@ function InscriptionForm() {
         router.push('/cabinet');
       } else if (profile?.cabinet_role === 'member') {
         router.push('/dashboard');
+      } else if (plan && !inviteToken) {
+        router.push(`/api/stripe/start?plan=${plan}`);
       } else {
         router.push('/onboarding');
       }
