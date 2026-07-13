@@ -199,15 +199,15 @@ export default function RessourcesGrid({ posts }: { posts: SanityPost[] }) {
   const sidebarPosts = rest.slice(0, 4);
 
   const counts = useMemo(() => {
-    const c: Record<string, number> = { tous: rest.length };
-    rest.forEach((p) => { c[p.category] = (c[p.category] ?? 0) + 1; });
+    const c: Record<string, number> = { tous: posts.length };
+    posts.forEach((p) => { c[p.category] = (c[p.category] ?? 0) + 1; });
     return c;
-  }, [rest]);
+  }, [posts]);
 
   const filtered = useMemo(() => {
-    if (activeCategory === 'tous') return rest;
-    return rest.filter((p) => p.category === activeCategory);
-  }, [rest, activeCategory]);
+    if (activeCategory === 'tous') return posts;
+    return posts.filter((p) => p.category === activeCategory);
+  }, [posts, activeCategory]);
 
   const FILTERS = [
     { key: 'tous', label: 'Tout voir' },
