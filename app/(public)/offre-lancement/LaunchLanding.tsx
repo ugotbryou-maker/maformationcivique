@@ -12,6 +12,16 @@ import {
 
 const OFFER_END = new Date('2026-07-22T23:59:59+02:00').getTime();
 
+function useScrolled(threshold = 400) {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > threshold);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [threshold]);
+  return scrolled;
+}
+
 function useCountdown() {
   const [delta, setDelta] = useState(() => Math.max(0, OFFER_END - Date.now()));
   useEffect(() => {
@@ -153,6 +163,7 @@ const FAQ = [
 export function LaunchLanding() {
   const { d, h, m, s, expired } = useCountdown();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const scrolled = useScrolled(400);
 
   return (
     <>
@@ -831,6 +842,36 @@ export function LaunchLanding() {
 
       </main>
 
+      {/* ── Barre sticky bottom (mobile) ──────────────────────────────────── */}
+      {!expired && (
+        <div className="launch-bottom-bar" style={{
+          position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 90,
+          background: 'linear-gradient(90deg, #001050 0%, #002395 100%)',
+          borderTop: '1px solid rgba(255,255,255,0.12)',
+          padding: '12px 16px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+          transform: scrolled ? 'translateY(0)' : 'translateY(100%)',
+          transition: 'transform 300ms ease',
+        }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>
+              Offre jusqu'au 22 juillet
+            </span>
+            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', lineHeight: 1.2 }}>
+              À partir de 5 €/mois · Sans engagement
+            </span>
+          </div>
+          <Link href="/inscription?plan=bundle" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            background: '#fff', color: '#002395',
+            padding: '10px 18px', borderRadius: 100,
+            fontWeight: 800, fontSize: 13, textDecoration: 'none', whiteSpace: 'nowrap',
+          }}>
+            Commencer <ArrowRight size={13} />
+          </Link>
+        </div>
+      )}
+
       <style>{`
         .launch-features-grid { grid-template-columns: repeat(3, 1fr); }
         .launch-bonus-grid   { grid-template-columns: repeat(3, 1fr); }
@@ -880,11 +921,19 @@ export function LaunchLanding() {
           background: #F0F4FF !important;
         }
 
+        /* Bottom sticky bar — mobile only */
+        .launch-bottom-bar { display: flex; }
+        @media (min-width: 861px) {
+          .launch-bottom-bar { display: none !important; }
+        }
+
         @media (max-width: 860px) {
           .launch-features-grid { grid-template-columns: 1fr !important; }
           .launch-bonus-grid    { grid-template-columns: 1fr !important; }
           .launch-pricing-grid  { grid-template-columns: 1fr !important; }
           .launch-mockup-grid   { grid-template-columns: 1fr !important; }
+          /* espace pour que le footer ne se cache pas derrière la barre sticky */
+          main { padding-bottom: 72px; }
         }
       `}</style>
     </>
