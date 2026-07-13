@@ -553,47 +553,54 @@ export function LaunchLanding() {
                 background: '#fff', border: 'var(--border-default)',
                 borderRadius: 24, padding: '32px 28px',
                 boxShadow: 'var(--shadow-card)',
+                position: 'relative', overflow: 'hidden',
                 display: 'flex', flexDirection: 'column',
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 10, background: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Shield size={18} color="var(--color-blue-france)" />
-                  </div>
-                  <p style={{ fontSize: 16, fontWeight: 800, color: 'var(--color-text-primary)', margin: 0 }}>Civique</p>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 4 }}>
-                  <span style={{ fontSize: 40, fontWeight: 900, color: 'var(--color-text-primary)', letterSpacing: '-0.03em' }}>5 €</span>
-                  <span style={{ fontSize: 13, color: 'var(--color-text-muted)' }}>/mois</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-                  <span style={{ fontSize: 12, color: 'var(--color-text-muted)' }}><s>9,99 €/mois</s></span>
-                  <span style={{ fontSize: 11, fontWeight: 700, background: '#FEF9C3', color: '#92400E', borderRadius: 100, padding: '2px 8px', border: '1px solid #FDE68A' }}>Lancement</span>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginBottom: 24, flex: 1 }}>
-                  {[
-                    '8 modules civiques (conforme OFPRA)',
-                    'Histoire, institutions, valeurs de la République',
-                    'Quiz et examens blancs',
-                    'Fiches de révision : figures, lieux, dates',
-                    'Attestation PDF téléchargeable',
-                  ].map((f) => (
-                    <div key={f} style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
-                      <CheckCircle size={14} color="var(--color-blue-france)" style={{ flexShrink: 0, marginTop: 2 }} />
-                      <span style={{ fontSize: 13, color: 'var(--color-text-secondary)', lineHeight: 1.5 }}>{f}</span>
+                <img aria-hidden src="/images/paintings/histoire.jpg" alt=""
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%',
+                    objectFit: 'cover', objectPosition: 'center 30%',
+                    opacity: 0.07, mixBlendMode: 'multiply', zIndex: 0, pointerEvents: 'none' }} />
+                <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 10, background: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Shield size={18} color="var(--color-blue-france)" />
                     </div>
-                  ))}
-                </div>
+                    <p style={{ fontSize: 16, fontWeight: 800, color: 'var(--color-text-primary)', margin: 0 }}>Civique</p>
+                  </div>
 
-                <Link href="/inscription?plan=premium" style={{
-                  display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8,
-                  background: 'var(--gradient-primary)', color: '#fff',
-                  padding: '13px 20px', borderRadius: 100,
-                  fontWeight: 700, fontSize: 14, textDecoration: 'none',
-                }}>
-                  Commencer à 5 € <ArrowRight size={15} />
-                </Link>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 4 }}>
+                    <span style={{ fontSize: 40, fontWeight: 900, color: 'var(--color-text-primary)', letterSpacing: '-0.03em' }}>5 €</span>
+                    <span style={{ fontSize: 13, color: 'var(--color-text-muted)' }}>/mois</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
+                    <span style={{ fontSize: 12, color: 'var(--color-text-muted)' }}><s>9,99 €/mois</s></span>
+                    <span style={{ fontSize: 11, fontWeight: 700, background: '#FEF9C3', color: '#92400E', borderRadius: 100, padding: '2px 8px', border: '1px solid #FDE68A' }}>Lancement</span>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginBottom: 24, flex: 1 }}>
+                    {[
+                      '8 modules civiques (conforme OFPRA)',
+                      'Histoire, institutions, valeurs de la République',
+                      'Quiz et examens blancs',
+                      'Fiches de révision : figures, lieux, dates',
+                      'Attestation PDF téléchargeable',
+                    ].map((f) => (
+                      <div key={f} style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
+                        <CheckCircle size={14} color="var(--color-blue-france)" style={{ flexShrink: 0, marginTop: 2 }} />
+                        <span style={{ fontSize: 13, color: 'var(--color-text-secondary)', lineHeight: 1.5 }}>{f}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Link href="/inscription?plan=premium" style={{
+                    display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8,
+                    background: 'var(--gradient-primary)', color: '#fff',
+                    padding: '13px 20px', borderRadius: 100,
+                    fontWeight: 700, fontSize: 14, textDecoration: 'none',
+                  }}>
+                    Commencer à 5 € <ArrowRight size={15} />
+                  </Link>
+                </div>
               </div>
 
               {/* LANGUE */}
@@ -601,47 +608,54 @@ export function LaunchLanding() {
                 background: '#fff', border: 'var(--border-default)',
                 borderRadius: 24, padding: '32px 28px',
                 boxShadow: 'var(--shadow-card)',
+                position: 'relative', overflow: 'hidden',
                 display: 'flex', flexDirection: 'column',
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F3F0FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Languages size={18} color="#7C3AED" />
-                  </div>
-                  <p style={{ fontSize: 16, fontWeight: 800, color: 'var(--color-text-primary)', margin: 0 }}>Langue française</p>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 4 }}>
-                  <span style={{ fontSize: 40, fontWeight: 900, color: 'var(--color-text-primary)', letterSpacing: '-0.03em' }}>5 €</span>
-                  <span style={{ fontSize: 13, color: 'var(--color-text-muted)' }}>/mois</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-                  <span style={{ fontSize: 12, color: 'var(--color-text-muted)' }}><s>9,99 €/mois</s></span>
-                  <span style={{ fontSize: 11, fontWeight: 700, background: '#F3F0FF', color: '#5B21B6', borderRadius: 100, padding: '2px 8px', border: '1px solid #DDD6FE' }}>Lancement</span>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginBottom: 24, flex: 1 }}>
-                  {[
-                    '2 700 exercices de français A2 → B2',
-                    'Grammaire, conjugaison, expression écrite',
-                    'Compréhension orale et phonétique',
-                    'Préparation à l\'entretien de naturalisation',
-                    'Examens blancs langue (A2 / B1 / B2)',
-                  ].map((f) => (
-                    <div key={f} style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
-                      <CheckCircle size={14} color="#7C3AED" style={{ flexShrink: 0, marginTop: 2 }} />
-                      <span style={{ fontSize: 13, color: 'var(--color-text-secondary)', lineHeight: 1.5 }}>{f}</span>
+                <img aria-hidden src="/images/paintings/vie-en-france.jpg" alt=""
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%',
+                    objectFit: 'cover', objectPosition: 'center 40%',
+                    opacity: 0.07, mixBlendMode: 'multiply', zIndex: 0, pointerEvents: 'none' }} />
+                <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F3F0FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Languages size={18} color="#7C3AED" />
                     </div>
-                  ))}
-                </div>
+                    <p style={{ fontSize: 16, fontWeight: 800, color: 'var(--color-text-primary)', margin: 0 }}>Langue française</p>
+                  </div>
 
-                <Link href="/inscription?plan=langue" style={{
-                  display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8,
-                  background: 'linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%)', color: '#fff',
-                  padding: '13px 20px', borderRadius: 100,
-                  fontWeight: 700, fontSize: 14, textDecoration: 'none',
-                }}>
-                  Commencer à 5 € <ArrowRight size={15} />
-                </Link>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 4 }}>
+                    <span style={{ fontSize: 40, fontWeight: 900, color: 'var(--color-text-primary)', letterSpacing: '-0.03em' }}>5 €</span>
+                    <span style={{ fontSize: 13, color: 'var(--color-text-muted)' }}>/mois</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
+                    <span style={{ fontSize: 12, color: 'var(--color-text-muted)' }}><s>9,99 €/mois</s></span>
+                    <span style={{ fontSize: 11, fontWeight: 700, background: '#F3F0FF', color: '#5B21B6', borderRadius: 100, padding: '2px 8px', border: '1px solid #DDD6FE' }}>Lancement</span>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginBottom: 24, flex: 1 }}>
+                    {[
+                      '2 700 exercices de français A2 → B2',
+                      'Grammaire, conjugaison, expression écrite',
+                      'Compréhension orale et phonétique',
+                      'Préparation à l\'entretien de naturalisation',
+                      'Examens blancs langue (A2 / B1 / B2)',
+                    ].map((f) => (
+                      <div key={f} style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
+                        <CheckCircle size={14} color="#7C3AED" style={{ flexShrink: 0, marginTop: 2 }} />
+                        <span style={{ fontSize: 13, color: 'var(--color-text-secondary)', lineHeight: 1.5 }}>{f}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Link href="/inscription?plan=langue" style={{
+                    display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8,
+                    background: 'linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%)', color: '#fff',
+                    padding: '13px 20px', borderRadius: 100,
+                    fontWeight: 700, fontSize: 14, textDecoration: 'none',
+                  }}>
+                    Commencer à 5 € <ArrowRight size={15} />
+                  </Link>
+                </div>
               </div>
 
               {/* BUNDLE */}
@@ -652,8 +666,12 @@ export function LaunchLanding() {
                 position: 'relative', overflow: 'hidden',
                 display: 'flex', flexDirection: 'column',
               }}>
+                <img aria-hidden src="/images/paintings/delacroix-liberte.jpg" alt=""
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%',
+                    objectFit: 'cover', objectPosition: 'center 20%',
+                    opacity: 0.09, mixBlendMode: 'luminosity', zIndex: 0, pointerEvents: 'none' }} />
                 <div style={{
-                  position: 'absolute', top: -1, right: 24,
+                  position: 'absolute', top: -1, right: 24, zIndex: 2,
                   background: 'linear-gradient(135deg, #CC1A1A 0%, #EF4135 100%)',
                   color: '#fff', fontSize: 10, fontWeight: 800,
                   padding: '5px 14px', borderRadius: '0 0 10px 10px',
@@ -661,49 +679,51 @@ export function LaunchLanding() {
                 }}>✦ Recommandé</div>
 
                 <div aria-hidden style={{
-                  position: 'absolute', top: -60, right: -60, width: 200, height: 200,
+                  position: 'absolute', top: -60, right: -60, width: 200, height: 200, zIndex: 0,
                   borderRadius: '50%', background: 'rgba(255,255,255,0.04)',
                 }} />
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Zap size={18} color="#FCD34D" fill="#FCD34D" />
-                  </div>
-                  <p style={{ fontSize: 16, fontWeight: 800, color: '#fff', margin: 0 }}>Bundle Complet</p>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 4 }}>
-                  <span style={{ fontSize: 40, fontWeight: 900, color: '#fff', letterSpacing: '-0.03em' }}>10 €</span>
-                  <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)' }}>/mois</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}><s>18,99 €/mois</s></span>
-                  <span style={{ fontSize: 11, fontWeight: 700, background: 'rgba(252,211,77,0.2)', color: '#FCD34D', borderRadius: 100, padding: '2px 8px', border: '1px solid rgba(252,211,77,0.35)' }}>Lancement</span>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginBottom: 24, flex: 1 }}>
-                  {[
-                    'Tout Civique + tout Langue française',
-                    '2 700 exercices + 8 modules civiques',
-                    'Examens blancs civique et langue',
-                    'Attestation PDF + suivi de progression',
-                    'Accès complet à tous les contenus',
-                  ].map((f) => (
-                    <div key={f} style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
-                      <CheckCircle size={14} color="#7BA7FF" style={{ flexShrink: 0, marginTop: 2 }} />
-                      <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.88)', lineHeight: 1.5 }}>{f}</span>
+                <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Zap size={18} color="#FCD34D" fill="#FCD34D" />
                     </div>
-                  ))}
-                </div>
+                    <p style={{ fontSize: 16, fontWeight: 800, color: '#fff', margin: 0 }}>Bundle Complet</p>
+                  </div>
 
-                <Link href="/inscription?plan=bundle" style={{
-                  display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8,
-                  background: '#fff', color: '#002395',
-                  padding: '13px 20px', borderRadius: 100,
-                  fontWeight: 800, fontSize: 14, textDecoration: 'none',
-                }}>
-                  Commencer à 10 € <ArrowRight size={15} />
-                </Link>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 4 }}>
+                    <span style={{ fontSize: 40, fontWeight: 900, color: '#fff', letterSpacing: '-0.03em' }}>10 €</span>
+                    <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)' }}>/mois</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
+                    <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}><s>18,99 €/mois</s></span>
+                    <span style={{ fontSize: 11, fontWeight: 700, background: 'rgba(252,211,77,0.2)', color: '#FCD34D', borderRadius: 100, padding: '2px 8px', border: '1px solid rgba(252,211,77,0.35)' }}>Lancement</span>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginBottom: 24, flex: 1 }}>
+                    {[
+                      'Tout Civique + tout Langue française',
+                      '2 700 exercices + 8 modules civiques',
+                      'Examens blancs civique et langue',
+                      'Attestation PDF + suivi de progression',
+                      'Accès complet à tous les contenus',
+                    ].map((f) => (
+                      <div key={f} style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
+                        <CheckCircle size={14} color="#7BA7FF" style={{ flexShrink: 0, marginTop: 2 }} />
+                        <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.88)', lineHeight: 1.5 }}>{f}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Link href="/inscription?plan=bundle" style={{
+                    display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8,
+                    background: '#fff', color: '#002395',
+                    padding: '13px 20px', borderRadius: 100,
+                    fontWeight: 800, fontSize: 14, textDecoration: 'none',
+                  }}>
+                    Commencer à 10 € <ArrowRight size={15} />
+                  </Link>
+                </div>
               </div>
             </div>
 
@@ -772,10 +792,10 @@ export function LaunchLanding() {
                 <CountUnit n={s} label="sec" />
               </div>
             )}
-            <h2 style={{ fontSize: 'clamp(26px, 4.5vw, 48px)', fontWeight: 900, color: '#fff', marginBottom: 16, lineHeight: 1.15, letterSpacing: '-0.02em' }}>
+            <h2 style={{ fontSize: 'clamp(26px, 4.5vw, 48px)', fontWeight: 900, color: '#fff', marginTop: 0, marginBottom: 14, lineHeight: 1.15, letterSpacing: '-0.02em' }}>
               Prêt à commencer ?
             </h2>
-            <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.78)', marginBottom: 40, maxWidth: 440, margin: '0 auto 40px' }}>
+            <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.78)', maxWidth: 440, margin: '0 auto 32px' }}>
               Rejoignez les apprenants qui préparent leur naturalisation avec méthode.
             </p>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
