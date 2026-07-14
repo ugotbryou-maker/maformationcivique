@@ -11,15 +11,16 @@ function FeaturedPost({ post }: { post: SanityPost }) {
   return (
     <Link
       href={`/ressources/${post.slug.current}`}
-      style={{ textDecoration: 'none', display: 'block', height: '100%' }}
+      style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}
     >
       <article style={{
         position: 'relative',
         borderRadius: '20px',
         overflow: 'hidden',
-        height: '100%',
+        flex: '1 0 auto',
         minHeight: '380px',
         background: '#F3F4F6',
+        WebkitMaskImage: '-webkit-radial-gradient(white, black)',
       }}>
         <PostVisual post={post} sizes="(max-width: 860px) 100vw, 60vw" priority />
 
@@ -122,6 +123,7 @@ function PostCard({ post }: { post: SanityPost }) {
           flexDirection: 'column',
           width: '100%',
           cursor: 'pointer',
+          WebkitMaskImage: '-webkit-radial-gradient(white, black)',
         }}
         onMouseEnter={e => {
           (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 24px rgba(0,0,0,0.10)';

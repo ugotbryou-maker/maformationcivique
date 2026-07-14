@@ -120,6 +120,7 @@ export default async function ArticlePage({ params }: Props) {
         overflow: 'hidden',
         background: '#001A70',
         borderRadius: '0 0 28px 28px',
+        WebkitMaskImage: '-webkit-radial-gradient(white, black)',
       }}>
         {/* Image de couverture — plein fond */}
         {post.coverImage && (
