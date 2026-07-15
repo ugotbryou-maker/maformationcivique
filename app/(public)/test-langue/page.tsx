@@ -251,8 +251,19 @@ export default function TestLanguePage() {
   async function handleFormSubmit() {
     if (!lead.nom || !lead.prenom || !lead.email || !lead.telephone || !lead.rgpd) return;
     setSubmitting(true);
-    // Placeholder — intégration CRM à venir
-    await new Promise(r => setTimeout(r, 800));
+    await fetch('/api/lead/pf', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        source: 'test-langue',
+        nom: lead.nom,
+        prenom: lead.prenom,
+        email: lead.email,
+        telephone: lead.telephone,
+        score: result ? `${result.correct}/${result.total}` : undefined,
+        niveau: result?.level ?? undefined,
+      }),
+    }).catch(() => {});
     setSubmitting(false);
     setPhase('done');
   }

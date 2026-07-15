@@ -8,6 +8,7 @@ import {
 import type { Metadata } from 'next';
 import { ApercuWidget } from '@/components/apercu/ApercuWidget';
 import { HeroAnimatedTitle } from '@/components/partenaires/HeroAnimatedTitle';
+import { TrackedMailto } from '@/components/partenaires/TrackedMailto';
 
 export const metadata: Metadata = {
   title: "Espace partenaires — Cabinets d'avocats | maformationcivique.fr",
@@ -217,8 +218,10 @@ export default function PartenairesPage() {
               >
                 Voir les tarifs <ArrowRight size={16} />
               </a>
-              <a
+              <TrackedMailto
                 href="mailto:contact@maformationcivique.fr?subject=Partenariat cabinet"
+                event="partenaires_hero_contact"
+                label="📩 Clic — Nous contacter (hero /partenaires)"
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 8,
                   background: 'rgba(255,255,255,0.1)',
@@ -231,7 +234,7 @@ export default function PartenairesPage() {
                 }}
               >
                 Nous contacter
-              </a>
+              </TrackedMailto>
             </div>
           </div>
 
@@ -862,8 +865,11 @@ export default function PartenairesPage() {
                   ))}
                 </ul>
 
-                <a
+                <TrackedMailto
                   href={`mailto:contact@maformationcivique.fr?subject=Partenariat cabinet — offre ${tier.name}`}
+                  event="partenaires_tarif_cta"
+                  label={`💶 Clic tarif — ${tier.name} (/partenaires)`}
+                  data={{ offre: tier.name }}
                   style={{
                     display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8,
                     padding: '13px 20px', borderRadius: 'var(--radius-pill)',
@@ -876,7 +882,7 @@ export default function PartenairesPage() {
                   }}
                 >
                   {tier.cta} <ArrowRight size={15} />
-                </a>
+                </TrackedMailto>
               </div>
             ))}
           </div>
@@ -892,8 +898,10 @@ export default function PartenairesPage() {
               <p style={{ fontWeight: 800, fontSize: 18, marginBottom: 4, color: '#fff' }}>Réseau / Grandes associations</p>
               <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.8)' }}>+150 clients, besoins spécifiques, rapport mensuel personnalisé — sur devis à partir de 3 990 €/an.</p>
             </div>
-            <a
+            <TrackedMailto
               href="mailto:contact@maformationcivique.fr?subject=Partenariat Réseau"
+              event="partenaires_reseau_devis"
+              label="🏢 Clic — Demander un devis Réseau (/partenaires)"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 background: '#fff', color: 'var(--color-blue-france)',
@@ -902,7 +910,7 @@ export default function PartenairesPage() {
               }}
             >
               Demander un devis <ArrowRight size={15} />
-            </a>
+            </TrackedMailto>
           </div>
         </div>
       </section>
@@ -1040,8 +1048,10 @@ export default function PartenairesPage() {
             Écrivez-nous pour activer votre espace cabinet sous 24h.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
-            <a
+            <TrackedMailto
               href="mailto:contact@maformationcivique.fr?subject=Partenariat cabinet"
+              event="partenaires_bottom_contact"
+              label="📩 Clic — CTA final (/partenaires)"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 background: '#fff', color: 'var(--color-blue-france)',
@@ -1051,7 +1061,7 @@ export default function PartenairesPage() {
               }}
             >
               contact@maformationcivique.fr <ArrowRight size={16} />
-            </a>
+            </TrackedMailto>
             <Link
               href="/connexion"
               style={{
