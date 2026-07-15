@@ -61,6 +61,7 @@ export async function middleware(request: NextRequest) {
   // ── Injection du tenant dans les headers de la request ───────────────────
   const tenantSlug = detectTenantSlug(request);
   const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-pathname', pathname);
   if (tenantSlug && getTenantConfig(tenantSlug)) {
     requestHeaders.set('x-tenant', tenantSlug);
   }
@@ -141,5 +142,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|images|fonts|api).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|images|fonts|tenants|api).*)'],
 };

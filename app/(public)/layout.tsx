@@ -19,9 +19,20 @@ export default async function PublicLayout({ children }: { children: React.React
   const headersList = await headers();
   const tenantSlug = headersList.get('x-tenant');
   const tenant = tenantSlug ? getTenantConfig(tenantSlug) : null;
+  const xPathname = headersList.get('x-pathname') ?? '';
+  const isTestPage = xPathname.startsWith('/test-');
 
-  // Circuit fermé : layout dédié sans accès au site principal
   if (tenant) {
+    // Landing pages pures : pas de header/footer tenant
+    if (isTestPage) {
+      return (
+        <>
+          <style dangerouslySetInnerHTML={{ __html: tenantCssVars(tenant) }} />
+          {children}
+        </>
+      );
+    }
+    // Circuit fermé : layout dédié sans accès au site principal
     return (
       <>
         <style dangerouslySetInnerHTML={{ __html: tenantCssVars(tenant) }} />

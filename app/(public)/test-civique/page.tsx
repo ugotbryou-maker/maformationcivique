@@ -16,7 +16,7 @@ interface Question {
   answer: 0 | 1 | 2 | 3;
 }
 
-const QUESTIONS: Question[] = [
+const ALL_QUESTIONS: Question[] = [
   // ── Institutions (1–10) ────────────────────────────────────────────────────
   { id: 1,  section: 'Institutions', level: 'Débutant',      text: "Qui est le chef de l'État en France ?", options: ["Le Premier ministre", "Le Président de la République", "Le roi", "Le président du Sénat"], answer: 1 },
   { id: 2,  section: 'Institutions', level: 'Débutant',      text: "Combien de chambres compose le Parlement français ?", options: ["1", "2", "3", "4"], answer: 1 },
@@ -54,6 +54,13 @@ const QUESTIONS: Question[] = [
   { id: 30, section: 'Intégration & Droits', level: 'Avancé',        text: "Qu'est-ce que l'OFPRA ?", options: ["Un organisme qui protège les réfugiés et apatrides", "Un programme d'emploi pour les étrangers", "Un office de formation professionnelle", "Un organisme de contrôle des frontières"], answer: 0 },
 ];
 
+// 20 questions : 7 Institutions + 7 Valeurs & Histoire + 6 Intégration & Droits
+const QUESTIONS: Question[] = [
+  ...ALL_QUESTIONS.filter(q => q.section === 'Institutions').slice(0, 7),
+  ...ALL_QUESTIONS.filter(q => q.section === 'Valeurs & Histoire').slice(0, 7),
+  ...ALL_QUESTIONS.filter(q => q.section === 'Intégration & Droits').slice(0, 6),
+];
+
 // ─── Calcul du résultat ───────────────────────────────────────────────────────
 
 type CivicLevel = 'Solide' | 'Correct' | 'À renforcer';
@@ -79,7 +86,7 @@ function calculateResult(answers: (number | null)[]): Result {
   });
   const rate = correct / QUESTIONS.length;
   const level: CivicLevel = rate >= 0.65 ? 'Solide' : rate >= 0.4 ? 'Correct' : 'À renforcer';
-  return { level, total: QUESTIONS.length, correct, institutionsRate: inst / 10, valeursRate: val / 10, integrationRate: integ / 10 };
+  return { level, total: QUESTIONS.length, correct, institutionsRate: inst / 7, valeursRate: val / 7, integrationRate: integ / 6 };
 }
 
 // ─── Couleurs sections ────────────────────────────────────────────────────────
@@ -141,22 +148,24 @@ function PillButton({ onClick, children, disabled = false, variant = 'white' }: 
 
 type Phase = 'welcome' | 'before' | 'quiz' | 'result' | 'form' | 'done';
 
+type SituationPro = 'cdi-cdd' | 'chef-entreprise' | 'autre' | '';
+
 interface LeadForm {
   nom: string;
   prenom: string;
   telephone: string;
   email: string;
-  besoinLangue: 'oui' | 'non' | 'nsp' | '';
+  situationPro: SituationPro;
   rgpd: boolean;
 }
 
 export default function TestCiviquePage() {
   const [phase, setPhase] = useState<Phase>('welcome');
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<(number | null)[]>(Array(30).fill(null));
+  const [answers, setAnswers] = useState<(number | null)[]>(Array(20).fill(null));
   const [selected, setSelected] = useState<number | null>(null);
   const [result, setResult] = useState<Result | null>(null);
-  const [lead, setLead] = useState<LeadForm>({ nom: '', prenom: '', telephone: '', email: '', besoinLangue: '', rgpd: false });
+  const [lead, setLead] = useState<LeadForm>({ nom: '', prenom: '', telephone: '', email: '', situationPro: '', rgpd: false });
   const [submitting, setSubmitting] = useState(false);
   const [rgpdOpen, setRgpdOpen] = useState(false);
 
@@ -164,7 +173,7 @@ export default function TestCiviquePage() {
 
   function startQuiz() {
     setCurrentIndex(0);
-    setAnswers(Array(30).fill(null));
+    setAnswers(Array(20).fill(null));
     setSelected(null);
     setPhase('quiz');
   }
@@ -184,7 +193,7 @@ export default function TestCiviquePage() {
   }
 
   async function handleFormSubmit() {
-    if (!lead.nom || !lead.prenom || !lead.email || !lead.telephone || !lead.rgpd) return;
+    if (!lead.nom || !lead.prenom || !lead.email || !lead.telephone || !lead.situationPro || !lead.rgpd) return;
     setSubmitting(true);
     // Placeholder — intégration CRM à venir
     await new Promise(r => setTimeout(r, 800));
@@ -223,8 +232,8 @@ export default function TestCiviquePage() {
         </p>
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 40 }}>
           {[
-            { num: '30', label: 'questions' },
-            { num: '~15', label: 'minutes' },
+            { num: '20', label: 'questions' },
+            { num: '~10', label: 'minutes' },
             { num: '3', label: 'thèmes' },
           ].map(({ num, label }) => (
             <div key={label} style={{
@@ -376,7 +385,7 @@ export default function TestCiviquePage() {
   // ── Formulaire ────────────────────────────────────────────────────────────────
 
   if (phase === 'form') {
-    const isValid = lead.nom && lead.prenom && lead.email && lead.telephone && lead.rgpd;
+    const isValid = lead.nom && lead.prenom && lead.email && lead.telephone && lead.situationPro && lead.rgpd;
 
     const inputStyle: React.CSSProperties = {
       width: '100%', padding: '12px 16px', borderRadius: 10,
@@ -389,15 +398,15 @@ export default function TestCiviquePage() {
       marginBottom: 6, display: 'block', textAlign: 'left',
     };
 
-    const radioOpt = (val: 'oui' | 'non' | 'nsp', label: string) => (
+    const proOpt = (val: SituationPro, label: string) => (
       <button
         key={val}
         type="button"
-        onClick={() => setLead(l => ({ ...l, besoinLangue: val }))}
+        onClick={() => setLead(l => ({ ...l, situationPro: val }))}
         style={{
           flex: 1, padding: '10px 8px', borderRadius: 10, border: 'none',
-          background: lead.besoinLangue === val ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.12)',
-          color: lead.besoinLangue === val ? '#031E6C' : '#fff',
+          background: lead.situationPro === val ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.12)',
+          color: lead.situationPro === val ? '#031E6C' : '#fff',
           fontSize: 13, fontWeight: 700, cursor: 'pointer',
           transition: 'background 120ms, color 120ms',
         }}
@@ -441,13 +450,13 @@ export default function TestCiviquePage() {
               onChange={e => setLead(l => ({ ...l, email: e.target.value }))} style={inputStyle} />
           </div>
 
-          {/* Besoin d'accompagnement linguistique */}
+          {/* Situation professionnelle */}
           <div>
-            <label style={labelStyle}>AVEZ-VOUS BESOIN D&apos;UN ACCOMPAGNEMENT EN LANGUE FRANÇAISE ?</label>
-            <div style={{ display: 'flex', gap: 8 }}>
-              {radioOpt('oui', 'Oui')}
-              {radioOpt('non', 'Non')}
-              {radioOpt('nsp', 'Je ne sais pas')}
+            <label style={labelStyle}>VOTRE SITUATION PROFESSIONNELLE</label>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {proOpt('cdi-cdd', 'CDD / CDI')}
+              {proOpt('chef-entreprise', 'Chef d\'entreprise')}
+              {proOpt('autre', 'Autre')}
             </div>
           </div>
 
@@ -498,7 +507,7 @@ export default function TestCiviquePage() {
                   }}>
                     <p style={{ margin: '0 0 8px', fontWeight: 700, fontSize: 12 }}>Politique de confidentialité — Collecte de données</p>
                     <p style={{ margin: '0 0 6px' }}><strong>Responsable du traitement :</strong> Papiers Français, cabinet d&apos;expertise en droit des étrangers.</p>
-                    <p style={{ margin: '0 0 6px' }}><strong>Données collectées :</strong> nom, prénom, adresse email, numéro de téléphone, résultat du test civique, besoin d&apos;accompagnement linguistique.</p>
+                    <p style={{ margin: '0 0 6px' }}><strong>Données collectées :</strong> nom, prénom, adresse email, numéro de téléphone, résultat du test civique, situation professionnelle.</p>
                     <p style={{ margin: '0 0 6px' }}><strong>Finalité :</strong> prise de contact pour vous proposer un accompagnement administratif et civique adapté à votre situation.</p>
                     <p style={{ margin: '0 0 6px' }}><strong>Durée de conservation :</strong> 3 ans à compter de votre dernier contact avec notre cabinet.</p>
                     <p style={{ margin: '0 0 6px' }}><strong>Vos droits :</strong> conformément au RGPD (Règlement UE 2016/679), vous disposez d&apos;un droit d&apos;accès, de rectification, d&apos;effacement et de portabilité de vos données. Pour exercer ces droits, contactez-nous par email.</p>

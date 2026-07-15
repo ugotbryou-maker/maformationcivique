@@ -38,7 +38,7 @@ interface Question {
   answer: 0 | 1 | 2 | 3;
 }
 
-const QUESTIONS: Question[] = [
+const ALL_QUESTIONS: Question[] = [
   { id: 1,  section: 'Vocabulaire',   level: 'A2', text: "Quel mot décrit une personne qui n'a pas de travail ?", options: ['Retraité', 'Chômeur', 'Étudiant', 'Directeur'], answer: 1 },
   { id: 2,  section: 'Vocabulaire',   level: 'A2', text: 'Complétez : "Je dois ___ ce formulaire avant vendredi."', options: ['conduire', 'chanter', 'remplir', 'construire'], answer: 2 },
   { id: 3,  section: 'Vocabulaire',   level: 'A2', text: 'Quel document prouve où vous habitez ?', options: ['Un ticket de caisse', 'Un justificatif de domicile', 'Une ordonnance', 'Un diplôme'], answer: 1 },
@@ -71,6 +71,13 @@ const QUESTIONS: Question[] = [
   { id: 30, section: 'Compréhension', level: 'B2', context: 't3', text: "Quelle est la durée de validité maximale du diplôme de langue accepté ?", options: ['1 an', '2 ans', '3 ans', '5 ans'], answer: 3 },
 ];
 
+// 20 questions : 7 Vocabulaire (A2×3 + B1×3 + B2×1) + 7 Grammaire (A2×3 + B1×3 + B2×1) + 6 Compréhension (t1×3 + t2×3)
+const QUESTIONS: Question[] = [
+  ...ALL_QUESTIONS.filter(q => q.section === 'Vocabulaire').slice(0, 7),
+  ...ALL_QUESTIONS.filter(q => q.section === 'Grammaire').slice(0, 7),
+  ...ALL_QUESTIONS.filter(q => q.section === 'Compréhension').slice(0, 6),
+];
+
 // ─── Calcul du résultat ───────────────────────────────────────────────────────
 
 interface Result {
@@ -92,10 +99,15 @@ function calculateResult(answers: (number | null)[]): Result {
     }
   });
 
+  // 20 questions : A2 × 8 (3 vocab + 3 gram + 3 compréh A2 = 9... adjusting thresholds)
+  const a2Total = QUESTIONS.filter(q => q.level === 'A2').length;
+  const b1Total = QUESTIONS.filter(q => q.level === 'B1').length;
+  const b2Total = QUESTIONS.filter(q => q.level === 'B2').length;
+
   let level: Result['level'];
-  if (b2Correct / 10 >= 0.65) level = 'B2';
-  else if (b1Correct / 10 >= 0.6) level = 'B1';
-  else if (a2Correct / 10 >= 0.55) level = 'A2';
+  if (b2Total > 0 && b2Correct / b2Total >= 0.65) level = 'B2';
+  else if (b1Total > 0 && b1Correct / b1Total >= 0.6) level = 'B1';
+  else if (a2Total > 0 && a2Correct / a2Total >= 0.55) level = 'A2';
   else level = 'A1';
 
   return { level, total: QUESTIONS.length, correct };
@@ -206,7 +218,7 @@ interface LeadForm {
 export default function TestLanguePage() {
   const [phase, setPhase] = useState<Phase>('welcome');
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<(number | null)[]>(Array(30).fill(null));
+  const [answers, setAnswers] = useState<(number | null)[]>(Array(20).fill(null));
   const [selected, setSelected] = useState<number | null>(null);
   const [result, setResult] = useState<Result | null>(null);
   const [lead, setLead] = useState<LeadForm>({ nom: '', prenom: '', telephone: '', email: '', rgpd: false });
@@ -220,7 +232,7 @@ export default function TestLanguePage() {
 
   function startQuiz() {
     setCurrentIndex(0);
-    setAnswers(Array(30).fill(null));
+    setAnswers(Array(20).fill(null));
     setSelected(null);
     setPhase('quiz');
   }
@@ -275,12 +287,12 @@ export default function TestLanguePage() {
           Avant de commencer
         </h2>
         <p style={{ fontSize: 15, lineHeight: 1.75, opacity: 0.9, margin: '0 0 32px', maxWidth: 400 }}>
-          Ce test comprend <strong>30 questions</strong> et durera jusqu&apos;à <strong>20 minutes</strong>.<br />
+          Ce test comprend <strong>20 questions</strong> et durera environ <strong>12 minutes</strong>.<br />
           Il évalue votre vocabulaire, votre grammaire et votre compréhension écrite.
         </p>
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 40 }}>
           {[
-            { num: '30', label: 'questions' },
+            { num: '20', label: 'questions' },
             { num: '~12', label: 'minutes' },
             { num: '3', label: 'compétences' },
           ].map(({ num, label }) => (
