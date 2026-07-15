@@ -13,9 +13,10 @@ const STEPS = [
 
 interface Props {
   accent?: string;
+  label?: string;
 }
 
-export function ApercuWidget({ accent = '#002395' }: Props) {
+export function ApercuWidget({ accent = '#002395', label = 'Générer mon espace' }: Props) {
   const router = useRouter();
   const [url,   setUrl]   = useState('');
   const [phase, setPhase] = useState<'idle' | 'loading' | 'error'>('idle');
@@ -79,7 +80,7 @@ export function ApercuWidget({ accent = '#002395' }: Props) {
           placeholder="cabinet-dupont.fr"
           disabled={phase === 'loading'}
           style={{
-            flex: 1, padding: '16px 12px', fontSize: 16,
+            flex: 1, minWidth: 0, padding: '16px 12px', fontSize: 16,
             border: 'none', outline: 'none', background: 'transparent',
             color: 'var(--color-text-primary)',
           }}
@@ -95,14 +96,14 @@ export function ApercuWidget({ accent = '#002395' }: Props) {
             padding: '13px 20px', margin: 4, borderRadius: 10,
             border: 'none', cursor: phase === 'loading' ? 'wait' : 'pointer',
             fontWeight: 700, fontSize: 15, whiteSpace: 'nowrap', flexShrink: 0,
-            opacity: !url.trim() || phase === 'loading' ? 0.55 : 1,
+            opacity: !url.trim() || phase === 'loading' ? 0.72 : 1,
             transition: 'opacity 200ms',
           }}
         >
           {phase === 'loading'
             ? <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} />
             : <ArrowRight size={18} />}
-          Générer mon espace
+          {label}
         </button>
       </div>
 
@@ -125,7 +126,7 @@ export function ApercuWidget({ accent = '#002395' }: Props) {
         {phase === 'loading'
           ? <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} />
           : <ArrowRight size={18} />}
-        Générer mon espace
+        {label}
       </button>
 
       {phase === 'loading' && (

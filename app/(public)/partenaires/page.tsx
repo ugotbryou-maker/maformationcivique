@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import type { Metadata } from 'next';
 import { ApercuWidget } from '@/components/apercu/ApercuWidget';
+import { HeroAnimatedTitle } from '@/components/partenaires/HeroAnimatedTitle';
 
 export const metadata: Metadata = {
   title: "Espace partenaires — Cabinets d'avocats | maformationcivique.fr",
@@ -169,30 +170,38 @@ export default function PartenairesPage() {
               Espace partenaires — Cabinets d&apos;avocats
             </div>
 
-            <h1 style={{
-              fontSize: 'clamp(28px, 4vw, 52px)',
-              fontWeight: 800,
-              lineHeight: 1.12,
-              marginBottom: 24,
-              color: '#fff',
-              textShadow: '0 2px 20px rgba(0,0,0,0.25)',
-            }}>
-              Vos clients obtiennent leur<br />
-              <span style={{ color: '#BFCFFF' }}>naturalisation.</span>
-              <br />Vous en êtes acteur.
-            </h1>
+            <HeroAnimatedTitle />
 
             <p style={{
               fontSize: 'var(--font-size-base)',
               lineHeight: 1.75,
               color: 'rgba(255,255,255,0.88)',
               maxWidth: 480,
-              marginBottom: 40,
+              marginBottom: 24,
             }}>
               Invitez vos clients étrangers à se former sur maformationcivique.fr,
-              suivez leur avancement module par module, et téléchargez leur attestation
-              en un clic pour le dossier préfecture.
+              suivez leur avancement et téléchargez leur attestation en un clic pour le dossier préfecture.
             </p>
+
+            {/* Badges examens */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 36 }}>
+              {[
+                { label: 'Examen civique', color: '#BFCFFF', bg: 'rgba(191,207,255,0.12)' },
+                { label: 'Linguistique A2', color: '#6EE7B7', bg: 'rgba(110,231,183,0.12)' },
+                { label: 'Linguistique B1', color: '#6EE7B7', bg: 'rgba(110,231,183,0.12)' },
+                { label: 'Linguistique B2', color: '#6EE7B7', bg: 'rgba(110,231,183,0.12)' },
+              ].map(({ label, color, bg }) => (
+                <span key={label} style={{
+                  fontSize: 12, fontWeight: 600,
+                  color, background: bg,
+                  border: `1px solid ${color}30`,
+                  borderRadius: 99, padding: '4px 12px',
+                  backdropFilter: 'blur(4px)',
+                }}>
+                  {label}
+                </span>
+              ))}
+            </div>
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
               <a
@@ -239,7 +248,7 @@ export default function PartenairesPage() {
             <p style={{ fontSize: 14, color: 'var(--color-text-secondary)', marginBottom: 20, lineHeight: 1.5 }}>
               Saisissez l&apos;URL de votre cabinet pour voir instantanément votre plateforme personnalisée.
             </p>
-            <ApercuWidget />
+            <ApercuWidget label="Voir mon aperçu" />
           </div>
         </div>
       </section>
