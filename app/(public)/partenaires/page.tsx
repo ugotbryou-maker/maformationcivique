@@ -148,82 +148,107 @@ export default function PartenairesPage() {
           ].join(', '),
         }} />
 
-        <div className="container" style={{ padding: '0 24px', position: 'relative', zIndex: 1 }}>
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            background: 'rgba(255,255,255,0.14)',
-            border: '1px solid rgba(255,255,255,0.25)',
-            borderRadius: 'var(--radius-pill)',
-            padding: '6px 16px',
-            fontSize: 'var(--font-size-xs)',
-            fontWeight: 700,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            marginBottom: 28,
-            backdropFilter: 'blur(8px)',
-          }}>
-            <Briefcase size={12} />
-            Espace partenaires — Cabinets d&apos;avocats
+        <div className="container partenaires-hero-inner" style={{ padding: '0 24px', position: 'relative', zIndex: 1, display: 'grid', gridTemplateColumns: '1fr 420px', gap: 56, alignItems: 'center' }}>
+
+          {/* ── Colonne texte ── */}
+          <div>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              background: 'rgba(255,255,255,0.14)',
+              border: '1px solid rgba(255,255,255,0.25)',
+              borderRadius: 'var(--radius-pill)',
+              padding: '6px 16px',
+              fontSize: 'var(--font-size-xs)',
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              marginBottom: 28,
+              backdropFilter: 'blur(8px)',
+            }}>
+              <Briefcase size={12} />
+              Espace partenaires — Cabinets d&apos;avocats
+            </div>
+
+            <h1 style={{
+              fontSize: 'clamp(28px, 4vw, 52px)',
+              fontWeight: 800,
+              lineHeight: 1.12,
+              marginBottom: 24,
+              color: '#fff',
+              textShadow: '0 2px 20px rgba(0,0,0,0.25)',
+            }}>
+              Vos clients obtiennent leur<br />
+              <span style={{ color: '#BFCFFF' }}>naturalisation.</span>
+              <br />Vous en êtes acteur.
+            </h1>
+
+            <p style={{
+              fontSize: 'var(--font-size-base)',
+              lineHeight: 1.75,
+              color: 'rgba(255,255,255,0.88)',
+              maxWidth: 480,
+              marginBottom: 40,
+            }}>
+              Invitez vos clients étrangers à se former sur maformationcivique.fr,
+              suivez leur avancement module par module, et téléchargez leur attestation
+              en un clic pour le dossier préfecture.
+            </p>
+
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+              <a
+                href="#tarifs"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  background: '#fff', color: 'var(--color-blue-france)',
+                  padding: '14px 30px', borderRadius: 'var(--radius-pill)',
+                  fontWeight: 700, fontSize: 'var(--font-size-base)',
+                  textDecoration: 'none', fontFamily: 'var(--font-sans)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.18)',
+                }}
+              >
+                Voir les tarifs <ArrowRight size={16} />
+              </a>
+              <a
+                href="mailto:contact@maformationcivique.fr?subject=Partenariat cabinet"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  background: 'rgba(255,255,255,0.1)',
+                  border: '1.5px solid rgba(255,255,255,0.45)',
+                  color: '#fff',
+                  padding: '14px 30px', borderRadius: 'var(--radius-pill)',
+                  fontWeight: 600, fontSize: 'var(--font-size-base)',
+                  textDecoration: 'none', fontFamily: 'var(--font-sans)',
+                  backdropFilter: 'blur(8px)',
+                }}
+              >
+                Nous contacter
+              </a>
+            </div>
           </div>
 
-          <h1 style={{
-            fontSize: 'clamp(30px, 5vw, 56px)',
-            fontWeight: 800,
-            lineHeight: 1.12,
-            maxWidth: 680,
-            marginBottom: 24,
-            color: '#fff',
-            textShadow: '0 2px 20px rgba(0,0,0,0.25)',
+          {/* ── Colonne widget ── */}
+          <div style={{
+            background: '#fff',
+            borderRadius: 20,
+            padding: '32px 28px 28px',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.28)',
           }}>
-            Vos clients obtiennent leur<br />
-            <span style={{ color: '#BFCFFF' }}>naturalisation.</span>
-            <br />Vous en êtes acteur.
-          </h1>
-
-          <p style={{
-            fontSize: 'var(--font-size-base)',
-            lineHeight: 1.75,
-            color: 'rgba(255,255,255,0.88)',
-            maxWidth: 500,
-            marginBottom: 44,
-          }}>
-            Invitez vos clients étrangers à se former sur maformationcivique.fr,
-            suivez leur avancement module par module, et téléchargez leur attestation
-            en un clic pour le dossier préfecture.
-          </p>
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-            <a
-              href="#tarifs"
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: '#fff', color: 'var(--color-blue-france)',
-                padding: '14px 30px', borderRadius: 'var(--radius-pill)',
-                fontWeight: 700, fontSize: 'var(--font-size-base)',
-                textDecoration: 'none', fontFamily: 'var(--font-sans)',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.18)',
-              }}
-            >
-              Voir les tarifs <ArrowRight size={16} />
-            </a>
-            <a
-              href="mailto:contact@maformationcivique.fr?subject=Partenariat cabinet"
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: 'rgba(255,255,255,0.1)',
-                border: '1.5px solid rgba(255,255,255,0.45)',
-                color: '#fff',
-                padding: '14px 30px', borderRadius: 'var(--radius-pill)',
-                fontWeight: 600, fontSize: 'var(--font-size-base)',
-                textDecoration: 'none', fontFamily: 'var(--font-sans)',
-                backdropFilter: 'blur(8px)',
-              }}
-            >
-              Nous contacter
-            </a>
+            <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>
+              Testez votre espace cabinet
+            </p>
+            <p style={{ fontSize: 14, color: 'var(--color-text-secondary)', marginBottom: 20, lineHeight: 1.5 }}>
+              Saisissez l&apos;URL de votre cabinet pour voir instantanément votre plateforme personnalisée.
+            </p>
+            <ApercuWidget />
           </div>
         </div>
       </section>
+
+      <style>{`
+        @media (max-width: 860px) {
+          .partenaires-hero-inner { grid-template-columns: 1fr !important; gap: 36px !important; }
+        }
+      `}</style>
 
       {/* ── PROOF POINTS ─────────────────────────────────────────────── */}
       <section style={{ background: 'var(--color-off-white)', padding: '64px 0' }}>
