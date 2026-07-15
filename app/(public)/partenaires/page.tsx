@@ -248,7 +248,7 @@ export default function PartenairesPage() {
             <p style={{ fontSize: 14, color: 'var(--color-text-secondary)', marginBottom: 20, lineHeight: 1.5 }}>
               Saisissez l&apos;URL de votre cabinet pour voir instantanément votre plateforme personnalisée.
             </p>
-            <ApercuWidget label="Voir mon aperçu" />
+            <ApercuWidget label="" />
           </div>
         </div>
       </section>
