@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { BookOpen, FileText, LayoutDashboard } from 'lucide-react';
 import type { TenantConfig } from '@/lib/tenants';
+import { PFLogoLight } from '@/components/tenants/PFLogoLight';
 
 const tenantNav = [
   { label: 'Formation civique',      href: '/modulesciviques',      icon: BookOpen },
@@ -35,12 +36,7 @@ export function TenantShell({
         }}>
           {/* Logo cabinet */}
           <Link href="/modulesciviques" style={{ display: 'flex', flexShrink: 0, textDecoration: 'none' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={tenant.logoLightPath}
-              alt={tenant.name}
-              style={{ height: 34, width: 'auto' }}
-            />
+            <PFLogoLight width={130} style={{ height: 34, width: 'auto' }} />
           </Link>
 
           {/* Séparateur */}

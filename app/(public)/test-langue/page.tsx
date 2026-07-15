@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { PFLogoLight } from '@/components/tenants/PFLogoLight';
 
 // ─── Textes de compréhension ─────────────────────────────────────────────────
 
@@ -155,13 +156,8 @@ function RedCard({
         color: '#fff',
         boxShadow: '0 24px 64px rgba(185,5,18,0.22)',
       }}>
-        {/* eslint-disable @next/next/no-img-element */}
         {showLogo && (
-          <img
-            src="/tenants/papiers-francais/logo-light.svg"
-            alt="Papiers Français"
-            style={{ width: 150, height: 'auto', marginBottom: 40, opacity: 0.97 }}
-          />
+          <PFLogoLight width={150} style={{ marginBottom: 40, opacity: 0.97 }} />
         )}
         {children}
       </div>
