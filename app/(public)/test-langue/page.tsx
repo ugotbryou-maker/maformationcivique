@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { PFLogoLight } from '@/components/tenants/PFLogoLight';
+import { shuffleArray, pickRandom, shuffleOptions } from '@/lib/quiz-utils';
 
 // ─── Textes de compréhension ─────────────────────────────────────────────────
 
@@ -72,12 +73,33 @@ const ALL_QUESTIONS: Question[] = [
   { id: 30, section: 'Compréhension', level: 'B2', context: 't3', text: "Quelle est la durée de validité maximale du diplôme de langue accepté ?", options: ['1 an', '2 ans', '3 ans', '5 ans'], answer: 3 },
 ];
 
-// 20 questions : 7 Vocabulaire (A2×3 + B1×3 + B2×1) + 7 Grammaire (A2×3 + B1×3 + B2×1) + 6 Compréhension (t1×3 + t2×3)
-const QUESTIONS: Question[] = [
-  ...ALL_QUESTIONS.filter(q => q.section === 'Vocabulaire').slice(0, 7),
-  ...ALL_QUESTIONS.filter(q => q.section === 'Grammaire').slice(0, 7),
-  ...ALL_QUESTIONS.filter(q => q.section === 'Compréhension').slice(0, 6),
-];
+// Sélectionne des questions de compréhension en gardant les questions d'un même
+// texte consécutives (le texte de lecture ne s'affiche pas de façon éparpillée).
+function pickComprehension(pool: Question[], target: number): Question[] {
+  const groups = new Map<string, Question[]>();
+  for (const q of pool) {
+    const key = q.context ?? String(q.id);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(q);
+  }
+  const out: Question[] = [];
+  for (const group of shuffleArray([...groups.values()])) {
+    if (out.length >= target) break;
+    out.push(...group.slice(0, target - out.length));
+  }
+  return out;
+}
+
+// Construit un questionnaire de 15 questions, tiré aléatoirement de la bibliothèque
+// (5 Vocabulaire + 5 Grammaire + 5 Compréhension), avec les options mélangées.
+function buildQuiz(): Question[] {
+  const vocab = pickRandom(ALL_QUESTIONS.filter(q => q.section === 'Vocabulaire'), 5);
+  const gram  = pickRandom(ALL_QUESTIONS.filter(q => q.section === 'Grammaire'), 5);
+  const compr = pickComprehension(ALL_QUESTIONS.filter(q => q.section === 'Compréhension'), 5);
+  return [...vocab, ...gram, ...compr].map(shuffleOptions);
+}
+
+const QUIZ_SIZE = 15;
 
 // ─── Calcul du résultat ───────────────────────────────────────────────────────
 
@@ -87,11 +109,11 @@ interface Result {
   correct: number;
 }
 
-function calculateResult(answers: (number | null)[]): Result {
+function calculateResult(answers: (number | null)[], questions: Question[]): Result {
   let correct = 0;
   let a2Correct = 0, b1Correct = 0, b2Correct = 0;
 
-  QUESTIONS.forEach((q, i) => {
+  questions.forEach((q, i) => {
     if (answers[i] === q.answer) {
       correct++;
       if (q.level === 'A2') a2Correct++;
@@ -100,10 +122,9 @@ function calculateResult(answers: (number | null)[]): Result {
     }
   });
 
-  // 20 questions : A2 × 8 (3 vocab + 3 gram + 3 compréh A2 = 9... adjusting thresholds)
-  const a2Total = QUESTIONS.filter(q => q.level === 'A2').length;
-  const b1Total = QUESTIONS.filter(q => q.level === 'B1').length;
-  const b2Total = QUESTIONS.filter(q => q.level === 'B2').length;
+  const a2Total = questions.filter(q => q.level === 'A2').length;
+  const b1Total = questions.filter(q => q.level === 'B1').length;
+  const b2Total = questions.filter(q => q.level === 'B2').length;
 
   let level: Result['level'];
   if (b2Total > 0 && b2Correct / b2Total >= 0.65) level = 'B2';
@@ -111,7 +132,7 @@ function calculateResult(answers: (number | null)[]): Result {
   else if (a2Total > 0 && a2Correct / a2Total >= 0.55) level = 'A2';
   else level = 'A1';
 
-  return { level, total: QUESTIONS.length, correct };
+  return { level, total: questions.length, correct };
 }
 
 // ─── Carte rouge Papiers Français ────────────────────────────────────────────
@@ -214,8 +235,9 @@ interface LeadForm {
 
 export default function TestLanguePage() {
   const [phase, setPhase] = useState<Phase>('welcome');
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<(number | null)[]>(Array(20).fill(null));
+  const [answers, setAnswers] = useState<(number | null)[]>(Array(QUIZ_SIZE).fill(null));
   const [selected, setSelected] = useState<number | null>(null);
   const [result, setResult] = useState<Result | null>(null);
   const [lead, setLead] = useState<LeadForm>({ nom: '', prenom: '', telephone: '', email: '', clientId: '', rgpd: false });
@@ -246,8 +268,10 @@ export default function TestLanguePage() {
   }, [phase]);
 
   function startQuiz() {
+    const quiz = buildQuiz();
+    setQuestions(quiz);
     setCurrentIndex(0);
-    setAnswers(Array(20).fill(null));
+    setAnswers(Array(quiz.length).fill(null));
     setSelected(null);
     setPhase('quiz');
   }
@@ -259,8 +283,8 @@ export default function TestLanguePage() {
     setAnswers(newAnswers);
     setSelected(null);
 
-    if (currentIndex === QUESTIONS.length - 1) {
-      setResult(calculateResult(newAnswers));
+    if (currentIndex === questions.length - 1) {
+      setResult(calculateResult(newAnswers, questions));
       setPhase('result');
     } else {
       setCurrentIndex(currentIndex + 1);
@@ -314,13 +338,13 @@ export default function TestLanguePage() {
           Avant de commencer
         </h2>
         <p style={{ fontSize: 15, lineHeight: 1.75, opacity: 0.9, margin: '0 0 32px', maxWidth: 400 }}>
-          Ce test comprend <strong>20 questions</strong> et durera environ <strong>12 minutes</strong>.<br />
+          Ce test comprend <strong>15 questions</strong> et durera environ <strong>10 minutes</strong>.<br />
           Il évalue votre vocabulaire, votre grammaire et votre compréhension écrite.
         </p>
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 40 }}>
           {[
-            { num: '20', label: 'questions' },
-            { num: '~12', label: 'minutes' },
+            { num: '15', label: 'questions' },
+            { num: '~10', label: 'minutes' },
             { num: '3', label: 'compétences' },
           ].map(({ num, label }) => (
             <div key={label} style={{
@@ -342,7 +366,8 @@ export default function TestLanguePage() {
   // ── Quiz ────────────────────────────────────────────────────────────────────
 
   if (phase === 'quiz') {
-    const question = QUESTIONS[currentIndex];
+    const question = questions[currentIndex];
+    if (!question) return null;
     const showContextText = !!question.context;
     const sectionColor = SECTION_COLORS[question.section];
 
@@ -360,13 +385,13 @@ export default function TestLanguePage() {
               {question.section}
             </span>
             <span style={{ fontSize: 12, color: '#94A3B8', fontWeight: 600 }}>
-              {currentIndex + 1} / {QUESTIONS.length}
+              {currentIndex + 1} / {questions.length}
             </span>
           </div>
           <div style={{ height: 5, borderRadius: 100, background: '#E2E8F0', overflow: 'hidden' }}>
             <div style={{
               height: '100%', borderRadius: 100, background: sectionColor,
-              width: `${((currentIndex + 1) / QUESTIONS.length) * 100}%`,
+              width: `${((currentIndex + 1) / questions.length) * 100}%`,
               transition: 'width 300ms ease-out',
             }} />
           </div>
@@ -444,7 +469,7 @@ export default function TestLanguePage() {
             transition: 'background 150ms, color 150ms',
           }}
         >
-          {currentIndex === QUESTIONS.length - 1 ? 'Voir mon résultat →' : 'Question suivante →'}
+          {currentIndex === questions.length - 1 ? 'Voir mon résultat →' : 'Question suivante →'}
         </button>
       </div>
     );

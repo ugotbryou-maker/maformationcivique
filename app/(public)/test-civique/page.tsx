@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { PFLogoLight } from '@/components/tenants/PFLogoLight';
+import { pickRandom, shuffleOptions } from '@/lib/quiz-utils';
 
 // ─── Questions ───────────────────────────────────────────────────────────────
 
@@ -55,12 +56,16 @@ const ALL_QUESTIONS: Question[] = [
   { id: 30, section: 'Intégration & Droits', level: 'Avancé',        text: "Qu'est-ce que l'OFPRA ?", options: ["Un organisme qui protège les réfugiés et apatrides", "Un programme d'emploi pour les étrangers", "Un office de formation professionnelle", "Un organisme de contrôle des frontières"], answer: 0 },
 ];
 
-// 20 questions : 7 Institutions + 7 Valeurs & Histoire + 6 Intégration & Droits
-const QUESTIONS: Question[] = [
-  ...ALL_QUESTIONS.filter(q => q.section === 'Institutions').slice(0, 7),
-  ...ALL_QUESTIONS.filter(q => q.section === 'Valeurs & Histoire').slice(0, 7),
-  ...ALL_QUESTIONS.filter(q => q.section === 'Intégration & Droits').slice(0, 6),
-];
+// Construit un questionnaire de 15 questions, tiré aléatoirement de la bibliothèque
+// (5 Institutions + 5 Valeurs & Histoire + 5 Intégration & Droits), options mélangées.
+function buildQuiz(): Question[] {
+  const inst  = pickRandom(ALL_QUESTIONS.filter(q => q.section === 'Institutions'), 5);
+  const val   = pickRandom(ALL_QUESTIONS.filter(q => q.section === 'Valeurs & Histoire'), 5);
+  const integ = pickRandom(ALL_QUESTIONS.filter(q => q.section === 'Intégration & Droits'), 5);
+  return [...inst, ...val, ...integ].map(shuffleOptions);
+}
+
+const QUIZ_SIZE = 15;
 
 // ─── Calcul du résultat ───────────────────────────────────────────────────────
 
@@ -75,9 +80,9 @@ interface Result {
   integrationRate: number;
 }
 
-function calculateResult(answers: (number | null)[]): Result {
+function calculateResult(answers: (number | null)[], questions: Question[]): Result {
   let correct = 0, inst = 0, val = 0, integ = 0;
-  QUESTIONS.forEach((q, i) => {
+  questions.forEach((q, i) => {
     if (answers[i] === q.answer) {
       correct++;
       if (q.section === 'Institutions') inst++;
@@ -85,9 +90,17 @@ function calculateResult(answers: (number | null)[]): Result {
       if (q.section === 'Intégration & Droits') integ++;
     }
   });
-  const rate = correct / QUESTIONS.length;
+  const instTotal  = questions.filter(q => q.section === 'Institutions').length;
+  const valTotal   = questions.filter(q => q.section === 'Valeurs & Histoire').length;
+  const integTotal = questions.filter(q => q.section === 'Intégration & Droits').length;
+  const rate = correct / questions.length;
   const level: CivicLevel = rate >= 0.65 ? 'Solide' : rate >= 0.4 ? 'Correct' : 'À renforcer';
-  return { level, total: QUESTIONS.length, correct, institutionsRate: inst / 7, valeursRate: val / 7, integrationRate: integ / 6 };
+  return {
+    level, total: questions.length, correct,
+    institutionsRate: instTotal ? inst / instTotal : 0,
+    valeursRate:      valTotal ? val / valTotal : 0,
+    integrationRate:  integTotal ? integ / integTotal : 0,
+  };
 }
 
 // ─── Couleurs sections ────────────────────────────────────────────────────────
@@ -157,8 +170,9 @@ interface LeadForm {
 
 export default function TestCiviquePage() {
   const [phase, setPhase] = useState<Phase>('welcome');
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<(number | null)[]>(Array(20).fill(null));
+  const [answers, setAnswers] = useState<(number | null)[]>(Array(QUIZ_SIZE).fill(null));
   const [selected, setSelected] = useState<number | null>(null);
   const [result, setResult] = useState<Result | null>(null);
   const [lead, setLead] = useState<LeadForm>({ nom: '', prenom: '', telephone: '', email: '', situationPro: '', rgpd: false });
@@ -168,8 +182,10 @@ export default function TestCiviquePage() {
   useEffect(() => { window.scrollTo(0, 0); }, [phase]);
 
   function startQuiz() {
+    const quiz = buildQuiz();
+    setQuestions(quiz);
     setCurrentIndex(0);
-    setAnswers(Array(20).fill(null));
+    setAnswers(Array(quiz.length).fill(null));
     setSelected(null);
     setPhase('quiz');
   }
@@ -180,8 +196,8 @@ export default function TestCiviquePage() {
     newAnswers[currentIndex] = selected;
     setAnswers(newAnswers);
     setSelected(null);
-    if (currentIndex === QUESTIONS.length - 1) {
-      setResult(calculateResult(newAnswers));
+    if (currentIndex === questions.length - 1) {
+      setResult(calculateResult(newAnswers, questions));
       setPhase('result');
     } else {
       setCurrentIndex(currentIndex + 1);
@@ -239,8 +255,8 @@ export default function TestCiviquePage() {
         </p>
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 40 }}>
           {[
-            { num: '20', label: 'questions' },
-            { num: '~10', label: 'minutes' },
+            { num: '15', label: 'questions' },
+            { num: '~8', label: 'minutes' },
             { num: '3', label: 'thèmes' },
           ].map(({ num, label }) => (
             <div key={label} style={{
@@ -260,7 +276,8 @@ export default function TestCiviquePage() {
   // ── Quiz ─────────────────────────────────────────────────────────────────────
 
   if (phase === 'quiz') {
-    const question = QUESTIONS[currentIndex];
+    const question = questions[currentIndex];
+    if (!question) return null;
     const sectionColor = SECTION_COLORS[question.section];
 
     return (
@@ -272,13 +289,13 @@ export default function TestCiviquePage() {
               {question.section}
             </span>
             <span style={{ fontSize: 12, color: '#94A3B8', fontWeight: 600 }}>
-              {currentIndex + 1} / {QUESTIONS.length}
+              {currentIndex + 1} / {questions.length}
             </span>
           </div>
           <div style={{ height: 5, borderRadius: 100, background: '#E2E8F0', overflow: 'hidden' }}>
             <div style={{
               height: '100%', borderRadius: 100, background: sectionColor,
-              width: `${((currentIndex + 1) / QUESTIONS.length) * 100}%`,
+              width: `${((currentIndex + 1) / questions.length) * 100}%`,
               transition: 'width 300ms ease-out',
             }} />
           </div>
@@ -340,7 +357,7 @@ export default function TestCiviquePage() {
             transition: 'background 150ms, color 150ms',
           }}
         >
-          {currentIndex === QUESTIONS.length - 1 ? 'Voir mon résultat →' : 'Question suivante →'}
+          {currentIndex === questions.length - 1 ? 'Voir mon résultat →' : 'Question suivante →'}
         </button>
       </div>
     );
