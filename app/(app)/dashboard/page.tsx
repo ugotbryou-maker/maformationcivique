@@ -150,9 +150,9 @@ export default async function DashboardPage() {
               </div>
             ))}
 
-            {/* Carte Abonnement — cliquable si gratuit */}
+            {/* Carte Abonnement — cliquable si gratuit (mène au choix des 3 offres) */}
             {!isPremium && !isAdmin ? (
-              <Link href="/api/stripe/start?plan=bundle" style={{ textDecoration: 'none' }}>
+              <Link href="#offres-premium" style={{ textDecoration: 'none' }}>
                 <div style={{
                   padding: '18px 20px',
                   borderRadius: 'var(--radius-lg)',
@@ -162,7 +162,7 @@ export default async function DashboardPage() {
                 }}>
                   <p style={{ fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.7)', marginBottom: '6px' }}>Abonnement</p>
                   <p style={{ fontSize: 'var(--font-size-lg)', fontWeight: 600, color: '#fff', marginBottom: '2px' }}>Gratuit</p>
-                  <p style={{ fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.85)', fontWeight: 600 }}>Passer Premium →</p>
+                  <p style={{ fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.85)', fontWeight: 600 }}>Choisir une offre →</p>
                 </div>
               </Link>
             ) : (
@@ -182,7 +182,8 @@ export default async function DashboardPage() {
 
           {/* Bandeau upsell pour les utilisateurs gratuits */}
           {!isPremium && !isAdmin && (
-            <div style={{
+            <div id="offres-premium" style={{
+              scrollMarginTop: 24,
               borderRadius: 'var(--radius-xl)',
               background: 'linear-gradient(135deg, #001050 0%, #002395 60%, #CC1A1A 100%)',
               padding: '24px 28px',
