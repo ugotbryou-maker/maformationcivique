@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { PFLogoLight } from '@/components/tenants/PFLogoLight';
 
 // ─── Textes de compréhension ─────────────────────────────────────────────────
@@ -214,22 +213,33 @@ interface LeadForm {
 }
 
 export default function TestLanguePage() {
-  const searchParams = useSearchParams();
   const [phase, setPhase] = useState<Phase>('welcome');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(Array(20).fill(null));
   const [selected, setSelected] = useState<number | null>(null);
   const [result, setResult] = useState<Result | null>(null);
-  const [lead, setLead] = useState<LeadForm>({
-    nom:       searchParams.get('nom')      ?? '',
-    prenom:    searchParams.get('prenom')   ?? '',
-    telephone: searchParams.get('tel')      ?? '',
-    email:     searchParams.get('email')    ?? '',
-    clientId:  searchParams.get('clientId') ?? '',
-    rgpd: false,
-  });
+  const [lead, setLead] = useState<LeadForm>({ nom: '', prenom: '', telephone: '', email: '', clientId: '', rgpd: false });
   const [submitting, setSubmitting] = useState(false);
   const [rgpdOpen, setRgpdOpen] = useState(false);
+
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const nom      = p.get('nom');
+    const prenom   = p.get('prenom');
+    const email    = p.get('email');
+    const tel      = p.get('tel');
+    const clientId = p.get('clientId');
+    if (nom || prenom || email || tel || clientId) {
+      setLead(prev => ({
+        ...prev,
+        nom:       nom      ?? prev.nom,
+        prenom:    prenom   ?? prev.prenom,
+        email:     email    ?? prev.email,
+        telephone: tel      ?? prev.telephone,
+        clientId:  clientId ?? prev.clientId,
+      }));
+    }
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
