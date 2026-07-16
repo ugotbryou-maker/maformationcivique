@@ -165,6 +165,7 @@ interface LeadForm {
   telephone: string;
   email: string;
   situationPro: SituationPro;
+  clientId: string;
   rgpd: boolean;
 }
 
@@ -175,9 +176,28 @@ export default function TestCiviquePage() {
   const [answers, setAnswers] = useState<(number | null)[]>(Array(QUIZ_SIZE).fill(null));
   const [selected, setSelected] = useState<number | null>(null);
   const [result, setResult] = useState<Result | null>(null);
-  const [lead, setLead] = useState<LeadForm>({ nom: '', prenom: '', telephone: '', email: '', situationPro: '', rgpd: false });
+  const [lead, setLead] = useState<LeadForm>({ nom: '', prenom: '', telephone: '', email: '', situationPro: '', clientId: '', rgpd: false });
   const [submitting, setSubmitting] = useState(false);
   const [rgpdOpen, setRgpdOpen] = useState(false);
+
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const nom      = p.get('nom');
+    const prenom   = p.get('prenom');
+    const email    = p.get('email');
+    const tel      = p.get('tel');
+    const clientId = p.get('clientId');
+    if (nom || prenom || email || tel || clientId) {
+      setLead(prev => ({
+        ...prev,
+        nom:       nom      ?? prev.nom,
+        prenom:    prenom   ?? prev.prenom,
+        email:     email    ?? prev.email,
+        telephone: tel      ?? prev.telephone,
+        clientId:  clientId ?? prev.clientId,
+      }));
+    }
+  }, []);
 
   useEffect(() => { window.scrollTo(0, 0); }, [phase]);
 
@@ -216,6 +236,7 @@ export default function TestCiviquePage() {
         prenom: lead.prenom,
         email: lead.email,
         telephone: lead.telephone,
+        clientId: lead.clientId || undefined,
         situationPro: lead.situationPro,
         score: result ? `${result.correct}/${result.total}` : undefined,
       }),
