@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendEmail } from '@/lib/brevo';
+
+// Données B2B (clients Papiers Français) — ne transitent PAS par Brevo (Ugo).
+// Acheminées exclusivement vers Make (→ Zoho + Google Sheet côté PF).
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,37 +16,31 @@ export async function POST(req: NextRequest) {
       niveau?: string;
     };
 
-    const sourceLabel = body.source === 'test-civique' ? '🏛️ Test civique' : '🇫🇷 Test linguistique';
+    const webhookUrl = process.env.MAKE_WEBHOOK_PF_URL;
+    if (!webhookUrl) {
+      console.warn('[lead/pf] MAKE_WEBHOOK_PF_URL non configurée — lead non transmis');
+      return NextResponse.json({ ok: true });
+    }
 
-    const rows: [string, string][] = [
-      ['Prénom', body.prenom],
-      ['Nom', body.nom],
-      ['Email', body.email],
-      ['Téléphone', body.telephone],
-    ];
-    if (body.situationPro) rows.push(['Situation pro', body.situationPro]);
-    if (body.score)        rows.push(['Score', body.score]);
-    if (body.niveau)       rows.push(['Niveau estimé', body.niveau]);
-
-    const tableRows = rows
-      .map(([k, v]) => `<tr><td style="padding:7px 0;color:#6b7280;width:140px">${k}</td><td style="padding:7px 0;font-weight:600">${v}</td></tr>`)
-      .join('');
-
-    await sendEmail({
-      to: [
-        { email: 'ugotbr.you@gmail.com',         name: 'Ugo' },
-        { email: 'contact@maformationcivique.fr', name: 'Contact MFC' },
-      ],
-      subject: `🎯 Nouveau lead PF — ${body.prenom} ${body.nom} (${sourceLabel})`,
-      htmlContent: `<div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px;border:1px solid #e5e7eb;border-radius:8px">
-        <h2 style="color:#002395;margin-top:0">Nouveau lead Papiers Français ${sourceLabel}</h2>
-        <table style="width:100%;border-collapse:collapse">${tableRows}</table>
-        <p style="font-size:12px;color:#9ca3af;margin-top:20px">maformationcivique.fr — ${new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })}</p>
-      </div>`,
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        source:       body.source,
+        prenom:       body.prenom,
+        nom:          body.nom,
+        email:        body.email,
+        telephone:    body.telephone,
+        situationPro: body.situationPro ?? null,
+        score:        body.score ?? null,
+        niveau:       body.niveau ?? null,
+        submittedAt:  new Date().toISOString(),
+      }),
     });
 
     return NextResponse.json({ ok: true });
-  } catch {
+  } catch (err) {
+    console.error('[lead/pf]', err);
     return NextResponse.json({ ok: false }, { status: 500 });
   }
 }
