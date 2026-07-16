@@ -16,9 +16,13 @@ export async function POST(req: NextRequest) {
       niveau?: string;
     };
 
-    const webhookUrl = process.env.MAKE_WEBHOOK_PF_URL;
+    const webhookUrl =
+      body.source === 'test-langue'
+        ? process.env.MAKE_WEBHOOK_PF_LANGUE_URL
+        : process.env.MAKE_WEBHOOK_PF_CIVIQUE_URL;
+
     if (!webhookUrl) {
-      console.warn('[lead/pf] MAKE_WEBHOOK_PF_URL non configurée — lead non transmis');
+      console.warn(`[lead/pf] webhook Make non configuré pour source="${body.source}" — lead non transmis`);
       return NextResponse.json({ ok: true });
     }
 
