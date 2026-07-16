@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { PFLogoLight } from '@/components/tenants/PFLogoLight';
 
 // ─── Textes de compréhension ─────────────────────────────────────────────────
@@ -208,20 +209,28 @@ interface LeadForm {
   prenom: string;
   telephone: string;
   email: string;
+  clientId: string;
   rgpd: boolean;
 }
 
 export default function TestLanguePage() {
+  const searchParams = useSearchParams();
   const [phase, setPhase] = useState<Phase>('welcome');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(Array(20).fill(null));
   const [selected, setSelected] = useState<number | null>(null);
   const [result, setResult] = useState<Result | null>(null);
-  const [lead, setLead] = useState<LeadForm>({ nom: '', prenom: '', telephone: '', email: '', rgpd: false });
+  const [lead, setLead] = useState<LeadForm>({
+    nom:       searchParams.get('nom')      ?? '',
+    prenom:    searchParams.get('prenom')   ?? '',
+    telephone: searchParams.get('tel')      ?? '',
+    email:     searchParams.get('email')    ?? '',
+    clientId:  searchParams.get('clientId') ?? '',
+    rgpd: false,
+  });
   const [submitting, setSubmitting] = useState(false);
   const [rgpdOpen, setRgpdOpen] = useState(false);
 
-  // Scroll to top on phase change
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [phase]);
@@ -260,6 +269,7 @@ export default function TestLanguePage() {
         prenom: lead.prenom,
         email: lead.email,
         telephone: lead.telephone,
+        clientId: lead.clientId || undefined,
         score: result ? `${result.correct}/${result.total}` : undefined,
         niveau: result?.level ?? undefined,
       }),

@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
       prenom: string;
       email: string;
       telephone: string;
+      clientId?: string;
       situationPro?: string;
       score?: string;
       niveau?: string;
@@ -35,6 +36,7 @@ export async function POST(req: NextRequest) {
         nom:          body.nom,
         email:        body.email,
         telephone:    body.telephone,
+        clientId:     body.clientId ?? null,
         situationPro: body.situationPro ?? null,
         score:        body.score ?? null,
         niveau:       body.niveau ?? null,
