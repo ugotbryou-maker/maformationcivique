@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
+import { GoogleAuthButton } from '@/components/auth/GoogleAuthButton';
 
 function ConnexionForm() {
   const router = useRouter();
@@ -214,6 +215,8 @@ function ConnexionForm() {
         >
           {loading ? 'Connexion…' : 'Se connecter'}
         </button>
+
+        <GoogleAuthButton label="Se connecter avec Google" />
 
         <p style={{ textAlign: 'center', marginTop: '20px', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>
           Pas encore de compte ?{' '}

@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
 import { Eye, EyeOff, Mail, Lock, User, CheckCircle, Building2 } from 'lucide-react';
 import { fbqTrack } from '@/lib/fbq';
+import { GoogleAuthButton } from '@/components/auth/GoogleAuthButton';
 
 function InscriptionForm() {
   const router = useRouter();
@@ -386,6 +387,9 @@ function InscriptionForm() {
         >
           {loading ? 'Création du compte…' : 'Créer mon compte gratuit'}
         </button>
+
+        {/* Google OAuth — B2C uniquement (pas sur les invitations cabinet) */}
+        {!inviteToken && <GoogleAuthButton label="S'inscrire avec Google" />}
 
         <p style={{ textAlign: 'center', marginTop: '20px', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', lineHeight: 1.5 }}>
           En créant un compte, vous acceptez nos{' '}

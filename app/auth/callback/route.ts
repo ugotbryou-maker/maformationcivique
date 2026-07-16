@@ -23,11 +23,32 @@ export async function GET(request: Request) {
       }
     );
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
       // Si intent=reset → rediriger vers la page de nouveau mot de passe
       const intent = searchParams.get('intent');
-      const redirectTo = intent === 'reset' ? '/reset-password' : '/dashboard';
+      if (intent === 'reset') {
+        return NextResponse.redirect(`${origin}/reset-password`);
+      }
+
+      // Sinon : router selon l'état d'onboarding.
+      // Un nouveau compte (ex. Google OAuth) passe par l'onboarding pour
+      // compléter démarche + téléphone ; un cabinet-admin va sur /cabinet.
+      let redirectTo = '/dashboard';
+      const userId = data.user?.id;
+      if (userId) {
+        const { data: profile } = await supabase
+          .from('users')
+          .select('onboarding_done, cabinet_role')
+          .eq('id', userId)
+          .single();
+
+        if (profile?.cabinet_role === 'admin') {
+          redirectTo = '/cabinet';
+        } else if (!profile?.onboarding_done) {
+          redirectTo = '/onboarding';
+        }
+      }
       return NextResponse.redirect(`${origin}${redirectTo}`);
     }
   }
