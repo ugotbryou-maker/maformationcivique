@@ -11,12 +11,31 @@
  */
 
 import type { CentreExamen, CentreProche, Departement } from './types';
+import { paris } from './paris';
+import { hautsDeSeine } from './hauts-de-seine';
 import { seineSaintDenis } from './seine-saint-denis';
+import { valDeMarne } from './val-de-marne';
+import { valDOise } from './val-d-oise';
+import { rhone } from './rhone';
+import { bouchesDuRhone } from './bouches-du-rhone';
+import { nord } from './nord';
+import { gironde } from './gironde';
+import { hauteGaronne } from './haute-garonne';
 
 // ── Registre ────────────────────────────────────────────────────────────────
 // Ajouter chaque nouveau département ici (import + tableau).
+// Vague 1 (squelettes) : centres + préfecture à sourcer avant publie:true.
 const ALL: Departement[] = [
+  paris,
+  hautsDeSeine,
   seineSaintDenis,
+  valDeMarne,
+  valDOise,
+  rhone,
+  bouchesDuRhone,
+  nord,
+  gironde,
+  hauteGaronne,
 ];
 
 // ── Validation ──────────────────────────────────────────────────────────────

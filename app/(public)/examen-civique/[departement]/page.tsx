@@ -160,7 +160,10 @@ export default async function ExamenCiviqueDepartementPage(
         </nav>
 
         <h1 style={{ fontSize: 'clamp(26px, 4.5vw, 38px)', fontWeight: 800, lineHeight: 1.2, color: 'var(--color-text-primary)', marginBottom: 20 }}>
-          Examen civique à {dep.prefectureVille} et {dep.nomAvecPreposition} ({dep.code})
+          {/* Collapse quand la ville-préfecture est le département lui-même (Paris) */}
+          {dep.prefectureVille === dep.nom
+            ? <>Examen civique {dep.nomAvecPreposition} ({dep.code})</>
+            : <>Examen civique à {dep.prefectureVille} et {dep.nomAvecPreposition} ({dep.code})</>}
         </h1>
 
         {/* Réponse directe — données réelles dès le premier paragraphe */}
