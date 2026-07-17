@@ -19,18 +19,25 @@ export function HeroDepartement({ dep }: { dep: Departement }) {
         position: 'relative',
         borderRadius: 'var(--radius-xl)',
         overflow: 'hidden',
-        minHeight: 200,
-        // Dégradé bleu France toujours présent ; la photo passe par-dessus en
-        // background si elle existe (sinon, dégradé seul — pas d'image cassée).
-        background: bg
-          ? `linear-gradient(180deg, rgba(0,25,80,0.35) 0%, rgba(0,31,140,0.78) 100%), url('${bg}') center 35%/cover no-repeat`
+        minHeight: 340,
+        display: 'flex', flexDirection: 'column',
+        // Base bleue solide TOUJOURS présente (premium même sans photo / si le
+        // fichier manque). La photo se pose par-dessus via backgroundImage, avec
+        // un voile léger en haut (on voit la photo) et dense en bas (texte lisible).
+        backgroundColor: '#001A70',
+        backgroundImage: bg
+          ? `linear-gradient(180deg, rgba(0,20,70,0.20) 0%, rgba(0,20,70,0.40) 45%, rgba(0,26,112,0.90) 100%), url('${bg}')`
           : 'linear-gradient(135deg, #001A70 0%, #002395 60%, #1D4ED8 100%)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 30%',
+        backgroundRepeat: 'no-repeat',
         WebkitMaskImage: '-webkit-radial-gradient(white, black)', // fix clip Safari
       }}>
         {/* Barre tricolore */}
         <div style={{ height: 3, background: 'linear-gradient(90deg,#002395 33%,#fff 33% 66%,#ED2939 66%)' }} />
 
-        <div style={{ padding: '22px 26px 24px' }}>
+        {/* Contenu ancré en bas pour laisser respirer la photo en haut */}
+        <div style={{ padding: '22px 26px 24px', marginTop: 'auto' }}>
           <p style={{
             fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
             color: 'rgba(255,255,255,0.75)', margin: '0 0 8px',
