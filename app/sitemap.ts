@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { modules } from '@/data/modules';
 import { fiches } from '@/data/fiches';
 import { a2Modules, b1Modules, b2Modules, transversalModules, examenModules } from '@/data/langue';
+import { departementsPublies, derniereVerification } from '@/data/departements';
 import { getAllPosts } from '@/lib/sanity/queries';
 
 const BASE = 'https://www.maformationcivique.fr';
@@ -53,6 +54,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...examenModules.flatMap((m) => m.lessons.map((l) => s(`/moduleslinguistiques/examens/${l.slug}`, 0.6))),
   ];
 
+  // ── Pages locales examen civique (uniquement publiées + validées) ──
+  const examenCiviqueRoutes: MetadataRoute.Sitemap = departementsPublies.length > 0
+    ? [
+        s('/examen-civique', 0.8, 'weekly'),
+        ...departementsPublies.map((d) => {
+          const verif = derniereVerification(d);
+          return {
+            url: `${BASE}/examen-civique/${d.slug}`,
+            lastModified: verif ? new Date(verif) : now,
+            changeFrequency: 'monthly' as const,
+            priority: 0.8,
+          };
+        }),
+      ]
+    : [];
+
   // ── Articles Sanity ────────────────────────────────────────────────
   let ressourceRoutes: MetadataRoute.Sitemap = [];
   try {
@@ -65,5 +82,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
   } catch { /* Sanity indisponible — ignoré */ }
 
-  return [...staticRoutes, ...civiqueRoutes, ...ficheRoutes, ...langueRoutes, ...ressourceRoutes];
+  return [...staticRoutes, ...civiqueRoutes, ...ficheRoutes, ...langueRoutes, ...examenCiviqueRoutes, ...ressourceRoutes];
 }
