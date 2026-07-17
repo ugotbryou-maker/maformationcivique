@@ -24,6 +24,7 @@ import {
   ofiiValide,
 } from '@/data/departements';
 import { ARTICLE_PILIER_URL, EXAMEN_CIVIQUE, SITE_URL } from '@/lib/reglementation';
+import { HeroDepartement } from '@/components/examen-civique/HeroDepartement';
 import { CentresSection } from '@/components/examen-civique/CentresSection';
 import { OfiiBlock } from '@/components/examen-civique/OfiiBlock';
 import { PiecesPrefectureBlock } from '@/components/examen-civique/PiecesPrefectureBlock';
@@ -214,6 +215,9 @@ export default async function ExamenCiviqueDepartementPage(
           — cette page se concentre sur le local : où le passer, comment s&apos;inscrire, et ce que
           demande votre préfecture.
         </p>
+
+        {/* ── Bande d'en-tête département (photo + villes) ── */}
+        <HeroDepartement dep={dep} />
 
         {/* ── Où passer l'examen ── */}
         <h2 style={sectionTitle}>Où passer l&apos;examen civique {dep.nomAvecPreposition}</h2>

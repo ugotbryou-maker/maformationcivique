@@ -19,8 +19,14 @@ export const rhone: Departement = {
   nomAvecPreposition: 'dans le Rhône',
   prefectureVille: 'Lyon',
   region: 'Auvergne-Rhône-Alpes',
-  villesPrincipales: ['Lyon', 'Villeurbanne', 'Vénissieux'],
+  villesPrincipales: ['Lyon', 'Villeurbanne', 'Vénissieux', 'Bron', 'Saint-Priest', 'Caluire-et-Cuire', 'Rillieux-la-Pape', 'Décines-Charpieu'],
   limitrophes: ['ain', 'isere', 'loire', 'saone-et-loire'],
+
+  heroImage: {
+    src: '/images/departements/rhone.jpg',
+    alt: 'Vue de Lyon et du Rhône depuis Fourvière',
+    // credit: '', // à renseigner si la photo l'exige
+  },
 
   // Aucun centre partenaire pour l'instant (phase 2). Page servie via l'OFII.
   centresExamen: [],

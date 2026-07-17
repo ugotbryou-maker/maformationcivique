@@ -96,6 +96,20 @@ export interface DelaisObserves {
   misAJourLe: string;
 }
 
+/**
+ * Image d'en-tête du département (photo de la préfecture / d'un lieu du
+ * département). Fichier à déposer dans public/images/departements/<slug>.jpg.
+ * Si absente, la bande d'en-tête reste affichée en dégradé tricolore seul.
+ */
+export interface HeroImage {
+  /** Chemin public, ex. '/images/departements/rhone.jpg' */
+  src: string;
+  /** Texte alternatif descriptif (accessibilité + SEO image) */
+  alt: string;
+  /** Crédit / source de la photo, optionnel */
+  credit?: string;
+}
+
 export interface Departement {
   /** Slug URL : /examen-civique/[slug] — kebab-case, sans accents */
   slug: string;
@@ -113,6 +127,8 @@ export interface Departement {
   villesPrincipales: string[];
   /** Slugs des départements limitrophes (maillage horizontal — seuls les publiés seront liés) */
   limitrophes: string[];
+  /** Image d'en-tête (photo préfecture/département). Optionnelle. */
+  heroImage?: HeroImage;
   centresExamen: CentreExamen[];
   centresProches: CentreProche[];
   prefecture: Prefecture;
