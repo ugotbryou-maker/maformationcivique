@@ -42,6 +42,25 @@ export interface CentreProche {
   verifieLe: string;
 }
 
+/**
+ * Direction territoriale de l'OFII compétente pour le département — ancrage
+ * ÉTATIQUE officiel. Utilisé tant qu'aucun centre partenaire n'est référencé :
+ * on ne promeut aucun centre commercial, on renvoie vers l'interlocuteur public.
+ * ⚠️ L'OFII n'organise pas l'examen (opérateurs agréés) — c'est l'interlocuteur
+ * du parcours intégration/naturalisation. Le composant le formule correctement.
+ */
+export interface OfiiDirection {
+  nom: string;
+  adresse: string;
+  /** Départements couverts par cette direction territoriale, ex. ['01','07','42','69'] */
+  departementsCouverts: string[];
+  /** Site institutionnel national */
+  urlOfficielle: string;
+  /** Source de vérification (annuaire .gouv.fr de préférence) — OBLIGATOIRE */
+  sourceUrl: string;
+  verifieLe: string;
+}
+
 export interface Prefecture {
   nom: string;
   adresse: string;
@@ -97,6 +116,9 @@ export interface Departement {
   centresExamen: CentreExamen[];
   centresProches: CentreProche[];
   prefecture: Prefecture;
+  /** Ancrage étatique officiel (OFII). Optionnel mais permet la publication
+   *  d'une page sans centre partenaire (voir canPublish). */
+  ofii?: OfiiDirection;
   piecesPrefecture: PiecesPrefecture;
   delaisObserves: DelaisObserves;
   /**

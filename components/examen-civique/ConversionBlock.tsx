@@ -15,7 +15,7 @@
  */
 
 import type { Departement } from '@/data/departements/types';
-import { centreValide, centreProcheValide } from '@/data/departements';
+import { centreValide, centreProcheValide, ofiiValide } from '@/data/departements';
 import { EXAMEN_CIVIQUE, SITE_URL } from '@/lib/reglementation';
 
 export function ConversionBlock({ dep }: { dep: Departement }) {
@@ -24,7 +24,22 @@ export function ConversionBlock({ dep }: { dep: Departement }) {
 
   let argument: React.ReactNode = null;
 
-  if (centres.length === 0 && proches.length > 0) {
+  if (centres.length === 0 && proches.length === 0 && ofiiValide(dep.ofii)) {
+    // Cas « ancrage étatique » : pas de centre partenaire. On s'appuie sur le
+    // caractère éliminatoire de l'examen + l'interlocuteur OFII local nommé
+    // plus haut, sans promettre de lieu d'examen.
+    argument = (
+      <>
+        {dep.nomAvecPreposition.charAt(0).toUpperCase() + dep.nomAvecPreposition.slice(1)}, votre
+        interlocuteur public pour la naturalisation est l&apos;OFII (coordonnées ci-dessus) ;
+        l&apos;examen civique, lui, est organisé par des opérateurs agréés par l&apos;État. Une
+        constante quel que soit le centre : l&apos;épreuve est <strong>éliminatoire</strong> — il
+        faut au moins {EXAMEN_CIVIQUE.seuilReussite} bonnes réponses sur {EXAMEN_CIVIQUE.nbQuestions}.
+        Autant vérifier où vous en êtes <strong>avant</strong> de vous engager dans la démarche :
+        testez votre niveau avec un examen blanc gratuit, au format officiel.
+      </>
+    );
+  } else if (centres.length === 0 && proches.length > 0) {
     const plusProche = proches[0];
     argument = (
       <>

@@ -21,9 +21,11 @@ import {
   derniereVerification,
   centreValide,
   centreProcheValide,
+  ofiiValide,
 } from '@/data/departements';
 import { ARTICLE_PILIER_URL, EXAMEN_CIVIQUE, SITE_URL } from '@/lib/reglementation';
 import { CentresSection } from '@/components/examen-civique/CentresSection';
+import { OfiiBlock } from '@/components/examen-civique/OfiiBlock';
 import { PiecesPrefectureBlock } from '@/components/examen-civique/PiecesPrefectureBlock';
 import { DelaisObservesBlock } from '@/components/examen-civique/DelaisObservesBlock';
 import { ConversionBlock } from '@/components/examen-civique/ConversionBlock';
@@ -53,8 +55,11 @@ function buildDescription(d: Departement): string {
   let base: string;
   if (centres.length > 0) {
     base = `Où passer l'examen civique ${d.nomAvecPreposition} : ${centres.length} centre${centres.length > 1 ? 's' : ''} agréé${centres.length > 1 ? 's' : ''} à ${[...new Set(centres.map((c) => c.ville))].join(', ')}, adresses et inscription officielle.`;
+  } else if (proches.length > 0) {
+    base = `Où passer l'examen civique ${d.nomAvecPreposition} : aucun centre local, le plus proche est à ${proches[0].ville}, adresses et inscription officielle.`;
   } else {
-    base = `Où passer l'examen civique ${d.nomAvecPreposition} : aucun centre local, le plus proche est à ${proches[0]?.ville ?? ''}, adresses et inscription officielle.`;
+    // Mode OFII : pas de centre partenaire, on renvoie vers le parcours officiel.
+    base = `Examen civique ${d.nomAvecPreposition} : centres agréés par l'État, démarche d'inscription officielle et interlocuteur OFII à ${d.prefectureVille}.`;
   }
 
   const extensions = [
@@ -110,6 +115,9 @@ export default async function ExamenCiviqueDepartementPage(
   const centres = dep.centresExamen.filter(centreValide);
   const proches = dep.centresProches.filter(centreProcheValide);
   const operateurs = [...new Set(centres.map((c) => c.operateur))];
+  // Mode d'affichage : centres partenaires, centres proches, ou ancrage étatique OFII.
+  const mode: 'centres' | 'proches' | 'ofii' =
+    centres.length > 0 ? 'centres' : proches.length > 0 ? 'proches' : 'ofii';
   const limitrophes = getLimitrophesPublies(dep);
   const verifieLe = derniereVerification(dep);
   const pageUrl = `${SITE_URL}/examen-civique/${dep.slug}`;
@@ -168,7 +176,7 @@ export default async function ExamenCiviqueDepartementPage(
 
         {/* Réponse directe — données réelles dès le premier paragraphe */}
         <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--color-text-secondary)', marginBottom: 8 }}>
-          {centres.length > 0 ? (
+          {mode === 'centres' && (
             <>
               L&apos;examen civique se passe {dep.nomAvecPreposition} dans{' '}
               <strong>{centres.length === 1 ? 'un centre agréé' : `${centres.length} centres agréés`}</strong>
@@ -177,13 +185,24 @@ export default async function ExamenCiviqueDepartementPage(
               ci-dessous. Les candidats de {dep.villesPrincipales.slice(0, 3).join(', ')} et du
               reste du département réservent leur session directement, sans passer par la préfecture.
             </>
-          ) : (
+          )}
+          {mode === 'proches' && (
             <>
               Il n&apos;y a <strong>aucun centre d&apos;examen civique agréé {dep.nomAvecPreposition}</strong>.
               Le centre le plus proche se trouve à {proches[0]?.ville} ({proches[0]?.departement})
               {proches[0]?.distanceKm != null && <>, à environ {proches[0].distanceKm} km de {dep.prefectureVille}</>}.
               Les candidats de {dep.villesPrincipales.slice(0, 3).join(', ')} passent donc l&apos;épreuve
               dans un département voisin — les options sont listées ci-dessous.
+            </>
+          )}
+          {mode === 'ofii' && (
+            <>
+              L&apos;examen civique est obligatoire {dep.nomAvecPreposition} pour la carte de séjour
+              pluriannuelle, la carte de résident et la naturalisation. Il est organisé par des{' '}
+              <strong>opérateurs agréés par l&apos;État</strong> (liste officielle du ministère de
+              l&apos;Intérieur ci-dessous). Votre interlocuteur public local pour le parcours
+              d&apos;intégration et de naturalisation est la direction territoriale de l&apos;OFII,
+              dont les coordonnées vérifiées figurent plus bas.
             </>
           )}
         </p>
@@ -198,28 +217,66 @@ export default async function ExamenCiviqueDepartementPage(
 
         {/* ── Où passer l'examen ── */}
         <h2 style={sectionTitle}>Où passer l&apos;examen civique {dep.nomAvecPreposition}</h2>
-        <CentresSection dep={dep} />
+        {mode === 'ofii' ? (
+          <>
+            <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--color-text-secondary)', margin: '0 0 16px' }}>
+              L&apos;examen civique se passe dans un centre <strong>agréé par l&apos;État</strong>.
+              La liste officielle et à jour des opérateurs et de leurs centres est tenue par le
+              ministère de l&apos;Intérieur — c&apos;est la seule source fiable pour trouver et
+              réserver une session {dep.nomAvecPreposition} ou à proximité :
+            </p>
+            <ul style={{ margin: '0 0 20px', paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 8, fontSize: 14.5, lineHeight: 1.6 }}>
+              <li>
+                <a href={EXAMEN_CIVIQUE.sourceUrl} target="_blank" rel="noopener" style={{ color: 'var(--color-blue-france)' }}>
+                  Examen civique sur service-public.fr <ExternalLink size={11} style={{ display: 'inline' }} />
+                </a>{' '}— démarche officielle et accès aux opérateurs agréés
+              </li>
+              <li>
+                <a href={EXAMEN_CIVIQUE.sourceQuestionsUrl} target="_blank" rel="noopener" style={{ color: 'var(--color-blue-france)' }}>
+                  formation-civique.interieur.gouv.fr <ExternalLink size={11} style={{ display: 'inline' }} />
+                </a>{' '}— ressources et liste officielle des questions
+              </li>
+            </ul>
+            <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--color-text-muted)', margin: '0 0 16px' }}>
+              Votre interlocuteur public {dep.nomAvecPreposition} pour le parcours d&apos;intégration
+              et de naturalisation :
+            </p>
+            <OfiiBlock dep={dep} />
+          </>
+        ) : (
+          <CentresSection dep={dep} />
+        )}
 
         {/* ── Comment s'inscrire ── */}
         <h2 style={sectionTitle}>Comment s&apos;inscrire</h2>
         <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--color-text-secondary)', margin: 0 }}>
-          {centres.length > 0 ? (
+          {mode === 'centres' && (
             <>
               La réservation se fait <strong>uniquement en ligne</strong>, sur le site de
               l&apos;opérateur agréé de chaque centre ({operateurs.join(', ')}) — utilisez les
               boutons « Réserver » ci-dessus. Choisissez la mention correspondant à votre
-              démarche (carte de séjour pluriannuelle, carte de résident ou naturalisation).
+              démarche (carte de séjour pluriannuelle, carte de résident ou naturalisation).{' '}
+              Le tarif est fixé par chaque centre : vérifiez-le au moment de la réservation.
             </>
-          ) : (
+          )}
+          {mode === 'proches' && (
             <>
               La réservation se fait <strong>uniquement en ligne</strong>, sur le site de
               l&apos;opérateur agréé du centre choisi — les sources officielles de chaque centre
               voisin sont indiquées ci-dessus. Choisissez la mention correspondant à votre
-              démarche (carte de séjour pluriannuelle, carte de résident ou naturalisation).
+              démarche (carte de séjour pluriannuelle, carte de résident ou naturalisation).{' '}
+              Le tarif est fixé par chaque centre : vérifiez-le au moment de la réservation.
             </>
           )}
-          {' '}Le tarif est fixé par chaque centre : vérifiez-le au moment de la réservation.
-          La liste officielle des questions est publiée sur{' '}
+          {mode === 'ofii' && (
+            <>
+              L&apos;inscription se fait <strong>uniquement en ligne</strong>, auprès d&apos;un
+              opérateur agréé par l&apos;État (accessible via les liens officiels ci-dessus).
+              Choisissez la mention correspondant à votre démarche (carte de séjour pluriannuelle,
+              carte de résident ou naturalisation). Le tarif est fixé par chaque centre.
+            </>
+          )}
+          {' '}La liste officielle des questions est publiée sur{' '}
           <a href={EXAMEN_CIVIQUE.sourceQuestionsUrl} target="_blank" rel="noopener" style={{ color: 'var(--color-blue-france)' }}>
             formation-civique.interieur.gouv.fr <ExternalLink size={11} style={{ display: 'inline' }} />
           </a>.

@@ -10,7 +10,7 @@
  * console.warn au build) : impossible de publier une coquille par accident.
  */
 
-import type { CentreExamen, CentreProche, Departement } from './types';
+import type { CentreExamen, CentreProche, Departement, OfiiDirection } from './types';
 import { paris } from './paris';
 import { hautsDeSeine } from './hauts-de-seine';
 import { seineSaintDenis } from './seine-saint-denis';
@@ -52,6 +52,10 @@ export function centreProcheValide(c: CentreProche): boolean {
   return Boolean(c.nom && c.ville && c.departement && c.sourceUrl && c.verifieLe);
 }
 
+export function ofiiValide(o: OfiiDirection | undefined): o is OfiiDirection {
+  return Boolean(o && o.nom && o.adresse && o.urlOfficielle && o.sourceUrl && o.verifieLe);
+}
+
 export interface VerdictPublication {
   ok: boolean;
   raisons: string[];
@@ -66,11 +70,14 @@ export function canPublish(d: Departement): VerdictPublication {
 
   const centresOk = d.centresExamen.filter(centreValide).length;
   const prochesOk = d.centresProches.filter(centreProcheValide).length;
+  const ofiiOk = ofiiValide(d.ofii);
 
-  if (centresOk === 0 && prochesOk < 2) {
+  // Base de publication valide : 1 centre partenaire OU 2 proches OU un ancrage
+  // étatique OFII vérifié (cas « pas encore de partenaire »).
+  if (centresOk === 0 && prochesOk < 2 && !ofiiOk) {
     raisons.push(
-      `Données centres insuffisantes : ${centresOk} centre(s) complet(s), ` +
-      `${prochesOk} centre(s) proche(s) complet(s). Minimum : 1 centre OU 2 proches.`,
+      `Données insuffisantes : ${centresOk} centre(s), ${prochesOk} proche(s), ` +
+      `OFII ${ofiiOk ? 'OK' : 'absent'}. Minimum : 1 centre OU 2 proches OU 1 OFII vérifié.`,
     );
   }
 
