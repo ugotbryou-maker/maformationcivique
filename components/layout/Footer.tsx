@@ -4,16 +4,17 @@ import type { TenantConfig } from '@/lib/tenants';
 
 const footerLinks = {
   Préparer: [
+    { label: 'Test d\'éligibilité', href: '/test-eligibilite' },
     { label: 'Modules de cours', href: '/modulesciviques' },
     { label: 'Examens blancs', href: '/examen' },
-    { label: 'Ressources & guides', href: '/ressources' },
+    { label: 'Centres d\'examen', href: '/examen-civique' },
     { label: 'Tarifs', href: '/#tarifs' },
   ],
   Ressources: [
     { label: 'Guide titre de séjour', href: '/ressources?cat=titre-sejour' },
     { label: 'Guide carte de résident', href: '/ressources?cat=carte-resident' },
     { label: 'Guide naturalisation', href: '/ressources?cat=naturalisation' },
-    { label: 'Actualités', href: '/ressources?cat=actualites' },
+    { label: 'Actualités (blog)', href: '/ressources' },
   ],
   'À propos': [
     { label: "L'examen civique", href: '/#examen-info' },

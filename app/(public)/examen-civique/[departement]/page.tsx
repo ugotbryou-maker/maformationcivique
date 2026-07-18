@@ -31,6 +31,7 @@ import { PiecesPrefectureBlock } from '@/components/examen-civique/PiecesPrefect
 import { DelaisObservesBlock } from '@/components/examen-civique/DelaisObservesBlock';
 import { ConversionBlock } from '@/components/examen-civique/ConversionBlock';
 import { FaqLocale } from '@/components/examen-civique/FaqLocale';
+import { EligibiliteCTA } from '@/components/eligibilite/EligibiliteCTA';
 
 export const dynamicParams = false;
 
@@ -312,6 +313,11 @@ export default async function ExamenCiviqueDepartementPage(
           )}.
         </p>
         <DelaisObservesBlock dep={dep} />
+
+        {/* ── CTA test d'éligibilité (lead magnet transverse) ── */}
+        <div style={{ marginTop: 32 }}>
+          <EligibiliteCTA />
+        </div>
 
         {/* ── Se préparer (bloc de conversion calculé) ── */}
         <h2 style={sectionTitle}>Se préparer à l&apos;examen civique {dep.nomAvecPreposition}</h2>
