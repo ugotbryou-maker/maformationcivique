@@ -35,7 +35,7 @@ export default function ExamenCiviqueIndexPage() {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_URL },
-      { '@type': 'ListItem', position: 2, name: 'Examen civique', item: `${SITE_URL}/examen-civique` },
+      { '@type': 'ListItem', position: 2, name: "Centres d'examen civique", item: `${SITE_URL}/examen-civique` },
     ],
   };
 

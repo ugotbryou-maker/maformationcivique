@@ -131,7 +131,7 @@ export default async function ExamenCiviqueDepartementPage(
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_URL },
-        { '@type': 'ListItem', position: 2, name: 'Examen civique', item: `${SITE_URL}/examen-civique` },
+        { '@type': 'ListItem', position: 2, name: "Centres d'examen civique", item: `${SITE_URL}/examen-civique` },
         { '@type': 'ListItem', position: 3, name: dep.nom, item: pageUrl },
       ],
     },
@@ -163,7 +163,7 @@ export default async function ExamenCiviqueDepartementPage(
         <nav aria-label="Fil d'Ariane" style={{ fontSize: 13, color: 'var(--color-text-muted)', marginBottom: 20 }}>
           <a href={SITE_URL} style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>Accueil</a>
           {' › '}
-          <a href={`${SITE_URL}/examen-civique`} style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>Examen civique</a>
+          <a href={`${SITE_URL}/examen-civique`} style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>Centres d&apos;examen civique</a>
           {' › '}
           <span style={{ color: 'var(--color-text-secondary)' }}>{dep.nom}</span>
         </nav>
@@ -171,8 +171,8 @@ export default async function ExamenCiviqueDepartementPage(
         <h1 style={{ fontSize: 'clamp(26px, 4.5vw, 38px)', fontWeight: 800, lineHeight: 1.2, color: 'var(--color-text-primary)', marginBottom: 20 }}>
           {/* Collapse quand la ville-préfecture est le département lui-même (Paris) */}
           {dep.prefectureVille === dep.nom
-            ? <>Examen civique {dep.nomAvecPreposition} ({dep.code})</>
-            : <>Examen civique à {dep.prefectureVille} et {dep.nomAvecPreposition} ({dep.code})</>}
+            ? <>Examen civique et linguistique {dep.nomAvecPreposition} ({dep.code})</>
+            : <>Examen civique et linguistique à {dep.prefectureVille} et {dep.nomAvecPreposition} ({dep.code})</>}
         </h1>
 
         {/* Réponse directe — données réelles dès le premier paragraphe */}
