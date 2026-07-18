@@ -10,8 +10,8 @@ import type { TenantConfig } from '@/lib/tenants';
 import { useRouter } from 'next/navigation';
 
 const navLinks = [
-  { num: '02', label: 'Examens blancs', href: '/examen' },
-  { num: '04', label: 'Tarifs',         href: '/#tarifs' },
+  { num: '02', label: 'Examens blancs',    href: '/examen' },
+  { num: '04', label: "Test d'éligibilité", href: '/test-eligibilite' },
 ];
 
 const modulesLinks = [
