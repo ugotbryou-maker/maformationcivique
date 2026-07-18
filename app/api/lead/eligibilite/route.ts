@@ -16,6 +16,8 @@ export async function POST(req: NextRequest) {
       telephone: string;
       demarche?: string;
       verdict?: string;
+      routage?: string;
+      qualification?: string;
       reponses?: Record<string, string>;
     };
 
@@ -38,12 +40,23 @@ export async function POST(req: NextRequest) {
       .map(([k, v]) => `<tr><td style="padding:6px 0;color:#6b7280;width:150px">${k}</td><td style="padding:6px 0;font-weight:600">${v}</td></tr>`)
       .join('');
 
+    // Routage : avocat = urgent (délais de recours courts), sinon formation.
+    const versAvocat = body.routage === 'avocat';
+    const prefixe = versAvocat ? '⚖️ URGENT · AVOCAT' : '🎯 Lead';
+    const bandeau = body.qualification
+      ? `<div style="background:${versAvocat ? '#FEF2F2' : '#ECFDF5'};border:1px solid ${versAvocat ? '#FECACA' : '#A7F3D0'};border-radius:8px;padding:12px 16px;margin-bottom:16px">
+           <strong style="color:${versAvocat ? '#B91C1C' : '#047857'}">${versAvocat ? 'À transmettre à l\'avocat partenaire' : 'Qualification'}</strong><br>
+           <span style="color:#374151">${body.qualification}</span>
+         </div>`
+      : '';
+
     // Notification interne (Ugo — B2C)
     await sendEmail({
       to: [{ email: 'ugotbr.you@gmail.com', name: 'Ugo' }],
-      subject: `🎯 Lead éligibilité — ${body.prenom} ${body.nom} (${body.demarche ?? ''})`,
+      subject: `${prefixe} — ${body.prenom} ${body.nom} (${body.demarche ?? ''})`,
       htmlContent: `<div style="font-family:sans-serif;max-width:540px;margin:0 auto;padding:24px;border:1px solid #e5e7eb;border-radius:8px">
         <h2 style="color:#002395;margin-top:0">Nouveau lead — test d'éligibilité</h2>
+        ${bandeau}
         <table style="width:100%;border-collapse:collapse">${tableRows}</table>
         <p style="font-size:12px;color:#9ca3af;margin-top:20px">maformationcivique.fr — ${new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })}</p>
       </div>`,

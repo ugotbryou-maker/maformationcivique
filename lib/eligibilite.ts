@@ -211,12 +211,25 @@ export interface ChecklistItem {
   ok: boolean | 'warn';
 }
 
+/**
+ * Routage du prospect — sert à qualifier le lead pour la mise en relation.
+ * 'avocat'    : situation juridique prioritaire (OQTF, indignité, cas complexe)
+ * 'formation' : le blocage est la préparation (civique / dossier)
+ * 'langue'    : le blocage est le niveau de français
+ * 'mixte'     : les deux sont pertinents
+ */
+export type Routage = 'avocat' | 'formation' | 'langue' | 'mixte';
+
 export interface Verdict {
   status: VerdictStatus;
   titre: string;
   message: string;
   checklist: ChecklistItem[];
   etapes: string[];
+  /** Qualification du prospect pour la mise en relation. */
+  routage: Routage;
+  /** Libellé lisible de la qualification (pour la notification interne). */
+  qualification: string;
 }
 
 export function computeVerdict(a: Answers): Verdict {
@@ -228,15 +241,18 @@ export function computeVerdict(a: Answers): Verdict {
   if (estParcoursRegularisation(a)) {
     return {
       status: 'regularisation',
-      titre: 'Votre priorité : régulariser votre situation',
+      titre: 'Votre situation nécessite un avocat, rapidement',
       message:
-        "Sans titre de séjour valide — ou sous obligation de quitter le territoire (OQTF) — les démarches de titre de séjour et de naturalisation ne sont pas accessibles en l'état : elles supposent un séjour régulier. Votre priorité n'est donc pas l'examen civique, mais votre situation administrative. Faites-vous accompagner par un·e professionnel·le du droit des étrangers : une OQTF peut être contestée dans des délais très courts, et des voies de régularisation existent selon votre situation.",
+        "Sans titre de séjour valide — ou sous obligation de quitter le territoire (OQTF) — les démarches de titre de séjour et de naturalisation supposent d'abord de régulariser votre séjour. ⚠️ Les délais de recours contre une OQTF sont très courts (souvent 48 heures à 30 jours selon la mesure) : chaque jour compte. Nous pouvons vous mettre en relation avec un·e avocat·e partenaire spécialisé·e en droit des étrangers, qui évaluera un recours ou une voie de régularisation adaptée à votre situation.",
       checklist: [],
       etapes: [
-        "Consultez sans tarder un·e avocat·e en droit des étrangers ou une association agréée (les délais de recours contre une OQTF sont très brefs).",
-        "Renseignez-vous auprès d'un point d'accès au droit ou d'une permanence juridique gratuite près de chez vous.",
-        "Rassemblez les preuves de votre présence et de vos attaches en France (travail, famille, scolarité, santé) : elles seront déterminantes.",
+        "Restez joignable : un·e avocat·e partenaire vous recontacte pour examiner votre dossier.",
+        "Rassemblez dès maintenant vos documents : notification de l'OQTF (avec sa date), passeport, justificatifs de présence en France.",
+        "Réunissez les preuves de vos attaches : travail, famille, scolarité des enfants, santé, ancienneté de présence.",
+        "Ne laissez pas filer les délais : un recours hors délai est irrecevable, même si votre dossier est solide.",
       ],
+      routage: 'avocat',
+      qualification: 'PRIORITAIRE — OQTF / sans titre : à transmettre à l\'avocat partenaire sans délai',
     };
   }
 
@@ -258,6 +274,8 @@ export function computeVerdict(a: Answers): Verdict {
         `Préparez l'examen civique (objectif ${EXAMEN_CIVIQUE.seuilReussite}/${EXAMEN_CIVIQUE.nbQuestions}) et l'entretien.`,
         "Déposez votre déclaration auprès de l'autorité compétente.",
       ],
+      routage: 'mixte',
+      qualification: 'Voie déclaration par mariage (art. 21-2) — procédure spécifique : avocat utile + préparation',
     };
   }
 
@@ -310,9 +328,15 @@ export function computeVerdict(a: Answers): Verdict {
     return {
       status: 'bloque',
       titre: 'Un point de vigilance majeur',
-      message: `Une condamnation à 6 mois ou plus d'emprisonnement ferme constitue une cause d'indignité qui entraîne, en principe, le rejet d'une demande de naturalisation. Un avis juridique personnalisé est indispensable avant toute démarche.`,
+      message: `Une condamnation à 6 mois ou plus d'emprisonnement ferme constitue une cause d'indignité qui entraîne, en principe, le rejet d'une demande de naturalisation. Tout n'est pas figé pour autant : réhabilitation, effacement de la condamnation, ancienneté des faits ou autre voie de séjour peuvent changer la donne. C'est typiquement une situation où l'avis d'un·e avocat·e est décisif — nous pouvons vous mettre en relation.`,
       checklist,
-      etapes: ['Consultez un·e professionnel·le du droit des étrangers pour évaluer une éventuelle réhabilitation ou une autre voie.'],
+      etapes: [
+        "Restez joignable : un·e avocat·e partenaire vous recontacte pour qualifier votre situation.",
+        "Rassemblez les pièces utiles : décision de condamnation, date des faits, éventuelle réhabilitation.",
+        "N'engagez pas de démarche avant cet avis : un rejet laisse une trace dans votre dossier.",
+      ],
+      routage: 'avocat',
+      qualification: 'Indignité (prison ferme ≥ 6 mois) — dossier juridique complexe, à qualifier par l\'avocat',
     };
   }
 
@@ -327,6 +351,8 @@ export function computeVerdict(a: Answers): Verdict {
         'Passez un test certifié récent (TCF / TEF / DELF) pour obtenir votre justificatif.',
         ...etapesBase.slice(1),
       ],
+      routage: 'langue',
+      qualification: `Blocage langue — niveau ${niv} non atteint : prospect formation linguistique`,
     };
   }
 
@@ -336,9 +362,13 @@ export function computeVerdict(a: Answers): Verdict {
       titre: dureeIntermediaire ? 'Vous approchez de l\'éligibilité' : 'Il est encore un peu tôt',
       message: demarche === 'naturalisation'
         ? `La naturalisation par décret demande en principe 5 ans de résidence régulière (des réductions existent : diplôme supérieur français, statut de réfugié, etc.). En attendant, vous pouvez déjà préparer l'examen civique et votre niveau de français — c'est ce qui fait la différence le jour du dépôt.`
-        : `La carte de résident suppose une ancienneté de séjour suffisante (souvent 3 à 5 ans selon votre situation). Prenez de l'avance sur l'examen civique et le niveau de français.`,
+        : `La carte de résident suppose une ancienneté de séjour suffisante (souvent 3 à 5 ans selon votre situation, moins dans certains cas : conjoint·e de Français·e, parent d'enfant français…). Prenez de l'avance sur l'examen civique et le niveau de français.`,
       checklist,
       etapes: etapesBase,
+      routage: 'mixte',
+      qualification: dureeIntermediaire
+        ? 'Proche de l\'éligibilité — bon prospect formation ; vérification durée/dispense par avocat utile'
+        : 'Éligibilité future — prospect formation à nourrir (durée insuffisante)',
     };
   }
 
@@ -346,8 +376,12 @@ export function computeVerdict(a: Answers): Verdict {
   return {
     status: 'pret',
     titre: 'Bonne nouvelle : vous réunissez les conditions essentielles',
-    message: `D'après vos réponses, rien ne bloque votre démarche « ${demarcheLabel(demarche)} ». Il reste à consolider votre dossier et à préparer l'examen civique${demarche === 'naturalisation' ? ' et l\'entretien d\'assimilation' : ''} pour mettre toutes les chances de votre côté.`,
+    message: `D'après vos réponses, rien ne bloque votre démarche « ${demarcheLabel(demarche)} ». Il reste à consolider votre dossier et à préparer l'examen civique${demarche === 'naturalisation' ? ' et l\'entretien d\'assimilation' : ''} pour mettre toutes les chances de votre côté. Si vous souhaitez sécuriser le montage de votre dossier, nous pouvons aussi vous mettre en relation avec un·e avocat·e partenaire.`,
     checklist,
     etapes: etapesBase,
+    routage: fiscalOk ? 'formation' : 'mixte',
+    qualification: fiscalOk
+      ? 'CHAUD — conditions réunies : prospect formation prioritaire'
+      : 'Conditions réunies mais point fiscal à régler — formation + vérification avocat',
   };
 }

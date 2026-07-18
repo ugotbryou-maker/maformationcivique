@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ShieldCheck, Clock, AlertTriangle, GraduationCap, CheckCircle2, ArrowRight } from 'lucide-react';
 import {
-  visibleQuestions, helpText, computeVerdict, demarcheLabel, estParcoursRegularisation,
+  visibleQuestions, helpText, computeVerdict, demarcheLabel,
   type Answers, type Demarche, type VerdictStatus,
 } from '@/lib/eligibilite';
 
@@ -38,9 +38,7 @@ export function EligibiliteQuiz() {
     setAnswers(next);
     const nextQuestions = visibleQuestions(next);
     if (index >= nextQuestions.length - 1) {
-      // Parcours régularisation (OQTF / sans titre) : on n'en fait pas un
-      // prospect commercial — résultat d'orientation affiché directement.
-      setPhase(estParcoursRegularisation(next) ? 'result' : 'lead');
+      setPhase('lead');
     } else {
       setIndex(index + 1);
     }
@@ -62,6 +60,8 @@ export function EligibiliteQuiz() {
         prenom: lead.prenom, nom: lead.nom, email: lead.email, telephone: lead.telephone,
         demarche: answers.demarche ? demarcheLabel(answers.demarche as Demarche) : '',
         verdict: verdict.status,
+        routage: verdict.routage,
+        qualification: verdict.qualification,
         reponses: Object.fromEntries(Object.entries(answers).map(([k, v]) => [k, String(v)])),
       }),
     }).catch(() => {});
@@ -160,8 +160,9 @@ export function EligibiliteQuiz() {
           <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', margin: '14px 0 20px', cursor: 'pointer' }}>
             <input type="checkbox" checked={lead.rgpd} onChange={(e) => setLead({ ...lead, rgpd: e.target.checked })} style={{ width: 16, height: 16, marginTop: 2, accentColor: 'var(--color-blue-france)', flexShrink: 0 }} />
             <span style={{ fontSize: 12.5, lineHeight: 1.5, color: 'var(--color-text-muted)' }}>
-              J’accepte d’être recontacté·e pour être aidé·e dans mes démarches et ma préparation. Mes données sont
-              traitées par maformationcivique.fr conformément au RGPD ; je peux retirer mon consentement à tout moment.
+              J’accepte d’être recontacté·e pour être aidé·e dans mes démarches et ma préparation, et que mes
+              coordonnées soient transmises, si ma situation le justifie, à un·e <strong>avocat·e partenaire</strong> en
+              droit des étrangers. Données traitées conformément au RGPD ; je peux retirer mon consentement à tout moment.
             </span>
           </label>
           <button onClick={submitLead} disabled={!valid || submitting} style={{ ...primaryBtn, width: '100%', justifyContent: 'center', opacity: !valid || submitting ? 0.55 : 1, cursor: !valid || submitting ? 'default' : 'pointer' }}>
@@ -242,13 +243,15 @@ export function EligibiliteQuiz() {
 
       {/* CTA — aucun CTA commercial sur le parcours régularisation :
           la priorité de la personne est juridique, pas la préparation. */}
-      {verdict.status === 'regularisation' ? (
-        <div style={{ background: 'var(--color-off-white)', border: 'var(--border-default)', borderRadius: 'var(--radius-xl)', padding: '20px 24px' }}>
+      {verdict.routage === 'avocat' ? (
+        <div style={{ background: '#EEF4FF', border: '1px solid #BFDBFE', borderRadius: 'var(--radius-xl)', padding: '22px 24px' }}>
+          <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--color-text-primary)', margin: '0 0 6px' }}>
+            Votre demande a bien été transmise
+          </p>
           <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--color-text-secondary)', margin: 0 }}>
-            Nous ne vous proposons pas de formation à ce stade : elle ne résoudrait pas votre situation. Rapprochez-vous
-            d’un·e <strong>avocat·e en droit des étrangers</strong>, d’une <strong>permanence juridique gratuite</strong> ou
-            d’une association agréée. Vous pourrez préparer l’examen civique une fois votre séjour régularisé — nous
-            serons là à ce moment-là.
+            Un·e <strong>avocat·e partenaire en droit des étrangers</strong> va être mis·e en relation avec vous pour
+            examiner votre dossier. Compte tenu des délais de recours, préparez dès maintenant les documents listés
+            ci-dessus. Nous ne vous proposons pas de formation à ce stade : ce n’est pas votre priorité.
           </p>
         </div>
       ) : (
