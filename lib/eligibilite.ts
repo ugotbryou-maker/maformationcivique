@@ -83,7 +83,23 @@ export const QUESTIONS: QuizQuestion[] = [
       { value: 'pluriannuelle', label: 'Carte de séjour pluriannuelle (plus d\'1 an)' },
       { value: 'resident', label: 'Carte de résident (10 ans)' },
       { value: 'refugie_ue', label: 'Réfugié·e / protection internationale / citoyen·ne UE' },
+      { value: 'sans_titre', label: 'Sans titre de séjour valide, ou sous OQTF' },
     ],
+  },
+  {
+    id: 'situation',
+    theme: 'Votre situation',
+    question: 'Êtes-vous dans l\'une de ces situations particulières ?',
+    help: 'Certaines situations réduisent, voire suppriment, la durée de résidence exigée — ou relèvent d\'une autre procédure.',
+    options: [
+      { value: 'diplome_sup', label: 'Diplôme d\'un établissement supérieur français (2 ans d\'études)' },
+      { value: 'refugie', label: 'Réfugié·e statutaire (protection reconnue)' },
+      { value: 'francophone', label: 'Pays francophone / 5 ans de scolarité en français' },
+      { value: 'conjoint_fr', label: 'Marié·e à un·e Français·e depuis 4 ans ou plus' },
+      { value: 'aucune', label: 'Aucune de ces situations' },
+    ],
+    // Ces dispenses/réductions ne concernent que la naturalisation.
+    showIf: (a) => a.demarche === 'naturalisation' && a.titre !== 'sans_titre',
   },
   {
     id: 'duree',
@@ -96,8 +112,9 @@ export const QUESTIONS: QuizQuestion[] = [
       { value: '5plus', label: '5 ans ou plus' },
       { value: 'unsure', label: 'Je ne sais pas exactement' },
     ],
-    // La durée est déterminante pour résident (≈3-5 ans) et naturalisation (5 ans).
-    showIf: (a) => a.demarche === 'resident' || a.demarche === 'naturalisation',
+    // Déterminante pour résident (≈3-5 ans) et naturalisation (5 ans).
+    // Sautée si la personne n'a pas de titre valide (parcours régularisation).
+    showIf: (a) => a.titre !== 'sans_titre' && (a.demarche === 'resident' || a.demarche === 'naturalisation'),
   },
   {
     id: 'langue',
@@ -111,6 +128,7 @@ export const QUESTIONS: QuizQuestion[] = [
       { value: 'noproof', label: 'J\'ai le niveau mais pas encore de justificatif officiel' },
       { value: 'weak', label: 'Mon niveau est en dessous / je ne suis pas sûr·e' },
     ],
+    showIf: (a) => a.titre !== 'sans_titre',
   },
   {
     id: 'casier',
@@ -123,6 +141,7 @@ export const QUESTIONS: QuizQuestion[] = [
       { value: 'prison', label: 'Oui, prison ferme de 6 mois ou plus' },
       { value: 'unsure', label: 'Je ne suis pas certain·e de ma situation' },
     ],
+    showIf: (a) => a.titre !== 'sans_titre',
   },
   {
     id: 'fiscal',
@@ -135,6 +154,7 @@ export const QUESTIONS: QuizQuestion[] = [
       { value: 'late', label: 'J\'ai eu des retards, en cours de régularisation' },
       { value: 'bad', label: 'Non, je ne suis pas à jour' },
     ],
+    showIf: (a) => a.titre !== 'sans_titre',
   },
   {
     id: 'civique',
@@ -147,8 +167,19 @@ export const QUESTIONS: QuizQuestion[] = [
       { value: 'low', label: 'Limitée — je n\'ai pas vraiment commencé' },
       { value: 'none', label: 'Très faible — je n\'ai pas encore abordé le sujet' },
     ],
+    showIf: (a) => a.titre !== 'sans_titre',
   },
 ];
+
+/**
+ * Parcours « régularisation » : la personne n'a pas de titre valide (ou est
+ * sous OQTF). On ne lui pose pas les questions de préparation et on ne la
+ * traite PAS comme un prospect commercial — on l'oriente vers un conseil
+ * juridique. Choix éthique assumé : son blocage n'est pas l'examen.
+ */
+export function estParcoursRegularisation(a: Answers): boolean {
+  return a.titre === 'sans_titre';
+}
 
 /** Textes d'aide dynamiques (dépendent des réponses / de la réglementation). */
 export function helpText(q: QuizQuestion, a: Answers): string | undefined {
@@ -173,7 +204,7 @@ export function visibleQuestions(a: Answers): QuizQuestion[] {
 
 // ── Verdict ───────────────────────────────────────────────────────────────────
 
-export type VerdictStatus = 'pret' | 'bientot' | 'langue' | 'bloque' | 'a_verifier';
+export type VerdictStatus = 'pret' | 'bientot' | 'langue' | 'bloque' | 'a_verifier' | 'regularisation' | 'autre_voie';
 
 export interface ChecklistItem {
   label: string;
@@ -192,20 +223,70 @@ export function computeVerdict(a: Answers): Verdict {
   const demarche = (a.demarche ?? 'naturalisation') as Demarche;
   const niv = niveauRequis(demarche);
 
+  // ── Priorité absolue : situation administrative à régulariser (OQTF / sans titre).
+  // On n'oriente PAS vers une offre de préparation : ce n'est pas le blocage.
+  if (estParcoursRegularisation(a)) {
+    return {
+      status: 'regularisation',
+      titre: 'Votre priorité : régulariser votre situation',
+      message:
+        "Sans titre de séjour valide — ou sous obligation de quitter le territoire (OQTF) — les démarches de titre de séjour et de naturalisation ne sont pas accessibles en l'état : elles supposent un séjour régulier. Votre priorité n'est donc pas l'examen civique, mais votre situation administrative. Faites-vous accompagner par un·e professionnel·le du droit des étrangers : une OQTF peut être contestée dans des délais très courts, et des voies de régularisation existent selon votre situation.",
+      checklist: [],
+      etapes: [
+        "Consultez sans tarder un·e avocat·e en droit des étrangers ou une association agréée (les délais de recours contre une OQTF sont très brefs).",
+        "Renseignez-vous auprès d'un point d'accès au droit ou d'une permanence juridique gratuite près de chez vous.",
+        "Rassemblez les preuves de votre présence et de vos attaches en France (travail, famille, scolarité, santé) : elles seront déterminantes.",
+      ],
+    };
+  }
+
+  // ── Voie particulière : conjoint·e de Français·e (déclaration, pas décret).
+  if (demarche === 'naturalisation' && a.situation === 'conjoint_fr') {
+    return {
+      status: 'autre_voie',
+      titre: 'Une autre voie, plus rapide, vous concerne',
+      message:
+        "Marié·e à un·e Français·e depuis 4 ans ou plus, vous relevez en principe de l'acquisition de la nationalité **par déclaration** (article 21-2 du Code civil) et non de la naturalisation par décret. La procédure est différente et souvent plus courte : pas de condition de durée de résidence de 5 ans, mais une communauté de vie et un niveau de français exigés. L'examen civique et l'entretien restent au programme.",
+      checklist: [
+        { label: `Niveau de français ${niv} à justifier`, ok: a.langue === 'dip' || a.langue === 'cert' ? true : 'warn' },
+        { label: 'Communauté de vie à prouver', ok: 'warn' },
+        { label: 'Connaissances civiques à préparer', ok: a.civique === 'good' ? true : 'warn' },
+      ],
+      etapes: [
+        "Vérifiez les conditions de la déclaration par mariage (durée de communauté de vie, résidence).",
+        `Justifiez votre niveau de français ${niv} par un diplôme ou un test certifié.`,
+        `Préparez l'examen civique (objectif ${EXAMEN_CIVIQUE.seuilReussite}/${EXAMEN_CIVIQUE.nbQuestions}) et l'entretien.`,
+        "Déposez votre déclaration auprès de l'autorité compétente.",
+      ],
+    };
+  }
+
   // Blocage dur : indignité (prison ferme ≥ 6 mois).
   const casierBloque = a.casier === 'prison';
   // Langue insuffisante / non justifiée réellement.
   const langueOk = a.langue === 'dip' || a.langue === 'cert';
   const langueFaible = a.langue === 'weak';
-  // Durée (seulement demandée pour resident / naturalisation).
-  const dureeOk = a.duree === '5plus';
-  const dureeIntermediaire = a.duree === '2to4';
+  // Durée (seulement demandée pour resident / naturalisation), corrigée par les
+  // dispenses/réductions de stage (service-public.fr F2213) :
+  //  - réfugié·e statutaire / francophone → aucune durée exigée
+  //  - diplôme d'un établissement supérieur français → stage réduit à 2 ans
+  const dispenseTotale = a.situation === 'refugie' || a.situation === 'francophone';
+  const stageReduit = a.situation === 'diplome_sup';
+  const dureeOk =
+    dispenseTotale ||
+    a.duree === '5plus' ||
+    (stageReduit && a.duree === '2to4');
+  const dureeIntermediaire = !dureeOk && a.duree === '2to4';
   const fiscalOk = a.fiscal === 'ok' || a.fiscal === 'noincome';
 
   const checklist: ChecklistItem[] = [];
   if (demarche !== 'csp') {
     checklist.push({
-      label: demarche === 'naturalisation' ? '5 ans de résidence régulière' : 'Ancienneté de séjour suffisante',
+      label: dispenseTotale
+        ? 'Durée de résidence : dispense applicable à votre situation'
+        : stageReduit
+          ? 'Durée de résidence (stage réduit à 2 ans — diplôme français)'
+          : demarche === 'naturalisation' ? '5 ans de résidence régulière' : 'Ancienneté de séjour suffisante',
       ok: dureeOk ? true : dureeIntermediaire ? 'warn' : false,
     });
   }

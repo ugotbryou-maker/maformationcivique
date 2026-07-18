@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ShieldCheck, Clock, AlertTriangle, GraduationCap, CheckCircle2, ArrowRight } from 'lucide-react';
 import {
-  QUESTIONS, visibleQuestions, helpText, computeVerdict, demarcheLabel,
+  visibleQuestions, helpText, computeVerdict, demarcheLabel, estParcoursRegularisation,
   type Answers, type Demarche, type VerdictStatus,
 } from '@/lib/eligibilite';
 
@@ -13,11 +13,13 @@ type Phase = 'intro' | 'quiz' | 'lead' | 'result';
 interface Lead { prenom: string; nom: string; email: string; telephone: string; rgpd: boolean; }
 
 const STATUS_STYLE: Record<VerdictStatus, { bg: string; border: string; color: string; icon: typeof ShieldCheck }> = {
-  pret:       { bg: '#ECFDF5', border: '#A7F3D0', color: '#047857', icon: CheckCircle2 },
-  bientot:    { bg: '#FFFBEB', border: '#FDE68A', color: '#B45309', icon: Clock },
-  langue:     { bg: '#EEF4FF', border: '#BFDBFE', color: '#1D4ED8', icon: GraduationCap },
-  bloque:     { bg: '#FEF2F2', border: '#FECACA', color: '#B91C1C', icon: AlertTriangle },
-  a_verifier: { bg: '#F8FAFC', border: '#E2E8F0', color: '#475569', icon: ShieldCheck },
+  pret:           { bg: '#ECFDF5', border: '#A7F3D0', color: '#047857', icon: CheckCircle2 },
+  bientot:        { bg: '#FFFBEB', border: '#FDE68A', color: '#B45309', icon: Clock },
+  langue:         { bg: '#EEF4FF', border: '#BFDBFE', color: '#1D4ED8', icon: GraduationCap },
+  bloque:         { bg: '#FEF2F2', border: '#FECACA', color: '#B91C1C', icon: AlertTriangle },
+  a_verifier:     { bg: '#F8FAFC', border: '#E2E8F0', color: '#475569', icon: ShieldCheck },
+  regularisation: { bg: '#FEF2F2', border: '#FECACA', color: '#B91C1C', icon: AlertTriangle },
+  autre_voie:     { bg: '#EEF4FF', border: '#BFDBFE', color: '#1D4ED8', icon: ShieldCheck },
 };
 
 export function EligibiliteQuiz() {
@@ -36,7 +38,9 @@ export function EligibiliteQuiz() {
     setAnswers(next);
     const nextQuestions = visibleQuestions(next);
     if (index >= nextQuestions.length - 1) {
-      setPhase('lead');
+      // Parcours régularisation (OQTF / sans titre) : on n'en fait pas un
+      // prospect commercial — résultat d'orientation affiché directement.
+      setPhase(estParcoursRegularisation(next) ? 'result' : 'lead');
     } else {
       setIndex(index + 1);
     }
@@ -156,7 +160,8 @@ export function EligibiliteQuiz() {
           <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', margin: '14px 0 20px', cursor: 'pointer' }}>
             <input type="checkbox" checked={lead.rgpd} onChange={(e) => setLead({ ...lead, rgpd: e.target.checked })} style={{ width: 16, height: 16, marginTop: 2, accentColor: 'var(--color-blue-france)', flexShrink: 0 }} />
             <span style={{ fontSize: 12.5, lineHeight: 1.5, color: 'var(--color-text-muted)' }}>
-              J’accepte d’être recontacté·e par maformationcivique.fr au sujet de ma préparation, conformément au RGPD.
+              J’accepte d’être recontacté·e pour être aidé·e dans mes démarches et ma préparation. Mes données sont
+              traitées par maformationcivique.fr conformément au RGPD ; je peux retirer mon consentement à tout moment.
             </span>
           </label>
           <button onClick={submitLead} disabled={!valid || submitting} style={{ ...primaryBtn, width: '100%', justifyContent: 'center', opacity: !valid || submitting ? 0.55 : 1, cursor: !valid || submitting ? 'default' : 'pointer' }}>
@@ -191,7 +196,22 @@ export function EligibiliteQuiz() {
         <p style={{ fontSize: 14.5, lineHeight: 1.7, color: 'var(--color-text-secondary)', margin: 0 }}>{verdict.message}</p>
       </div>
 
-      {/* Checklist */}
+      {/* Disclaimer bien visible, juste sous le verdict */}
+      <div style={{
+        display: 'flex', alignItems: 'flex-start', gap: 10,
+        background: 'var(--color-off-white)', border: '1px dashed var(--color-border)',
+        borderRadius: 'var(--radius-lg)', padding: '13px 16px', marginBottom: 16,
+      }}>
+        <AlertTriangle size={16} color="var(--color-text-muted)" style={{ flexShrink: 0, marginTop: 1 }} />
+        <p style={{ fontSize: 12.5, lineHeight: 1.6, color: 'var(--color-text-secondary)', margin: 0 }}>
+          <strong>Ceci est une estimation, pas un diagnostic officiel.</strong> Le résultat repose uniquement sur vos
+          réponses et ne constitue ni une décision de la préfecture, ni un avis juridique. Seule l’administration est
+          compétente pour statuer sur votre dossier.
+        </p>
+      </div>
+
+      {/* Checklist (masquée si aucun critère à afficher, ex. parcours régularisation) */}
+      {verdict.checklist.length > 0 && (
       <div style={{ ...card, marginBottom: 16, padding: '22px 24px' }}>
         <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 14px' }}>Votre situation</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -205,6 +225,7 @@ export function EligibiliteQuiz() {
           ))}
         </div>
       </div>
+      )}
 
       {/* Étapes */}
       <div style={{ ...card, marginBottom: 16, padding: '22px 24px' }}>
@@ -219,15 +240,28 @@ export function EligibiliteQuiz() {
         </ol>
       </div>
 
-      {/* CTA */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-        <Link href="/examen" style={{ ...primaryBtn, textDecoration: 'none' }}>Passer un examen blanc gratuit <ArrowRight size={16} /></Link>
-        <Link href="/modulesciviques" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', border: '1.5px solid var(--color-border)', color: 'var(--color-text-primary)', padding: '13px 24px', borderRadius: 'var(--radius-pill)', fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
-          Découvrir les modules
-        </Link>
-      </div>
+      {/* CTA — aucun CTA commercial sur le parcours régularisation :
+          la priorité de la personne est juridique, pas la préparation. */}
+      {verdict.status === 'regularisation' ? (
+        <div style={{ background: 'var(--color-off-white)', border: 'var(--border-default)', borderRadius: 'var(--radius-xl)', padding: '20px 24px' }}>
+          <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--color-text-secondary)', margin: 0 }}>
+            Nous ne vous proposons pas de formation à ce stade : elle ne résoudrait pas votre situation. Rapprochez-vous
+            d’un·e <strong>avocat·e en droit des étrangers</strong>, d’une <strong>permanence juridique gratuite</strong> ou
+            d’une association agréée. Vous pourrez préparer l’examen civique une fois votre séjour régularisé — nous
+            serons là à ce moment-là.
+          </p>
+        </div>
+      ) : (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+          <Link href="/examen" style={{ ...primaryBtn, textDecoration: 'none' }}>Passer un examen blanc gratuit <ArrowRight size={16} /></Link>
+          <Link href="/modulesciviques" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', border: '1.5px solid var(--color-border)', color: 'var(--color-text-primary)', padding: '13px 24px', borderRadius: 'var(--radius-pill)', fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
+            Découvrir les modules
+          </Link>
+        </div>
+      )}
       <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 20, lineHeight: 1.6 }}>
-        Ce résultat est indicatif et fondé sur vos réponses. Il ne constitue ni une décision de la préfecture ni un avis juridique. Des exceptions et des cas particuliers existent.
+        Des exceptions et des cas particuliers existent (réductions de stage, procédures par déclaration, situations
+        familiales spécifiques). En cas de doute, faites vérifier votre situation par un·e professionnel·le du droit.
       </p>
     </div>
   );
