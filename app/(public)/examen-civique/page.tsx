@@ -5,7 +5,7 @@
 
 import { MapPin } from 'lucide-react';
 import type { Metadata } from 'next';
-import { departementsPublies, centreValide } from '@/data/departements';
+import { departementsPublies, centreValide, centreProcheValide, ofiiValide } from '@/data/departements';
 import { ARTICLE_PILIER_URL, SITE_URL } from '@/lib/reglementation';
 
 export const metadata: Metadata = {
@@ -49,9 +49,9 @@ export default function ExamenCiviqueIndexPage() {
         </h1>
 
         <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--color-text-secondary)', marginBottom: 12 }}>
-          Chaque fiche départementale liste les <strong>centres d&apos;examen agréés</strong> (adresses
-          et liens de réservation officiels, vérifiés à la date indiquée), les spécificités
-          publiées par la préfecture, et la marche à suivre pour s&apos;inscrire.
+          Chaque fiche départementale indique <strong>où passer l&apos;examen</strong> près de chez
+          vous via les ressources officielles de l&apos;État, votre interlocuteur public local
+          (OFII), et la marche à suivre pour s&apos;inscrire — informations vérifiées et datées.
         </p>
         <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--color-text-muted)', marginBottom: 36 }}>
           Pour le format de l&apos;épreuve et les niveaux exigés selon votre démarche, consultez{' '}
@@ -86,6 +86,14 @@ export default function ExamenCiviqueIndexPage() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 12 }}>
                 {deps.sort((a, b) => a.code.localeCompare(b.code)).map((d) => {
                   const nb = d.centresExamen.filter(centreValide).length;
+                  const nbProches = d.centresProches.filter(centreProcheValide).length;
+                  const sousTitre = nb > 0
+                    ? `${nb} centre${nb > 1 ? 's' : ''} agréé${nb > 1 ? 's' : ''}`
+                    : nbProches > 0
+                      ? 'centres à proximité'
+                      : ofiiValide(d.ofii)
+                        ? 'démarche officielle · OFII'
+                        : 'démarche officielle';
                   return (
                     <a
                       key={d.slug}
@@ -103,7 +111,7 @@ export default function ExamenCiviqueIndexPage() {
                           {d.nom} ({d.code})
                         </span>
                         <span style={{ display: 'block', fontSize: 12, color: 'var(--color-text-muted)' }}>
-                          {nb > 0 ? `${nb} centre${nb > 1 ? 's' : ''} agréé${nb > 1 ? 's' : ''}` : 'centres voisins'}
+                          {sousTitre}
                         </span>
                       </span>
                     </a>

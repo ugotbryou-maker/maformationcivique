@@ -215,6 +215,15 @@ export default async function ExamenCiviqueDepartementPage(
           — cette page se concentre sur le local : où le passer, comment s&apos;inscrire, et ce que
           demande votre préfecture.
         </p>
+        <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--color-text-muted)', marginBottom: 8 }}>
+          L&apos;examen civique s&apos;accompagne d&apos;une exigence de <strong>niveau de français</strong>{' '}
+          selon votre démarche (A2, B1 ou B2). Préparez les deux volets — l&apos;examen civique{' '}
+          <em>et</em> le test de français — avec nos{' '}
+          <a href={`${SITE_URL}/modulesciviques`} style={{ color: 'var(--color-blue-france)' }}>modules civiques</a>{' '}
+          et nos{' '}
+          <a href={`${SITE_URL}/moduleslinguistiques`} style={{ color: 'var(--color-blue-france)' }}>cours de français A2/B1/B2</a>{' '}
+          {dep.nomAvecPreposition}, 100 % en ligne.
+        </p>
 
         {/* ── Bande d'en-tête département (photo + villes) ── */}
         <HeroDepartement dep={dep} />
@@ -318,6 +327,11 @@ export default async function ExamenCiviqueDepartementPage(
           <li>
             <a href={ARTICLE_PILIER_URL} style={{ color: 'var(--color-blue-france)' }}>
               Examen civique 2026 : questions, format et niveaux exigés
+            </a>
+          </li>
+          <li>
+            <a href={`${SITE_URL}/moduleslinguistiques`} style={{ color: 'var(--color-blue-france)' }}>
+              Cours de français en ligne A2, B1, B2 (test linguistique)
             </a>
           </li>
           <li>

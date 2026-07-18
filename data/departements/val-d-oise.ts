@@ -14,10 +14,12 @@ export const valDOise: Departement = {
   nomAvecPreposition: "dans le Val-d'Oise",
   prefectureVille: 'Cergy',
   region: 'Île-de-France',
-  villesPrincipales: ['Argenteuil', 'Cergy', 'Sarcelles'],
+  villesPrincipales: ['Argenteuil', 'Cergy', 'Sarcelles', 'Franconville', 'Garges-lès-Gonesse'],
   limitrophes: ['seine-saint-denis', 'hauts-de-seine', 'yvelines', 'oise', 'seine-et-marne'],
 
-  centresExamen: [], // TODO — sourcer
+  heroImage: { src: '/images/departements/val-d-oise.jpg', alt: "Val-d'Oise" },
+
+  centresExamen: [],
   centresProches: [],
 
   prefecture: {
@@ -27,6 +29,15 @@ export const valDOise: Departement = {
     verifieLe: '',
   },
 
+  ofii: {
+    nom: "Office français de l'immigration et de l'intégration (OFII) — Direction territoriale de Cergy",
+    adresse: 'Immeuble Ordinal, rue des Chaufours, 95002 Cergy-Pontoise Cedex',
+    departementsCouverts: ['95'],
+    urlOfficielle: 'https://www.ofii.fr',
+    sourceUrl: 'https://lannuaire.service-public.gouv.fr/ile-de-france/val-d-oise/af9c1abe-b92a-4c18-9bd8-e02935782a3c',
+    verifieLe: '2026-07-17',
+  },
+
   piecesPrefecture: { sourceUrl: '', verifieLe: '', specificites: [] },
 
   delaisObserves: {
@@ -34,5 +45,5 @@ export const valDOise: Departement = {
     moisMediane: null, periodeObservation: '', misAJourLe: '',
   },
 
-  publie: false,
+  publie: true,
 };

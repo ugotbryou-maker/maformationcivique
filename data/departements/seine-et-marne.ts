@@ -15,6 +15,8 @@ export const seineEtMarne: Departement = {
   villesPrincipales: ['Melun', 'Meaux', 'Chelles', 'Champs-sur-Marne', 'Pontault-Combault'],
   limitrophes: ['essonne', 'val-de-marne', 'seine-saint-denis', 'val-d-oise'],
 
+  heroImage: { src: '/images/departements/seine-et-marne.jpg', alt: 'Seine-et-Marne' },
+
   centresExamen: [],
   centresProches: [],
 
@@ -25,6 +27,15 @@ export const seineEtMarne: Departement = {
     verifieLe: '',
   },
 
+  ofii: {
+    nom: "Office français de l'immigration et de l'intégration (OFII) — Direction territoriale de Melun",
+    adresse: '2 bis avenue Jean-Jaurès, 77000 Melun',
+    departementsCouverts: ['77'],
+    urlOfficielle: 'https://www.ofii.fr',
+    sourceUrl: 'https://lannuaire.service-public.gouv.fr/ile-de-france/seine-et-marne/2ae12855-6a34-4afa-9baa-cc4ca917cd98',
+    verifieLe: '2026-07-17',
+  },
+
   piecesPrefecture: { sourceUrl: '', verifieLe: '', specificites: [] },
 
   delaisObserves: {
@@ -32,5 +43,5 @@ export const seineEtMarne: Departement = {
     moisMediane: null, periodeObservation: '', misAJourLe: '',
   },
 
-  publie: false,
+  publie: true,
 };

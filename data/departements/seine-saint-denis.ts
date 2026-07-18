@@ -21,25 +21,28 @@ export const seineSaintDenis: Departement = {
   nomAvecPreposition: 'en Seine-Saint-Denis',
   prefectureVille: 'Bobigny',
   region: 'Île-de-France',
-  villesPrincipales: ['Saint-Denis', 'Montreuil', 'Aubervilliers'],
+  villesPrincipales: ['Saint-Denis', 'Montreuil', 'Aubervilliers', 'Aulnay-sous-Bois', 'Drancy'],
   limitrophes: ['paris', 'val-de-marne', 'val-d-oise', 'seine-et-marne'],
 
-  centresExamen: [
-    // TODO : vérifier sur formation-civique.interieur.gouv.fr la liste des
-    // centres agréés en Seine-Saint-Denis, puis croiser avec le site de
-    // l'opérateur (CCI Paris ÎdF / FEI) pour adresse + URL de réservation.
-    // Chaque entrée DOIT avoir sourceUrl + verifieLe.
-  ],
+  heroImage: { src: '/images/departements/seine-saint-denis.jpg', alt: 'Basilique de Saint-Denis, Seine-Saint-Denis' },
 
-  centresProches: [
-    // TODO : à remplir seulement si aucun centre dans le 93 (peu probable).
-  ],
+  centresExamen: [],
+  centresProches: [],
 
   prefecture: {
     nom: 'Préfecture de la Seine-Saint-Denis',
     adresse: '', // TODO — depuis https://www.seine-saint-denis.gouv.fr uniquement
     urlOfficielle: 'https://www.seine-saint-denis.gouv.fr',
     verifieLe: '', // TODO
+  },
+
+  ofii: {
+    nom: "Office français de l'immigration et de l'intégration (OFII) — Direction territoriale de Bobigny",
+    adresse: '13 rue Marguerite-Yourcenar, 93000 Bobigny',
+    departementsCouverts: ['93'],
+    urlOfficielle: 'https://www.ofii.fr',
+    sourceUrl: 'https://lannuaire.service-public.gouv.fr/ile-de-france/seine-saint-denis/5a8e3d32-3789-4c86-ae57-2e6fd454dcff',
+    verifieLe: '2026-07-17',
   },
 
   piecesPrefecture: {
@@ -60,5 +63,5 @@ export const seineSaintDenis: Departement = {
     misAJourLe: '',
   },
 
-  publie: false, // ⛔ Ne passer à true qu'une fois les centres sourcés et vérifiés.
+  publie: true, // Publié sur ancrage OFII (Bobigny). Centres partenaires : phase 2.
 };

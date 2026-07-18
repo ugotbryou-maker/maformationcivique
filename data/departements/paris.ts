@@ -21,14 +21,28 @@ export const paris: Departement = {
   villesPrincipales: ['Paris'],
   limitrophes: ['hauts-de-seine', 'seine-saint-denis', 'val-de-marne'],
 
-  centresExamen: [], // TODO — sourcer sur formation-civique.interieur.gouv.fr + opérateur
+  heroImage: {
+    src: '/images/departements/paris.jpg',
+    alt: 'Vue de Paris',
+  },
+
+  centresExamen: [],
   centresProches: [],
 
   prefecture: {
     nom: 'Préfecture de Paris',
     adresse: '',
-    urlOfficielle: '', // TODO — Paris a une organisation particulière (préf. de police / préf. de région), à vérifier
+    urlOfficielle: '', // Paris a une organisation particulière (préf. de police / préf. de région)
     verifieLe: '',
+  },
+
+  ofii: {
+    nom: "Office français de l'immigration et de l'intégration (OFII) — Direction territoriale de Paris",
+    adresse: '83 rue de Patay, 75013 Paris',
+    departementsCouverts: ['75'],
+    urlOfficielle: 'https://www.ofii.fr',
+    sourceUrl: 'https://lannuaire.service-public.gouv.fr/ile-de-france/paris/ofii-75056-01',
+    verifieLe: '2026-07-17',
   },
 
   piecesPrefecture: {
@@ -47,5 +61,5 @@ export const paris: Departement = {
     misAJourLe: '',
   },
 
-  publie: false,
+  publie: true,
 };

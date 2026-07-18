@@ -15,14 +15,25 @@ export const hautsDeSeine: Departement = {
   villesPrincipales: ['Boulogne-Billancourt', 'Nanterre', 'Colombes'],
   limitrophes: ['paris', 'seine-saint-denis', 'val-de-marne', 'val-d-oise', 'yvelines', 'essonne'],
 
-  centresExamen: [], // TODO — sourcer
+  heroImage: { src: '/images/departements/hauts-de-seine.jpg', alt: 'La Défense, Hauts-de-Seine' },
+
+  centresExamen: [],
   centresProches: [],
 
   prefecture: {
     nom: 'Préfecture des Hauts-de-Seine',
     adresse: '',
-    urlOfficielle: 'https://www.hauts-de-seine.gouv.fr', // à confirmer (verifieLe requis avant affichage sourcé)
+    urlOfficielle: 'https://www.hauts-de-seine.gouv.fr', // à confirmer
     verifieLe: '',
+  },
+
+  ofii: {
+    nom: "Office français de l'immigration et de l'intégration (OFII) — Direction territoriale de Montrouge",
+    adresse: '55 rue Étienne Dolet, 92240 Malakoff',
+    departementsCouverts: ['78', '92'],
+    urlOfficielle: 'https://www.ofii.fr',
+    sourceUrl: 'https://lannuaire.service-public.gouv.fr/ile-de-france/hauts-de-seine/e512f4b2-8f2b-4a4a-8e77-76b90b1eee6e',
+    verifieLe: '2026-07-17',
   },
 
   piecesPrefecture: { sourceUrl: '', verifieLe: '', specificites: [] },
@@ -32,5 +43,5 @@ export const hautsDeSeine: Departement = {
     moisMediane: null, periodeObservation: '', misAJourLe: '',
   },
 
-  publie: false,
+  publie: true,
 };

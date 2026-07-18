@@ -15,7 +15,9 @@ export const valDeMarne: Departement = {
   villesPrincipales: ['Créteil', 'Vitry-sur-Seine', 'Champigny-sur-Marne'],
   limitrophes: ['paris', 'hauts-de-seine', 'seine-saint-denis', 'essonne', 'seine-et-marne'],
 
-  centresExamen: [], // TODO — sourcer
+  heroImage: { src: '/images/departements/val-de-marne.jpg', alt: 'Val-de-Marne' },
+
+  centresExamen: [],
   centresProches: [],
 
   prefecture: {
@@ -25,6 +27,15 @@ export const valDeMarne: Departement = {
     verifieLe: '',
   },
 
+  ofii: {
+    nom: "Office français de l'immigration et de l'intégration (OFII) — Direction territoriale de Créteil",
+    adresse: '13-15 rue Claude-Nicolas Ledoux, 94000 Créteil',
+    departementsCouverts: ['91', '94'],
+    urlOfficielle: 'https://www.ofii.fr',
+    sourceUrl: 'https://lannuaire.service-public.gouv.fr/ile-de-france/val-de-marne/982c071e-172f-4d85-933c-40cb06c710b6',
+    verifieLe: '2026-07-17',
+  },
+
   piecesPrefecture: { sourceUrl: '', verifieLe: '', specificites: [] },
 
   delaisObserves: {
@@ -32,5 +43,5 @@ export const valDeMarne: Departement = {
     moisMediane: null, periodeObservation: '', misAJourLe: '',
   },
 
-  publie: false,
+  publie: true,
 };
