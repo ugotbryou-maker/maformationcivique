@@ -10,7 +10,7 @@
  */
 
 import type { Metadata } from 'next';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, MapPin, Wallet, GraduationCap, Scale } from 'lucide-react';
 import { EligibiliteCTA } from '@/components/eligibilite/EligibiliteCTA';
 import {
   SITE_URL, ARTICLE_PILIER_URL, EXAMEN_CIVIQUE, NIVEAUX_LANGUE, NATURALISATION,
@@ -91,19 +91,49 @@ export default function GuideNaturalisationPage() {
     <main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
+      {/* ── Hero — photo en filigrane rouge (ton du site) ── */}
+      <section style={{ position: 'relative', overflow: 'hidden' }}>
+        <div aria-hidden style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'url(/images/modules/palais-elysee.jpg)',
+          backgroundSize: 'cover', backgroundPosition: 'center 35%',
+        }} />
+        <div aria-hidden style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(135deg, rgba(127,29,29,0.93) 0%, rgba(159,18,57,0.90) 55%, rgba(204,26,26,0.88) 100%)',
+        }} />
+        <div style={{ height: 3, background: 'linear-gradient(90deg,#002395 33%,#fff 33% 66%,#ED2939 66%)', position: 'relative' }} />
+
+        <div style={{ position: 'relative', maxWidth: 760, margin: '0 auto', padding: '52px 24px 56px' }}>
+          <nav aria-label="Fil d'Ariane" style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', marginBottom: 18 }}>
+            <a href={SITE_URL} style={{ color: 'rgba(255,255,255,0.65)', textDecoration: 'none' }}>Accueil</a>
+            {' › '}<span style={{ color: 'rgba(255,255,255,0.9)' }}>Guide naturalisation</span>
+          </nav>
+
+          <span style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)',
+            borderRadius: 100, padding: '5px 14px', marginBottom: 20,
+            fontSize: 11.5, fontWeight: 700, color: '#fff',
+            textTransform: 'uppercase', letterSpacing: '0.08em', backdropFilter: 'blur(6px)',
+          }}>
+            Guide complet · mis à jour {dateMaj}
+          </span>
+
+          <h1 style={{
+            fontSize: 'clamp(28px, 5vw, 44px)', fontWeight: 800, lineHeight: 1.15,
+            color: '#fff', margin: '0 0 16px', textShadow: '0 2px 20px rgba(0,0,0,0.25)',
+          }}>
+            Naturalisation française :<br />le guide complet 2026
+          </h1>
+          <p style={{ fontSize: 16.5, lineHeight: 1.7, color: 'rgba(255,255,255,0.88)', margin: 0, maxWidth: 560 }}>
+            Conditions, voies d&apos;accès, niveau {NIVEAUX_LANGUE.naturalisation}, examen civique, démarche ANEF,
+            délais et recours — l&apos;essentiel vérifié aux sources officielles.
+          </p>
+        </div>
+      </section>
+
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '40px 24px 80px' }}>
-
-        <nav aria-label="Fil d'Ariane" style={{ fontSize: 13, color: 'var(--color-text-muted)', marginBottom: 20 }}>
-          <a href={SITE_URL} style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>Accueil</a>
-          {' › '}<span style={{ color: 'var(--color-text-secondary)' }}>Guide naturalisation</span>
-        </nav>
-
-        <h1 style={{ fontSize: 'clamp(27px, 4.5vw, 40px)', fontWeight: 800, lineHeight: 1.18, color: 'var(--color-text-primary)', marginBottom: 12 }}>
-          Naturalisation française : le guide complet 2026
-        </h1>
-        <p style={{ fontSize: 13, color: 'var(--color-text-muted)', marginBottom: 26 }}>
-          Dernière mise à jour : {dateMaj}
-        </p>
 
         <p style={p}>
           La <strong>naturalisation</strong> est la procédure qui permet à une personne étrangère de{' '}
@@ -134,51 +164,71 @@ export default function GuideNaturalisationPage() {
           {new Date(NATURALISATION.verifieLe).toLocaleDateString('fr-FR')}).
         </p>
 
-        <h3 style={h3}>La résidence en France</h3>
-        <p style={p}>
-          Vous devez justifier d&apos;une <strong>résidence habituelle et régulière en France depuis au moins{' '}
-          {NATURALISATION.dureeResidenceAns} ans</strong> à la date de la demande. Vous devez aussi y avoir le{' '}
-          <strong>centre de vos intérêts</strong> (travail, famille) au moment de la signature du décret.
-        </p>
-        <p style={p}>
-          Cette durée peut être <strong>réduite à {NATURALISATION.dureeReduiteAns} ans</strong> dans certains cas, par
-          exemple si vous avez accompli des études supérieures dans un établissement français. Elle peut même être{' '}
-          <strong>supprimée</strong> dans des situations particulières (statut de réfugié, notamment). Ces exceptions
-          sont précises : vérifiez la vôtre.
-        </p>
+        {/* Grille des 4 conditions — 1ʳᵉ cellule mise en avant */}
+        <div className="cond-grid" style={{
+          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 28, margin: '28px 0 8px',
+        }}>
+          {/* Cellule vedette : la résidence */}
+          <div className="cond-featured" style={{ gridColumn: 'span 2' }}>
+            <MapPin size={30} color="var(--color-text-primary)" strokeWidth={2.2} />
+            <h3 style={{ fontSize: 'clamp(24px, 3.6vw, 34px)', fontWeight: 800, lineHeight: 1.1, color: 'var(--color-text-primary)', margin: '18px 0 12px', letterSpacing: '-0.02em' }}>
+              {NATURALISATION.dureeResidenceAns} ans de résidence
+            </h3>
+            <p style={{ fontSize: 14.5, lineHeight: 1.65, color: 'var(--color-text-secondary)', margin: 0 }}>
+              Résidence habituelle et <strong>régulière</strong> en France depuis au moins{' '}
+              {NATURALISATION.dureeResidenceAns} ans, avec le centre de vos intérêts (travail, famille) en France.
+              Durée <strong>réduite à {NATURALISATION.dureeReduiteAns} ans</strong> après des études supérieures
+              françaises, voire <strong>supprimée</strong> pour les réfugiés statutaires.
+            </p>
+          </div>
 
-        <h3 style={h3}>Les ressources et l&apos;insertion professionnelle</h3>
-        <p style={p}>
-          Vous devez disposer de <strong>ressources stables et suffisantes</strong> pour subvenir à vos besoins.
-          L&apos;administration examine votre <strong>insertion professionnelle</strong> — pas seulement votre
-          situation actuelle, mais la cohérence de votre parcours. Les travailleurs indépendants doivent aussi
-          démontrer des revenus réguliers.
-        </p>
-
-        <h3 style={h3}>Le niveau de français : {NIVEAUX_LANGUE.naturalisation} depuis 2026</h3>
-        <p style={p}>
-          C&apos;est le changement majeur. Depuis le <strong>1ᵉʳ janvier 2026</strong>, il faut justifier d&apos;un
-          niveau <strong>{NIVEAUX_LANGUE.naturalisation}</strong> à l&apos;oral <strong>et</strong> à l&apos;écrit
-          (auparavant, le B1 suffisait). Ce niveau se prouve avec un diplôme français, un{' '}
-          <strong>DELF {NIVEAUX_LANGUE.naturalisation}</strong>, ou une attestation <strong>TCF/TEF</strong> de moins
-          de 2 ans.
-        </p>
-        <p style={p}>
-          Attention : de nombreux sites affichent encore « B1 ». C&apos;est <strong>faux</strong> pour toute demande
-          déposée en 2026. Pour tout comprendre (justificatifs acceptés, dispenses, pièges), lisez notre guide dédié :{' '}
-          <a href={`${SITE_URL}/ressources/justificatif-niveau-francais-naturalisation-b2`} style={a}>
-            Justificatif de niveau de français pour la naturalisation
-          </a>.
-        </p>
-
-        <h3 style={h3}>L&apos;assimilation et le comportement</h3>
-        <p style={p}>
-          Vous devez être <strong>assimilé à la communauté française</strong> : adhésion aux principes et valeurs de
-          la République, connaissance suffisante de l&apos;histoire et des institutions. Cette assimilation est
-          vérifiée par l&apos;<strong>examen civique</strong> et par l&apos;<strong>entretien</strong> en préfecture.
-          Enfin, votre <strong>casier judiciaire</strong> et votre comportement sont examinés : certaines
-          condamnations sont incompatibles avec la naturalisation.
-        </p>
+          {[
+            {
+              icon: Wallet,
+              titre: 'Ressources stables et suffisantes',
+              desc: <>Revenus réguliers permettant de subvenir à vos besoins. L&apos;administration examine la <strong>cohérence de votre parcours professionnel</strong>, pas seulement votre situation du moment.</>,
+            },
+            {
+              icon: GraduationCap,
+              titre: `Niveau de français ${NIVEAUX_LANGUE.naturalisation}`,
+              desc: <>À l&apos;oral <strong>et</strong> à l&apos;écrit depuis le 1ᵉʳ janvier 2026 (le B1 ne suffit plus). Diplôme français, DELF {NIVEAUX_LANGUE.naturalisation} ou attestation TCF/TEF de moins de 2 ans.</>,
+              lien: { href: `${SITE_URL}/ressources/justificatif-niveau-francais-naturalisation-b2`, label: 'Les justificatifs acceptés' },
+            },
+            {
+              icon: Scale,
+              titre: 'Assimilation et comportement',
+              desc: <>Adhésion aux valeurs de la République, vérifiée par l&apos;<strong>examen civique</strong> et l&apos;<strong>entretien</strong> en préfecture. Le casier judiciaire est examiné : certaines condamnations sont rédhibitoires.</>,
+            },
+          ].map(({ icon: Icon, titre, desc, lien }) => (
+            <div key={titre}>
+              <Icon size={26} color="var(--color-text-primary)" strokeWidth={2.2} />
+              <h3 style={{ fontSize: 17, fontWeight: 800, lineHeight: 1.25, color: 'var(--color-text-primary)', margin: '14px 0 8px', letterSpacing: '-0.01em' }}>
+                {titre}
+              </h3>
+              <p style={{ fontSize: 13.5, lineHeight: 1.6, color: 'var(--color-text-secondary)', margin: 0 }}>{desc}</p>
+              {lien && (
+                <a href={lien.href} style={{ display: 'inline-block', marginTop: 10, fontSize: 12.5, fontWeight: 600, color: 'var(--color-text-muted)', textDecoration: 'none' }}>
+                  {lien.label} ↗
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+        {/* Pas de sélecteur « > » ici : en JSX il est échappé différemment
+            côté serveur et client, ce qui casse l'hydratation. Classes explicites. */}
+        <style>{`
+          @media (max-width: 860px) {
+            .cond-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 24px !important; }
+            .cond-featured { grid-column: span 2 !important; }
+          }
+          @media (max-width: 520px) {
+            .cond-grid { grid-template-columns: 1fr !important; }
+            .cond-featured { grid-column: span 1 !important; }
+          }
+          .faq-summary::-webkit-details-marker { display: none; }
+          .faq-summary { list-style: none; }
+          .faq-item[open] .faq-chevron { transform: rotate(180deg); }
+        `}</style>
 
         {/* ── Voies ── */}
         <h2 style={h2}>Les 3 voies d&apos;accès à la nationalité française</h2>
@@ -279,42 +329,58 @@ export default function GuideNaturalisationPage() {
           (source : service-public.fr). Ce montant peut évoluer : vérifiez-le au moment du dépôt.
         </p>
 
-        {/* ── Délais ── */}
+        {/* ── Délais : timeline à grands numéros ── */}
         <h2 style={h2}>Délais, décret et après le dépôt</h2>
-
-        <h3 style={h3}>Combien de temps pour une réponse ?</h3>
         <p style={p}>
-          L&apos;administration dispose en principe de <strong>{NATURALISATION.delaiReponseMois} mois</strong> à
-          compter de la remise du récépissé pour se prononcer (délai réduit à{' '}
-          <strong>{NATURALISATION.delaiReponseMoisResident10Ans} mois</strong> si vous résidez en France depuis au
-          moins 10 ans). Ce délai peut être <strong>prolongé une seule fois de {NATURALISATION.prolongationMois} mois</strong>,
-          par décision motivée. Ces délais sont des <strong>plafonds légaux</strong>, pas une garantie : les délais
-          réels varient selon les services et le volume de dossiers.
+          Une fois le dossier déposé, le parcours suit quatre temps. Voici ce que prévoient les textes — et ce qui
+          se passe réellement.
         </p>
 
-        <h3 style={h3}>La décision : décret, ajournement ou refus</h3>
-        <p style={p}>
-          Trois issues sont possibles. En cas d&apos;<strong>accord</strong>, un <strong>décret de naturalisation</strong>{' '}
-          est signé, puis <strong>publié au Journal officiel</strong> : la date de publication est votre{' '}
-          <strong>date officielle d&apos;acquisition</strong> de la nationalité. Conservez précieusement
-          l&apos;extrait du JO.
-        </p>
-        <p style={p}>
-          En cas d&apos;<strong>ajournement</strong>, l&apos;administration estime que les conditions ne sont pas
-          encore réunies et fixe un délai avant de redéposer. En cas de <strong>refus</strong>, la décision est
-          motivée.
-        </p>
-
-        <h3 style={h3}>Les recours</h3>
-        <p style={p}>
-          Si votre demande est rejetée ou ajournée, vous devez d&apos;abord exercer un{' '}
-          <strong>recours administratif préalable auprès du ministre</strong> chargé des naturalisations, dans un
-          délai de <strong>{NATURALISATION.delaiRecoursAdministratifMois} mois</strong> suivant la notification. Ce
-          recours est <strong>obligatoire</strong> : il conditionne la recevabilité de la suite. Ensuite seulement,
-          vous pouvez saisir le <strong>{NATURALISATION.tribunalCompetent}</strong>, seul compétent en matière de
-          nationalité, dans les {NATURALISATION.delaiRecoursAdministratifMois} mois suivant le rejet — ou l&apos;absence
-          de réponse dans les 4 mois.
-        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 0, margin: '28px 0 8px' }}>
+          {[
+            {
+              titre: 'Le récépissé lance le compte à rebours',
+              corps: <>Après le dépôt sur l&apos;ANEF, vous recevez un <strong>récépissé</strong>. C&apos;est lui — et non la date de dépôt — qui fait courir le délai légal d&apos;instruction. Conservez-le.</>,
+              accent: false,
+            },
+            {
+              titre: `${NATURALISATION.delaiReponseMois} mois d'instruction (ou ${NATURALISATION.delaiReponseMoisResident10Ans})`,
+              corps: <>L&apos;administration dispose de <strong>{NATURALISATION.delaiReponseMois} mois</strong> pour se prononcer, <strong>réduits à {NATURALISATION.delaiReponseMoisResident10Ans} mois</strong> si vous résidez en France depuis au moins 10 ans. Prolongation possible <strong>une seule fois de {NATURALISATION.prolongationMois} mois</strong>, par décision motivée. Ce sont des <strong>plafonds légaux</strong>, pas une garantie : les délais réels varient selon les services.</>,
+              accent: true,
+            },
+            {
+              titre: 'Décret, ajournement ou refus',
+              corps: <>En cas d&apos;accord, un <strong>décret</strong> est signé puis <strong>publié au Journal officiel</strong> : cette date de publication est votre <strong>date officielle d&apos;acquisition</strong> de la nationalité. L&apos;<strong>ajournement</strong> fixe un délai avant de redéposer ; le <strong>refus</strong> est motivé.</>,
+              accent: false,
+            },
+            {
+              titre: `Recours : ${NATURALISATION.delaiRecoursAdministratifMois} mois, et dans le bon ordre`,
+              corps: <>En cas de rejet ou d&apos;ajournement, vous devez <strong>d&apos;abord</strong> saisir le ministre d&apos;un <strong>recours administratif préalable</strong> sous {NATURALISATION.delaiRecoursAdministratifMois} mois. Cette étape est <strong>obligatoire</strong> : sans elle, la suite est irrecevable. Ensuite seulement, le <strong>{NATURALISATION.tribunalCompetent}</strong> — seul compétent en matière de nationalité — sous {NATURALISATION.delaiRecoursAdministratifMois} mois, ou après 4 mois de silence.</>,
+              accent: false,
+            },
+          ].map(({ titre, corps, accent }, i) => (
+            <div key={titre} style={{
+              display: 'flex', gap: 22, alignItems: 'flex-start',
+              padding: '26px 0',
+              borderTop: `1px solid ${accent ? 'var(--color-red-france, #CC1A1A)' : 'var(--color-border)'}`,
+            }}>
+              <span aria-hidden style={{
+                flexShrink: 0, minWidth: 76,
+                fontSize: 'clamp(52px, 8vw, 76px)', fontWeight: 800, lineHeight: 0.85,
+                letterSpacing: '-0.04em',
+                color: accent ? '#CC1A1A' : 'var(--color-border)',
+              }}>
+                {i + 1}
+              </span>
+              <div style={{ paddingTop: 6 }}>
+                <h3 style={{ fontSize: 17.5, fontWeight: 800, color: 'var(--color-text-primary)', margin: '0 0 8px', lineHeight: 1.3 }}>
+                  {titre}
+                </h3>
+                <p style={{ fontSize: 14.5, lineHeight: 1.7, color: 'var(--color-text-secondary)', margin: 0 }}>{corps}</p>
+              </div>
+            </div>
+          ))}
+        </div>
 
         {/* ── FAQ (HTML visible, sans balisage FAQPage) ── */}
         <h2 style={h2}>Questions fréquentes</h2>
@@ -344,11 +410,28 @@ export default function GuideNaturalisationPage() {
               q: 'Que faire en cas de refus ou d\'ajournement ?',
               r: `Vous devez d'abord faire un recours administratif auprès du ministre dans les ${NATURALISATION.delaiRecoursAdministratifMois} mois — cette étape est obligatoire — puis, en cas de rejet, saisir le ${NATURALISATION.tribunalCompetent}. Un ajournement n'est pas définitif : il indique ce qui doit être renforcé.`,
             },
-          ].map(({ q, r }) => (
-            <div key={q} style={{ background: 'var(--color-surface)', border: 'var(--border-default)', borderRadius: 'var(--radius-lg)', padding: '18px 22px' }}>
-              <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--color-text-primary)', margin: '0 0 8px' }}>{q}</p>
-              <p style={{ fontSize: 14.5, lineHeight: 1.7, color: 'var(--color-text-secondary)', margin: 0 }}>{r}</p>
-            </div>
+          ].map(({ q, r }, i) => (
+            /* <details> natif : la réponse est TOUJOURS dans le HTML (juste
+               repliée), donc indexable — contrairement à un accordéon qui
+               injecterait le contenu au clic. Première question ouverte. */
+            <details key={q} className="faq-item" open={i === 0} style={{
+              background: 'var(--color-surface)', border: 'var(--border-default)',
+              borderRadius: 'var(--radius-lg)', padding: '4px 22px',
+            }}>
+              <summary className="faq-summary" style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14,
+                padding: '16px 0', cursor: 'pointer',
+                fontSize: 15, fontWeight: 700, color: 'var(--color-text-primary)', lineHeight: 1.35,
+              }}>
+                {q}
+                <span className="faq-chevron" aria-hidden style={{
+                  flexShrink: 0, transition: 'transform 200ms ease', color: 'var(--color-text-muted)', display: 'flex',
+                }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                </span>
+              </summary>
+              <p style={{ fontSize: 14.5, lineHeight: 1.7, color: 'var(--color-text-secondary)', margin: '0 0 18px' }}>{r}</p>
+            </details>
           ))}
         </div>
 
