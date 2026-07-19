@@ -81,7 +81,7 @@ export default function GuideNaturalisationPage() {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_URL },
-        { '@type': 'ListItem', position: 2, name: 'Guides', item: `${SITE_URL}/guides/naturalisation` },
+        { '@type': 'ListItem', position: 2, name: 'Guides', item: `${SITE_URL}/guides` },
         { '@type': 'ListItem', position: 3, name: 'Naturalisation', item: `${SITE_URL}/guides/naturalisation` },
       ],
     },
@@ -107,7 +107,9 @@ export default function GuideNaturalisationPage() {
         <div style={{ position: 'relative', maxWidth: 760, margin: '0 auto', padding: '52px 24px 56px' }}>
           <nav aria-label="Fil d'Ariane" style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', marginBottom: 18 }}>
             <a href={SITE_URL} style={{ color: 'rgba(255,255,255,0.65)', textDecoration: 'none' }}>Accueil</a>
-            {' › '}<span style={{ color: 'rgba(255,255,255,0.9)' }}>Guide naturalisation</span>
+            {' › '}
+            <a href={`${SITE_URL}/guides`} style={{ color: 'rgba(255,255,255,0.65)', textDecoration: 'none' }}>Guides</a>
+            {' › '}<span style={{ color: 'rgba(255,255,255,0.9)' }}>Naturalisation</span>
           </nav>
 
           <span style={{
