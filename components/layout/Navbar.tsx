@@ -20,8 +20,10 @@ const modulesLinks = [
 ];
 
 const resourcesLinks = [
-  { label: 'Articles & guides', href: '/ressources', description: 'Démarches, vie en France, actualités' },
-  { label: 'Fiches bonus',      href: '/fiches',      description: 'Grandes figures & grands lieux de France' },
+  { label: 'Guide naturalisation', href: '/guides/naturalisation', description: 'Conditions, voies, ANEF, délais — le guide complet 2026' },
+  { label: "Centres d'examen",     href: '/examen-civique',        description: 'Où passer l\'examen civique, par département' },
+  { label: 'Articles & guides',    href: '/ressources',            description: 'Démarches, vie en France, actualités' },
+  { label: 'Fiches bonus',         href: '/fiches',                description: 'Grandes figures & grands lieux de France' },
 ];
 
 const langs = ['FR', 'AR', 'EN', 'PT'];

@@ -35,6 +35,32 @@ export const NIVEAUX_LANGUE = {
 } as const;
 
 /**
+ * Naturalisation par décret — chiffres officiels.
+ * Source : service-public.fr F2213, vérifié le 19/07/2026.
+ * Code civil, art. 21-15 à 21-27.
+ */
+export const NATURALISATION = {
+  /** Durée de résidence régulière exigée (stage) */
+  dureeResidenceAns: 5,
+  /** Stage réduit (ex. diplôme d'un établissement supérieur français) */
+  dureeReduiteAns: 2,
+  /** Délai maximal de réponse de l'administration, à compter du récépissé */
+  delaiReponseMois: 18,
+  /** Délai réduit si résidence habituelle en France depuis 10 ans ou plus */
+  delaiReponseMoisResident10Ans: 12,
+  /** Prolongation possible une seule fois, motivée */
+  prolongationMois: 3,
+  /** Timbre fiscal (peut évoluer — à revérifier au dépôt) */
+  coutTimbreEuros: 255,
+  /** Recours administratif préalable OBLIGATOIRE auprès du ministre */
+  delaiRecoursAdministratifMois: 2,
+  /** Juridiction seule compétente pour le recours contentieux */
+  tribunalCompetent: 'tribunal administratif de Nantes',
+  verifieLe: '2026-07-19',
+  sourceUrl: 'https://www.service-public.gouv.fr/particuliers/vosdroits/F2213',
+} as const;
+
+/**
  * Article pilier du blog : tout ce qui touche au format de l'épreuve, aux
  * niveaux exigés et à la réglementation est expliqué LÀ-BAS, une seule fois.
  * Les pages locales lient vers cet article au lieu de réexpliquer.
