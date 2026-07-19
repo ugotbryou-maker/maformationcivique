@@ -61,6 +61,29 @@ export const NATURALISATION = {
 } as const;
 
 /**
+ * Titre de séjour — champ d'application de l'examen civique et repères 2026.
+ * Sources : service-public.fr F35799 (vérifié 01/05/2026) et F39530 ;
+ * Direction générale des étrangers en France. Vérifié le 19/07/2026.
+ */
+export const TITRE_SEJOUR = {
+  /** Fenêtre de dépôt d'un renouvellement, avant expiration du titre */
+  renouvellementAvantMoisMin: 2,
+  renouvellementAvantMoisMax: 4,
+  /** L'examen civique concerne UNIQUEMENT les premières demandes de : */
+  examenCiviqueConcerne: ['première carte de séjour pluriannuelle', 'première carte de résident'] as const,
+  /** Cas NON concernés / dispensés (à énumérer honnêtement sur la page) */
+  examenCiviqueDispense: [
+    'la carte de séjour temporaire d\'un an (première carte)',
+    'tous les renouvellements de titre',
+    'les bénéficiaires d\'une protection internationale, la protection subsidiaire, les apatrides',
+    'certains accords bilatéraux (ex. ressortissants algériens)',
+    'les personnes âgées de 65 ans et plus',
+  ] as const,
+  verifieLe: '2026-07-19',
+  sourceUrl: 'https://www.service-public.gouv.fr/particuliers/vosdroits/F39530',
+} as const;
+
+/**
  * Article pilier du blog : tout ce qui touche au format de l'épreuve, aux
  * niveaux exigés et à la réglementation est expliqué LÀ-BAS, une seule fois.
  * Les pages locales lient vers cet article au lieu de réexpliquer.

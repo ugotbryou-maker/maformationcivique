@@ -29,6 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     s('/test-eligibilite',                   0.8, 'monthly'),
     s('/guides',                             0.8, 'monthly'),
     s('/guides/naturalisation',              0.9, 'monthly'),
+    s('/guides/titre-de-sejour',             0.9, 'monthly'),
     s('/moduleslinguistiques/a2',            0.8, 'monthly'),
     s('/moduleslinguistiques/b1',            0.8, 'monthly'),
     s('/moduleslinguistiques/b2',            0.8, 'monthly'),

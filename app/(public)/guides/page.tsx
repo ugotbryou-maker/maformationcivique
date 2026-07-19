@@ -49,7 +49,7 @@ const PARCOURS: Parcours[] = [
     niveau: NIVEAUX_LANGUE.CSP,
     duree: 'Après une 1ʳᵉ année de séjour régulier',
     pourQui: "Vous avez un titre d'un an et souhaitez passer à un titre plus long.",
-    guide: null,
+    guide: `${SITE_URL}/guides/titre-de-sejour`,
     accent: '#002395',
     fond: '#EEF4FF',
   },
