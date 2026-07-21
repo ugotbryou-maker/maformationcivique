@@ -84,6 +84,22 @@ export const TITRE_SEJOUR = {
 } as const;
 
 /**
+ * Carte de résident — repères 2026.
+ * Sources : service-public.fr F2208 (vérifié 01/07/2026), F17359 (coût de la
+ * carte « résident de longue durée-UE »), F39530. Vérifié le 22/07/2026.
+ */
+export const CARTE_RESIDENT = {
+  /** Durée de la carte de résident (années) */
+  dureeAns: 10,
+  /** Coût de la carte « résident de longue durée-UE » (timbre fiscal) */
+  coutPremiereDelivranceEuros: 350,
+  coutAvecTitreValideEuros: 250,
+  verifieLe: '2026-07-22',
+  sourceUrl: 'https://www.service-public.gouv.fr/particuliers/vosdroits/F2208',
+  sourceCoutUrl: 'https://www.service-public.gouv.fr/particuliers/vosdroits/F17359',
+} as const;
+
+/**
  * Article pilier du blog : tout ce qui touche au format de l'épreuve, aux
  * niveaux exigés et à la réglementation est expliqué LÀ-BAS, une seule fois.
  * Les pages locales lient vers cet article au lieu de réexpliquer.

@@ -60,7 +60,7 @@ const PARCOURS: Parcours[] = [
     niveau: NIVEAUX_LANGUE.carteResident,
     duree: "Souvent 3 à 5 ans selon votre situation",
     pourQui: "Vous résidez en France depuis plusieurs années et visez la stabilité, sans devenir français.",
-    guide: null,
+    guide: `${SITE_URL}/guides/carte-de-resident`,
     ressource: { href: `${SITE_URL}/ressources/carte-resident-10-ans-premiere-demande`, label: 'Première demande : conditions' },
     accent: '#0057A8',
     fond: '#EFF6FF',
