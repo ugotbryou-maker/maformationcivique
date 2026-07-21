@@ -17,7 +17,7 @@ const footerLinks = {
     { label: 'Actualités (blog)', href: '/ressources' },
   ],
   'À propos': [
-    { label: "L'examen civique", href: '/#examen-info' },
+    { label: "L'examen civique", href: '/guides/examen-civique' },
     { label: 'Questions fréquentes', href: '/#faq' },
     { label: 'Contact', href: 'mailto:contact@maformationcivique.fr' },
   ],

@@ -28,6 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     s('/quiz',                               0.7, 'monthly'),
     s('/test-eligibilite',                   0.8, 'monthly'),
     s('/guides',                             0.8, 'monthly'),
+    s('/guides/examen-civique',              0.9, 'monthly'),
     s('/guides/naturalisation',              0.9, 'monthly'),
     s('/guides/titre-de-sejour',             0.9, 'monthly'),
     s('/guides/carte-de-resident',           0.9, 'monthly'),
