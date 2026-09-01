@@ -8,6 +8,7 @@ import { ProgressBar } from '@/components/app/ProgressBar';
 import { XPBadge } from '@/components/app/XPBadge';
 import { ReferralCard } from '@/components/app/ReferralCard';
 import { PurchaseTracker } from '@/components/ui/PurchaseTracker';
+import { LifetimeOfferButton } from '@/components/app/LifetimeOfferButton';
 import { getLevel, getLevelProgress, BADGES } from '@/lib/gamification';
 import { BookOpen, ChevronRight, Trophy, Target, Wrench } from 'lucide-react';
 import { isAdminEmail } from '@/lib/admin';
@@ -191,7 +192,7 @@ export default async function DashboardPage() {
             }}>
               <div>
                 <p style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 4 }}>
-                  Débloquez tout le contenu — à partir de 5 €/mois
+                  Débloquez tout le contenu — à partir de 6 €/mois (-50% à vie)
                 </p>
                 <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>
                   8 modules civiques · 2 700 exercices de français · Attestation PDF
@@ -203,19 +204,28 @@ export default async function DashboardPage() {
                   background: 'rgba(255,255,255,0.15)', border: '1.5px solid rgba(255,255,255,0.35)',
                   color: '#fff', padding: '9px 16px', borderRadius: 100,
                   fontWeight: 600, fontSize: 13, textDecoration: 'none',
-                }}>Civique — 5 €</Link>
+                }}>Civique — 6 €</Link>
                 <Link href="/api/stripe/start?plan=langue" style={{
                   display: 'inline-flex', alignItems: 'center', gap: 6,
                   background: 'rgba(255,255,255,0.15)', border: '1.5px solid rgba(255,255,255,0.35)',
                   color: '#fff', padding: '9px 16px', borderRadius: 100,
                   fontWeight: 600, fontSize: 13, textDecoration: 'none',
-                }}>Langue — 5 €</Link>
+                }}>Langue — 6 €</Link>
                 <Link href="/api/stripe/start?plan=bundle" style={{
                   display: 'inline-flex', alignItems: 'center', gap: 6,
-                  background: '#fff', color: '#002395',
-                  padding: '9px 16px', borderRadius: 100,
-                  fontWeight: 800, fontSize: 13, textDecoration: 'none',
-                }}>Bundle — 10 € →</Link>
+                  background: 'rgba(255,255,255,0.15)', border: '1.5px solid rgba(255,255,255,0.35)',
+                  color: '#fff', padding: '9px 16px', borderRadius: 100,
+                  fontWeight: 600, fontSize: 13, textDecoration: 'none',
+                }}>Bundle — 10 €</Link>
+                <LifetimeOfferButton
+                  label="Accès à vie — 20 € →"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 6,
+                    background: '#fff', color: '#002395',
+                    padding: '9px 16px', borderRadius: 100,
+                    fontWeight: 800, fontSize: 13, border: 'none', cursor: 'pointer',
+                  }}
+                />
               </div>
             </div>
           )}

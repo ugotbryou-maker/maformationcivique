@@ -182,20 +182,27 @@ export default function CguPage() {
               <li>ni une obligation de résultat portant sur la pérennité de la société éditrice.</li>
             </ul>
             <p>
-              En conséquence, dans l&apos;hypothèse où l&apos;éditeur <strong>cesserait définitivement
-              d&apos;exploiter le Site</strong> (fermeture de l&apos;activité, cessation de la société,
-              liquidation, ou décision commerciale de mettre fin au service), l&apos;accès « à vie »
-              prend automatiquement fin à la date de fermeture effective du Site, sans que cela
-              constitue une inexécution contractuelle imputable à l&apos;éditeur. L&apos;éditeur
-              s&apos;engage, dans la mesure du possible, à informer les détenteurs d&apos;un accès à vie
-              par e-mail au moins <strong>60 jours avant</strong> toute fermeture définitive du Site.
+              En conséquence, dans l&apos;hypothèse où l&apos;éditeur <strong>cesserait totalement et
+              définitivement d&apos;exploiter le Site</strong> pour un motif réel et non discrétionnaire
+              (cessation totale d&apos;activité de l&apos;entreprise, liquidation judiciaire, ou toute
+              autre cause rendant impossible la poursuite du service, au sens de l&apos;article 1218
+              du Code civil), l&apos;accès « à vie » prend fin à la date de fermeture effective du
+              Site. L&apos;éditeur s&apos;engage à informer les détenteurs d&apos;un accès à vie par e-mail
+              au moins <strong>60 jours avant</strong> toute fermeture définitive du Site, sauf
+              impossibilité avérée (procédure judiciaire notamment).
             </p>
             <p>
-              L&apos;offre Accès à vie n&apos;ouvre droit à <strong>aucun remboursement, total ou
-              partiel</strong>, en cas de fermeture du Site postérieure à l&apos;achat, l&apos;utilisateur
-              ayant bénéficié de l&apos;accès pendant toute la période d&apos;exploitation effective du
-              Site. Les dispositions de l&apos;Article 7 (Politique de remboursement) et de
-              l&apos;Article 16 (Limitation de responsabilité) s&apos;appliquent pleinement à cette offre.
+              <strong>Remboursement partiel en cas de fermeture anticipée.</strong> Si cette
+              fermeture définitive intervient dans les <strong>36 mois suivant l&apos;achat</strong>,
+              l&apos;utilisateur a droit à un remboursement partiel calculé au prorata du temps
+              restant, sur la base d&apos;une durée de référence de 36 mois
+              (exemple : fermeture 12 mois après l&apos;achat → remboursement de 24/36ᵉ du prix payé).
+              Passé ce délai de 36 mois, l&apos;offre est considérée comme intégralement exécutée et
+              n&apos;ouvre plus droit à remboursement en cas de fermeture ultérieure du Site.
+              Cette disposition ne s&apos;applique qu&apos;en cas de fermeture <strong>totale et
+              définitive</strong> du Site ; elle ne s&apos;applique pas en cas de simple interruption
+              temporaire, de maintenance, ou d&apos;évolution du contenu pédagogique, qui restent
+              régies par l&apos;Article 8.4 et l&apos;Article 16.
             </p>
 
             <h3>4.5 Offres promotionnelles et réductions</h3>
