@@ -12,9 +12,9 @@ function planFromKey(planKey: string | undefined): string {
 }
 
 const PLAN_LABELS: Record<string, string> = {
-  premium: 'Formation Civique — 12 €/mois',
-  langue:  'Cours de Français — 12 €/mois',
-  bundle:  'Bundle Civique + Français — 20 €/mois',
+  premium: 'Formation Civique — 6 €/mois',
+  langue:  'Cours de Français — 6 €/mois',
+  bundle:  'Bundle Civique + Français — 10 €/mois',
 };
 
 export async function POST(req: Request) {
@@ -41,13 +41,21 @@ export async function POST(req: Request) {
       if (!userId) break;
 
       const planKey = session.metadata?.planKey;
+      const isLifetime = session.mode === 'payment';
       const planValue = planFromKey(planKey);
-      const planLabel = PLAN_LABELS[planValue] ?? planValue;
+      const planLabel = isLifetime ? 'Accès à vie — Civique + Français (paiement unique)' : (PLAN_LABELS[planValue] ?? planValue);
       const customerId = session.customer as string;
-      const subscriptionId = session.subscription as string;
-      const subscription = await getStripe().subscriptions.retrieve(subscriptionId);
-      const subData = subscription as unknown as { current_period_end: number };
-      const periodEnd = new Date(subData.current_period_end * 1000).toISOString();
+
+      // Abonnement récurrent : on récupère la date de fin de période courante.
+      // Paiement unique (Lifetime) : pas de subscription Stripe → pas d'échéance,
+      // sub_end_at reste null (accès permanent, jamais révoqué).
+      let periodEnd: string | null = null;
+      if (!isLifetime) {
+        const subscriptionId = session.subscription as string;
+        const subscription = await getStripe().subscriptions.retrieve(subscriptionId);
+        const subData = subscription as unknown as { current_period_end: number };
+        periodEnd = new Date(subData.current_period_end * 1000).toISOString();
+      }
 
       const { data: userRow } = await supabase
         .from('users')

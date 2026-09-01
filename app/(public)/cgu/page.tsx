@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.maformationcivique.fr/cgu' },
 };
 
-const LAST_UPDATE = '13 juillet 2026';
+const LAST_UPDATE = '1er septembre 2026';
 const COMPANY    = 'Ugo Tamburrini (Entrepreneur individuel — YOU.)';
 const SIRET      = '908 675 259 00018';
 const ADDRESS    = '7B Rue Monge, 94110 Arcueil, France';
@@ -34,7 +34,7 @@ export default function CguPage() {
             Conditions Générales d&apos;Utilisation
           </h1>
           <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>
-            Dernière mise à jour : <strong>{LAST_UPDATE}</strong> — Version 2.0
+            Dernière mise à jour : <strong>{LAST_UPDATE}</strong> — Version 2.1
           </p>
         </div>
 
@@ -126,7 +126,7 @@ export default function CguPage() {
               de carte de résident.
             </p>
             <InfoBlock rows={[
-              ['Tarif standard', '9,99 € TTC / mois'],
+              ['Tarif standard', '6 € TTC / mois (tarif réduit permanent −50 %)'],
               ['Contenu inclus', '8 modules civiques · leçons · quiz par module · examens blancs'],
               ['Bonus inclus', 'Fiches de révision · Attestation PDF téléchargeable · Suivi de progression'],
               ['Durée', 'Sans engagement — renouvelable chaque mois'],
@@ -139,7 +139,7 @@ export default function CguPage() {
               incluant la préparation spécifique à l&apos;entretien de naturalisation.
             </p>
             <InfoBlock rows={[
-              ['Tarif standard', '9,99 € TTC / mois'],
+              ['Tarif standard', '6 € TTC / mois (tarif réduit permanent −50 %)'],
               ['Contenu inclus', '2 700 exercices · grammaire · conjugaison · expression écrite · phonétique'],
               ['Bonus inclus', 'Préparation à l\'entretien · Examens blancs langue (A2 / B1 / B2)'],
               ['Durée', 'Sans engagement — renouvelable chaque mois'],
@@ -152,11 +152,51 @@ export default function CguPage() {
               recommandée pour une préparation complète à la naturalisation.
             </p>
             <InfoBlock rows={[
-              ['Tarif standard', '18,99 € TTC / mois'],
+              ['Tarif standard', '10 € TTC / mois (tarif réduit permanent −50 %)'],
               ['Contenu inclus', 'Intégralité des offres Civique et Langue française'],
               ['Durée', 'Sans engagement — renouvelable chaque mois'],
               ['Résiliation', 'À tout moment, effective à la fin de la période en cours'],
             ]} />
+
+            <h3>4.4bis Offre Accès à vie (paiement unique)</h3>
+            <p>
+              L&apos;éditeur propose une offre alternative, payable en une seule fois,
+              donnant accès à l&apos;intégralité des contenus Civique et Langue française
+              (formule Bundle), <strong>sans abonnement ni prélèvement récurrent</strong>.
+            </p>
+            <InfoBlock rows={[
+              ['Tarif', '20 € TTC, paiement unique'],
+              ['Contenu inclus', 'Intégralité des offres Civique et Langue française, y compris les mises à jour de contenu futures'],
+              ['Nature du paiement', 'Achat unique — aucun renouvellement, aucun prélèvement ultérieur'],
+              ['Portée de « à vie »', 'Voir définition précise ci-dessous'],
+            ]} />
+            <p>
+              <strong>Définition contractuelle de « accès à vie ».</strong> L&apos;expression
+              « accès à vie » désigne un accès valable <strong>pendant toute la durée
+              d&apos;exploitation du Site par l&apos;éditeur</strong>, et non une garantie liée à la durée
+              de vie de l&apos;utilisateur. Elle ne constitue :
+            </p>
+            <ul>
+              <li>ni un engagement de maintien indéfini de l&apos;activité de l&apos;éditeur,</li>
+              <li>ni une garantie de disponibilité perpétuelle et absolue du service,</li>
+              <li>ni une obligation de résultat portant sur la pérennité de la société éditrice.</li>
+            </ul>
+            <p>
+              En conséquence, dans l&apos;hypothèse où l&apos;éditeur <strong>cesserait définitivement
+              d&apos;exploiter le Site</strong> (fermeture de l&apos;activité, cessation de la société,
+              liquidation, ou décision commerciale de mettre fin au service), l&apos;accès « à vie »
+              prend automatiquement fin à la date de fermeture effective du Site, sans que cela
+              constitue une inexécution contractuelle imputable à l&apos;éditeur. L&apos;éditeur
+              s&apos;engage, dans la mesure du possible, à informer les détenteurs d&apos;un accès à vie
+              par e-mail au moins <strong>60 jours avant</strong> toute fermeture définitive du Site.
+            </p>
+            <p>
+              L&apos;offre Accès à vie n&apos;ouvre droit à <strong>aucun remboursement, total ou
+              partiel</strong>, en cas de fermeture du Site postérieure à l&apos;achat, l&apos;utilisateur
+              ayant bénéficié de l&apos;accès pendant toute la période d&apos;exploitation effective du
+              Site. Les dispositions de l&apos;Article 7 (Politique de remboursement) et de
+              l&apos;Article 16 (Limitation de responsabilité) s&apos;appliquent pleinement à cette offre.
+            </p>
 
             <h3>4.5 Offres promotionnelles et réductions</h3>
             <p>
@@ -642,7 +682,7 @@ export default function CguPage() {
             opacity: 0.8,
           }}>
             <p style={{ fontSize: '13px', color: 'var(--color-blue-france)', margin: 0 }}>
-              <strong>Document version 2.0 — {LAST_UPDATE}</strong><br />
+              <strong>Document version 2.1 — {LAST_UPDATE}</strong><br />
               Pour toute question relative à ces CGU : <a href={`mailto:${EMAIL}`}
               style={{ color: 'var(--color-blue-france)' }}>{EMAIL}</a>
             </p>

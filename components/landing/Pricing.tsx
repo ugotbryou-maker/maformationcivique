@@ -6,6 +6,7 @@ import { Check, Zap } from 'lucide-react';
 const freePlan = {
   name: 'Gratuit',
   price: '0€',
+  oldPrice: null as string | null,
   period: '',
   desc: 'Pour commencer votre préparation',
   filigrane: '/images/modules/le-louvre.jpg',
@@ -30,7 +31,8 @@ const freePlan = {
 
 const premiumPlan = {
   name: 'Civique',
-  price: '12€',
+  price: '6€',
+  oldPrice: '12€',
   period: '/ mois',
   desc: 'Accès complet à la préparation civique',
   filigrane: '/images/modules/daumier-la-republique.jpg',
@@ -53,7 +55,8 @@ const premiumPlan = {
 
 const languePlan = {
   name: 'Langue',
-  price: '12€',
+  price: '6€',
+  oldPrice: '12€',
   period: '/ mois',
   desc: 'Français A2, B1, B2 pour vos démarches',
   filigrane: '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
@@ -74,7 +77,8 @@ const languePlan = {
 
 const bundlePlan = {
   name: 'Bundle',
-  price: '20€',
+  price: '10€',
+  oldPrice: '20€',
   period: '/ mois',
   desc: 'Civique + Langue — tout inclus',
   filigrane: '/images/modules/chateau-versailles.jpg',
@@ -91,6 +95,28 @@ const bundlePlan = {
   href: '/inscription?plan=bundle',
   highlight: true,
   badge: 'Recommandé' as string | null,
+};
+
+const lifetimePlan = {
+  name: 'Accès à vie',
+  price: '20€',
+  oldPrice: null as string | null,
+  period: 'une fois',
+  desc: 'Civique + Langue, payez une fois, gardez l’accès pour toujours',
+  filigrane: '/images/modules/le-louvre.jpg',
+  features: [
+    'Tout le contenu Civique (5 modules)',
+    'Tout le contenu Langue (A2 · B1 · B2)',
+    'Examens blancs illimités, à vie',
+    'IA pédagogique',
+    'Aucun abonnement, aucun renouvellement',
+    'Toutes les futures mises à jour incluses',
+  ],
+  missing: [],
+  cta: 'Obtenir un accès à vie',
+  href: '/inscription?plan=lifetime',
+  highlight: false,
+  badge: 'Accès à vie' as string | null,
 };
 
 export function Pricing() {
@@ -123,9 +149,9 @@ export function Pricing() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateColumns: 'repeat(5, 1fr)',
             gap: '16px',
-            maxWidth: '1200px',
+            maxWidth: '1440px',
             margin: '0 auto',
           }}
           className="pricing-grid"
@@ -134,12 +160,16 @@ export function Pricing() {
           <PricingCard plan={premiumPlan} />
           <PricingCard plan={languePlan} />
           <PricingCard plan={bundlePlan} />
+          <PricingCard plan={lifetimePlan} />
         </div>
         <style dangerouslySetInnerHTML={{ __html: `
-          @media (max-width: 900px) {
+          @media (max-width: 1100px) {
+            .pricing-grid { grid-template-columns: repeat(3, 1fr) !important; }
+          }
+          @media (max-width: 720px) {
             .pricing-grid { grid-template-columns: repeat(2, 1fr) !important; }
           }
-          @media (max-width: 560px) {
+          @media (max-width: 480px) {
             .pricing-grid { grid-template-columns: 1fr !important; }
           }
           .pricing-card {
@@ -171,7 +201,7 @@ export function Pricing() {
   );
 }
 
-type Plan = typeof freePlan | typeof premiumPlan | typeof languePlan | typeof bundlePlan;
+type Plan = typeof freePlan | typeof premiumPlan | typeof languePlan | typeof bundlePlan | typeof lifetimePlan;
 
 
 function PricingCard({ plan }: { plan: Plan }) {
@@ -226,7 +256,7 @@ function PricingCard({ plan }: { plan: Plan }) {
           {plan.name}
         </p>
 
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '4px' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
           <span
             style={{
               fontSize: '40px',
@@ -237,12 +267,22 @@ function PricingCard({ plan }: { plan: Plan }) {
           >
             {plan.price}
           </span>
+          {plan.oldPrice && (
+            <span style={{ fontSize: 'var(--font-size-base)', textDecoration: 'line-through', color: plan.highlight ? 'rgba(255,255,255,0.4)' : 'var(--color-text-muted)' }}>
+              {plan.oldPrice}
+            </span>
+          )}
           {plan.period && (
             <span style={{ fontSize: 'var(--font-size-sm)', color: plan.highlight ? 'rgba(255,255,255,0.5)' : 'var(--color-text-muted)' }}>
               {plan.period}
             </span>
           )}
         </div>
+        {plan.oldPrice && (
+          <p style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: '#1D9E75', margin: '0 0 8px' }}>
+            -50% à vie
+          </p>
+        )}
 
         <p
           style={{

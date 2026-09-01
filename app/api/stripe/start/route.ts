@@ -11,6 +11,8 @@ const PLAN_ALIAS: Record<string, PlanKey> = {
   langue_monthly:  'langue_monthly',
   bundle:          'bundle_monthly',
   bundle_monthly:  'bundle_monthly',
+  lifetime:        'lifetime_bundle',
+  lifetime_bundle: 'lifetime_bundle',
 };
 
 export async function GET(request: Request) {
