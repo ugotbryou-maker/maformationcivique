@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, Globe, User, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
+import { Menu, X, Globe, User, LayoutDashboard, LogOut, ChevronDown, Landmark, Languages, MapPin, BookOpen, Newspaper, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { BrandLogo } from '@/components/ui/BrandLogo';
 import { createClient } from '@/lib/supabase';
@@ -15,16 +15,29 @@ const navLinks = [
 ];
 
 const modulesLinks = [
-  { label: 'Examen civique',       href: '/modulesciviques', description: 'Histoire, institutions, valeurs de la République' },
-  { label: 'Examen linguistique',  href: '/moduleslinguistiques',  description: 'Français A2, B1, B2 — OFII, DELF, naturalisation' },
+  { icon: Landmark,  label: 'Examen civique',       href: '/modulesciviques',      description: 'Histoire, institutions, valeurs de la République' },
+  { icon: Languages, label: 'Examen linguistique',  href: '/moduleslinguistiques', description: 'Français A2, B1, B2 — OFII, DELF, naturalisation' },
 ];
 
-const resourcesLinks = [
-  { label: 'Guides des démarches', href: '/guides',         description: 'Titre de séjour, carte de résident, naturalisation' },
-  { label: "Centres d'examen",     href: '/examen-civique', description: 'Où passer l\'examen civique, par département' },
-  { label: 'Articles & guides',    href: '/ressources',     description: 'Démarches, vie en France, actualités' },
-  { label: 'Fiches bonus',         href: '/fiches',         description: 'Grandes figures & grands lieux de France' },
+const resourcesColumns = [
+  {
+    title: 'Préparer sa démarche',
+    links: [
+      { icon: BookOpen, label: 'Guides des démarches', href: '/guides',         description: 'Titre de séjour, carte de résident, naturalisation' },
+      { icon: MapPin,   label: "Centres d'examen",     href: '/examen-civique', description: "Où passer l'examen civique, par département" },
+    ],
+  },
+  {
+    title: 'Aller plus loin',
+    links: [
+      { icon: Newspaper, label: 'Articles & guides', href: '/ressources', description: 'Démarches, vie en France, actualités' },
+      { icon: Sparkles,  label: 'Fiches bonus',      href: '/fiches',     description: 'Grandes figures & grands lieux de France' },
+    ],
+  },
 ];
+
+// Liens à plat, utilisés pour le menu mobile (accordéon)
+const resourcesLinks = resourcesColumns.flatMap((col) => col.links);
 
 const langs = ['FR', 'AR', 'EN', 'PT'];
 
@@ -43,6 +56,28 @@ export function Navbar({ tenant }: { tenant?: TenantConfig | null }) {
   const userRef = useRef<HTMLDivElement>(null);
   const modulesRef = useRef<HTMLDivElement>(null);
   const resourcesRef = useRef<HTMLDivElement>(null);
+  const modulesCloseTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resourcesCloseTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  /* ── Méga-menus : ouverture au survol, fermeture avec un léger délai
+     (pour ne pas fermer quand la souris traverse l'espace entre le
+     bouton et le panneau) ── */
+  function openOnHover(which: 'modules' | 'resources') {
+    if (which === 'modules') {
+      if (modulesCloseTimeout.current) clearTimeout(modulesCloseTimeout.current);
+      setModulesOpen(true);
+    } else {
+      if (resourcesCloseTimeout.current) clearTimeout(resourcesCloseTimeout.current);
+      setResourcesOpen(true);
+    }
+  }
+  function closeOnHoverLeave(which: 'modules' | 'resources') {
+    if (which === 'modules') {
+      modulesCloseTimeout.current = setTimeout(() => setModulesOpen(false), 150);
+    } else {
+      resourcesCloseTimeout.current = setTimeout(() => setResourcesOpen(false), 150);
+    }
+  }
 
   /* ── Auth state ─────────────────────────────────────────────────── */
   useEffect(() => {
@@ -88,6 +123,19 @@ export function Navbar({ tenant }: { tenant?: TenantConfig | null }) {
     return () => document.removeEventListener('mousedown', onOutside);
   }, []);
 
+  /* ── Fermeture au clavier (Échap) — accessibilité méga-menus ────── */
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        setModulesOpen(false);
+        setResourcesOpen(false);
+        setUserOpen(false);
+      }
+    }
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, []);
+
   /* ── Sign out ────────────────────────────────────────────────────── */
   async function handleSignOut() {
     const supabase = createClient();
@@ -127,10 +175,15 @@ export function Navbar({ tenant }: { tenant?: TenantConfig | null }) {
         {/* Nav links — desktop */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flex: 1 }} className="nav-desktop">
 
-          {/* Modules — dropdown (Civique + Langue) */}
-          <div ref={modulesRef} style={{ position: 'relative' }}>
+          {/* Modules — méga-menu (Civique + Langue) */}
+          <div
+            ref={modulesRef}
+            style={{ position: 'static' }}
+            onMouseEnter={() => openOnHover('modules')}
+            onMouseLeave={() => closeOnHoverLeave('modules')}
+          >
             <button
-              onClick={() => setModulesOpen(!modulesOpen)}
+              onClick={() => openOnHover('modules')}
               style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', color: modulesOpen ? 'var(--color-blue-france)' : 'var(--color-text-secondary)', background: modulesOpen ? 'var(--color-blue-light)' : 'transparent', border: 'none', cursor: 'pointer', transition: 'all 200ms ease-out', minHeight: '36px', fontFamily: 'var(--font-sans)' }}
               onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--color-blue-light)'; e.currentTarget.style.color = 'var(--color-blue-france)'; }}
               onMouseLeave={(e) => { if (!modulesOpen) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--color-text-secondary)'; } }}
@@ -141,16 +194,71 @@ export function Navbar({ tenant }: { tenant?: TenantConfig | null }) {
             </button>
 
             {modulesOpen && (
-              <div style={{ position: 'absolute', top: 'calc(100% + 8px)', left: 0, background: 'var(--color-surface)', border: 'var(--border-default)', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-lg)', minWidth: '280px', overflow: 'hidden', zIndex: 200 }}>
-                {modulesLinks.map((item) => (
-                  <Link key={item.href} href={item.href} onClick={() => setModulesOpen(false)} style={{ display: 'block', padding: '12px 16px', textDecoration: 'none', transition: 'background 150ms' }}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--color-blue-light)'; }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; }}
-                  >
-                    <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)' }}>{item.label}</div>
-                    <div style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 2 }}>{item.description}</div>
-                  </Link>
-                ))}
+              <div style={{ position: 'fixed', top: 65, left: 0, right: 0, zIndex: 150 }}>
+                <div style={{ background: 'var(--color-blue-night)', boxShadow: '0 24px 48px rgba(0,10,50,0.35)' }}>
+                  <div style={{ height: 3, background: 'var(--gradient-tricolor)' }} />
+                  <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 48, padding: '36px 24px 40px' }}>
+                    {/* Colonne liens */}
+                    <div>
+                      <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.4)', margin: '0 0 18px' }}>
+                        Nos formations
+                      </p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                        {modulesLinks.map(({ icon: Icon, label, href, description }) => (
+                          <Link
+                            key={href}
+                            href={href}
+                            onClick={() => setModulesOpen(false)}
+                            style={{ display: 'flex', alignItems: 'flex-start', gap: 14, padding: '14px 12px', borderRadius: 'var(--radius-lg)', textDecoration: 'none', transition: 'background 150ms' }}
+                            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,0.06)'; }}
+                            onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; }}
+                          >
+                            <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                              <Icon size={19} color="#fff" />
+                            </div>
+                            <div>
+                              <div style={{ fontSize: 15.5, fontWeight: 700, color: '#fff' }}>{label}</div>
+                              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', marginTop: 2 }}>{description}</div>
+                            </div>
+                          </Link>
+                        ))}
+                        <Link
+                          href="/examen"
+                          onClick={() => setModulesOpen(false)}
+                          style={{ fontSize: 13.5, fontWeight: 600, color: 'rgba(255,255,255,0.6)', textDecoration: 'none', padding: '10px 12px', marginTop: 4 }}
+                          onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#fff'; }}
+                          onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.6)'; }}
+                        >
+                          Tous les examens blancs →
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Carte mise en avant */}
+                    <Link
+                      href="/examen"
+                      onClick={() => setModulesOpen(false)}
+                      style={{
+                        display: 'block', borderRadius: 'var(--radius-lg)', overflow: 'hidden', textDecoration: 'none',
+                        background: `linear-gradient(rgba(0,10,50,0.35), rgba(0,10,50,0.88)), url('/images/modules/daumier-la-republique.jpg') center/cover no-repeat`,
+                        border: '1px solid rgba(255,255,255,0.1)', minHeight: 200,
+                      }}
+                    >
+                      <div style={{ padding: '18px 20px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                        <span style={{ alignSelf: 'flex-start', fontSize: 11, fontWeight: 700, color: '#FF8B84', background: 'rgba(239,65,53,0.18)', border: '0.5px solid rgba(239,65,53,0.4)', borderRadius: 100, padding: '4px 10px', marginBottom: 12 }}>
+                          177 questions officielles
+                        </span>
+                        <p style={{ fontSize: 16.5, fontWeight: 800, color: '#fff', margin: '0 0 6px', lineHeight: 1.3 }}>
+                          Passez un examen blanc gratuit
+                        </p>
+                        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', margin: '0 0 10px', lineHeight: 1.5 }}>
+                          40 questions, conditions réelles, correction immédiate.
+                        </p>
+                        <span style={{ fontSize: 13.5, fontWeight: 700, color: '#fff' }}>Commencer →</span>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -165,10 +273,15 @@ export function Navbar({ tenant }: { tenant?: TenantConfig | null }) {
             </Link>
           ))}
 
-          {/* Ressources — dropdown (regroupe Articles & Fiches) */}
-          <div ref={resourcesRef} style={{ position: 'relative' }}>
+          {/* Ressources — méga-menu (regroupe Guides, Centres, Articles, Fiches) */}
+          <div
+            ref={resourcesRef}
+            style={{ position: 'static' }}
+            onMouseEnter={() => openOnHover('resources')}
+            onMouseLeave={() => closeOnHoverLeave('resources')}
+          >
             <button
-              onClick={() => setResourcesOpen(!resourcesOpen)}
+              onClick={() => openOnHover('resources')}
               style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: 'var(--radius-md)', fontSize: 'var(--font-size-sm)', color: resourcesOpen ? 'var(--color-blue-france)' : 'var(--color-text-secondary)', background: resourcesOpen ? 'var(--color-blue-light)' : 'transparent', border: 'none', cursor: 'pointer', transition: 'all 200ms ease-out', minHeight: '36px', fontFamily: 'var(--font-sans)' }}
               onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--color-blue-light)'; e.currentTarget.style.color = 'var(--color-blue-france)'; }}
               onMouseLeave={(e) => { if (!resourcesOpen) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--color-text-secondary)'; } }}
@@ -179,16 +292,63 @@ export function Navbar({ tenant }: { tenant?: TenantConfig | null }) {
             </button>
 
             {resourcesOpen && (
-              <div style={{ position: 'absolute', top: 'calc(100% + 8px)', left: 0, background: 'var(--color-surface)', border: 'var(--border-default)', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-lg)', minWidth: '240px', overflow: 'hidden', zIndex: 200 }}>
-                {resourcesLinks.map((item) => (
-                  <Link key={item.href} href={item.href} onClick={() => setResourcesOpen(false)} style={{ display: 'block', padding: '12px 16px', textDecoration: 'none', transition: 'background 150ms' }}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--color-blue-light)'; }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; }}
-                  >
-                    <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)' }}>{item.label}</div>
-                    <div style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 2 }}>{item.description}</div>
-                  </Link>
-                ))}
+              <div style={{ position: 'fixed', top: 65, left: 0, right: 0, zIndex: 150 }}>
+                <div style={{ background: 'var(--color-blue-night)', boxShadow: '0 24px 48px rgba(0,10,50,0.35)' }}>
+                  <div style={{ height: 3, background: 'var(--gradient-tricolor)' }} />
+                  <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 340px', gap: 32, padding: '36px 24px 40px' }}>
+                    {resourcesColumns.map((col) => (
+                      <div key={col.title}>
+                        <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.4)', margin: '0 0 18px' }}>
+                          {col.title}
+                        </p>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                          {col.links.map(({ icon: Icon, label, href, description }) => (
+                            <Link
+                              key={href}
+                              href={href}
+                              onClick={() => setResourcesOpen(false)}
+                              style={{ display: 'flex', alignItems: 'flex-start', gap: 14, padding: '14px 12px', borderRadius: 'var(--radius-lg)', textDecoration: 'none', transition: 'background 150ms' }}
+                              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,0.06)'; }}
+                              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; }}
+                            >
+                              <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                <Icon size={19} color="#fff" />
+                              </div>
+                              <div>
+                                <div style={{ fontSize: 15.5, fontWeight: 700, color: '#fff' }}>{label}</div>
+                                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', marginTop: 2 }}>{description}</div>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Carte mise en avant */}
+                    <Link
+                      href="/guides/examen-civique"
+                      onClick={() => setResourcesOpen(false)}
+                      style={{
+                        display: 'block', borderRadius: 'var(--radius-lg)', overflow: 'hidden', textDecoration: 'none',
+                        background: `linear-gradient(rgba(139,26,43,0.35), rgba(0,10,50,0.9)), url('/images/modules/republique.jpg') center/cover no-repeat`,
+                        border: '1px solid rgba(255,255,255,0.1)', minHeight: 200,
+                      }}
+                    >
+                      <div style={{ padding: '18px 20px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                        <span style={{ alignSelf: 'flex-start', fontSize: 11, fontWeight: 700, color: '#6BDFB8', background: 'rgba(29,158,117,0.18)', border: '0.5px solid rgba(29,158,117,0.4)', borderRadius: 100, padding: '4px 10px', marginBottom: 12 }}>
+                          À la une
+                        </span>
+                        <p style={{ fontSize: 16.5, fontWeight: 800, color: '#fff', margin: '0 0 6px', lineHeight: 1.3 }}>
+                          Examen civique : le guide complet 2026
+                        </p>
+                        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', margin: '0 0 10px', lineHeight: 1.5 }}>
+                          Format, coût, centres, dispenses — tout en un seul endroit.
+                        </p>
+                        <span style={{ fontSize: 13.5, fontWeight: 700, color: '#fff' }}>Lire le guide →</span>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
               </div>
             )}
           </div>
