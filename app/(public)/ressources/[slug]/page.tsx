@@ -278,10 +278,10 @@ export default async function ArticlePage({ params }: Props) {
                   ))}
                 </div>
                 <style>{`
-                  .faq-item[open] > summary .faq-chevron { transform: rotate(45deg); }
-                  .faq-item > summary::-webkit-details-marker { display: none; }
+                  .faq-item[open] summary .faq-chevron { transform: rotate(45deg); }
+                  .faq-item summary::-webkit-details-marker { display: none; }
                   .faq-item[open] { border-color: ${cat.color}44; }
-                  .faq-item[open] > summary { color: ${cat.color}; }
+                  .faq-item[open] summary { color: ${cat.color}; }
                 `}</style>
               </div>
             )}

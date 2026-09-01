@@ -727,11 +727,14 @@ export default function CguPage() {
           position: relative;
         }
         .cgu-section ul li::before {
-          content: '·';
+          content: attr(class);
           position: absolute;
-          left: 0;
-          color: var(--color-blue-france);
-          font-weight: 700;
+          left: 4px;
+          top: 9px;
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: var(--color-blue-france);
         }
       `}</style>
     </div>

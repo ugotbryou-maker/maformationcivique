@@ -458,7 +458,7 @@ export default async function LessonPage({ params }: Props) {
 
         <div className="retenir-grid" style={{ display: 'grid', gap: '20px', alignItems: 'start' }}>
           {/* Image module avec soft-light */}
-          <div style={{ borderRadius: '16px', overflow: 'hidden', position: 'relative', minHeight: '240px', background: art.baseBg }}>
+          <div className="retenir-visual" style={{ borderRadius: '16px', overflow: 'hidden', position: 'relative', minHeight: '240px', background: art.baseBg }}>
             {art.url && <img src={art.url} alt={art.alt} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%', mixBlendMode: 'soft-light', opacity: 1 }} />}
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)' }} />
             <div style={{ position: 'absolute', bottom: '20px', left: '20px', color: '#fff' }}>
@@ -548,7 +548,7 @@ export default async function LessonPage({ params }: Props) {
             gap: 12px !important;
           }
           .retenir-grid { grid-template-columns: 1fr !important; }
-          .retenir-grid > div:first-child { min-height: 180px !important; }
+          .retenir-visual { min-height: 180px !important; }
         }
 
         /* Très petit mobile ≤ 480px : sidebar en 1 col */
