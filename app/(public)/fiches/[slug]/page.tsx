@@ -2,8 +2,10 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
-import { ArrowLeft, ArrowRight, Sparkles, BookOpen, MapPin, User } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Sparkles, BookOpen, MapPin, User, Lightbulb, GraduationCap } from 'lucide-react';
 import { fiches, getFiche, type Fiche } from '@/data/fiches';
+import { getEnrichissement } from '@/data/fiches-enrichissement';
+import { modules } from '@/data/modules';
 import { renderInline } from '@/lib/markdown';
 
 const SITE = 'https://www.maformationcivique.fr';
@@ -99,6 +101,15 @@ export default async function FichePage({ params }: Props) {
 
   const figuresList = fiches.filter((f) => f.category === 'figure');
   const lieuxList = fiches.filter((f) => f.category === 'lieu');
+
+  /* ── Rattachement au programme civique (module / leçon complétés) ────── */
+  const enrichissement = getEnrichissement(slug);
+  const linkedModule = enrichissement
+    ? modules.find((m) => m.slug === enrichissement.moduleSlug)
+    : undefined;
+  const linkedLesson = enrichissement?.lessonSlug && linkedModule
+    ? linkedModule.lessons.find((l) => l.slug === enrichissement.lessonSlug)
+    : undefined;
 
   /* ── JSON-LD : fil d'Ariane (affiché dans les SERP) + définition d'entité ── */
   const breadcrumbLd = {
@@ -287,6 +298,74 @@ export default async function FichePage({ params }: Props) {
               </div>
             </div>
 
+            {/* Le saviez-vous ? */}
+            {enrichissement && (
+              <>
+                <h2 className="fiche-h2">Le saviez-vous ?</h2>
+                <div style={{
+                  background: '#FFFBEB',
+                  border: '1px solid #FDE68A',
+                  borderRadius: 'var(--radius-xl)',
+                  padding: '20px 24px',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: 14,
+                }}>
+                  <Lightbulb size={20} color="#B45309" style={{ flexShrink: 0, marginTop: 2 }} />
+                  <p style={{ fontSize: 'var(--font-size-sm)', lineHeight: 1.7, color: '#78350F', margin: 0 }}>
+                    {enrichissement.didYouKnow}
+                  </p>
+                </div>
+              </>
+            )}
+
+            {/* Rattachement au programme — relie /fiches à /modulesciviques */}
+            {linkedModule && (
+              <>
+                <h2 className="fiche-h2" style={{ marginTop: 32 }}>Dans le programme civique</h2>
+                <Link
+                  href={linkedLesson ? `/lecon/${linkedLesson.slug}` : `/module/${linkedModule.slug}`}
+                  className="fiche-program"
+                >
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                    <div style={{
+                      width: 40, height: 40, borderRadius: 10, flexShrink: 0,
+                      background: `linear-gradient(135deg, ${fiche.color}, ${fiche.colorEnd})`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <GraduationCap size={20} color="#fff" />
+                    </div>
+                    <div>
+                      <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 3 }}>
+                        Cette fiche complète {linkedLesson ? 'la leçon' : 'le module'}
+                      </p>
+                      <p style={{ fontSize: 15.5, fontWeight: 700, color: 'var(--color-text-primary)', lineHeight: 1.35 }}>
+                        {linkedLesson ? linkedLesson.title : linkedModule.title}
+                        {linkedLesson && !linkedLesson.free && (
+                          <span style={{
+                            marginLeft: 8, verticalAlign: 'middle',
+                            fontSize: 10, fontWeight: 700, letterSpacing: '0.05em',
+                            textTransform: 'uppercase', color: '#7C3AED',
+                            background: 'rgba(124,58,237,0.1)',
+                            border: '0.5px solid rgba(124,58,237,0.28)',
+                            borderRadius: 100, padding: '3px 8px',
+                          }}>
+                            Premium
+                          </span>
+                        )}
+                      </p>
+                      {linkedLesson && (
+                        <p style={{ fontSize: 12.5, color: 'var(--color-text-muted)', marginTop: 3 }}>
+                          Module {linkedModule.num} · {linkedModule.title}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <ArrowRight size={18} color="var(--color-blue-france)" style={{ flexShrink: 0 }} />
+                </Link>
+              </>
+            )}
+
             {/* Retour à l'index — juste sous « À retenir » */}
             <Link href="/fiches" className="fiche-back">
               <ArrowLeft size={15} /> Retour à l&apos;index des fiches bonus
@@ -421,6 +500,19 @@ export default async function FichePage({ params }: Props) {
           letter-spacing: 0.06em;
           margin: 0 0 14px;
         }
+        .fiche-program {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          padding: 18px 22px;
+          border-radius: var(--radius-xl);
+          background: #fff;
+          border: var(--border-default);
+          box-shadow: var(--shadow-card);
+          text-decoration: none;
+        }
+        .fiche-program:hover { border-color: var(--color-border-hover); }
         .fiche-back {
           display: inline-flex;
           align-items: center;
