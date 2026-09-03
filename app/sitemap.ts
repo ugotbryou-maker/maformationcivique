@@ -40,6 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     s('/partenaires',                        0.5, 'monthly'),
     s('/cgu',                                0.3, 'yearly'),
     s('/confidentialite',                    0.3, 'yearly'),
+    s('/mentions-legales',                   0.3, 'yearly'),
   ];
 
   // ── Modules & leçons civiques ──────────────────────────────────────

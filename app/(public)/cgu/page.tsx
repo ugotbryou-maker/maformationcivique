@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.maformationcivique.fr/cgu' },
 };
 
-const LAST_UPDATE = '1er septembre 2026';
+const LAST_UPDATE = '3 septembre 2026';
 const COMPANY    = 'Ugo Tamburrini (Entrepreneur individuel — YOU.)';
 const SIRET      = '908 675 259 00018';
 const ADDRESS    = '7B Rue Monge, 94110 Arcueil, France';
@@ -34,7 +34,7 @@ export default function CguPage() {
             Conditions Générales d&apos;Utilisation
           </h1>
           <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>
-            Dernière mise à jour : <strong>{LAST_UPDATE}</strong> — Version 2.1
+            Dernière mise à jour : <strong>{LAST_UPDATE}</strong> — Version 2.2
           </p>
         </div>
 
@@ -262,9 +262,18 @@ export default function CguPage() {
             <p>
               Les cabinets et associations souhaitant offrir l&apos;accès à la plateforme à leurs
               clients peuvent souscrire une <strong>licence cabinet</strong> multi-utilisateurs,
-              selon des paliers définis (nombre d&apos;invitations actives). Le tarif, la durée et
-              les conditions de la licence font l&apos;objet d&apos;une convention séparée entre le
-              cabinet et l&apos;éditeur.
+              selon les paliers indicatifs suivants (nombre d&apos;invitations actives) :
+            </p>
+            <InfoBlock rows={[
+              ['Starter', '390 € TTC/an — jusqu\'à 30 clients'],
+              ['Pro', '990 € TTC/an — jusqu\'à 100 clients'],
+              ['Cabinet+', '1 990 € TTC/an — jusqu\'à 300 clients'],
+              ['Sur-mesure', 'À partir de 3 990 € TTC/an — au-delà de 300 clients, sur devis'],
+            ]} />
+            <p>
+              Ces paliers sont indicatifs et susceptibles d&apos;évoluer (voir Article 4.7). Le
+              tarif définitif, la durée et les conditions précises de la licence font l&apos;objet
+              d&apos;une convention séparée entre le cabinet et l&apos;éditeur.
             </p>
 
             <h3>Accès des utilisateurs via invitation cabinet</h3>
@@ -689,7 +698,7 @@ export default function CguPage() {
             opacity: 0.8,
           }}>
             <p style={{ fontSize: '13px', color: 'var(--color-blue-france)', margin: 0 }}>
-              <strong>Document version 2.1 — {LAST_UPDATE}</strong><br />
+              <strong>Document version 2.2 — {LAST_UPDATE}</strong><br />
               Pour toute question relative à ces CGU : <a href={`mailto:${EMAIL}`}
               style={{ color: 'var(--color-blue-france)' }}>{EMAIL}</a>
             </p>
