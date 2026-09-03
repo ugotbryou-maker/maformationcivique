@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Politique de confidentialité — maformationcivique.fr',
+  title: { absolute: 'Politique de confidentialité — maformationcivique.fr' },
   description: 'Politique de confidentialité et de protection des données personnelles de maformationcivique.fr. Conformité RGPD, droits des utilisateurs, cookies.',
   alternates: { canonical: 'https://www.maformationcivique.fr/confidentialite' },
 };

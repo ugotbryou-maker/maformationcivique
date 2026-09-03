@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Mentions légales — maformationcivique.fr',
+  title: { absolute: 'Mentions légales — maformationcivique.fr' },
   description: "Mentions légales de maformationcivique.fr : identité de l'éditeur, hébergement, propriété intellectuelle et droit applicable.",
   alternates: { canonical: 'https://www.maformationcivique.fr/mentions-legales' },
 };
