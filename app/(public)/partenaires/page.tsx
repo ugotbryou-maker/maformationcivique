@@ -26,10 +26,10 @@ const tiers = [
     id: 'starter',
     name: 'Starter',
     price: '390',
-    quota: '15 clients',
+    quota: '30 clients',
     ideal: 'Avocat solo ou cabinet de moins de 20 dossiers/an',
     features: [
-      'Jusqu\'à 15 invitations actives',
+      'Jusqu\'à 30 invitations actives',
       'Dashboard de suivi individuel',
       'Attestations PDF téléchargeables',
       'Accès Premium offert à chaque client',
@@ -42,10 +42,10 @@ const tiers = [
     id: 'pro',
     name: 'Pro',
     price: '990',
-    quota: '50 clients',
+    quota: '100 clients',
     ideal: 'Cabinet avec volume régulier de dossiers naturalisation',
     features: [
-      'Jusqu\'à 50 invitations actives',
+      'Jusqu\'à 100 invitations actives',
       'Tout le Starter, plus…',
       'Export CSV des progressions',
       'Lien Google My Business automatisé',
@@ -58,10 +58,10 @@ const tiers = [
     id: 'cabinet_plus',
     name: 'Cabinet+',
     price: '1 990',
-    quota: '150 clients',
+    quota: '300 clients',
     ideal: 'Grands cabinets, associations d\'aide à l\'intégration',
     features: [
-      'Jusqu\'à 150 invitations actives',
+      'Jusqu\'à 300 invitations actives',
       'Tout le Pro, plus…',
       'Compte manager dédié',
       'Onboarding personnalisé',
@@ -376,7 +376,7 @@ export default function PartenairesPage() {
                 </div>
                 <div>
                   <p style={{ fontWeight: 600, fontSize: 14, color: 'var(--color-text-primary)', marginBottom: 2 }}>Cabinet Dupont & Associés</p>
-                  <p style={{ fontSize: 12, color: 'var(--color-text-muted)' }}>Palier Pro · 12 / 50 invitations</p>
+                  <p style={{ fontSize: 12, color: 'var(--color-text-muted)' }}>Palier Pro · 12 / 100 invitations</p>
                 </div>
               </div>
               {[
@@ -896,7 +896,7 @@ export default function PartenairesPage() {
           }}>
             <div>
               <p style={{ fontWeight: 800, fontSize: 18, marginBottom: 4, color: '#fff' }}>Réseau / Grandes associations</p>
-              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.8)' }}>+150 clients, besoins spécifiques, rapport mensuel personnalisé — sur devis à partir de 3 990 €/an.</p>
+              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.8)' }}>+300 clients, besoins spécifiques, rapport mensuel personnalisé — sur devis à partir de 3 990 €/an.</p>
             </div>
             <TrackedMailto
               href="mailto:contact@maformationcivique.fr?subject=Partenariat Réseau"

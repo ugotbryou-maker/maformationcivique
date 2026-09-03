@@ -183,7 +183,7 @@ export function ApercuDashboard({ slug, domain, cabinetName, logoUrl, monogram, 
             <div>
               <p style={{ fontSize: 16, fontWeight: 700, color: '#fff', margin: '0 0 4px' }}>Espace {cabinetName}</p>
               <span style={{ fontSize: 11, fontWeight: 600, background: 'rgba(255,255,255,0.2)', color: '#fff', borderRadius: 100, padding: '2px 10px' }}>
-                Palier Pro · 12 / 50 invitations
+                Palier Pro · 12 / 100 invitations
               </span>
             </div>
           </div>
