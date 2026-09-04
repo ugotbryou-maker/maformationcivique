@@ -22,7 +22,16 @@ const allLangModules = [...a2Modules, ...b1Modules, ...b2Modules, ...transversal
 const allLangLessonSlugs = new Set(allLangModules.flatMap((m) => m.lessons.map((l) => l.slug)));
 const totalLangLessons = allLangModules.reduce((a, m) => a + m.lessons.length, 0);
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ offer?: string }>;
+}) {
+  // ?offer=lifetime : l'utilisateur arrive d'une campagne ayant choisi l'accès
+  // à vie — on ouvre directement la modale de consentement (CGU art. 4.4bis).
+  const { offer } = await searchParams;
+  const autoOpenLifetime = offer === 'lifetime';
+
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/connexion');
@@ -68,6 +77,15 @@ export default async function DashboardPage() {
   const xp = profile?.xp ?? 0;
   const streak = profile?.streak_days ?? 0;
   const isPremium = profile?.plan === 'premium' || profile?.plan === 'langue' || profile?.plan === 'bundle' || isAdmin;
+
+  // Valeur réellement encaissée, transmise à Meta via l'événement Purchase.
+  // Un achat « à vie » se reconnaît à son absence d'échéance (sub_end_at nul).
+  const isLifetimePurchase = profile?.plan === 'bundle' && !profile?.sub_end_at;
+  const purchaseValue = isLifetimePurchase ? 20
+    : profile?.plan === 'bundle' ? 10
+    : profile?.plan === 'premium' || profile?.plan === 'langue' ? 6
+    : 10;
+  const purchasePlanName = isLifetimePurchase ? 'lifetime' : (profile?.plan ?? 'bundle');
   const level = getLevel(xp);
   const levelProgress = getLevelProgress(xp);
   const earnedBadgeSlugs = new Set(userBadges?.map((b) => b.badge_slug) ?? []);
@@ -104,7 +122,7 @@ export default async function DashboardPage() {
 
   return (
     <div style={{ maxWidth: '1100px' }}>
-      <Suspense><PurchaseTracker /></Suspense>
+      <Suspense><PurchaseTracker value={purchaseValue} planName={purchasePlanName} /></Suspense>
       {/* Welcome */}
       <div style={{ marginBottom: '28px' }}>
         <h1 style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text-primary)', marginBottom: '4px' }}>
@@ -218,6 +236,7 @@ export default async function DashboardPage() {
                   fontWeight: 600, fontSize: 13, textDecoration: 'none',
                 }}>Bundle — 10 €</Link>
                 <LifetimeOfferButton
+                  autoOpen={autoOpenLifetime}
                   label="Accès à vie — 20 € →"
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: 6,

@@ -14,12 +14,16 @@ export function LifetimeOfferButton({
   className,
   style,
   label = 'Accès à vie — 20 €',
+  autoOpen = false,
 }: {
   className?: string;
   style?: React.CSSProperties;
   label?: string;
+  /** Ouvre la modale au montage — utilisé quand l'utilisateur arrive
+   *  d'une campagne ayant choisi l'offre à vie (/inscription?plan=lifetime). */
+  autoOpen?: boolean;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(autoOpen);
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

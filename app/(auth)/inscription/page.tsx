@@ -114,6 +114,11 @@ function InscriptionForm() {
         router.push('/cabinet');
       } else if (profile?.cabinet_role === 'member') {
         router.push('/dashboard');
+      } else if (plan === 'lifetime' && !inviteToken) {
+        // L'offre « accès à vie » exige un consentement explicite et horodaté
+        // (CGU art. 4.4bis) : on passe par le dashboard, qui ouvre la modale
+        // de confirmation, plutôt que d'aller droit au paiement Stripe.
+        router.push('/dashboard?offer=lifetime');
       } else if (plan && !inviteToken) {
         router.push(`/api/stripe/start?plan=${plan}`);
       } else {
