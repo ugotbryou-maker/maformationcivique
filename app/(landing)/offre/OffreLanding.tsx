@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import {
   Check, Clock, ShieldCheck, Sparkles, Star, Infinity as InfinityIcon,
-  BookOpen, Languages, Target, Brain, ArrowRight,
+  BookOpen, Languages, Target, Brain, ArrowRight, Info,
 } from 'lucide-react';
 import { BrandLogo } from '@/components/ui/BrandLogo';
 import { fbqTrack } from '@/lib/fbq';
@@ -111,6 +111,23 @@ export function OffreLanding() {
           </div>
         </div>
       </section>
+
+      {/* ── Transparence — plateforme privée, pas d'attestation officielle ──
+         Placé haut et volontairement sobre : c'est une mention loyale (et une
+         exigence des règles publicitaires Meta sur les services officiels),
+         formulée de manière à valoriser le rôle réel du produit.          */}
+      <aside className="ol-disclaimer">
+        <div className="ol-container ol-disclaimer-inner">
+          <Info size={15} className="ol-disclaimer-icon" />
+          <p>
+            <strong>Plateforme privée de préparation.</strong> maformationcivique.fr ne
+            délivre <strong>aucune attestation officielle reconnue par l&apos;État</strong> :
+            l&apos;examen civique et la formation civique obligatoire relèvent de l&apos;OFII
+            et des organismes agréés. Notre rôle est de vous entraîner pour que vous
+            arriviez préparé le jour de l&apos;examen et de l&apos;entretien.
+          </p>
+        </div>
+      </aside>
 
       {/* ── L'ENJEU ─────────────────────────────────────────────────────── */}
       <section className="ol-section ol-section-gray">
@@ -444,6 +461,21 @@ export function OffreLanding() {
           background: transparent; color: #fff;
           border: 1.5px solid rgba(255,255,255,0.4);
         }
+
+        .ol-disclaimer {
+          background: #FCFCFD;
+          border-bottom: 1px solid var(--color-border);
+          padding: 14px 0;
+        }
+        .ol-disclaimer-inner {
+          display: flex; align-items: flex-start; gap: 10px;
+          max-width: 760px;
+        }
+        .ol-disclaimer-icon { flex-shrink: 0; margin-top: 1px; color: var(--color-text-muted); }
+        .ol-disclaimer p {
+          font-size: 12.5px; line-height: 1.6; color: var(--color-text-muted); margin: 0;
+        }
+        .ol-disclaimer strong { color: var(--color-text-secondary); font-weight: 700; }
 
         .ol-section { padding: 64px 0; }
         .ol-section-gray { background: var(--color-off-white); }
