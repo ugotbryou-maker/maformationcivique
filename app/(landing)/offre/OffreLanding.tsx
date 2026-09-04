@@ -51,45 +51,57 @@ export function OffreLanding() {
 
       {/* ── HERO ────────────────────────────────────────────────────────── */}
       <section className="ol-hero">
+        {/* Filigrane « La Liberté guidant le peuple » — même traitement que le hero d'accueil */}
+        <div className="ol-hero-img" aria-hidden />
         <div className="ol-hero-bg" aria-hidden />
+        <div className="ol-grain" aria-hidden />
         <div className="ol-container ol-hero-inner">
           <span className="ol-badge">
-            <Sparkles size={13} /> Obligatoire depuis janvier 2026
+            <Sparkles size={13} /> Examen civique + test de langue — obligatoires depuis 2026
           </span>
 
           <h1 className="ol-h1">
-            Réussissez votre<br />
-            <span className="ol-h1-accent">examen civique</span><br />
-            du premier coup.
+            Réussissez vos<br />
+            <span className="ol-h1-accent">deux examens</span><br />
+            obligatoires.
           </h1>
 
           <p className="ol-hero-sub">
-            {EXAMEN_CIVIQUE.nbQuestions} questions en {EXAMEN_CIVIQUE.dureeMinutes} minutes,{' '}
-            {EXAMEN_CIVIQUE.seuilReussite}/{EXAMEN_CIVIQUE.nbQuestions} pour réussir.
-            Entraînez-vous sur les <strong>177 questions officielles</strong> et progressez
-            en français de {NIVEAUX_LANGUE.CSP} à {NIVEAUX_LANGUE.naturalisation} — tout
-            au même endroit.
+            Depuis 2026, votre titre de séjour ou votre naturalisation exige{' '}
+            <strong>l&apos;examen civique</strong> ({EXAMEN_CIVIQUE.nbQuestions} questions,{' '}
+            {EXAMEN_CIVIQUE.seuilReussite}/{EXAMEN_CIVIQUE.nbQuestions} pour réussir){' '}
+            <strong>et un niveau de français</strong> ({NIVEAUX_LANGUE.CSP} à{' '}
+            {NIVEAUX_LANGUE.naturalisation}). Une seule plateforme prépare les deux.
           </p>
 
           <div className="ol-hero-cta">
-            <Link
-              href={`/inscription?plan=${OFFERS.bundle.plan}`}
-              onClick={() => trackCheckout(OFFERS.bundle)}
-              className="ol-btn ol-btn-lg"
-            >
-              Commencer pour 10 €/mois <ArrowRight size={17} />
-            </Link>
+            <div className="ol-hero-btns">
+              <Link
+                href={`/inscription?plan=${OFFERS.bundle.plan}`}
+                onClick={() => trackCheckout(OFFERS.bundle)}
+                className="ol-btn ol-btn-lg ol-btn-invert"
+              >
+                Commencer — 10 €/mois <ArrowRight size={17} />
+              </Link>
+              <Link
+                href={`/inscription?plan=${OFFERS.lifetime.plan}`}
+                onClick={() => trackCheckout(OFFERS.lifetime)}
+                className="ol-btn ol-btn-lg ol-btn-ghost"
+              >
+                <InfinityIcon size={16} /> Accès à vie — 20 € une fois
+              </Link>
+            </div>
             <p className="ol-hero-note">
-              <ShieldCheck size={13} /> Sans engagement · Annulable en 1 clic · Paiement sécurisé
+              <ShieldCheck size={13} /> Civique + français inclus · Sans engagement · Paiement sécurisé
             </p>
           </div>
 
           <div className="ol-stats">
             {[
-              { n: '177', l: 'questions officielles' },
+              { n: '177', l: 'questions civiques officielles' },
               { n: '2 700+', l: 'exercices de français' },
-              { n: '4', l: 'langues disponibles' },
-              { n: '80 %+', l: 'de réussite visée' },
+              { n: 'A2 → B2', l: 'tous les niveaux exigés' },
+              { n: '2-en-1', l: 'civique + linguistique' },
             ].map((s) => (
               <div key={s.l} className="ol-stat">
                 <span className="ol-stat-n">{s.n}</span>
@@ -103,11 +115,12 @@ export function OffreLanding() {
       {/* ── L'ENJEU ─────────────────────────────────────────────────────── */}
       <section className="ol-section ol-section-gray">
         <div className="ol-container ol-narrow">
-          <h2 className="ol-h2">Un examen que vous ne pouvez pas rater</h2>
+          <h2 className="ol-h2">Deux conditions, une seule préparation</h2>
           <p className="ol-lead">
-            Depuis 2026, l&apos;examen civique conditionne votre carte de séjour pluriannuelle,
-            votre carte de résident ou votre naturalisation. Un échec, c&apos;est une démarche
-            retardée de plusieurs mois — parfois davantage.
+            Depuis 2026, votre carte de séjour pluriannuelle, votre carte de résident ou votre
+            naturalisation exigent <strong>deux choses à la fois</strong> : réussir l&apos;examen
+            civique <em>et</em> justifier du niveau de français demandé. Rater l&apos;un des deux,
+            c&apos;est une démarche retardée de plusieurs mois.
           </p>
           <div className="ol-problem">
             {[
@@ -286,10 +299,11 @@ export function OffreLanding() {
       <section className="ol-final">
         <div className="ol-container ol-narrow ol-center">
           <h2 className="ol-final-h">
-            Votre examen n&apos;attendra pas.<br />Votre préparation non plus.
+            Vos examens n&apos;attendront pas.<br />Votre préparation non plus.
           </h2>
           <p className="ol-final-sub">
-            Rejoignez les candidats qui révisent chaque jour sur maformationcivique.fr.
+            Civique et français, dans un seul abonnement. Rejoignez les candidats qui
+            révisent chaque jour sur maformationcivique.fr.
           </p>
           <div className="ol-final-cta">
             <Link
@@ -362,9 +376,18 @@ export function OffreLanding() {
         }
 
         .ol-hero { position: relative; overflow: hidden; padding: 64px 0 56px; }
+        .ol-hero-img {
+          position: absolute; inset: 0;
+          background-image: url(/images/hero/delacroix-watermark.jpg);
+          background-size: cover; background-position: center 22%;
+        }
         .ol-hero-bg {
           position: absolute; inset: 0;
-          background: linear-gradient(160deg, #001A70 0%, #002395 45%, #0057A8 100%);
+          background: linear-gradient(160deg, rgba(0,20,90,0.93) 0%, rgba(0,35,149,0.90) 45%, rgba(0,87,168,0.88) 100%);
+        }
+        .ol-grain {
+          position: absolute; inset: 0; opacity: 0.3; pointer-events: none;
+          background-image: url(data:image/svg+xml;utf8,%3Csvg%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.9%22%20numOctaves%3D%224%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20filter%3D%22url%28%23n%29%22%20opacity%3D%220.05%22%2F%3E%3C%2Fsvg%3E);
         }
         .ol-hero-inner { position: relative; z-index: 1; text-align: center; }
         .ol-badge {
@@ -385,7 +408,10 @@ export function OffreLanding() {
           color: rgba(255,255,255,0.86); max-width: 580px; margin: 0 auto 28px;
         }
         .ol-hero-sub strong { color: #fff; }
-        .ol-hero-cta { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .ol-hero-cta { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+        .ol-hero-btns {
+          display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+        }
         .ol-hero-note {
           display: inline-flex; align-items: center; justify-content: center; gap: 6px;
           font-size: 12.5px; color: rgba(255,255,255,0.7);
@@ -475,7 +501,10 @@ export function OffreLanding() {
           box-shadow: var(--shadow-card);
         }
         .ol-price-featured {
-          background: linear-gradient(160deg, #001A70 0%, #002395 60%, #7A1220 100%);
+          position: relative; overflow: hidden;
+          background:
+            linear-gradient(160deg, rgba(0,26,112,0.93) 0%, rgba(0,35,149,0.90) 60%, rgba(122,18,32,0.92) 100%),
+            url(/images/modules/daumier-la-republique.jpg) center 18% / cover no-repeat;
           border: none; box-shadow: var(--shadow-lg);
         }
         .ol-price-tag {
@@ -545,8 +574,11 @@ export function OffreLanding() {
         }
 
         .ol-final {
+          position: relative; overflow: hidden;
           padding: 72px 0;
-          background: linear-gradient(160deg, #001A70 0%, #002395 50%, #CC1A1A 100%);
+          background:
+            linear-gradient(160deg, rgba(0,26,112,0.92) 0%, rgba(0,35,149,0.88) 50%, rgba(204,26,26,0.90) 100%),
+            url(/images/hero/delacroix-watermark.jpg) center 30% / cover no-repeat;
         }
         .ol-final-h {
           font-size: clamp(26px, 4.5vw, 40px); font-weight: 800;
@@ -598,6 +630,8 @@ export function OffreLanding() {
           .ol-sticky { display: flex; }
           .ol-header .ol-btn-sm { display: none; }
           .ol-final-cta .ol-btn-lg { width: 100%; }
+          .ol-hero-btns { flex-direction: column; width: 100%; }
+          .ol-hero-btns .ol-btn-lg { width: 100%; font-size: 15.5px; padding: 15px 20px; }
         }
       `}</style>
     </div>
