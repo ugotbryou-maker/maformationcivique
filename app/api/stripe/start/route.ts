@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { createCheckoutSession, STRIPE_PLANS, type PlanKey } from '@/lib/stripe';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
+import { getAppUrl } from '@/lib/app-url';
 
 const PLAN_ALIAS: Record<string, PlanKey> = {
   premium:         'premium_monthly',
@@ -19,7 +20,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const planAlias = searchParams.get('plan') ?? 'premium';
   const planKey: PlanKey = PLAN_ALIAS[planAlias] ?? 'premium_monthly';
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
+  const appUrl = await getAppUrl();
 
   // Utilisateur non connecté → inscription avec le plan en param
   const supabase = await createServerSupabaseClient();

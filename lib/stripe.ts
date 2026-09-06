@@ -110,19 +110,40 @@ export async function createCheckoutSession(
     : { allow_promotion_codes: true };
 
   // Lifetime : pas de Price Stripe pré-créé, on facture directement le Product
-  // (prod_VBKI4svdrjUOoA) via price_data. Les autres offres utilisent leur
-  // Price Stripe existant (priceId).
-  const lineItem = isLifetime
+  // (prod_VBKI4svdrjUOoA) via price_data.
+  //
+  // Abonnements : on utilise le Price Stripe configuré. S'il est absent (variable
+  // d'environnement vide), on ne laisse PAS le tunnel mourir : on facture le
+  // montant de référence via price_data. Un catalogue mal configuré ne doit pas
+  // coûter une vente — mais l'incident est journalisé pour être corrigé, car ce
+  // mode dégradé crée un produit ad hoc à chaque paiement (reporting Stripe
+  // moins propre).
+  const priceId = 'priceId' in plan ? plan.priceId : '';
+  const useInlinePrice = isLifetime || !priceId;
+
+  if (!isLifetime && !priceId) {
+    console.error(
+      '[stripe] PRICE MANQUANT — repli sur price_data.',
+      JSON.stringify({ planKey, montantFacture: plan.price, aCorriger: `STRIPE_PRICE_${planKey.toUpperCase()}` }),
+    );
+  }
+
+  const lineItem = useInlinePrice
     ? {
         price_data: {
-          currency: (plan as { currency: string }).currency,
-          product: (plan as { productId: string }).productId,
+          currency: 'eur',
           unit_amount: plan.price,
+          ...(isLifetime
+            ? { product: (plan as { productId: string }).productId }
+            : {
+                product_data: { name: plan.name },
+                recurring: { interval: 'month' as const },
+              }),
         },
         quantity: 1,
       }
     : {
-        price: (plan as { priceId: string }).priceId,
+        price: priceId,
         quantity: 1,
       };
 

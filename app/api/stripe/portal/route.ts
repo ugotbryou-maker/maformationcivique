@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { createPortalSession } from '@/lib/stripe';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
+import { getAppUrl } from '@/lib/app-url';
 
 export async function POST() {
   const supabase = await createServerSupabaseClient();
@@ -22,6 +23,6 @@ export async function POST() {
     return NextResponse.json({ error: 'No Stripe customer' }, { status: 400 });
   }
 
-  const session = await createPortalSession(profile.stripe_id, process.env.NEXT_PUBLIC_APP_URL!);
+  const session = await createPortalSession(profile.stripe_id, await getAppUrl());
   return NextResponse.json({ url: session.url });
 }

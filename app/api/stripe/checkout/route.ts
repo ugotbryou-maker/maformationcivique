@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { createCheckoutSession, type PlanKey } from '@/lib/stripe';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
+import { getAppUrl } from '@/lib/app-url';
 
 export async function POST(req: Request) {
   const supabase = await createServerSupabaseClient();
@@ -13,7 +14,7 @@ export async function POST(req: Request) {
   }
 
   const { planKey } = await req.json() as { planKey?: PlanKey };
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
+  const appUrl = await getAppUrl();
 
   // Parrainage : -20% sur le 1er mois si l'utilisateur a été parrainé
   // et n'a pas encore profité de la réduction.
