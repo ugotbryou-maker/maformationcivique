@@ -19,15 +19,26 @@ function GoogleG() {
  * Réservé au B2C : ne pas afficher sur un flux d'invitation cabinet
  * (le token ne survivrait pas au round-trip OAuth).
  */
-export function GoogleAuthButton({ label = 'Continuer avec Google' }: { label?: string }) {
+export function GoogleAuthButton({
+  label = 'Continuer avec Google',
+  plan,
+}: {
+  label?: string;
+  /** Offre choisie en amont (campagne, page tarifs). Transmise à travers le
+   *  round-trip OAuth pour que l'utilisateur parte au paiement après connexion —
+   *  sans cela, il crée un compte et la vente est perdue en silence. */
+  plan?: string | null;
+}) {
   const [loading, setLoading] = useState(false);
 
   const handleClick = async () => {
     setLoading(true);
     const supabase = createClient();
+    const callback = new URL('/auth/callback', window.location.origin);
+    if (plan) callback.searchParams.set('plan', plan);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: { redirectTo: callback.toString() },
     });
     if (error) setLoading(false);
     // Sinon : redirection vers Google en cours.

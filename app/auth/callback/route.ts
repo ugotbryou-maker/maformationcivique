@@ -36,6 +36,7 @@ export async function GET(request: Request) {
       // compléter démarche + téléphone ; un cabinet-admin va sur /cabinet.
       let redirectTo = '/dashboard';
       const userId = data.user?.id;
+      let cabinetRole: string | null = null;
       if (userId) {
         const { data: profile } = await supabase
           .from('users')
@@ -43,12 +44,23 @@ export async function GET(request: Request) {
           .eq('id', userId)
           .single();
 
+        cabinetRole = profile?.cabinet_role ?? null;
         if (profile?.cabinet_role === 'admin') {
           redirectTo = '/cabinet';
         } else if (!profile?.onboarding_done) {
           redirectTo = '/onboarding';
         }
       }
+
+      // L'utilisateur venait d'une offre (campagne, page tarifs) : on l'emmène
+      // au paiement plutôt qu'à l'onboarding, sinon l'intention d'achat se perd.
+      const plan = searchParams.get('plan');
+      if (plan && !cabinetRole) {
+        redirectTo = plan === 'lifetime'
+          ? '/dashboard?offer=lifetime'   // passage par la modale de consentement
+          : `/api/stripe/start?plan=${encodeURIComponent(plan)}`;
+      }
+
       return NextResponse.redirect(`${origin}${redirectTo}`);
     }
   }

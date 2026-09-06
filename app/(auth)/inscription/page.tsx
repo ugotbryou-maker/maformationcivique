@@ -394,7 +394,7 @@ function InscriptionForm() {
         </button>
 
         {/* Google OAuth — B2C uniquement (pas sur les invitations cabinet) */}
-        {!inviteToken && <GoogleAuthButton label="S'inscrire avec Google" />}
+        {!inviteToken && <GoogleAuthButton label="S'inscrire avec Google" plan={plan} />}
 
         <p style={{ textAlign: 'center', marginTop: '20px', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', lineHeight: 1.5 }}>
           En créant un compte, vous acceptez nos{' '}
