@@ -21,19 +21,38 @@ export async function POST(req: Request) {
     ?? null;
   const userAgent = req.headers.get('user-agent');
 
-  const admin = createServiceRoleClient();
-  const { error } = await admin.from('lifetime_consents').insert({
-    user_id: user.id,
-    email: user.email,
-    cgu_version: '2.1',
-    ip,
-    user_agent: userAgent,
-  });
+  const acceptedAt = new Date().toISOString();
 
-  if (error) {
-    console.error('lifetime-consent error:', error);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+  // L'enregistrement de la preuve ne doit JAMAIS bloquer le paiement : le
+  // consentement a été donné par l'utilisateur (case cochée) au moment où il
+  // arrive ici. Si l'écriture échoue (table absente, base indisponible…), on
+  // trace l'incident côté serveur et on laisse le parcours d'achat continuer.
+  try {
+    const admin = createServiceRoleClient();
+    const { error } = await admin.from('lifetime_consents').insert({
+      user_id: user.id,
+      email: user.email,
+      cgu_version: '2.2',
+      accepted_at: acceptedAt,
+      ip,
+      user_agent: userAgent,
+    });
+
+    if (error) {
+      console.error(
+        '[lifetime-consent] ÉCHEC ENREGISTREMENT — consentement donné mais non persisté.',
+        JSON.stringify({ userId: user.id, email: user.email, acceptedAt, ip, dbError: error.message }),
+      );
+      return NextResponse.json({ ok: true, recorded: false });
+    }
+  } catch (err) {
+    console.error(
+      '[lifetime-consent] EXCEPTION — consentement donné mais non persisté.',
+      JSON.stringify({ userId: user.id, email: user.email, acceptedAt, ip }),
+      err,
+    );
+    return NextResponse.json({ ok: true, recorded: false });
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, recorded: true });
 }

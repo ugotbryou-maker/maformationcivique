@@ -25,12 +25,14 @@ const totalLangLessons = allLangModules.reduce((a, m) => a + m.lessons.length, 0
 export default async function DashboardPage({
   searchParams,
 }: {
-  searchParams: Promise<{ offer?: string }>;
+  searchParams: Promise<{ offer?: string; checkout?: string }>;
 }) {
   // ?offer=lifetime : l'utilisateur arrive d'une campagne ayant choisi l'accès
   // à vie — on ouvre directement la modale de consentement (CGU art. 4.4bis).
-  const { offer } = await searchParams;
+  const { offer, checkout } = await searchParams;
   const autoOpenLifetime = offer === 'lifetime';
+  // ?checkout=error : la création de la session Stripe a échoué en amont.
+  const checkoutFailed = checkout === 'error';
 
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -123,6 +125,25 @@ export default async function DashboardPage({
   return (
     <div style={{ maxWidth: '1100px' }}>
       <Suspense><PurchaseTracker value={purchaseValue} planName={purchasePlanName} /></Suspense>
+
+      {checkoutFailed && (
+        <div className="container" style={{ paddingTop: 16 }}>
+          <div style={{
+            background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 'var(--radius-lg)',
+            padding: '14px 18px', display: 'flex', alignItems: 'flex-start', gap: 10,
+          }}>
+            <span style={{ fontSize: 16, lineHeight: 1.2 }} aria-hidden>⚠️</span>
+            <p style={{ fontSize: 13.5, lineHeight: 1.6, color: '#991B1B', margin: 0 }}>
+              <strong>Le paiement n&apos;a pas pu être ouvert.</strong> Aucun montant n&apos;a été
+              débité. Réessayez dans un instant, ou écrivez-nous à{' '}
+              <a href="mailto:contact@maformationcivique.fr" style={{ color: '#991B1B', textDecoration: 'underline' }}>
+                contact@maformationcivique.fr
+              </a>{' '}
+              — nous activons votre accès manuellement.
+            </p>
+          </div>
+        </div>
+      )}
       {/* Welcome */}
       <div style={{ marginBottom: '28px' }}>
         <h1 style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text-primary)', marginBottom: '4px' }}>

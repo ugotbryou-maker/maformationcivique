@@ -26,23 +26,21 @@ export function LifetimeOfferButton({
   const [open, setOpen] = useState(autoOpen);
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   async function handleConfirm() {
     if (!checked) return;
     setLoading(true);
-    setError(null);
+
+    // L'enregistrement du consentement est une trace interne : son échec ne
+    // doit pas empêcher l'achat. On tente de l'écrire, puis on part au
+    // paiement dans tous les cas. Si l'utilisateur n'est plus authentifié,
+    // /api/stripe/start le renvoie de lui-même vers l'inscription.
     try {
-      const res = await fetch('/api/lifetime-consent', { method: 'POST' });
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error(body.error ?? 'Erreur serveur');
-      }
-      window.location.href = '/api/stripe/start?plan=lifetime';
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Une erreur est survenue');
-      setLoading(false);
+      await fetch('/api/lifetime-consent', { method: 'POST' });
+    } catch {
+      // Trace côté serveur uniquement — on ne bloque pas le parcours.
     }
+    window.location.href = '/api/stripe/start?plan=lifetime';
   }
 
   return (
@@ -119,10 +117,6 @@ export function LifetimeOfferButton({
                 ainsi que les <a href="/cgu" target="_blank" rel="noreferrer" style={{ color: 'var(--color-blue-france)' }}>CGU</a>.
               </span>
             </label>
-
-            {error && (
-              <p style={{ fontSize: 13, color: '#B91C1C', marginBottom: 12 }}>{error}</p>
-            )}
 
             <button
               type="button"

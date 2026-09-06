@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS public.lifetime_consents (
   id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id       uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   email         text,
-  cgu_version   text NOT NULL DEFAULT '2.1',
+  cgu_version   text NOT NULL DEFAULT '2.2',
   accepted_at   timestamptz NOT NULL DEFAULT now(),
   ip            text,
   user_agent    text

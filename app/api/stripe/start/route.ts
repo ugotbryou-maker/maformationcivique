@@ -51,7 +51,19 @@ export async function GET(request: Request) {
     );
     return NextResponse.redirect(session.url!);
   } catch (err) {
-    console.error('Stripe start error:', err);
-    return NextResponse.redirect(new URL('/dashboard', appUrl));
+    // Échec fréquent en production : Price Stripe absent ou mal configuré
+    // (variable d'environnement vide). On trace explicitement le plan concerné
+    // et on signale l'échec à l'utilisateur au lieu de le déposer sans un mot
+    // sur le tableau de bord — un tunnel qui meurt en silence est invisible.
+    const plan = STRIPE_PLANS[planKey];
+    console.error(
+      '[stripe/start] ÉCHEC CRÉATION CHECKOUT',
+      JSON.stringify({
+        planKey,
+        priceIdConfigured: 'priceId' in plan ? Boolean(plan.priceId) : 'n/a (price_data)',
+        message: err instanceof Error ? err.message : String(err),
+      }),
+    );
+    return NextResponse.redirect(new URL('/dashboard?checkout=error', appUrl));
   }
 }
