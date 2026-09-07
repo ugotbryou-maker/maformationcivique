@@ -67,9 +67,16 @@ export function B2BCta() {
                 width: '100%', height: '100%',
                 borderRadius: '20px', overflow: 'hidden',
               }}>
+                {/* Visuel situé bas de page : chargement différé pour ne pas
+                    concurrencer l'image LCP du hero. Affiché en 300×340, donc
+                    demandé en 600 px de large (haute densité) et en WebP. */}
                 <img
-                  src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80"
+                  src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=680&fit=crop&q=70&fm=webp"
                   alt="Professionnel de l'intégration"
+                  width={300}
+                  height={340}
+                  loading="lazy"
+                  decoding="async"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>

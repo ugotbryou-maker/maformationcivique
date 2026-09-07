@@ -9,17 +9,46 @@ export function Hero() {
   const phoneRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => {
+    // Le parallaxe écrivait un transform à chaque événement de scroll, ce qui
+    // forçait le navigateur à recalculer la mise en page en plein défilement
+    // (101 ms d'« ajustement forcé » relevés par Lighthouse). On regroupe
+    // désormais les écritures dans une frame d'animation, et on respecte la
+    // préférence système de mouvement réduit.
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    let frame = 0;
+    const apply = () => {
+      frame = 0;
       const y = window.scrollY;
-      if (bgRef.current)    bgRef.current.style.transform    = `translateY(${y * 0.28}px)`;
-      if (phoneRef.current) phoneRef.current.style.transform = `translateY(${y * 0.12}px)`;
+      if (bgRef.current)    bgRef.current.style.transform    = `translate3d(0, ${y * 0.28}px, 0)`;
+      if (phoneRef.current) phoneRef.current.style.transform = `translate3d(0, ${y * 0.12}px, 0)`;
     };
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(apply);
+    };
+
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (
     <section style={{ position: 'relative', overflow: 'hidden', minHeight: '92vh', display: 'flex', alignItems: 'center' }}>
+
+      {/* Préchargement de l'image LCP. Déclarée en fond CSS, elle n'est
+          découverte qu'après l'analyse de la feuille de styles : le navigateur
+          la demande donc trop tard. Ce lien la rend visible dès le HTML et lui
+          donne la priorité haute. */}
+      {/* eslint-disable-next-line @next/next/no-head-element */}
+      <link
+        rel="preload"
+        as="image"
+        href="/images/hero/delacroix-watermark.webp"
+        fetchPriority="high"
+      />
 
       {/* ── Fond Liberté guidant le peuple — rouge — parallaxe ── */}
       <div

@@ -2,21 +2,21 @@ const testimonials = [
   {
     name: 'Fatima El Amrani',
     role: 'Carte de séjour pluriannuelle — obtenue',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=84&h=84&fit=crop&crop=faces&q=70&fm=webp',
     rating: 5,
     text: "Grâce à cette plateforme, j'ai pu me préparer en arabe et en français. J'ai obtenu 87 % à mon examen civique du premier coup. Les explications de l'IA après chaque mauvaise réponse sont vraiment utiles.",
   },
   {
     name: 'Emre Yilmaz',
     role: 'Naturalisation française — accord préfectoral',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=84&h=84&fit=crop&crop=faces&q=70&fm=webp',
     rating: 5,
     text: "Les examens blancs m'ont permis de gérer le stress du chronomètre. La progression gamifiée avec les badges m'a motivé à travailler chaque jour. Je recommande vivement à ceux qui préparent la naturalisation.",
   },
   {
     name: 'Maria Santos',
     role: 'Carte résident — titre obtenu',
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80',
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=84&h=84&fit=crop&crop=faces&q=70&fm=webp',
     rating: 5,
     text: "En tant que Portugaise, j'ai utilisé la version en portugais pour comprendre les nuances. Le module sur les institutions françaises était particulièrement bien expliqué. Plateforme indispensable.",
   },
@@ -78,9 +78,15 @@ export function Testimonials() {
 
               {/* Auteur */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                {/* Section située bas de page : chargement différé et
+                    dimensions déclarées pour éviter tout décalage de mise en page. */}
                 <img
                   src={avatar}
                   alt={name}
+                  width={42}
+                  height={42}
+                  loading="lazy"
+                  decoding="async"
                   style={{ width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
                 />
                 <div>
