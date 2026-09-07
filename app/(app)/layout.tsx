@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { headers } from 'next/headers';
-import { BookOpen, LayoutDashboard, Trophy, TrendingUp, User, Building2 } from 'lucide-react';
+import { BookOpen, LayoutDashboard, Trophy, TrendingUp, User, Building2, Sparkles } from 'lucide-react';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { isAdminEmail } from '@/lib/admin';
 import { getTenantConfig, tenantCssVars } from '@/lib/tenants';
@@ -24,13 +24,18 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const tenant = tenantSlug ? getTenantConfig(tenantSlug) : null;
 
   let appNav = baseNav;
+  // Utilisateur sans offre payante : on met en avant l'abonnement dans la
+  // barre latérale (entrée bleue, en tête de menu).
+  let showSubscribeCta = false;
 
   if (user) {
     const { data: profile } = await supabase
       .from('users')
-      .select('cabinet_id, cabinet_role')
+      .select('cabinet_id, cabinet_role, plan')
       .eq('id', user.id)
       .single();
+
+    showSubscribeCta = (profile?.plan ?? 'free') === 'free' && !profile?.cabinet_id;
 
     if (profile?.cabinet_id && profile.cabinet_role === 'admin') {
       appNav = [...baseNav, { icon: Building2, label: 'Cabinet', href: '/cabinet' }];
@@ -91,6 +96,29 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         </Link>
 
         <nav style={{ flex: 1 }}>
+          {showSubscribeCta && (
+            <Link
+              href="/offres"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                padding: '12px 14px',
+                borderRadius: 'var(--radius-md)',
+                fontSize: 'var(--font-size-sm)',
+                fontWeight: 700,
+                color: '#fff',
+                background: 'var(--gradient-primary)',
+                boxShadow: '0 4px 14px rgba(0,35,149,0.28)',
+                marginBottom: '14px',
+                minHeight: '46px',
+                textDecoration: 'none',
+              }}
+            >
+              <Sparkles size={17} />
+              S&apos;abonner
+            </Link>
+          )}
           {appNav.map(({ icon: Icon, label, href }) => (
             <Link
               key={href}
@@ -166,6 +194,30 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           padding: '0 4px',
         }}
       >
+        {showSubscribeCta && (
+          <Link
+            href="/offres"
+            className="bottom-nav-item"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '3px',
+              flex: 1,
+              height: '100%',
+              textDecoration: 'none',
+              color: 'var(--color-blue-france)',
+              fontSize: '10px',
+              fontWeight: 800,
+              minWidth: 0,
+              padding: '4px 2px',
+            }}
+          >
+            <Sparkles size={20} />
+            S&apos;abonner
+          </Link>
+        )}
         {appNav.map(({ icon: Icon, label, href }) => (
           <Link
             key={href}

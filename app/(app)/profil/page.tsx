@@ -5,6 +5,7 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect, useRef } from 'react';
 import { createClient } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { User, CreditCard, LogOut, Lock, Eye, EyeOff, CheckCircle, Camera, XCircle } from 'lucide-react';
 
 export default function ProfilPage() {
@@ -117,16 +118,6 @@ export default function ProfilPage() {
     e.target.value = '';
   };
 
-  const handleUpgrade = async () => {
-    const res = await fetch('/api/stripe/checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ planKey: 'premium_monthly' }),
-    });
-    const { url } = await res.json();
-    if (url) window.location.href = url;
-  };
-
   if (loading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '40vh' }}>
@@ -136,7 +127,11 @@ export default function ProfilPage() {
     );
   }
 
-  const isPremium = profile?.plan === 'premium';
+  // Toute offre payante compte, pas seulement 'premium' : un abonné Bundle ou
+  // Langue était jusqu'ici affiché « Gratuit » et se voyait proposer de
+  // souscrire alors qu'il payait déjà.
+  const plan = profile?.plan ?? 'free';
+  const isPremium = plan === 'premium' || plan === 'langue' || plan === 'bundle';
 
   return (
     <div style={{ maxWidth: '560px' }}>
@@ -289,18 +284,21 @@ export default function ProfilPage() {
             <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginBottom: '16px' }}>
               Accédez aux modules civiques, aux exercices de langue et aux examens blancs.
             </p>
-            <button
-              onClick={handleUpgrade}
+            {/* Lien vers la page des offres, et non un appel Stripe direct :
+                l'ancien bouton lançait un fetch qui, en cas d'échec, ne
+                produisait strictement rien à l'écran. */}
+            <Link
+              href="/offres"
               style={{
-                display: 'flex', alignItems: 'center', gap: '8px',
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
                 padding: '12px 24px', borderRadius: 'var(--radius-pill)',
                 background: 'var(--gradient-primary)', color: '#FFFFFF',
-                border: 'none', fontSize: 'var(--font-size-sm)', fontWeight: 500,
-                cursor: 'pointer', fontFamily: 'var(--font-sans)', minHeight: '44px',
+                fontSize: 'var(--font-size-sm)', fontWeight: 600,
+                textDecoration: 'none', minHeight: '44px',
               }}
             >
               Voir les offres
-            </button>
+            </Link>
           </div>
         )}
       </div>
