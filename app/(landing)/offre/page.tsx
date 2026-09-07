@@ -9,5 +9,14 @@ export const metadata: Metadata = {
 };
 
 export default function OffrePage() {
-  return <OffreLanding />;
+  // Liens de paiement Stripe (Payment Links) pilotés par variables
+  // d'environnement : ils peuvent être changés sans redéploiement de code.
+  // Repli sur le tunnel avec création de compte tant qu'ils ne sont pas
+  // renseignés — jamais de CTA mort.
+  return (
+    <OffreLanding
+      bundleHref={process.env.NEXT_PUBLIC_STRIPE_LINK_BUNDLE || '/inscription?plan=bundle'}
+      lifetimeHref={process.env.NEXT_PUBLIC_STRIPE_LINK_LIFETIME || '/inscription?plan=lifetime'}
+    />
+  );
 }

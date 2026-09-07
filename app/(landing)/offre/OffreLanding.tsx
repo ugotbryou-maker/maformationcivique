@@ -27,7 +27,14 @@ function trackCheckout(offer: { plan: string; value: number }) {
   });
 }
 
-export function OffreLanding() {
+export function OffreLanding({
+  bundleHref = '/inscription?plan=bundle',
+  lifetimeHref = '/inscription?plan=lifetime',
+}: {
+  /** Lien de paiement Stripe (ou repli vers le tunnel avec compte). */
+  bundleHref?: string;
+  lifetimeHref?: string;
+}) {
   useEffect(() => {
     fbqTrack('ViewContent', { content_name: 'landing_offre', currency: 'EUR', value: 10 });
   }, []);
@@ -40,7 +47,7 @@ export function OffreLanding() {
         <div className="ol-container ol-header-inner">
           <BrandLogo height={32} variant="color" />
           <Link
-            href={`/inscription?plan=${OFFERS.bundle.plan}`}
+            href={bundleHref}
             onClick={() => trackCheckout(OFFERS.bundle)}
             className="ol-btn ol-btn-sm"
           >
@@ -77,14 +84,14 @@ export function OffreLanding() {
           <div className="ol-hero-cta">
             <div className="ol-hero-btns">
               <Link
-                href={`/inscription?plan=${OFFERS.bundle.plan}`}
+                href={bundleHref}
                 onClick={() => trackCheckout(OFFERS.bundle)}
                 className="ol-btn ol-btn-lg ol-btn-invert"
               >
                 Commencer — 10 €/mois <ArrowRight size={17} />
               </Link>
               <Link
-                href={`/inscription?plan=${OFFERS.lifetime.plan}`}
+                href={lifetimeHref}
                 onClick={() => trackCheckout(OFFERS.lifetime)}
                 className="ol-btn ol-btn-lg ol-btn-ghost"
               >
@@ -225,7 +232,7 @@ export function OffreLanding() {
                 ))}
               </ul>
               <Link
-                href={`/inscription?plan=${OFFERS.bundle.plan}`}
+                href={bundleHref}
                 onClick={() => trackCheckout(OFFERS.bundle)}
                 className="ol-btn ol-btn-block"
               >
@@ -248,14 +255,19 @@ export function OffreLanding() {
                 ))}
               </ul>
               <Link
-                href={`/inscription?plan=${OFFERS.lifetime.plan}`}
+                href={lifetimeHref}
                 onClick={() => trackCheckout(OFFERS.lifetime)}
                 className="ol-btn ol-btn-block ol-btn-invert"
               >
                 Obtenir l&apos;accès à vie — 20 €
               </Link>
+              {/* Acceptation par proximité du bouton : le paiement direct ne
+                  passe plus par la modale à case à cocher, la mention doit donc
+                  être explicite et lisible avant le clic (CGU art. 4.4bis). */}
               <p className="ol-price-legal">
-                « Accès à vie » = valable tant que la plateforme est exploitée. Détail dans les{' '}
+                En poursuivant, vous acceptez que l&apos;« accès à vie » désigne un accès
+                valable pendant toute la durée d&apos;exploitation du site — et non une
+                garantie liée à votre propre durée de vie — ainsi que les{' '}
                 <Link href="/cgu" target="_blank" className="ol-legal-link">CGU, art. 4.4bis</Link>.
               </p>
             </div>
@@ -324,14 +336,14 @@ export function OffreLanding() {
           </p>
           <div className="ol-final-cta">
             <Link
-              href={`/inscription?plan=${OFFERS.bundle.plan}`}
+              href={bundleHref}
               onClick={() => trackCheckout(OFFERS.bundle)}
               className="ol-btn ol-btn-lg ol-btn-invert"
             >
               Commencer — 10 €/mois <ArrowRight size={17} />
             </Link>
             <Link
-              href={`/inscription?plan=${OFFERS.lifetime.plan}`}
+              href={lifetimeHref}
               onClick={() => trackCheckout(OFFERS.lifetime)}
               className="ol-btn ol-btn-lg ol-btn-ghost"
             >
@@ -368,7 +380,7 @@ export function OffreLanding() {
           <span>/mois · sans engagement</span>
         </div>
         <Link
-          href={`/inscription?plan=${OFFERS.bundle.plan}`}
+          href={bundleHref}
           onClick={() => trackCheckout(OFFERS.bundle)}
           className="ol-btn ol-btn-sticky"
         >
