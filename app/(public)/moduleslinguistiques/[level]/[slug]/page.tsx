@@ -112,7 +112,7 @@ export default async function LangueLessonPage({ params }: Props) {
       <div style={{ minHeight: '100vh', background: 'var(--color-off-white)' }}>
         <LangScrollProgress color="#CC1A1A" />
         <div style={{ position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/images/modules/daumier-la-republique.jpg)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
+          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/images/modules/daumier-la-republique.webp)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(127,29,29,0.92) 0%, rgba(204,26,26,0.88) 100%)' }} />
           <div style={{ position: 'relative', zIndex: 1, padding: '2.5rem 1.5rem 2rem' }}>
             <div className="container">
@@ -204,7 +204,7 @@ export default async function LangueLessonPage({ params }: Props) {
 
       {/* Hero avec filigrane */}
       <div style={{ position: 'relative', overflow: 'hidden', minHeight: 160 }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(/images/modules/Ecole_-_Salle_de_Classe_2.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center 20%' }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(/images/modules/Ecole_-_Salle_de_Classe_2.webp)`, backgroundSize: 'cover', backgroundPosition: 'center 20%' }} />
         <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${accent}F0 0%, ${accent}B0 100%)` }} />
         <div className="container" style={{ position: 'relative', zIndex: 2, padding: '28px 24px 26px' }}>
           <nav style={{ display: 'flex', gap: '6px', marginBottom: '14px', fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.7)', flexWrap: 'wrap' }}>

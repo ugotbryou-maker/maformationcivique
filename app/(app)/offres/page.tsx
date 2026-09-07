@@ -163,7 +163,7 @@ export default async function OffresPage() {
         .offre-featured {
           background:
             linear-gradient(160deg, rgba(0,26,112,0.93) 0%, rgba(0,35,149,0.90) 60%, rgba(122,18,32,0.92) 100%),
-            url(/images/modules/daumier-la-republique.jpg) center 18% / cover no-repeat;
+            url(/images/modules/daumier-la-republique.webp) center 18% / cover no-repeat;
           border: none;
           box-shadow: var(--shadow-lg);
           overflow: hidden;

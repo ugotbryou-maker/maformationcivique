@@ -11,11 +11,11 @@ import { createServerSupabaseClient } from '@/lib/supabase-server';
 import type { Metadata } from 'next';
 
 const MODULE_HERO = {
-  republique:   { image: '/images/modules/republique.jpg',   color: '#DC2626', colorEnd: '#991B1B', position: 'center 8%' },
-  droits:       { image: '/images/modules/Droits.png',        color: '#002395', colorEnd: '#001A70', position: 'center 35%' },
-  institutions: { image: '/images/modules/institutions.jpg', color: '#1E3A8A', colorEnd: '#1E40AF', position: 'center 20%' },
-  histoire:     { image: '/images/modules/histoire.jpg',     color: '#065F46', colorEnd: '#059669', position: 'center 30%' },
-  'vie-en-france': { image: '/images/modules/vie-en-france.jpg', color: '#0E7490', colorEnd: '#0891B2', position: 'center 40%' },
+  republique:   { image: '/images/modules/republique.webp',   color: '#DC2626', colorEnd: '#991B1B', position: 'center 8%' },
+  droits:       { image: '/images/modules/Droits.webp',        color: '#002395', colorEnd: '#001A70', position: 'center 35%' },
+  institutions: { image: '/images/modules/institutions.webp', color: '#1E3A8A', colorEnd: '#1E40AF', position: 'center 20%' },
+  histoire:     { image: '/images/modules/histoire.webp',     color: '#065F46', colorEnd: '#059669', position: 'center 30%' },
+  'vie-en-france': { image: '/images/modules/vie-en-france.webp', color: '#0E7490', colorEnd: '#0891B2', position: 'center 40%' },
 } as const;
 
 interface Props {

@@ -3,7 +3,7 @@
  * Docs: https://developers.brevo.com/reference/sendtransacemail
  *
  * Images de fond hébergées sur le site (dans public/images/) :
- *   /images/modules/republique.jpg     → bienvenue, reset MDP   (~488 KB)
+ *   /images/modules/republique.webp     → bienvenue, reset MDP   (~488 KB)
  *   /images/modules/fronton-hotel-dieu.jpg → lead gen, statue   (~572 KB)
  *   /images/partenaires/handshake.jpg  → invitations cabinet    (~1.1 MB)
  *   /images/modules/serment-du-jeu-de-paume.jpg → premium/promo (~508 KB)

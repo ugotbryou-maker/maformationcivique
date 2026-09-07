@@ -11,11 +11,11 @@ interface ModuleProgress { completed: number; total: number; percent: number; }
 type ProgressMap = Record<string, ModuleProgress>;
 
 const MODULE_CONFIG = [
-  { slug: 'republique',    image: '/images/modules/republique.jpg',    color: '#DC2626', colorEnd: '#991B1B', position: 'center 8%'  },
-  { slug: 'droits',        image: '/images/modules/Droits.png',         color: '#002395', colorEnd: '#001A70', position: 'center 35%' },
-  { slug: 'institutions',  image: '/images/modules/institutions.jpg',  color: '#1E3A8A', colorEnd: '#1E40AF', position: 'center 20%' },
-  { slug: 'histoire',      image: '/images/modules/histoire.jpg',      color: '#065F46', colorEnd: '#059669', position: 'center 30%' },
-  { slug: 'vie-en-france', image: '/images/modules/vie-en-france.jpg', color: '#0E7490', colorEnd: '#0891B2', position: 'center 40%' },
+  { slug: 'republique',    image: '/images/modules/republique.webp',    color: '#DC2626', colorEnd: '#991B1B', position: 'center 8%'  },
+  { slug: 'droits',        image: '/images/modules/Droits.webp',         color: '#002395', colorEnd: '#001A70', position: 'center 35%' },
+  { slug: 'institutions',  image: '/images/modules/institutions.webp',  color: '#1E3A8A', colorEnd: '#1E40AF', position: 'center 20%' },
+  { slug: 'histoire',      image: '/images/modules/histoire.webp',      color: '#065F46', colorEnd: '#059669', position: 'center 30%' },
+  { slug: 'vie-en-france', image: '/images/modules/vie-en-france.webp', color: '#0E7490', colorEnd: '#0891B2', position: 'center 40%' },
 ];
 
 const LANG_LEVELS = [
@@ -24,7 +24,7 @@ const LANG_LEVELS = [
     label: 'Niveau A2',
     subtitle: 'Vie quotidienne · Démarches administratives',
     color: '#059669', colorEnd: '#047857',
-    image: '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
+    image: '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
     modules: a2Modules,
   },
   {
@@ -40,7 +40,7 @@ const LANG_LEVELS = [
     label: 'Niveau B2',
     subtitle: 'Expression avancée · Argumentation',
     color: '#6D28D9', colorEnd: '#5B21B6',
-    image: '/images/modules/chateau-versailles.jpg',
+    image: '/images/modules/chateau-versailles.webp',
     modules: b2Modules,
   },
   {

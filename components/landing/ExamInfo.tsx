@@ -25,7 +25,7 @@ export function ExamInfo() {
       {/* Filigrane Delacroix — au-dessus du dégradé */}
       <div style={{
         position: 'absolute', inset: 0,
-        backgroundImage: "url('/images/hero/delacroix-watermark.jpg')",
+        backgroundImage: "url('/images/hero/delacroix-watermark.webp')",
         backgroundSize: 'cover', backgroundPosition: 'center 30%',
         opacity: 0.28,
         mixBlendMode: 'luminosity',

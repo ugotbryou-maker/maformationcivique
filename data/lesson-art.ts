@@ -32,7 +32,7 @@ export const lessonArt: Record<string, ArtInfo> = {
     baseBg: 'linear-gradient(135deg, #001A70 0%, #0E4C92 100%)',
   },
   'devise-liberte-egalite-fraternite': {
-    url: '/images/modules/daumier-la-republique.jpg',
+    url: '/images/modules/daumier-la-republique.webp',
     alt: 'La République — Honoré Daumier, 1848',
     credit: 'Honoré Daumier, 1848 — Musée d\'Orsay · Domaine public',
     baseBg: 'linear-gradient(135deg, #CC1A1A 0%, #001A70 100%)',
@@ -142,7 +142,7 @@ export const lessonArt: Record<string, ArtInfo> = {
     baseBg: 'linear-gradient(135deg, #065F46 0%, #059669 100%)',
   },
   'education-travail': {
-    url: '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
+    url: '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
     alt: 'Salle de classe dans une école française',
     credit: 'Photographie, salle de classe',
     baseBg: 'linear-gradient(135deg, #0891B2 0%, #0E4C92 100%)',
@@ -164,10 +164,10 @@ export const lessonArt: Record<string, ArtInfo> = {
 // ── Fallback par module ──────────────────────────────────────────────────────
 export const moduleArtFallback: Record<string, ArtInfo> = {
   republique:     { url: '/images/paintings/delacroix-liberte.jpg', alt: 'La Liberté guidant le peuple — Delacroix', credit: 'Delacroix, 1830 — Musée du Louvre', baseBg: 'linear-gradient(135deg, #9F1239 0%, #CC1A1A 100%)' },
-  droits:         { url: '/images/modules/Droits.png', alt: 'Déclaration des droits de l\'homme', credit: 'Le Barbier, 1789 — Archives nationales', baseBg: 'linear-gradient(135deg, #4C1D95 0%, #002395 100%)' },
+  droits:         { url: '/images/modules/Droits.webp', alt: 'Déclaration des droits de l\'homme', credit: 'Le Barbier, 1789 — Archives nationales', baseBg: 'linear-gradient(135deg, #4C1D95 0%, #002395 100%)' },
   institutions:   { url: '/images/modules/serment-du-jeu-de-paume.jpg', alt: 'Le Serment du Jeu de Paume — David', credit: 'Jacques-Louis David, 1791 — Musée Carnavalet', baseBg: 'linear-gradient(135deg, #001A70 0%, #002395 100%)' },
   histoire:       { url: '/images/paintings/delacroix-liberte.jpg', alt: 'La Liberté guidant le peuple — Delacroix', credit: 'Delacroix, 1830 — Musée du Louvre', baseBg: 'linear-gradient(135deg, #7F1D1D 0%, #9F1239 100%)' },
-  'vie-en-france': { url: '/images/modules/Caillebotte_Rue_de_Paris.jpg', alt: 'Rue de Paris — Caillebotte', credit: 'Caillebotte, 1877', baseBg: 'linear-gradient(135deg, #064E3B 0%, #065F46 100%)' },
+  'vie-en-france': { url: '/images/modules/Caillebotte_Rue_de_Paris.webp', alt: 'Rue de Paris — Caillebotte', credit: 'Caillebotte, 1877', baseBg: 'linear-gradient(135deg, #064E3B 0%, #065F46 100%)' },
 };
 
 /** Résout l'art d'une leçon : leçon → module → gradient seul */

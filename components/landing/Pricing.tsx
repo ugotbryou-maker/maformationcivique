@@ -9,7 +9,7 @@ const freePlan = {
   oldPrice: null as string | null,
   period: '',
   desc: 'Pour commencer votre préparation',
-  filigrane: '/images/modules/le-louvre.jpg',
+  filigrane: '/images/modules/le-louvre.webp',
   features: [
     'Module 1 complet (5 leçons)',
     "20 questions d'entraînement",
@@ -35,7 +35,7 @@ const premiumPlan = {
   oldPrice: '12€',
   period: '/ mois',
   desc: 'Accès complet à la préparation civique',
-  filigrane: '/images/modules/daumier-la-republique.jpg',
+  filigrane: '/images/modules/daumier-la-republique.webp',
   features: [
     'Les 5 modules complets (19 leçons)',
     '177 questions officielles',
@@ -59,7 +59,7 @@ const languePlan = {
   oldPrice: '12€',
   period: '/ mois',
   desc: 'Français A2, B1, B2 pour vos démarches',
-  filigrane: '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
+  filigrane: '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
   features: [
     'Modules A2, B1, B2 + transversal',
     'Leçons dialogues + points linguistiques',
@@ -81,7 +81,7 @@ const bundlePlan = {
   oldPrice: '20€',
   period: '/ mois',
   desc: 'Civique + Langue — tout inclus',
-  filigrane: '/images/modules/chateau-versailles.jpg',
+  filigrane: '/images/modules/chateau-versailles.webp',
   features: [
     'Tout le contenu Civique (5 modules)',
     'Tout le contenu Langue (A2 · B1 · B2)',
@@ -103,7 +103,7 @@ const lifetimePlan = {
   oldPrice: null as string | null,
   period: 'une fois',
   desc: 'Civique + Langue, payez une fois, gardez l’accès pour toujours',
-  filigrane: '/images/modules/le-louvre.jpg',
+  filigrane: '/images/modules/le-louvre.webp',
   features: [
     'Tout le contenu Civique (5 modules)',
     'Tout le contenu Langue (A2 · B1 · B2)',

@@ -96,7 +96,7 @@ export default function GuidesHubPage() {
       <section style={{ position: 'relative', overflow: 'hidden' }}>
         <div aria-hidden style={{
           position: 'absolute', inset: 0,
-          backgroundImage: 'url(/images/modules/daumier-la-republique.jpg)',
+          backgroundImage: 'url(/images/modules/daumier-la-republique.webp)',
           backgroundSize: 'cover', backgroundPosition: 'center 30%',
         }} />
         <div aria-hidden style={{

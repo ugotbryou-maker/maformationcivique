@@ -39,7 +39,7 @@ export function BenefitsSection() {
       {/* Filigrane Caillebotte — au-dessus du dégradé */}
       <div style={{
         position: 'absolute', inset: 0,
-        backgroundImage: "url('/images/modules/Caillebotte_Rue_de_Paris.jpg')",
+        backgroundImage: "url('/images/modules/Caillebotte_Rue_de_Paris.webp')",
         backgroundSize: 'cover', backgroundPosition: 'center 40%',
         opacity: 0.32,
         mixBlendMode: 'luminosity',

@@ -14,7 +14,7 @@ export function Hero() {
     }}>
       {/* ── Filigrane — "La Liberté guidant le peuple" en surimpression douce ── */}
       <Image
-        src="/images/hero/delacroix-watermark.jpg"
+        src="/images/hero/delacroix-watermark.webp"
         alt=""
         fill
         priority

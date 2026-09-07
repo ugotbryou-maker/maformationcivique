@@ -15,35 +15,35 @@ type ProgressMap = Record<string, ModuleProgress>;
 const MODULE_CONFIG = [
   {
     slug: 'republique',
-    image: '/images/modules/republique.jpg',
+    image: '/images/modules/republique.webp',
     color: '#DC2626',
     colorEnd: '#991B1B',
     position: 'center 8%', // Liberté guidant le peuple — cadrage sur le visage
   },
   {
     slug: 'droits',
-    image: '/images/modules/Droits.png',
+    image: '/images/modules/Droits.webp',
     color: '#002395',
     colorEnd: '#001A70',
     position: 'center 35%', // Le vote — personnages au centre
   },
   {
     slug: 'institutions',
-    image: '/images/modules/institutions.jpg',
+    image: '/images/modules/institutions.webp',
     color: '#1E3A8A',
     colorEnd: '#1E40AF',
     position: 'center 20%', // Sacre de Napoléon — scène haute
   },
   {
     slug: 'histoire',
-    image: '/images/modules/histoire.jpg',
+    image: '/images/modules/histoire.webp',
     color: '#065F46',
     colorEnd: '#059669',
     position: 'center 30%', // Serment du Jeu de Paume — personnage central
   },
   {
     slug: 'vie-en-france',
-    image: '/images/modules/vie-en-france.jpg',
+    image: '/images/modules/vie-en-france.webp',
     color: '#0E7490',
     colorEnd: '#0891B2',
     position: 'center 40%', // Marché parisien — visages au centre

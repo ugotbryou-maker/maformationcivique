@@ -56,7 +56,7 @@ const LEVELS = [
     badge: 'Tous niveaux',
     label: 'Transversal',
     desc: 'Phonétique, orthographe et erreurs fréquentes — utiles à tout moment de votre apprentissage.',
-    image: '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
+    image: '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
     imagePos: 'center 20%',
     gradient: 'linear-gradient(135deg, #6D28D9E6 0%, #9333EACC 100%)',
     color: '#7C3AED',
@@ -177,7 +177,7 @@ export default async function LanguePage() {
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
             {examenModules.map((exam, i) => {
-              const imgs = ['/images/modules/Ecole_-_Salle_de_Classe_2.jpg', '/images/modules/hemicycle-parlement-europeen.jpg', '/images/modules/palais-elysee.jpg'];
+              const imgs = ['/images/modules/Ecole_-_Salle_de_Classe_2.webp', '/images/modules/hemicycle-parlement-europeen.jpg', '/images/modules/palais-elysee.jpg'];
               const grads = ['linear-gradient(135deg,#001A70E0,#002395CC)', 'linear-gradient(135deg,#002395E0,#0057A8CC)', 'linear-gradient(135deg,#9F1239E0,#CC1A1ACC)'];
               return (
                 <Link key={exam.slug} href={`/moduleslinguistiques/examens/${exam.slug}`} style={{ display: 'block', textDecoration: 'none' }} className="lang-level-card">

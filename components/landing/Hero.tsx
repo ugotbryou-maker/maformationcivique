@@ -26,7 +26,7 @@ export function Hero() {
         ref={bgRef}
         style={{
           position: 'absolute', inset: '-15%',
-          backgroundImage: "url('/images/hero/delacroix-watermark.jpg')",
+          backgroundImage: "url('/images/hero/delacroix-watermark.webp')",
           backgroundSize: 'cover', backgroundPosition: 'center 20%',
           willChange: 'transform',
         }}
@@ -166,7 +166,7 @@ export function Hero() {
                     {/* Image Liberté dans la leçon */}
                     <div style={{
                       height: 88, borderRadius: 8, overflow: 'hidden', marginBottom: 10,
-                      backgroundImage: "url('/images/hero/delacroix-watermark.jpg')",
+                      backgroundImage: "url('/images/hero/delacroix-watermark.webp')",
                       backgroundSize: 'cover', backgroundPosition: 'center 20%',
                       position: 'relative',
                     }}>

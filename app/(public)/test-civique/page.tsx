@@ -121,7 +121,7 @@ function RedCard({ children, showLogo = true }: { children: React.ReactNode; sho
     }}>
       <div style={{
         width: '100%', maxWidth: 680, borderRadius: 22, overflow: 'hidden', position: 'relative',
-        backgroundImage: `linear-gradient(rgba(2,14,60,0.82), rgba(3,20,75,0.88)), url('/images/modules/republique.jpg')`,
+        backgroundImage: `linear-gradient(rgba(2,14,60,0.82), rgba(3,20,75,0.88)), url('/images/modules/republique.webp')`,
         backgroundSize: 'cover', backgroundPosition: 'center 62%',
         padding: '52px 36px 48px', display: 'flex', flexDirection: 'column',
         alignItems: 'center', textAlign: 'center', color: '#fff',

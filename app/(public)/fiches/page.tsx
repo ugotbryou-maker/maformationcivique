@@ -21,7 +21,7 @@ export default function FichesPage() {
     <div style={{ minHeight: '80vh' }}>
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <div style={{ position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/images/modules/daumier-la-republique.jpg)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/images/modules/daumier-la-republique.webp)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,26,112,0.92) 0%, rgba(0,35,149,0.90) 60%, rgba(204,26,26,0.88) 100%)' }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '64px 0 56px' }}>
         <div className="container">

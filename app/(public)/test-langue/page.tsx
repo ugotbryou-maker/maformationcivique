@@ -166,7 +166,7 @@ function RedCard({
         borderRadius: 22,
         overflow: 'hidden',
         position: 'relative',
-        backgroundImage: `linear-gradient(rgba(185,5,18,0.80), rgba(195,8,22,0.87)), url('/images/modules/republique.jpg')`,
+        backgroundImage: `linear-gradient(rgba(185,5,18,0.80), rgba(195,8,22,0.87)), url('/images/modules/republique.webp')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center 62%',
         padding: '52px 36px 48px',

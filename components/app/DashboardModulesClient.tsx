@@ -44,7 +44,7 @@ const LANG_LEVELS = [
     badge: 'Tous niveaux',
     label: 'Transversal',
     desc: 'Phonétique, orthographe et erreurs fréquentes — utiles à tout moment de votre apprentissage.',
-    image: '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
+    image: '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
     imagePos: 'center 20%',
     gradient: 'linear-gradient(135deg, #6D28D9E6 0%, #9333EACC 100%)',
     modules: transversalModules,

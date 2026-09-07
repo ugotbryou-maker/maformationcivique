@@ -407,7 +407,7 @@ export function OffreLanding({
         .ol-hero { position: relative; overflow: hidden; padding: 64px 0 56px; }
         .ol-hero-img {
           position: absolute; inset: 0;
-          background-image: url(/images/hero/delacroix-watermark.jpg);
+          background-image: url(/images/hero/delacroix-watermark.webp);
           background-size: cover; background-position: center 22%;
         }
         .ol-hero-bg {
@@ -548,7 +548,7 @@ export function OffreLanding({
           position: relative; overflow: hidden;
           background:
             linear-gradient(160deg, rgba(0,26,112,0.93) 0%, rgba(0,35,149,0.90) 60%, rgba(122,18,32,0.92) 100%),
-            url(/images/modules/daumier-la-republique.jpg) center 18% / cover no-repeat;
+            url(/images/modules/daumier-la-republique.webp) center 18% / cover no-repeat;
           border: none; box-shadow: var(--shadow-lg);
         }
         .ol-price-tag {
@@ -622,7 +622,7 @@ export function OffreLanding({
           padding: 72px 0;
           background:
             linear-gradient(160deg, rgba(0,26,112,0.92) 0%, rgba(0,35,149,0.88) 50%, rgba(204,26,26,0.90) 100%),
-            url(/images/hero/delacroix-watermark.jpg) center 30% / cover no-repeat;
+            url(/images/hero/delacroix-watermark.webp) center 30% / cover no-repeat;
         }
         .ol-final-h {
           font-size: clamp(26px, 4.5vw, 40px); font-weight: 800;

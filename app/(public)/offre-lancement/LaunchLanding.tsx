@@ -181,7 +181,7 @@ export function LaunchLanding() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             aria-hidden
-            src="/images/hero/delacroix-watermark.jpg"
+            src="/images/hero/delacroix-watermark.webp"
             alt=""
             style={{
               position: 'absolute', inset: 0, width: '100%', height: '100%',

@@ -240,7 +240,7 @@ export function Navbar({ tenant }: { tenant?: TenantConfig | null }) {
                       onClick={() => setModulesOpen(false)}
                       style={{
                         display: 'block', borderRadius: 'var(--radius-lg)', overflow: 'hidden', textDecoration: 'none',
-                        background: `linear-gradient(rgba(0,10,50,0.35), rgba(0,10,50,0.88)), url('/images/modules/daumier-la-republique.jpg') center/cover no-repeat`,
+                        background: `linear-gradient(rgba(0,10,50,0.35), rgba(0,10,50,0.88)), url('/images/modules/daumier-la-republique.webp') center/cover no-repeat`,
                         border: '1px solid rgba(255,255,255,0.1)', minHeight: 200,
                       }}
                     >
@@ -330,7 +330,7 @@ export function Navbar({ tenant }: { tenant?: TenantConfig | null }) {
                       onClick={() => setResourcesOpen(false)}
                       style={{
                         display: 'block', borderRadius: 'var(--radius-lg)', overflow: 'hidden', textDecoration: 'none',
-                        background: `linear-gradient(rgba(139,26,43,0.35), rgba(0,10,50,0.9)), url('/images/modules/republique.jpg') center/cover no-repeat`,
+                        background: `linear-gradient(rgba(139,26,43,0.35), rgba(0,10,50,0.9)), url('/images/modules/republique.webp') center/cover no-repeat`,
                         border: '1px solid rgba(255,255,255,0.1)', minHeight: 200,
                       }}
                     >

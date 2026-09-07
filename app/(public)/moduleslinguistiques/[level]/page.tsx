@@ -11,35 +11,35 @@ import type { LangModule } from '@/data/langue/types';
 import { isAdminEmail } from '@/lib/admin';
 
 const MODULE_IMAGE: Record<string, string> = {
-  'a2-vie-quotidienne': '/images/modules/vie-en-france.jpg',
+  'a2-vie-quotidienne': '/images/modules/vie-en-france.webp',
   'a2-demarches-admin': '/images/modules/Mairie-de-Paris-l-hotel-de-toutes-les-batailles.jpg',
   'a2-logement': '/images/modules/Blv-haussmann-lafayette.jpg',
-  'a2-travail': '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
+  'a2-travail': '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
   'a2-sante': '/images/modules/fronton-hotel-dieu.jpg',
-  'a2-transports': '/images/modules/Caillebotte_Rue_de_Paris.jpg',
-  'a2-grammaire': '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
+  'a2-transports': '/images/modules/Caillebotte_Rue_de_Paris.webp',
+  'a2-grammaire': '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
   'a2-conjugaison': '/images/modules/serment-du-jeu-de-paume.jpg',
   'b1-actualite': '/images/modules/hemicycle-parlement-europeen.jpg',
   'b1-exprimer-opinion': '/images/modules/serment-du-jeu-de-paume.jpg',
-  'b1-vie-societe': '/images/modules/vie-en-france.jpg',
+  'b1-vie-societe': '/images/modules/vie-en-france.webp',
   'b1-institutions': '/images/modules/palais-elysee.jpg',
-  'b1-rediger': '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
-  'b1-entretien': '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
+  'b1-rediger': '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
+  'b1-entretien': '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
   'b1-travail-droits': '/images/modules/Droit-de-vote-des-femmes-70-ans-deja.jpg',
-  'b1-grammaire': '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
+  'b1-grammaire': '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
   'b1-conjugaison': '/images/modules/biographie-jules-ferry.jpg',
   'b2-textes-argumentatifs': '/images/modules/serment-du-jeu-de-paume.jpg',
   'b2-debat-formel': '/images/modules/hemicycle-parlement-europeen.jpg',
-  'b2-expression-ecrite': '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
+  'b2-expression-ecrite': '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
   'b2-nuances-culturelles': '/images/modules/tour-eiffel.jpg',
   'b2-entretien-naturalisation': '/images/modules/palais-elysee.jpg',
   'b2-lettres-formelles': '/images/modules/Mairie-de-Paris-l-hotel-de-toutes-les-batailles.jpg',
-  'b2-grammaire': '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
+  'b2-grammaire': '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
   'b2-conjugaison': '/images/modules/serment-du-jeu-de-paume.jpg',
   'transversal-phonetique': '/images/modules/notre-dame-paris.jpg',
-  'transversal-orthographe': '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
-  'transversal-erreurs': '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
-  'examen-blanc-a2': '/images/modules/Ecole_-_Salle_de_Classe_2.jpg',
+  'transversal-orthographe': '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
+  'transversal-erreurs': '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
+  'examen-blanc-a2': '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
   'examen-blanc-b1': '/images/modules/hemicycle-parlement-europeen.jpg',
   'examen-blanc-b2': '/images/modules/palais-elysee.jpg',
 };
@@ -48,7 +48,7 @@ const LEVEL_DATA: Record<string, { title: string; subtitle: string; color: strin
   a2: { title: 'A2 — Découverte', subtitle: 'Carte de séjour pluriannuelle / OFII', color: '#002395', colorEnd: '#001A70', bg: '#E6EEF9', gradient: 'linear-gradient(135deg, #001A70 0%, #002395 100%)', image: '/images/modules/Mairie-de-Paris-l-hotel-de-toutes-les-batailles.jpg', imagePos: 'center 40%', overlayGradient: 'linear-gradient(135deg, rgba(0,26,112,0.88) 0%, rgba(0,35,149,0.85) 100%)', modules: a2Modules },
   b1: { title: 'B1 — Intermédiaire', subtitle: 'Carte de résident / DELF · TEF', color: '#0057A8', colorEnd: '#002395', bg: '#EFF6FF', gradient: 'linear-gradient(135deg, #002395 0%, #0057A8 100%)', image: '/images/modules/hemicycle-parlement-europeen.jpg', imagePos: 'center 35%', overlayGradient: 'linear-gradient(135deg, rgba(0,35,149,0.88) 0%, rgba(0,87,168,0.85) 100%)', modules: b1Modules },
   b2: { title: 'B2 — Avancé', subtitle: 'Naturalisation (depuis 2026)', color: '#CC1A1A', colorEnd: '#9F1239', bg: '#FEF2F2', gradient: 'linear-gradient(135deg, #9F1239 0%, #CC1A1A 100%)', image: '/images/modules/palais-elysee.jpg', imagePos: 'center 30%', overlayGradient: 'linear-gradient(135deg, rgba(159,18,57,0.88) 0%, rgba(204,26,26,0.85) 100%)', modules: b2Modules },
-  transversal: { title: 'Transversal — Tous niveaux', subtitle: 'Phonétique, orthographe, erreurs fréquentes', color: '#7C3AED', colorEnd: '#6D28D9', bg: '#F5F3FF', gradient: 'linear-gradient(135deg, #6D28D9 0%, #9333EA 100%)', image: '/images/modules/Ecole_-_Salle_de_Classe_2.jpg', imagePos: 'center 20%', overlayGradient: 'linear-gradient(135deg, rgba(109,40,217,0.88) 0%, rgba(147,51,234,0.85) 100%)', modules: transversalModules },
+  transversal: { title: 'Transversal — Tous niveaux', subtitle: 'Phonétique, orthographe, erreurs fréquentes', color: '#7C3AED', colorEnd: '#6D28D9', bg: '#F5F3FF', gradient: 'linear-gradient(135deg, #6D28D9 0%, #9333EA 100%)', image: '/images/modules/Ecole_-_Salle_de_Classe_2.webp', imagePos: 'center 20%', overlayGradient: 'linear-gradient(135deg, rgba(109,40,217,0.88) 0%, rgba(147,51,234,0.85) 100%)', modules: transversalModules },
   examens: { title: 'Examens blancs', subtitle: 'Simulations OFII, DELF/TEF, naturalisation', color: '#CC1A1A', colorEnd: '#7F1D1D', bg: '#FEF2F2', gradient: 'linear-gradient(135deg, #7F1D1D 0%, #CC1A1A 100%)', image: '/images/modules/hemicycle-parlement-europeen.jpg', imagePos: 'center 30%', overlayGradient: 'linear-gradient(135deg, rgba(127,29,29,0.88) 0%, rgba(204,26,26,0.85) 100%)', modules: examenModules },
 };
 
@@ -134,7 +134,7 @@ export default async function LangueLevelPage({ params }: Props) {
       <div className="container" style={{ padding: '36px 24px 64px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           {data.modules.map((mod, modIdx) => {
-            const imgSrc = MODULE_IMAGE[mod.slug] ?? '/images/modules/Ecole_-_Salle_de_Classe_2.jpg';
+            const imgSrc = MODULE_IMAGE[mod.slug] ?? '/images/modules/Ecole_-_Salle_de_Classe_2.webp';
             const freeLessons = mod.lessons.filter((l) => l.free).length;
             const modCompleted = mod.lessons.filter((l) => completedSlugs.has(l.slug)).length;
             const modTotal = mod.lessons.length;
