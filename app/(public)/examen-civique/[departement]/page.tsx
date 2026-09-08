@@ -13,6 +13,7 @@
 import { notFound } from 'next/navigation';
 import { ExternalLink } from 'lucide-react';
 import type { Metadata } from 'next';
+import { renderInline } from '@/lib/markdown';
 import type { Departement } from '@/data/departements/types';
 import {
   departementsPublies,
@@ -176,6 +177,16 @@ export default async function ExamenCiviqueDepartementPage(
             : <>Examen civique et linguistique à {dep.prefectureVille} et {dep.nomAvecPreposition} ({dep.code})</>}
         </h1>
 
+        {/* Introduction propre au département, rédigée à la main. Sans elle,
+            les pages en mode OFII se ressemblent trop : seuls les noms changent.
+            Elle précède la réponse factuelle, qui reste générée à partir des
+            données vérifiées. */}
+        {dep.introUnique && (
+          <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--color-text-secondary)', marginBottom: 14 }}>
+            {renderInline(dep.introUnique, 'var(--color-blue-france)', 'dep-intro')}
+          </p>
+        )}
+
         {/* Réponse directe — données réelles dès le premier paragraphe */}
         <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--color-text-secondary)', marginBottom: 8 }}>
           {mode === 'centres' && (
@@ -322,6 +333,18 @@ export default async function ExamenCiviqueDepartementPage(
         {/* ── Se préparer (bloc de conversion calculé) ── */}
         <h2 style={sectionTitle}>Se préparer à l&apos;examen civique {dep.nomAvecPreposition}</h2>
         <ConversionBlock dep={dep} />
+
+        {/* Second bloc rédigé — répartit le contenu propre au département
+            plutôt que de tout concentrer en introduction. */}
+        {dep.contexteLocal && (
+          <>
+            {/* nomAvecPreposition évite les fautes d'article (« le Seine-et-Marne ») */}
+            <h2 style={sectionTitle}>Se rendre à un centre d&apos;examen {dep.nomAvecPreposition}</h2>
+            <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'var(--color-text-secondary)', marginBottom: 8 }}>
+              {renderInline(dep.contexteLocal, 'var(--color-blue-france)', 'dep-ctx')}
+            </p>
+          </>
+        )}
 
         {/* ── FAQ ── */}
         <h2 style={sectionTitle}>Questions fréquentes</h2>

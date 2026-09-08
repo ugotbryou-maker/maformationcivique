@@ -14,6 +14,10 @@ import type { Departement } from './types';
 
 export const rhone: Departement = {
   slug: 'rhone',
+  introUnique:
+    'Deuxième pôle d\'immigration de France après l\'Île-de-France, le Rhône concentre ses démarches autour de la **métropole de Lyon**, qui dispose d\'un statut de collectivité à part entière depuis 2015 — une singularité administrative française. Les candidats de Villeurbanne, Vénissieux ou Bron relèvent de cette métropole, tandis que le reste du département dépend du Rhône « historique ». Cette dualité n\'a pas d\'incidence sur l\'examen civique lui-même, identique partout, mais elle explique que les interlocuteurs administratifs diffèrent selon votre commune de résidence. Lyon reste le point de convergence pour la quasi-totalité des candidats du département.',
+  contexteLocal:
+    'Depuis Lyon, les candidats rhodaniens bénéficient d\'un réseau de transports dense — métro, tramway et TER — qui place la plupart des communes du département à moins d\'une heure du centre-ville. Pour les habitants du nord du département, autour de Villefranche-sur-Saône, ou du Beaujolais, le TER reste le moyen le plus fiable. Si aucune session n\'est disponible dans un délai raisonnable, élargissez aux départements limitrophes : le résultat de l\'examen est valable partout en France, sans condition de lieu de passage.',
   code: '69',
   nom: 'Rhône',
   nomAvecPreposition: 'dans le Rhône',

@@ -7,6 +7,10 @@ import type { Departement } from './types';
 
 export const valDeMarne: Departement = {
   slug: 'val-de-marne',
+  introUnique:
+    'Le Val-de-Marne se distingue par sa position de charnière entre Paris et la grande couronne, structurée autour de **Créteil**, ville-préfecture, et de pôles comme Vitry-sur-Seine ou Champigny-sur-Marne. Le département accueille l\'aéroport d\'Orly, premier employeur local, ce qui explique la forte présence de salariés étrangers dans les démarches de titre de séjour. Pour l\'examen civique, les candidats val-de-marnais bénéficient d\'un accès direct à Paris par les lignes 8 et 14 du métro ainsi que par le RER A et le RER D. La ligne 15 du Grand Paris Express améliorera encore ces liaisons de banlieue à banlieue.',
+  contexteLocal:
+    'Les lignes 8 et 14 du métro, le RER A, le RER C et le RER D desservent l\'essentiel du département. Depuis Créteil, Vitry-sur-Seine ou Ivry-sur-Seine, Paris se rejoint en vingt à trente minutes. Les communes de l\'est, autour de Champigny-sur-Marne et Villiers-sur-Marne, dépendent davantage du RER E et des bus. Si vous travaillez sur la plateforme d\'Orly, tenez compte de vos horaires de poste au moment de choisir une session : les créneaux du matin sont souvent les premiers complets.',
   code: '94',
   nom: 'Val-de-Marne',
   nomAvecPreposition: 'dans le Val-de-Marne',

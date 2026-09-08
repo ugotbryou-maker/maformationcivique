@@ -113,6 +113,29 @@ export interface HeroImage {
 export interface Departement {
   /** Slug URL : /examen-civique/[slug] — kebab-case, sans accents */
   slug: string;
+  /**
+   * Introduction rédigée à la main, propre au département (~80-120 mots).
+   *
+   * Sans elle, les pages en mode OFII partagent une formulation quasi
+   * identique : seuls les noms changent. C'est le principal risque de contenu
+   * dupliqué de cette section.
+   *
+   * ⚠️ Mêmes règles que le reste du fichier : uniquement des faits stables et
+   * vérifiables (géographie, préfecture, communes, desserte). Aucun délai
+   * d'instruction, aucune pratique préfectorale supposée — ces informations
+   * ont leurs champs dédiés, soumis à sourçage.
+   *
+   * Le gras s'écrit avec des doubles astérisques.
+   */
+  introUnique?: string;
+  /**
+   * Second bloc rédigé à la main (~70-100 mots), affiché avant la FAQ.
+   *
+   * Répartit le contenu unique sur la page plutôt que de le concentrer en
+   * introduction. Porte sur l'accès concret à un centre depuis le département.
+   * Mêmes règles : faits stables et vérifiables uniquement.
+   */
+  contexteLocal?: string;
   /** Code départemental : « 93 », « 69 », « 2A »… */
   code: string;
   nom: string;

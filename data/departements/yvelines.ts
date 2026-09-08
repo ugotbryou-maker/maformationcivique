@@ -7,6 +7,10 @@ import type { Departement } from './types';
 
 export const yvelines: Departement = {
   slug: 'yvelines',
+  introUnique:
+    'Les Yvelines combinent des pôles urbains denses à l\'est — Sartrouville, Saint-Germain-en-Laye, Poissy — et un ouest nettement plus rural, jusqu\'à Mantes-la-Jolie et la vallée de la Seine. Pour un candidat à l\'examen civique, cette géographie détermine surtout le temps de trajet : la desserte ferroviaire est excellente le long de la Seine et sur l\'axe Paris–Versailles, plus contrainte ailleurs. **Versailles**, ville-préfecture, concentre les services de l\'État du département. Les candidats yvelinois se déplacent le plus souvent vers Paris ou la proche couronne pour passer l\'épreuve, faute de centre agréé sur place.',
+  contexteLocal:
+    'Depuis Versailles, Saint-Germain-en-Laye ou Sartrouville, Paris est accessible en moins de quarante minutes par le RER A, le RER C ou les lignes Transilien L et N. Depuis Mantes-la-Jolie et l\'ouest du département, prévoyez davantage : la ligne J et le TER desservent l\'axe de la Seine, mais les fréquences se réduisent en dehors des heures de pointe. Les candidats yvelinois se tournent le plus souvent vers Paris ou les Hauts-de-Seine pour trouver une date disponible rapidement.',
   code: '78',
   nom: 'Yvelines',
   nomAvecPreposition: 'dans les Yvelines',

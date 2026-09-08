@@ -105,6 +105,51 @@ export function buildFaq(dep: Departement): QA[] {
     });
   }
 
+  // Q5 — dissipe une confusion fréquente, et vraie partout : l'épreuve est
+  // nationale. Utile localement, sans rien inventer de local.
+  qa.push({
+    q: `L'examen est-il différent ${dep.nomAvecPreposition} ?`,
+    a: (
+      <>
+        Non. L&apos;examen civique est <strong>national</strong> : mêmes questions officielles,
+        même format ({EXAMEN_CIVIQUE.nbQuestions} questions, {EXAMEN_CIVIQUE.seuilReussite}/
+        {EXAMEN_CIVIQUE.nbQuestions} pour réussir) et même exigence, que vous le passiez{' '}
+        {dep.nomAvecPreposition} ou ailleurs en France. Seuls le lieu, la date et le tarif du
+        centre changent. Se préparer sur les questions officielles est donc valable quel que
+        soit votre département.
+      </>
+    ),
+  });
+
+  // Q6 — confusion très répandue : la préfecture n'inscrit pas à l'examen.
+  qa.push({
+    q: `Faut-il passer par la ${dep.prefecture.nom} pour s'inscrire ?`,
+    a: (
+      <>
+        Non. L&apos;inscription à l&apos;examen se fait directement auprès d&apos;un{' '}
+        <strong>opérateur agréé</strong>, pas auprès de la préfecture. La{' '}
+        {dep.prefecture.nom} intervient sur votre <strong>dossier</strong> de titre de séjour ou
+        de naturalisation, auquel le résultat de l&apos;examen viendra s&apos;ajouter. Ce sont
+        deux démarches distinctes, à ne pas confondre.
+      </>
+    ),
+  });
+
+  // Q7 — question pratique réelle, sans inventer d'usage local
+  qa.push({
+    q: `Que faut-il apporter le jour de l'examen ?`,
+    a: (
+      <>
+        Une <strong>pièce d&apos;identité en cours de validité</strong> et votre{' '}
+        <strong>convocation</strong>, dans la forme demandée par le centre — certains acceptent
+        le format numérique, d&apos;autres exigent un imprimé. Les modalités précises (heure de
+        présentation, objets autorisés) sont indiquées par le centre au moment de la
+        réservation : ce sont elles qui font foi, et elles peuvent différer d&apos;un opérateur
+        à l&apos;autre.
+      </>
+    ),
+  });
+
   // Déduplication stricte par question (garde-fou template bâclé)
   const seen = new Set<string>();
   return qa.filter(({ q }) => {

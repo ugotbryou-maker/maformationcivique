@@ -9,6 +9,10 @@ import type { Departement } from './types';
 
 export const valDOise: Departement = {
   slug: 'val-d-oise',
+  introUnique:
+    'Le Val-d\'Oise est marqué par la présence de l\'**aéroport Paris-Charles-de-Gaulle**, en partie sur son territoire, qui en fait l\'un des principaux bassins d\'emploi pour les travailleurs étrangers d\'Île-de-France. Les démarches y sont donc particulièrement nombreuses, notamment autour de Sarcelles, Garges-lès-Gonesse et Argenteuil, commune la plus peuplée du département. **Cergy**, ville-préfecture née d\'une ville nouvelle des années 1970, concentre les services de l\'État. Les candidats à l\'examen civique se déplacent généralement vers Paris, accessible par le RER A, le RER C et les lignes Transilien H et J selon les communes.',
+  contexteLocal:
+    'Depuis Argenteuil, Sarcelles ou Garges-lès-Gonesse, Paris est accessible en trente à quarante-cinq minutes par les lignes Transilien H et J ou par le RER D. Cergy est reliée à La Défense et à Paris par le RER A et la ligne L. Pour les habitants du Vexin, à l\'ouest, les liaisons sont plus espacées : anticipez le trajet et prévoyez une marge confortable avant l\'heure de convocation. Si vous travaillez sur la plateforme de Roissy, pensez à concilier vos horaires de poste avec la session choisie.',
   code: '95',
   nom: "Val-d'Oise",
   nomAvecPreposition: "dans le Val-d'Oise",
