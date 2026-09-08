@@ -20,9 +20,18 @@ export interface FicheEnrichissement {
   /** Anecdote factuelle, 1 à 2 phrases. */
   didYouKnow: string;
   /** Slug du module civique complété par la fiche (cf. data/modules.ts). */
-  moduleSlug: string;
+  moduleSlug?: string;
   /** Slug de la leçon, uniquement si le rattachement est direct. */
   lessonSlug?: string;
+  /**
+   * Guide pilier auquel renvoyer pour la démarche elle-même.
+   *
+   * C'est le mécanisme anti-cannibalisation : la fiche définit le terme, le
+   * guide détient l'intention « faire la démarche ». Ce lien indique
+   * explicitement à Google laquelle des deux pages fait autorité sur la
+   * requête transactionnelle.
+   */
+  guide?: { href: string; label: string };
 }
 
 export const fichesEnrichissement: Record<string, FicheEnrichissement> = {
@@ -247,6 +256,69 @@ export const fichesEnrichissement: Record<string, FicheEnrichissement> = {
     didYouKnow: "Le Code civil de 1804 est toujours en vigueur : c'est le socle du droit de la famille, de la propriété et des contrats en France.",
     moduleSlug: 'histoire',
     lessonSlug: 'regimes-politiques-1789',
+  },
+  // ── Vocabulaire des démarches ──────────────────────────────────────────
+  // Ces fiches renvoient vers le guide pilier qui porte l'intention
+  // « démarche », et non vers un module de cours.
+  'tcf-test-connaissance-francais': {
+    didYouKnow: "Le TCF n'a ni réussite ni échec : on obtient un niveau. C'est la préfecture qui juge si ce niveau correspond à celui exigé pour votre démarche.",
+    guide: { href: '/guides', label: 'Quel niveau de français pour ma démarche ?' },
+  },
+  'tef-test-evaluation-francais': {
+    didYouKnow: "TEF et TCF sont interchangeables pour l'administration : présentez celui dont le centre d'examen est le plus accessible près de chez vous.",
+    guide: { href: '/guides', label: 'Quel niveau de français pour ma démarche ?' },
+  },
+  'delf-dalf': {
+    didYouKnow: "Un DELF est valable à vie, là où une attestation de TCF ou de TEF expire : à niveau égal, c'est le justificatif le plus durable.",
+    guide: { href: '/guides', label: 'Quel niveau de français pour ma démarche ?' },
+  },
+  'ofii': {
+    didYouKnow: "La formation civique de l'OFII est obligatoire et ne peut être remplacée par aucune plateforme privée : notre rôle est de vous y préparer, pas de s'y substituer.",
+    guide: { href: '/guides/examen-civique', label: "Tout savoir sur l'examen civique" },
+  },
+  'contrat-integration-republicaine': {
+    didYouKnow: "Le respect du CIR est pris en compte lors de vos demandes ultérieures de titre de séjour : ce n'est pas une simple formalité d'accueil.",
+    guide: { href: '/guides/titre-de-sejour', label: 'Le guide du titre de séjour' },
+  },
+  'certificat-de-nationalite-francaise': {
+    didYouKnow: "Le CNF ne donne pas la nationalité : il prouve que vous l'êtes déjà. On le confond souvent avec le décret de naturalisation, qui, lui, la confère.",
+    guide: { href: '/guides/naturalisation', label: 'Le guide de la naturalisation' },
+  },
+  'prefecture': {
+    didYouKnow: "Depuis la dématérialisation, la préfecture ne reçoit plus pour le dépôt des dossiers : elle convoque surtout pour les empreintes et la remise du titre.",
+    guide: { href: '/guides/titre-de-sejour', label: 'Le guide du titre de séjour' },
+  },
+  'recepisse-titre-de-sejour': {
+    didYouKnow: "Le droit de travailler n'est pas automatique avec un récépissé : il figure noir sur blanc sur le document, et son absence vaut interdiction.",
+    guide: { href: '/guides/titre-de-sejour', label: 'Le guide du titre de séjour' },
+  },
+  'vls-ts': {
+    didYouKnow: "Oublier la validation en ligne dans les trois mois rend le séjour irrégulier, alors même que le visa est toujours valide.",
+    guide: { href: '/guides/titre-de-sejour', label: 'Le guide du titre de séjour' },
+  },
+  'regroupement-familial': {
+    didYouKnow: "La condition de logement est vérifiée par une enquête, souvent menée par la mairie : sa surface doit correspondre au nombre de personnes attendues.",
+    guide: { href: '/guides/titre-de-sejour', label: 'Le guide du titre de séjour' },
+  },
+  'attestation-d-accueil': {
+    didYouKnow: "La mairie peut refuser l'attestation si le logement ou les ressources sont jugés insuffisants : ce n'est pas une simple formalité déclarative.",
+    guide: { href: '/guides', label: 'Les guides des démarches' },
+  },
+  'entretien-d-assimilation': {
+    didYouKnow: "Un dossier remplissant toutes les conditions de durée peut être refusé sur le seul motif d'un entretien d'assimilation jugé insuffisant.",
+    guide: { href: '/guides/naturalisation', label: 'Le guide de la naturalisation' },
+  },
+  'declaration-de-nationalite-par-mariage': {
+    didYouKnow: "Contrairement à la naturalisation, qui reste discrétionnaire, la déclaration par mariage relève d'un droit lorsque les conditions sont réunies.",
+    guide: { href: '/guides/naturalisation', label: 'Le guide de la naturalisation' },
+  },
+  'timbre-fiscal-electronique': {
+    didYouKnow: "Un timbre non utilisé est remboursable : conservez son identifiant à 16 chiffres tant que la démarche n'est pas finalisée.",
+    guide: { href: '/guides', label: 'Les guides des démarches' },
+  },
+  'carte-sejour-vie-privee-et-familiale': {
+    didYouKnow: "C'est l'un des rares titres qui autorise à travailler sans démarche supplémentaire, là où d'autres exigent une autorisation de travail distincte.",
+    guide: { href: '/guides/titre-de-sejour', label: 'Le guide du titre de séjour' },
   },
 };
 

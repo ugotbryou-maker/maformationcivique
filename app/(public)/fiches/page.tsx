@@ -17,6 +17,7 @@ export default function FichesPage() {
   // Une section par famille de requêtes : chaque groupe vise un type
   // d'intention distinct (emblème, organe institutionnel, date, entité).
   const sections = [
+    { key: 'demarche',    titre: 'Le vocabulaire des démarches', intro: 'TCF, CIR, récépissé, VLS-TS : les sigles et documents que vous croiserez, expliqués simplement.' },
     { key: 'symbole',     titre: 'Les symboles de la République', intro: 'Drapeau, hymne, devise : les emblèmes officiels et leur signification.' },
     { key: 'institution', titre: 'Institutions et textes fondateurs', intro: 'Qui fait quoi dans la République, et sur quels textes elle repose.' },
     { key: 'evenement',   titre: 'Dates et événements clés', intro: 'Les moments qui ont façonné la France contemporaine.' },

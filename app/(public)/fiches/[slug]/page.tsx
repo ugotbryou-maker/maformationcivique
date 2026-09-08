@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
-import { ArrowLeft, ArrowRight, Sparkles, BookOpen, MapPin, User, Lightbulb, GraduationCap, Landmark, CalendarDays } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Sparkles, BookOpen, MapPin, User, Lightbulb, GraduationCap, Landmark, CalendarDays, FileText } from 'lucide-react';
 import { fiches, getFiche, type Fiche } from '@/data/fiches';
 import { getEnrichissement } from '@/data/fiches-enrichissement';
 import { modules } from '@/data/modules';
@@ -16,6 +16,7 @@ const CATEGORY_LABEL: Record<Fiche['category'], string> = {
   symbole: 'Symbole',
   institution: 'Institution',
   evenement: 'Événement',
+  demarche: 'Terme administratif',
 };
 
 interface Props {
@@ -79,10 +80,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const full = `${fiche.name} — ${qualifier(fiche)}`;
   const title = [full, `${fiche.name} — Fiche examen civique`, fiche.name]
     .find((t) => t.length <= 60) ?? fiche.name;
-  const description = truncate(
-    `${plainParagraph(fiche)}`,
-    108,
-  ) + " Fiche de révision pour l'examen civique.";
+  // La formule de fin dépend de la famille : parler de « révision » n'a pas
+  // de sens pour un terme administratif, et inversement.
+  const suffixe = fiche.category === 'demarche'
+    ? ' Définition claire pour vos démarches.'
+    : " Fiche de révision pour l'examen civique.";
+  const description = truncate(plainParagraph(fiche), 155 - suffixe.length) + suffixe;
 
   return {
     title: { absolute: title },
@@ -115,6 +118,7 @@ export default async function FichePage({ params }: Props) {
 
   // Sommaire latéral : une entrée par famille, dans l'ordre du hub.
   const sommaire = [
+    { key: 'demarche',    label: 'Démarches',    Icon: FileText },
     { key: 'symbole',     label: 'Symboles',     Icon: Sparkles },
     { key: 'institution', label: 'Institutions', Icon: Landmark },
     { key: 'evenement',   label: 'Dates clés',   Icon: CalendarDays },
@@ -125,7 +129,7 @@ export default async function FichePage({ params }: Props) {
 
   /* ── Rattachement au programme civique (module / leçon complétés) ────── */
   const enrichissement = getEnrichissement(slug);
-  const linkedModule = enrichissement
+  const linkedModule = enrichissement?.moduleSlug
     ? modules.find((m) => m.slug === enrichissement.moduleSlug)
     : undefined;
   const linkedLesson = enrichissement?.lessonSlug && linkedModule
@@ -344,6 +348,36 @@ export default async function FichePage({ params }: Props) {
                     {enrichissement.didYouKnow}
                   </p>
                 </div>
+              </>
+            )}
+
+            {/* Renvoi vers le guide pilier — porte l'intention « démarche ».
+                C'est ce lien qui désigne la page faisant autorité sur la
+                requête transactionnelle, et évite la concurrence entre les
+                deux pages. */}
+            {enrichissement?.guide && (
+              <>
+                <h2 className="fiche-h2" style={{ marginTop: 32 }}>Pour votre démarche</h2>
+                <Link href={enrichissement.guide.href} className="fiche-program">
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                    <div style={{
+                      width: 40, height: 40, borderRadius: 10, flexShrink: 0,
+                      background: `linear-gradient(135deg, ${fiche.color}, ${fiche.colorEnd})`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <BookOpen size={20} color="#fff" />
+                    </div>
+                    <div>
+                      <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 3 }}>
+                        Cette fiche définit un terme — la démarche est détaillée ici
+                      </p>
+                      <p style={{ fontSize: 15.5, fontWeight: 700, color: 'var(--color-text-primary)', lineHeight: 1.35 }}>
+                        {enrichissement.guide.label}
+                      </p>
+                    </div>
+                  </div>
+                  <ArrowRight size={18} color="var(--color-blue-france)" style={{ flexShrink: 0 }} />
+                </Link>
               </>
             )}
 
