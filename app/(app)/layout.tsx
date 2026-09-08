@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { headers } from 'next/headers';
-import { BookOpen, LayoutDashboard, Trophy, TrendingUp, User, Building2, Sparkles } from 'lucide-react';
+import { BookOpen, LayoutDashboard, Trophy, TrendingUp, User, Building2, Sparkles, Gauge } from 'lucide-react';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { isAdminEmail } from '@/lib/admin';
 import { getTenantConfig, tenantCssVars } from '@/lib/tenants';
@@ -42,7 +42,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     }
 
     if (isAdminEmail(user.email)) {
-      appNav = [...appNav, { icon: Building2, label: 'Admin', href: '/admin/cabinets' }];
+      appNav = [...appNav, { icon: Gauge, label: 'Pilotage', href: '/admin' }];
     }
   }
 
