@@ -3,19 +3,26 @@ import { fiches } from '@/data/fiches';
 import { FicheCard } from '@/components/app/FicheCard';
 
 export const metadata: Metadata = {
-  title: "Fiches : figures et lieux de l'histoire de France",
-  description: "Fiches mémo sur les grandes figures et grands lieux de l'histoire de France : des repères essentiels pour réussir votre examen civique 2026.",
+  title: "Fiches mémo : symboles, institutions et figures de la France",
+  description: "Fiches courtes sur les symboles de la République, les institutions, les dates clés et les grandes figures françaises : les repères du programme de l'examen civique.",
   alternates: { canonical: 'https://www.maformationcivique.fr/fiches' },
   openGraph: {
-    title: "Fiches : figures et lieux de l'histoire de France",
-    description: "Fiches mémo sur les grandes figures et grands lieux de l'histoire de France pour l'examen civique 2026.",
+    title: "Fiches mémo : symboles, institutions et figures de la France",
+    description: "Les repères du programme de l'examen civique, expliqués en fiches courtes.",
     url: 'https://www.maformationcivique.fr/fiches',
   },
 };
 
 export default function FichesPage() {
-  const figures = fiches.filter((f) => f.category === 'figure');
-  const lieux = fiches.filter((f) => f.category === 'lieu');
+  // Une section par famille de requêtes : chaque groupe vise un type
+  // d'intention distinct (emblème, organe institutionnel, date, entité).
+  const sections = [
+    { key: 'symbole',     titre: 'Les symboles de la République', intro: 'Drapeau, hymne, devise : les emblèmes officiels et leur signification.' },
+    { key: 'institution', titre: 'Institutions et textes fondateurs', intro: 'Qui fait quoi dans la République, et sur quels textes elle repose.' },
+    { key: 'evenement',   titre: 'Dates et événements clés', intro: 'Les moments qui ont façonné la France contemporaine.' },
+    { key: 'figure',      titre: 'Grandes figures françaises', intro: 'Les personnalités que le programme civique met à l\'honneur.' },
+    { key: 'lieu',        titre: 'Grands lieux de France', intro: 'Monuments et sites emblématiques du patrimoine national.' },
+  ] as const;
 
   return (
     <div style={{ minHeight: '80vh' }}>
@@ -42,7 +49,7 @@ export default function FichesPage() {
             lineHeight: 1.2,
             maxWidth: '600px',
           }}>
-            Grandes figures &amp; grands lieux de France
+            Les repères de l&apos;examen civique, en fiches courtes
           </h1>
           <p style={{
             fontSize: '16px',
@@ -50,46 +57,40 @@ export default function FichesPage() {
             maxWidth: '560px',
             lineHeight: 1.65,
           }}>
-            Des fiches courtes pour découvrir les personnalités et les monuments qui font l&apos;histoire et l&apos;identité françaises — avec les dates et points clés à retenir.
+            Symboles de la République, institutions, dates clés, figures et lieux : chaque notion du programme expliquée en une fiche, avec les points à retenir pour l&apos;examen.
           </p>
         </div>
         </div>
       </div>
 
-      {/* ── Figures ──────────────────────────────────────────────────── */}
+      {/* ── Sections par famille ─────────────────────────────────────── */}
       <div className="container" style={{ padding: '48px 24px' }}>
-        <h2 style={{
-          fontSize: 'var(--font-size-lg)',
-          fontWeight: 700,
-          color: 'var(--color-text-primary)',
-          marginBottom: '20px',
-        }}>
-          Grandes figures françaises
-        </h2>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-          gap: '18px',
-          marginBottom: '48px',
-        }}>
-          {figures.map((f) => <FicheCard key={f.slug} fiche={f} />)}
-        </div>
-
-        <h2 style={{
-          fontSize: 'var(--font-size-lg)',
-          fontWeight: 700,
-          color: 'var(--color-text-primary)',
-          marginBottom: '20px',
-        }}>
-          Grands lieux de France
-        </h2>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-          gap: '18px',
-        }}>
-          {lieux.map((f) => <FicheCard key={f.slug} fiche={f} />)}
-        </div>
+        {sections.map(({ key, titre, intro }) => {
+          const items = fiches.filter((f) => f.category === key);
+          if (items.length === 0) return null;
+          return (
+            <section key={key} style={{ marginBottom: '48px' }}>
+              <h2 style={{
+                fontSize: 'var(--font-size-lg)',
+                fontWeight: 700,
+                color: 'var(--color-text-primary)',
+                marginBottom: '6px',
+              }}>
+                {titre}
+              </h2>
+              <p style={{ fontSize: 14.5, color: 'var(--color-text-secondary)', marginBottom: '20px' }}>
+                {intro}
+              </p>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+                gap: '18px',
+              }}>
+                {items.map((f) => <FicheCard key={f.slug} fiche={f} />)}
+              </div>
+            </section>
+          );
+        })}
       </div>
     </div>
   );

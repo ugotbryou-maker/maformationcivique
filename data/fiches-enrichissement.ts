@@ -123,6 +123,131 @@ export const fichesEnrichissement: Record<string, FicheEnrichissement> = {
     moduleSlug: 'histoire',
     lessonSlug: 'regimes-politiques-1789',
   },
+  // ── Symboles ───────────────────────────────────────────────────────────
+  'drapeau-francais': {
+    didYouKnow: "L'ordre des bandes est fixe : le bleu est toujours du côté de la hampe, c'est-à-dire du mât.",
+    moduleSlug: 'republique',
+    lessonSlug: 'symboles-republique',
+  },
+  'la-marseillaise': {
+    didYouKnow: "Le chant fut composé à Strasbourg, à plus de 800 km de Marseille : il doit son nom aux volontaires marseillais qui l'entonnèrent en marchant sur Paris.",
+    moduleSlug: 'republique',
+    lessonSlug: 'symboles-republique',
+  },
+  'devise-liberte-egalite-fraternite': {
+    didYouKnow: "La formule a longtemps concurrencé d'autres devises révolutionnaires, dont « Liberté, Égalité, Fraternité ou la Mort », abandonnée pour sa brutalité.",
+    moduleSlug: 'republique',
+    lessonSlug: 'symboles-republique',
+  },
+  'fete-nationale-14-juillet': {
+    didYouKnow: "La loi de 1880 ne précise pas laquelle des deux dates elle commémore — l'ambiguïté était volontaire, pour rallier républicains modérés et radicaux.",
+    moduleSlug: 'histoire',
+    lessonSlug: 'regimes-politiques-1789',
+  },
+  'coq-gaulois': {
+    didYouKnow: "Le coq orne la grille du parc de l'Élysée, dite « grille du Coq », alors qu'il n'a aucun statut officiel.",
+    moduleSlug: 'republique',
+    lessonSlug: 'symboles-republique',
+  },
+  'bonnet-phrygien': {
+    didYouKnow: "Le bonnet a été choisi comme mascotte des Jeux olympiques de Paris 2024, sous les traits d'une « Phryge ».",
+    moduleSlug: 'republique',
+    lessonSlug: 'symboles-republique',
+  },
+  'drapeau-europeen': {
+    didYouKnow: "Le nombre d'étoiles n'a jamais changé depuis 1955, alors que l'Union est passée de 6 à 27 États membres.",
+    moduleSlug: 'institutions',
+  },
+
+  // ── Institutions ───────────────────────────────────────────────────────
+  'president-de-la-republique': {
+    didYouKnow: "Avant 1962, le président était élu par un collège de grands électeurs : c'est un référendum voulu par de Gaulle qui a instauré l'élection au suffrage universel direct.",
+    moduleSlug: 'institutions',
+  },
+  'premier-ministre': {
+    didYouKnow: "En période de cohabitation, le Premier ministre issu de la majorité parlementaire dirige la politique intérieure, le président conservant un rôle prépondérant en diplomatie et défense.",
+    moduleSlug: 'institutions',
+  },
+  'assemblee-nationale': {
+    didYouKnow: "Le palais Bourbon, où siègent les députés, fut construit pour une fille de Louis XIV avant de devenir le siège de la représentation nationale.",
+    moduleSlug: 'institutions',
+  },
+  'senat': {
+    didYouKnow: "Le président du Sénat assure l'intérim de la présidence de la République en cas de vacance : c'est arrivé deux fois, en 1969 et 1974.",
+    moduleSlug: 'institutions',
+  },
+  'conseil-constitutionnel': {
+    didYouKnow: "Depuis 2010, la question prioritaire de constitutionnalité permet à un simple justiciable de faire abroger une loi déjà en vigueur.",
+    moduleSlug: 'institutions',
+    lessonSlug: 'etat-droit-separation-pouvoirs',
+  },
+  'maire-et-mairie': {
+    didYouKnow: "Le maire porte l'écharpe tricolore avec le bleu près du col, ce qui la distingue de celle des parlementaires, portée dans l'autre sens.",
+    moduleSlug: 'institutions',
+  },
+  'constitution-1958': {
+    didYouKnow: "Elle a été approuvée par près de 80 % des suffrages exprimés lors du référendum de septembre 1958.",
+    moduleSlug: 'institutions',
+    lessonSlug: 'etat-droit-separation-pouvoirs',
+  },
+  'declaration-droits-homme-1789': {
+    didYouKnow: "Le texte n'est pas qu'un symbole : intégré au « bloc de constitutionnalité », il sert encore aujourd'hui à faire annuler des lois.",
+    moduleSlug: 'droits',
+    lessonSlug: 'droits-fondamentaux',
+  },
+  'union-europeenne': {
+    didYouKnow: "Un ressortissant d'un autre pays de l'Union résidant en France peut voter et se présenter aux élections municipales et européennes, mais pas aux législatives ni à la présidentielle.",
+    moduleSlug: 'institutions',
+  },
+
+  // ── Événements ─────────────────────────────────────────────────────────
+  'revolution-francaise': {
+    didYouKnow: "La Bastille ne comptait que sept prisonniers le jour de sa prise : sa portée fut avant tout symbolique, celle de la chute de l'arbitraire royal.",
+    moduleSlug: 'histoire',
+    lessonSlug: 'regimes-politiques-1789',
+  },
+  'abolition-esclavage-1848': {
+    didYouKnow: "Schoelcher fit adopter le décret en moins de deux mois après sa nomination, craignant qu'un changement politique ne fasse échouer le projet.",
+    moduleSlug: 'droits',
+    lessonSlug: 'droits-fondamentaux',
+  },
+  'droit-de-vote-des-femmes': {
+    didYouKnow: "Le Sénat de la IIIe République avait bloqué à six reprises des propositions de loi votées par les députés en faveur du vote des femmes.",
+    moduleSlug: 'droits',
+    lessonSlug: 'droits-fondamentaux',
+  },
+  'abolition-peine-de-mort': {
+    didYouKnow: "En 1981, environ deux tiers des Français se déclaraient favorables au maintien de la peine de mort : l'abolition fut votée contre l'opinion majoritaire.",
+    moduleSlug: 'droits',
+    lessonSlug: 'droits-fondamentaux',
+  },
+  'armistice-11-novembre-1918': {
+    didYouKnow: "La flamme de la tombe du Soldat inconnu, sous l'Arc de triomphe, est ravivée chaque soir depuis 1923, sans interruption.",
+    moduleSlug: 'histoire',
+    lessonSlug: 'conflits-mondiaux-resistance',
+  },
+  'victoire-8-mai-1945': {
+    didYouKnow: "La capitulation fut signée deux fois : le 7 mai à Reims, puis le 8 mai à Berlin, à la demande de l'Union soviétique.",
+    moduleSlug: 'histoire',
+    lessonSlug: 'conflits-mondiaux-resistance',
+  },
+
+  // ── Figures complémentaires ────────────────────────────────────────────
+  'montesquieu': {
+    didYouKnow: "Les Lettres persanes furent publiées anonymement : la critique de la société française y était trop directe pour être signée.",
+    moduleSlug: 'institutions',
+    lessonSlug: 'etat-droit-separation-pouvoirs',
+  },
+  'victor-schoelcher': {
+    didYouKnow: "Il légua sa bibliothèque et ses collections à la Guadeloupe et à la Martinique, où plusieurs établissements portent aujourd'hui son nom.",
+    moduleSlug: 'droits',
+    lessonSlug: 'droits-fondamentaux',
+  },
+  'napoleon-bonaparte': {
+    didYouKnow: "Le Code civil de 1804 est toujours en vigueur : c'est le socle du droit de la famille, de la propriété et des contrats en France.",
+    moduleSlug: 'histoire',
+    lessonSlug: 'regimes-politiques-1789',
+  },
 };
 
 export function getEnrichissement(slug: string): FicheEnrichissement | undefined {

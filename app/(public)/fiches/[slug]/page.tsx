@@ -2,13 +2,21 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
-import { ArrowLeft, ArrowRight, Sparkles, BookOpen, MapPin, User, Lightbulb, GraduationCap } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Sparkles, BookOpen, MapPin, User, Lightbulb, GraduationCap, Landmark, CalendarDays } from 'lucide-react';
 import { fiches, getFiche, type Fiche } from '@/data/fiches';
 import { getEnrichissement } from '@/data/fiches-enrichissement';
 import { modules } from '@/data/modules';
 import { renderInline } from '@/lib/markdown';
 
 const SITE = 'https://www.maformationcivique.fr';
+
+const CATEGORY_LABEL: Record<Fiche['category'], string> = {
+  figure: 'Figure',
+  lieu: 'Lieu',
+  symbole: 'Symbole',
+  institution: 'Institution',
+  evenement: 'Événement',
+};
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -32,7 +40,10 @@ function splitSubtitle(fiche: Fiche): { left: string; right: string } {
  */
 function qualifier(fiche: Fiche): string {
   const { left, right } = splitSubtitle(fiche);
-  return fiche.category === 'figure' ? (right || fiche.tag) : `${fiche.tag}, ${left}`;
+  // Un lieu se qualifie par son type et sa localisation (« Monument, Paris ») ;
+  // toutes les autres familles par la précision du sous-titre.
+  if (fiche.category === 'lieu') return `${fiche.tag}, ${left}`;
+  return right || left || fiche.tag;
 }
 
 /** Texte brut du paragraphe, sans le markdown gras. */
@@ -63,8 +74,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const canonical = `${SITE}/fiches/${slug}`;
   // Titre absolu : le layout racine ajoute sinon un second « | maformationcivique.fr »
+  // Cascade du plus informatif au plus court, pour rester sous 60 caractères
+  // même quand le nom de la fiche est déjà long (ex. la Déclaration de 1789).
   const full = `${fiche.name} — ${qualifier(fiche)}`;
-  const title = full.length <= 60 ? full : `${fiche.name} — Fiche examen civique`;
+  const title = [full, `${fiche.name} — Fiche examen civique`, fiche.name]
+    .find((t) => t.length <= 60) ?? fiche.name;
   const description = truncate(
     `${plainParagraph(fiche)}`,
     108,
@@ -99,8 +113,15 @@ export default async function FichePage({ params }: Props) {
   const h1Qualifier = qualifier(fiche);
   const canonical = `${SITE}/fiches/${slug}`;
 
-  const figuresList = fiches.filter((f) => f.category === 'figure');
-  const lieuxList = fiches.filter((f) => f.category === 'lieu');
+  // Sommaire latéral : une entrée par famille, dans l'ordre du hub.
+  const sommaire = [
+    { key: 'symbole',     label: 'Symboles',     Icon: Sparkles },
+    { key: 'institution', label: 'Institutions', Icon: Landmark },
+    { key: 'evenement',   label: 'Dates clés',   Icon: CalendarDays },
+    { key: 'figure',      label: 'Figures',      Icon: User },
+    { key: 'lieu',        label: 'Lieux',        Icon: MapPin },
+  ].map((g) => ({ ...g, items: fiches.filter((f) => f.category === g.key) }))
+   .filter((g) => g.items.length > 0);
 
   /* ── Rattachement au programme civique (module / leçon complétés) ────── */
   const enrichissement = getEnrichissement(slug);
@@ -133,12 +154,19 @@ export default async function FichePage({ params }: Props) {
     termCode: fiche.slug,
     inDefinedTermSet: {
       '@type': 'DefinedTermSet',
-      name: "Fiches bonus — figures et lieux de l'histoire de France",
+      name: "Fiches mémo — repères du programme de l'examen civique",
       url: `${SITE}/fiches`,
     },
-    about: isFigure
-      ? { '@type': 'Person', name: fiche.name, description: fiche.subtitle }
-      : { '@type': 'Place', name: fiche.name, description: fiche.subtitle },
+    about: {
+      // Le type d'entité doit correspondre à la nature du sujet : décrire un
+      // drapeau ou une loi comme un « Place » induirait Google en erreur.
+      '@type': fiche.category === 'figure' ? 'Person'
+        : fiche.category === 'lieu' ? 'Place'
+        : fiche.category === 'evenement' ? 'Event'
+        : 'Thing',
+      name: fiche.name,
+      description: fiche.subtitle,
+    },
   };
 
   return (
@@ -429,35 +457,24 @@ export default async function FichePage({ params }: Props) {
                 <BookOpen size={15} /> Toutes les fiches
               </Link>
 
-              <p className="fiche-side-title"><User size={12} /> Figures</p>
-              <ul className="fiche-side-list">
-                {figuresList.map((f) => (
-                  <li key={f.slug}>
-                    <Link
-                      href={`/fiches/${f.slug}`}
-                      className={f.slug === fiche.slug ? 'fiche-side-link fiche-side-active' : 'fiche-side-link'}
-                      aria-current={f.slug === fiche.slug ? 'page' : undefined}
-                    >
-                      {f.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-
-              <p className="fiche-side-title"><MapPin size={12} /> Lieux</p>
-              <ul className="fiche-side-list">
-                {lieuxList.map((f) => (
-                  <li key={f.slug}>
-                    <Link
-                      href={`/fiches/${f.slug}`}
-                      className={f.slug === fiche.slug ? 'fiche-side-link fiche-side-active' : 'fiche-side-link'}
-                      aria-current={f.slug === fiche.slug ? 'page' : undefined}
-                    >
-                      {f.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              {sommaire.map(({ key, label, Icon, items }) => (
+                <div key={key}>
+                  <p className="fiche-side-title"><Icon size={12} /> {label}</p>
+                  <ul className="fiche-side-list">
+                    {items.map((f) => (
+                      <li key={f.slug}>
+                        <Link
+                          href={`/fiches/${f.slug}`}
+                          className={f.slug === fiche.slug ? 'fiche-side-link fiche-side-active' : 'fiche-side-link'}
+                          aria-current={f.slug === fiche.slug ? 'page' : undefined}
+                        >
+                          {f.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
 
               <div className="fiche-side-sep" />
               <Link href="/modulesciviques" className="fiche-side-extra">Modules civiques</Link>
@@ -469,7 +486,7 @@ export default async function FichePage({ params }: Props) {
 
         {/* Contexte, pour la sémantique (non décoratif) */}
         <p style={{ marginTop: 32, fontSize: 12.5, lineHeight: 1.7, color: 'var(--color-text-muted)' }}>
-          {isFigure ? 'Figure' : 'Lieu'} du programme de formation civique — {contextLeft}. Ces fiches
+          {CATEGORY_LABEL[fiche.category]} du programme de formation civique — {contextLeft}. Ces fiches
           complètent les modules et les examens blancs de maformationcivique.fr.
         </p>
       </div>
