@@ -6,6 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { sendEmail } from '@/lib/brevo';
+import { createServiceRoleClient } from '@/lib/supabase-server';
 
 export async function POST(req: NextRequest) {
   try {
@@ -19,10 +20,64 @@ export async function POST(req: NextRequest) {
       routage?: string;
       qualification?: string;
       reponses?: Record<string, string>;
+      consent?: boolean;
     };
 
     if (!body.email || !body.prenom) {
       return NextResponse.json({ error: 'Champs requis manquants' }, { status: 400 });
+    }
+
+    // ── Persistance ────────────────────────────────────────────────────
+    // Le lead est d'abord écrit en base : sans cela, un prospect qui remplit
+    // le formulaire ne laisse aucune trace exploitable, et les métadonnées
+    // techniques (IP, provenance) sont perdues à jamais.
+    //
+    // L'écriture ne doit jamais empêcher la notification : si la base est
+    // indisponible, on journalise et l'e-mail part quand même.
+    const ip =
+      req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+      req.headers.get('x-real-ip') ??
+      null;
+    const referer = req.headers.get('referer');
+    const url = new URL(req.url);
+
+    let leadId: string | null = null;
+    try {
+      const admin = createServiceRoleClient();
+      const { data, error } = await admin
+        .from('leads_eligibilite')
+        .insert({
+          prenom: body.prenom,
+          nom: body.nom,
+          email: body.email?.toLowerCase().trim(),
+          telephone: body.telephone,
+          demarche: body.demarche ?? null,
+          verdict: body.verdict ?? null,
+          routage: body.routage ?? null,
+          qualification: body.qualification ?? null,
+          reponses: body.reponses ?? null,
+          consent: body.consent ?? false,
+          consent_at: body.consent ? new Date().toISOString() : null,
+          ip,
+          user_agent: req.headers.get('user-agent'),
+          referer,
+          utm_source: url.searchParams.get('utm_source'),
+          utm_medium: url.searchParams.get('utm_medium'),
+          utm_campaign: url.searchParams.get('utm_campaign'),
+        })
+        .select('id')
+        .single();
+
+      if (error) {
+        console.error(
+          '[lead/eligibilite] ÉCHEC ENREGISTREMENT — lead reçu mais non persisté.',
+          JSON.stringify({ email: body.email, ip, dbError: error.message }),
+        );
+      } else {
+        leadId = data?.id ?? null;
+      }
+    } catch (err) {
+      console.error('[lead/eligibilite] EXCEPTION à l\'enregistrement', JSON.stringify({ email: body.email, ip }), err);
     }
 
     const rows: [string, string][] = [
@@ -32,6 +87,9 @@ export async function POST(req: NextRequest) {
       ['Téléphone', body.telephone],
       ['Démarche', body.demarche ?? '—'],
       ['Verdict', body.verdict ?? '—'],
+      ['Adresse IP', ip ?? '—'],
+      ['Provenance', referer ?? '—'],
+      ['Fiche', leadId ? `https://www.maformationcivique.fr/admin/leads` : 'non enregistrée en base'],
     ];
     for (const [k, v] of Object.entries(body.reponses ?? {})) {
       rows.push([`Réponse · ${k}`, v]);

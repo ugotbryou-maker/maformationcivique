@@ -63,6 +63,10 @@ export function EligibiliteQuiz() {
         routage: verdict.routage,
         qualification: verdict.qualification,
         reponses: Object.fromEntries(Object.entries(answers).map(([k, v]) => [k, String(v)])),
+        // Case RGPD cochée : c'est la base légale qui autorise le recontact et
+        // la transmission éventuelle à un avocat partenaire. Elle doit être
+        // horodatée en base, pas seulement contrôlée côté formulaire.
+        consent: lead.rgpd === true,
       }),
     }).catch(() => {});
     setSubmitting(false);
