@@ -78,9 +78,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             <Image
               src={tenant.logoPath}
               alt={tenant.name}
-              height={32}
-              width={Math.round(32 * tenant.logoAspect)}
-              style={{ height: 32, width: 'auto' }}
+              height={tenant.logoHeight ?? 32}
+              width={Math.round((tenant.logoHeight ?? 32) * tenant.logoAspect)}
+              style={{ height: tenant.logoHeight ?? 32, width: 'auto' }}
             />
           ) : (
             <>

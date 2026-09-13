@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
-import { ArrowLeft, Users, Clock, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Users, Clock, AlertTriangle, Receipt, Infinity as InfinityIcon } from 'lucide-react';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { isAdminEmail } from '@/lib/admin';
 import { modules } from '@/data/modules';
@@ -13,6 +13,27 @@ export const metadata: Metadata = {
 const TIER_LABELS: Record<string, string> = {
   starter: 'Starter', pro: 'Pro', cabinet_plus: 'Cabinet+', reseau: 'Réseau',
 };
+
+const PLAN_LABELS: Record<string, string> = {
+  premium: 'Civique',
+  langue:  'Linguistique',
+  bundle:  'Civique + Linguistique',
+};
+
+function euro(n: number) {
+  return n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+}
+
+/** Regroupe les activations par mois civil — la maille de facturation. */
+function parMois(activations: { redeemed_at: string | null }[]) {
+  const m = new Map<string, number>();
+  for (const a of activations) {
+    if (!a.redeemed_at) continue;
+    const cle = a.redeemed_at.slice(0, 7);
+    m.set(cle, (m.get(cle) ?? 0) + 1);
+  }
+  return [...m.entries()].sort((a, b) => b[0].localeCompare(a[0]));
+}
 
 export default async function AdminCabinetDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -38,11 +59,16 @@ export default async function AdminCabinetDetailPage({ params }: { params: Promi
     .select('id, name, email, cabinet_role, last_active')
     .eq('cabinet_id', id);
 
-  const { data: pendingInvites } = await service
+  // Toutes les invitations : celles en attente alimentent la liste, celles
+  // transformées en compte constituent la base de facturation à l'usage.
+  const { data: allInvites } = await service
     .from('cabinet_invites')
-    .select('id, email, created_at, role')
+    .select('id, email, created_at, role, redeemed_at, facture_le')
     .eq('cabinet_id', id)
-    .is('redeemed_at', null);
+    .order('redeemed_at', { ascending: false });
+
+  const pendingInvites = (allInvites ?? []).filter((i) => !i.redeemed_at);
+  const activations    = (allInvites ?? []).filter((i) => i.redeemed_at);
 
   // Progression par client
   const memberIds = (members ?? []).map((m) => m.id);
@@ -68,10 +94,20 @@ export default async function AdminCabinetDetailPage({ params }: { params: Promi
   const adminMember  = (members ?? []).find((m) => m.cabinet_role === 'admin');
   const pendingN     = pendingInvites?.length ?? 0;
   const used         = (members?.length ?? 0) + pendingN;
+  // max_invitations NULL = sièges illimités : aucun plafond à afficher, et
+  // surtout aucune jauge « 0 place restante » qui ferait paniquer à tort.
+  const illimite     = cabinet.max_invitations == null;
   const quota        = cabinet.max_invitations ?? 0;
-  const remaining    = Math.max(0, quota - used);
+  const remaining    = illimite ? null : Math.max(0, quota - used);
   const quotaPct     = quota > 0 ? Math.round((used / quota) * 100) : 0;
-  const quotaFull    = quota > 0 && used >= quota;
+  const quotaFull    = !illimite && quota > 0 && used >= quota;
+
+  // ── Facturation à l'usage ──────────────────────────────────────────────
+  const aLUsage    = cabinet.billing_mode === 'usage';
+  const pu         = (cabinet.prix_activation_cents ?? 0) / 100;
+  const nonFactures = activations.filter((i) => !i.facture_le);
+  const montantDu  = nonFactures.length * pu;
+  const caCumule   = activations.length * pu;
 
   const subEnd   = cabinet.sub_end_at ? new Date(cabinet.sub_end_at) : null;
   const daysLeft = subEnd ? Math.ceil((subEnd.getTime() - Date.now()) / 86400000) : null;
@@ -87,7 +123,9 @@ export default async function AdminCabinetDetailPage({ params }: { params: Promi
     { label: 'Clients inscrits',  value: clients.length, sub: `+ ${pendingN} en attente`,   danger: false },
     { label: 'Progression moy.',  value: `${avgPct}%`,   sub: 'tous modules',               danger: false },
     { label: 'Prêts entretien',   value: readyCount,     sub: '≥ 80 % de complétion',       danger: false },
-    { label: 'Places restantes',  value: remaining,      sub: `quota ${quota}`,             danger: remaining === 0 },
+    aLUsage
+      ? { label: 'À facturer', value: euro(montantDu), sub: `${nonFactures.length} × ${euro(pu)}`, danger: false }
+      : { label: 'Places restantes', value: remaining ?? '∞', sub: `quota ${quota}`, danger: remaining === 0 },
   ];
 
   return (
@@ -138,6 +176,15 @@ export default async function AdminCabinetDetailPage({ params }: { params: Promi
           </div>
 
           {/* Quota */}
+          {illimite ? (
+            <div style={{ marginTop: 22, display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.72)' }}>
+              <InfinityIcon size={15} />
+              <span>
+                Sièges illimités — {used} compte{used > 1 ? 's' : ''} ouvert{used > 1 ? 's' : ''}
+                {' · accès '}{PLAN_LABELS[cabinet.member_plan] ?? cabinet.member_plan}
+              </span>
+            </div>
+          ) : (
           <div style={{ marginTop: 22 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 7 }}>
               <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>Places utilisées</span>
@@ -150,6 +197,7 @@ export default async function AdminCabinetDetailPage({ params }: { params: Promi
               }} />
             </div>
           </div>
+          )}
         </div>
       </div>
 
@@ -166,6 +214,72 @@ export default async function AdminCabinetDetailPage({ params }: { params: Promi
           </div>
         ))}
       </div>
+
+      {/* ── Facturation à l'usage ──────────────────────────────────────── */}
+      {aLUsage && (
+        <div style={{
+          background: 'var(--color-surface)', border: 'var(--border-default)',
+          borderRadius: 'var(--radius-xl)', padding: '20px 22px', marginBottom: 24,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+            <Receipt size={15} color="var(--color-text-muted)" />
+            <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-text-secondary)' }}>
+              Facturation à l&apos;usage — {euro(pu)} par personne activée
+            </span>
+          </div>
+
+          <p style={{ fontSize: 12.5, lineHeight: 1.65, color: 'var(--color-text-muted)', margin: '0 0 16px' }}>
+            Une activation est une invitation transformée en compte réel. Les invitations
+            simplement envoyées ne sont pas facturées : le partenaire ne paie que les
+            personnes qui se sont effectivement connectées.
+          </p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: 12, marginBottom: 18 }}>
+            <div>
+              <p style={{ fontSize: 22, fontWeight: 800, margin: 0 }}>{activations.length}</p>
+              <p style={{ fontSize: 11, color: 'var(--color-text-muted)', margin: '2px 0 0' }}>Activations totales</p>
+            </div>
+            <div>
+              <p style={{ fontSize: 22, fontWeight: 800, margin: 0, color: '#B45309' }}>{euro(montantDu)}</p>
+              <p style={{ fontSize: 11, color: 'var(--color-text-muted)', margin: '2px 0 0' }}>Restant à facturer</p>
+            </div>
+            <div>
+              <p style={{ fontSize: 22, fontWeight: 800, margin: 0, color: '#0F7A57' }}>{euro(caCumule)}</p>
+              <p style={{ fontSize: 11, color: 'var(--color-text-muted)', margin: '2px 0 0' }}>CA cumulé partenaire</p>
+            </div>
+          </div>
+
+          {activations.length > 0 && (
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+                <thead>
+                  <tr>
+                    {['Mois', 'Activations', 'Montant'].map((h) => (
+                      <th key={h} style={{
+                        textAlign: h === 'Mois' ? 'left' : 'right', padding: '0 0 8px',
+                        fontSize: 10.5, fontWeight: 700, textTransform: 'uppercase',
+                        letterSpacing: '0.05em', color: 'var(--color-text-muted)',
+                        borderBottom: '1px solid var(--color-border)',
+                      }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {parMois(activations).map(([mois, n]) => (
+                    <tr key={mois}>
+                      <td style={{ padding: '9px 0', borderBottom: '1px solid var(--color-border)' }}>
+                        {new Date(`${mois}-01`).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
+                      </td>
+                      <td style={{ padding: '9px 0', textAlign: 'right', borderBottom: '1px solid var(--color-border)' }}>{n}</td>
+                      <td style={{ padding: '9px 0', textAlign: 'right', fontWeight: 700, borderBottom: '1px solid var(--color-border)' }}>{euro(n * pu)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Liste clients */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, paddingLeft: 4 }}>
@@ -188,7 +302,13 @@ export default async function AdminCabinetDetailPage({ params }: { params: Promi
                 <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', margin: '0 0 2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {m.name || m.email || 'Utilisateur'}
                 </p>
-                <p style={{ fontSize: 12, color: 'var(--color-text-muted)', margin: 0 }}>{m.email}</p>
+                <p style={{ fontSize: 12, color: 'var(--color-text-muted)', margin: 0 }}>
+                  {m.email}
+                  {m.last_active && (
+                    <> · vu le {new Date(m.last_active).toLocaleDateString('fr-FR')}</>
+                  )}
+                  {!m.last_active && <> · jamais connecté</>}
+                </p>
               </div>
               <div style={{ width: 120, flexShrink: 0 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>

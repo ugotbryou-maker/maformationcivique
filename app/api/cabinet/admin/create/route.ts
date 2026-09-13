@@ -13,6 +13,7 @@ import { randomUUID } from 'crypto';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { isAdminEmail } from '@/lib/admin';
 import { sendEmail, cabinetAdminInviteTemplate } from '@/lib/brevo';
+import { getAppUrl } from '@/lib/app-url';
 
 interface CreateCabinetPayload {
   name:            string;
@@ -77,7 +78,7 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Email Brevo (non bloquant) ─────────────────────────────────────────
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.maformationcivique.fr';
+    const appUrl = await getAppUrl();
     const inviteLink = `${appUrl.replace(/\/$/, '')}/inscription?invite_token=${token}`;
 
     try {

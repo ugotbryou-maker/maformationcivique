@@ -268,6 +268,34 @@ export default async function AdminDashboardPage() {
           <Mini label="Invitations utilisées" value={`${s.invitations.utilisees} / ${s.invitations.total}`} />
           <Mini label="CA annuel B2B" value={euro(s.caCabinetsAnnuel)} />
         </div>
+
+        {/* Partenaires facturés à l'activation : le montant dû ne se lit nulle
+            part ailleurs, c'est lui qui déclenche la facture du mois. */}
+        {s.partenaires.filter((p) => p.billing_mode === 'usage').length > 0 && (
+          <div style={{ marginBottom: 16 }}>
+            <p className="adm-note" style={{ marginBottom: 8 }}>
+              Partenaires facturés à l&apos;activation —{' '}
+              <strong>{euro(s.aFacturerPartenaires)}</strong> à facturer
+            </p>
+            <table className="adm-table">
+              <thead>
+                <tr><th>Partenaire</th><th>Activations</th><th>Actifs 30 j</th><th>À facturer</th></tr>
+              </thead>
+              <tbody>
+                {s.partenaires.filter((p) => p.billing_mode === 'usage').map((p) => (
+                  <tr key={p.id}>
+                    <td>
+                      <Link href={`/admin/cabinets/${p.id}`} className="adm-link">{p.name}</Link>
+                    </td>
+                    <td>{p.activations}{p.enAttente > 0 && ` (+${p.enAttente} en attente)`}</td>
+                    <td>{p.membresActifs}</td>
+                    <td><strong>{euro(p.montantDu)}</strong></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
         <Link href="/admin/cabinets" className="adm-link">
           Voir le portefeuille détaillé <ChevronRight size={14} />
         </Link>

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { BookOpen, FileText, LayoutDashboard } from 'lucide-react';
 import type { TenantConfig } from '@/lib/tenants';
 import { PFLogoLight } from '@/components/tenants/PFLogoLight';
@@ -23,7 +24,10 @@ export function TenantShell({
       {/* ── Header fermé ─────────────────────────────────────────────── */}
       <header style={{
         position: 'sticky', top: 0, zIndex: 100,
-        background: 'var(--color-blue-france)',
+        // headerColor permet à une marque dont la couleur principale est trop
+        // claire — ou trop proche de son propre logo — d'avoir un bandeau
+        // lisible sans dénaturer ses boutons.
+        background: tenant.headerColor ?? 'var(--color-blue-france)',
         boxShadow: '0 1px 12px rgba(0,0,0,0.14)',
       }}>
         {/* Barre tricolore */}
@@ -34,9 +38,21 @@ export function TenantShell({
           height: 58,
           display: 'flex', alignItems: 'center', gap: 20,
         }}>
-          {/* Logo cabinet */}
-          <Link href="/modulesciviques" style={{ display: 'flex', flexShrink: 0, textDecoration: 'none' }}>
-            <PFLogoLight width={130} style={{ height: 34, width: 'auto' }} />
+          {/* Logo cabinet — jamais codé en dur : chaque partenaire doit voir
+              sa propre marque, pas celle du partenaire précédent. */}
+          <Link href="/modulesciviques" style={{ display: 'flex', alignItems: 'center', flexShrink: 0, textDecoration: 'none' }}>
+            {tenant.slug === 'papiers-francais' ? (
+              <PFLogoLight width={130} style={{ height: 34, width: 'auto' }} />
+            ) : (
+              <Image
+                src={tenant.logoLightPath}
+                alt={tenant.name}
+                height={tenant.logoHeight ?? 34}
+                width={Math.round((tenant.logoHeight ?? 34) * tenant.logoAspect)}
+                style={{ height: tenant.logoHeight ?? 34, width: 'auto' }}
+                priority
+              />
+            )}
           </Link>
 
           {/* Séparateur */}
@@ -78,7 +94,7 @@ export function TenantShell({
             <Link href="/inscription" style={{
               padding: '7px 18px', borderRadius: 8,
               background: '#fff',
-              color: 'var(--color-blue-france)', fontSize: 13, fontWeight: 700,
+              color: tenant.headerColor ?? 'var(--color-blue-france)', fontSize: 13, fontWeight: 700,
               textDecoration: 'none', flexShrink: 0,
               transition: 'opacity 140ms',
             }}>

@@ -3,8 +3,8 @@
  * Appelé côté client juste après supabase.auth.signUp() réussi, si
  * l'inscription provient d'un lien d'invitation cabinet (?invite_token=).
  *
- * Associe l'utilisateur connecté au cabinet, le passe en plan='premium',
- * et marque l'invitation comme utilisée.
+ * Associe l'utilisateur connecté au cabinet, lui accorde l'accès prévu par
+ * le contrat du cabinet, et marque l'invitation comme utilisée.
  *
  * Body: { token: string }
  */
@@ -48,13 +48,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invitation expirée' }, { status: 410 });
     }
 
-    // ── Associe l'utilisateur au cabinet + accès Premium ───────────────────
+    // ── Accès accordé : défini par le cabinet, pas par le code ─────────────
+    // Un partenaire dont l'offre inclut le linguistique (member_plan =
+    // 'bundle') doit ouvrir les deux parcours à ses clients. Coder 'premium'
+    // en dur revenait à leur vendre un accès qu'ils ne recevaient pas.
+    const { data: cabinet } = await service
+      .from('cabinets')
+      .select('member_plan, sub_end_at')
+      .eq('id', invite.cabinet_id)
+      .single();
+
     const { error: userError } = await service
       .from('users')
       .update({
         cabinet_id: invite.cabinet_id,
         cabinet_role: invite.role,
-        plan: 'premium',
+        plan: cabinet?.member_plan ?? 'premium',
+        // L'accès du membre suit l'échéance du partenariat. NULL = pas
+        // d'échéance tant que le partenariat court.
+        sub_end_at: cabinet?.sub_end_at ?? null,
       })
       .eq('id', user.id);
 

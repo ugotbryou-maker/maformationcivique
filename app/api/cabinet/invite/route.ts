@@ -12,6 +12,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { sendEmail, cabinetMemberInviteTemplate } from '@/lib/brevo';
+import { getAppUrl } from '@/lib/app-url';
 
 export async function POST(req: NextRequest) {
   try {
@@ -51,20 +52,24 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Vérification du quota ───────────────────────────────────────────────
-    const { count: memberCount } = await service
-      .from('users')
-      .select('*', { count: 'exact', head: true })
-      .eq('cabinet_id', cabinet.id);
+    // max_invitations NULL = sièges illimités (partenaire facturé à l'usage) :
+    // on ne compte rien et on n'oppose aucun refus.
+    if (cabinet.max_invitations != null) {
+      const { count: memberCount } = await service
+        .from('users')
+        .select('*', { count: 'exact', head: true })
+        .eq('cabinet_id', cabinet.id);
 
-    const { count: pendingCount } = await service
-      .from('cabinet_invites')
-      .select('*', { count: 'exact', head: true })
-      .eq('cabinet_id', cabinet.id)
-      .is('redeemed_at', null);
+      const { count: pendingCount } = await service
+        .from('cabinet_invites')
+        .select('*', { count: 'exact', head: true })
+        .eq('cabinet_id', cabinet.id)
+        .is('redeemed_at', null);
 
-    const used = (memberCount ?? 0) + (pendingCount ?? 0);
-    if (used >= cabinet.max_invitations) {
-      return NextResponse.json({ error: 'Quota d\'invitations atteint pour votre cabinet' }, { status: 409 });
+      const used = (memberCount ?? 0) + (pendingCount ?? 0);
+      if (used >= cabinet.max_invitations) {
+        return NextResponse.json({ error: 'Quota d\'invitations atteint pour votre cabinet' }, { status: 409 });
+      }
     }
 
     // ── Création de l'invitation ────────────────────────────────────────────
@@ -85,7 +90,10 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Email Brevo (non bloquant) ─────────────────────────────────────────
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.maformationcivique.fr';
+    // getAppUrl() et non NEXT_PUBLIC_APP_URL : cette variable pointe le
+    // domaine *.vercel.app, ce qui enverrait chaque client du partenaire
+    // s'inscrire sur un domaine qui n'est pas le nôtre.
+    const appUrl = await getAppUrl();
     const inviteLink = `${appUrl.replace(/\/$/, '')}/inscription?invite_token=${token}`;
 
     try {

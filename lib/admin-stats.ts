@@ -57,8 +57,8 @@ export async function getAdminStats() {
   const [users, cabinets, invites, progression, exams, badges, apercuLeads, consents] =
     await Promise.all([
       s.from('users').select('id, email, name, plan, sub_end_at, created_at, last_active, demarche, langue_niveau, telephone, cabinet_id, onboarding_done, accompagne').order('created_at', { ascending: false }),
-      s.from('cabinets').select('id, name, tier, max_invitations, sub_end_at, created_at'),
-      s.from('cabinet_invites').select('id, cabinet_id, redeemed_at'),
+      s.from('cabinets').select('id, name, contact_email, tier, max_invitations, sub_end_at, created_at, member_plan, billing_mode, prix_activation_cents'),
+      s.from('cabinet_invites').select('id, cabinet_id, email, redeemed_at, redeemed_user_id, facture_le, created_at'),
       s.from('progression').select('id, user_id, completed, completed_at'),
       s.from('exam_results').select('id, user_id, exam_level, score, total_q, passed, updated_at'),
       s.from('user_badges').select('id, user_id'),
@@ -85,12 +85,19 @@ export async function getAdminStats() {
   };
 
   // ── Plans et revenus ───────────────────────────────────────────────────
-  const lifetime = u.filter(estLifetime);
+  // On raisonne sur les seuls comptes B2C. Un membre rattaché à un cabinet a
+  // reçu son accès par son partenaire, sans payer : le compter ici gonflerait
+  // le MRR et le « revenu à vie » d'un chiffre d'affaires qui n'existe pas.
+  // Sa contribution réelle est facturée au partenaire, plus bas.
+  const b2c = u.filter((x) => !x.cabinet_id);
+  const membresPartenaires = u.filter((x) => x.cabinet_id);
+
+  const lifetime = b2c.filter(estLifetime);
   const parPlan = {
-    free: u.filter((x) => (x.plan ?? 'free') === 'free').length,
-    premium: u.filter((x) => x.plan === 'premium').length,
-    langue: u.filter((x) => x.plan === 'langue').length,
-    bundleMensuel: u.filter((x) => x.plan === 'bundle' && x.sub_end_at).length,
+    free: b2c.filter((x) => (x.plan ?? 'free') === 'free').length,
+    premium: b2c.filter((x) => x.plan === 'premium').length,
+    langue: b2c.filter((x) => x.plan === 'langue').length,
+    bundleMensuel: b2c.filter((x) => x.plan === 'bundle' && x.sub_end_at).length,
     lifetime: lifetime.length,
   };
 
@@ -102,10 +109,41 @@ export async function getAdminStats() {
   const revenuLifetime = parPlan.lifetime * PRIX.lifetime;
 
   const cab = cabinets.data ?? [];
-  const caCabinetsAnnuel = cab.reduce((a, c) => a + (TIER_PRIX_ANNUEL[c.tier] ?? 0), 0);
+  const inv0 = invites.data ?? [];
+
+  // ── Partenaires : forfait annuel d'un côté, facturation à l'usage de
+  // l'autre. Une activation = une invitation effectivement transformée en
+  // compte ; on ne facture jamais une invitation simplement envoyée.
+  const partenaires = cab.map((c) => {
+    const siennes = inv0.filter((i) => i.cabinet_id === c.id);
+    const activations = siennes.filter((i) => i.redeemed_at);
+    const aFacturer = activations.filter((i) => !i.facture_le);
+    const pu = (c.prix_activation_cents ?? 0) / 100;
+    return {
+      ...c,
+      invitesEnvoyees: siennes.length,
+      enAttente: siennes.length - activations.length,
+      activations: activations.length,
+      activationsNonFacturees: aFacturer.length,
+      montantDu: c.billing_mode === 'usage' ? aFacturer.length * pu : 0,
+      caCumule: c.billing_mode === 'usage'
+        ? activations.length * pu
+        : (TIER_PRIX_ANNUEL[c.tier] ?? 0),
+      prixUnitaire: pu,
+      membresActifs: membresPartenaires.filter(
+        (m) => m.cabinet_id === c.id && apres(m.last_active, j30),
+      ).length,
+    };
+  });
+
+  const caCabinetsAnnuel = cab
+    .filter((c) => c.billing_mode !== 'usage')
+    .reduce((a, c) => a + (TIER_PRIX_ANNUEL[c.tier] ?? 0), 0);
+
+  const aFacturerPartenaires = partenaires.reduce((a, p) => a + p.montantDu, 0);
 
   const payants = parPlan.premium + parPlan.langue + parPlan.bundleMensuel + parPlan.lifetime;
-  const tauxConversion = u.length > 0 ? (payants / u.length) * 100 : 0;
+  const tauxConversion = b2c.length > 0 ? (payants / b2c.length) * 100 : 0;
 
   // ── Courbe des inscriptions sur 30 jours ───────────────────────────────
   const serie: { jour: string; inscriptions: number }[] = [];
@@ -158,6 +196,9 @@ export async function getAdminStats() {
       badges: (badges.data ?? []).length,
     },
     cabinets: cab,
+    partenaires,
+    aFacturerPartenaires,
+    membresPartenaires: membresPartenaires.length,
     invitations: { total: inv.length, utilisees: inv.filter((i) => i.redeemed_at).length },
     apercuLeads: apercuLeads.data ?? [],
     consentementsLifetime: (consents.data ?? []).length,

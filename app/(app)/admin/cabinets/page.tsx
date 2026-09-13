@@ -25,7 +25,10 @@ interface CabinetRow {
   id: string;
   name: string;
   tier: string;
-  max_invitations: number;
+  max_invitations: number | null;
+  billing_mode?: string | null;
+  prix_activation_cents?: number | null;
+  member_plan?: string | null;
   sub_end_at: string | null;
   created_at: string;
 }
@@ -40,7 +43,7 @@ export default async function AdminCabinetsPage() {
   const service = createServiceRoleClient();
 
   const [{ data: cabinets }, { data: cabUsers }, { data: pending }] = await Promise.all([
-    service.from('cabinets').select('id, name, tier, max_invitations, sub_end_at, created_at').order('created_at', { ascending: false }),
+    service.from('cabinets').select('id, name, tier, max_invitations, sub_end_at, created_at, billing_mode, prix_activation_cents, member_plan').order('created_at', { ascending: false }),
     service.from('users').select('id, cabinet_id, cabinet_role').not('cabinet_id', 'is', null),
     service.from('cabinet_invites').select('id, cabinet_id').is('redeemed_at', null),
   ]);
@@ -69,7 +72,11 @@ export default async function AdminCabinetsPage() {
   const totalCabinets = rows.length;
   const totalSeatsSold = rows.reduce((a, c) => a + (c.max_invitations ?? 0), 0);
   const totalClients   = [...clientsByCab.values()].reduce((a, b) => a + b, 0);
-  const estRevenue     = rows.reduce((a, c) => a + (TIER_PRICE[c.tier] ?? 0), 0);
+  // Un partenaire facturé à l'usage n'a ni palier annuel ni sièges vendus :
+  // son chiffre d'affaires se lit sur ses activations, pas sur son contrat.
+  const estRevenue     = rows
+    .filter((c) => c.billing_mode !== 'usage')
+    .reduce((a, c) => a + (TIER_PRICE[c.tier] ?? 0), 0);
 
   const consolidated = [
     { label: 'Cabinets actifs',  value: totalCabinets },
@@ -136,9 +143,10 @@ export default async function AdminCabinetsPage() {
             const seats     = seatsByCab.get(c.id) ?? 0;
             const pendingN  = pendingByCab.get(c.id) ?? 0;
             const used      = seats + pendingN;
+            const illimite  = c.max_invitations == null;
             const quota     = c.max_invitations ?? 0;
             const quotaPct  = quota > 0 ? Math.round((used / quota) * 100) : 0;
-            const quotaFull = quota > 0 && used >= quota;
+            const quotaFull = !illimite && quota > 0 && used >= quota;
 
             const subEnd    = c.sub_end_at ? new Date(c.sub_end_at) : null;
             const daysLeft  = subEnd ? Math.ceil((subEnd.getTime() - now.getTime()) / 86400000) : null;
@@ -188,15 +196,20 @@ export default async function AdminCabinetsPage() {
                 {/* Quota */}
                 <div style={{ width: 140, flexShrink: 0 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
-                    <span style={{ fontSize: 11, color: 'var(--color-text-muted)' }}>Places</span>
+                    <span style={{ fontSize: 11, color: 'var(--color-text-muted)' }}>
+                      {illimite ? 'Comptes ouverts' : 'Places'}
+                    </span>
                     <span style={{ fontSize: 11, fontWeight: 700, color: quotaFull ? '#B91C1C' : 'var(--color-text-secondary)' }}>
-                      {used} / {quota}
+                      {illimite ? `${used} · illimité` : `${used} / ${quota}`}
                     </span>
                   </div>
                   <div style={{ height: 4, background: 'var(--color-off-white)', borderRadius: 99, overflow: 'hidden' }}>
                     <div style={{
-                      height: '100%', borderRadius: 99, width: `${Math.min(quotaPct, 100)}%`,
-                      background: quotaFull ? '#EF4135' : 'var(--color-blue-france)',
+                      height: '100%', borderRadius: 99,
+                      width: illimite ? '100%' : `${Math.min(quotaPct, 100)}%`,
+                      background: illimite
+                        ? 'linear-gradient(90deg,var(--color-blue-france),#7CB8F0)'
+                        : (quotaFull ? '#EF4135' : 'var(--color-blue-france)'),
                     }} />
                   </div>
                 </div>
