@@ -4,6 +4,7 @@ import { ArrowLeft, Users, Clock, AlertTriangle, Receipt, Infinity as InfinityIc
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { isAdminEmail } from '@/lib/admin';
 import { modules } from '@/data/modules';
+import { InviteCabinetAdminButton } from '@/components/app/InviteCabinetAdminButton';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -214,6 +215,13 @@ export default async function AdminCabinetDetailPage({ params }: { params: Promi
           </div>
         ))}
       </div>
+
+      {/* ── Accès administrateur ───────────────────────────────────────── */}
+      <InviteCabinetAdminButton
+        cabinetId={cabinet.id}
+        contactEmail={cabinet.contact_email}
+        dejaAdmin={!!adminMember}
+      />
 
       {/* ── Facturation à l'usage ──────────────────────────────────────── */}
       {aLUsage && (
