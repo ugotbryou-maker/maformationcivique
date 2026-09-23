@@ -54,9 +54,18 @@ export async function POST(req: NextRequest) {
     // en dur revenait à leur vendre un accès qu'ils ne recevaient pas.
     const { data: cabinet } = await service
       .from('cabinets')
-      .select('member_plan, sub_end_at')
+      .select('name, member_plan, sub_end_at')
       .eq('id', invite.cabinet_id)
       .single();
+
+    // Un partenariat arrivé à terme — un essai, typiquement — ne doit plus
+    // ouvrir de droits, même si le lien d'invitation n'a pas encore expiré.
+    if (cabinet?.sub_end_at && new Date(cabinet.sub_end_at) < new Date()) {
+      return NextResponse.json(
+        { error: `Le partenariat ${cabinet.name ?? ''} est arrivé à échéance. Contactez maformationcivique.fr.` },
+        { status: 410 },
+      );
+    }
 
     const { error: userError } = await service
       .from('users')

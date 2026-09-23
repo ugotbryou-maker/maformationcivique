@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 const TIER_LABELS: Record<string, string> = {
+  essai:        'Essai',
   starter:      'Starter',
   pro:          'Pro',
   cabinet_plus: 'Cabinet+',

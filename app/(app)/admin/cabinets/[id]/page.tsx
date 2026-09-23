@@ -5,6 +5,7 @@ import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supab
 import { isAdminEmail } from '@/lib/admin';
 import { modules } from '@/data/modules';
 import { InviteCabinetAdminButton } from '@/components/app/InviteCabinetAdminButton';
+import { CloturerCabinetButton } from '@/components/app/CloturerCabinetButton';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 const TIER_LABELS: Record<string, string> = {
-  starter: 'Starter', pro: 'Pro', cabinet_plus: 'Cabinet+', reseau: 'Réseau',
+  essai: 'Essai', starter: 'Starter', pro: 'Pro', cabinet_plus: 'Cabinet+', reseau: 'Réseau',
 };
 
 const PLAN_LABELS: Record<string, string> = {
@@ -353,6 +354,12 @@ export default async function AdminCabinetDetailPage({ params }: { params: Promi
           </div>
         )}
       </div>
+
+      <CloturerCabinetButton
+        cabinetId={cabinet.id}
+        cabinetName={cabinet.name}
+        nbMembres={members?.length ?? 0}
+      />
     </div>
   );
 }
