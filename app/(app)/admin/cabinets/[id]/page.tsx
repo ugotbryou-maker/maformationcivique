@@ -65,7 +65,7 @@ export default async function AdminCabinetDetailPage({ params }: { params: Promi
   // transformées en compte constituent la base de facturation à l'usage.
   const { data: allInvites } = await service
     .from('cabinet_invites')
-    .select('id, email, created_at, role, redeemed_at, facture_le')
+    .select('id, email, created_at, role, redeemed_at, redeemed_user_id, invited_by, facture_le')
     .eq('cabinet_id', id)
     .order('redeemed_at', { ascending: false });
 
@@ -90,6 +90,19 @@ export default async function AdminCabinetDetailPage({ params }: { params: Promi
         .map((p) => `${p.module_slug}:${p.lesson_slug}`),
     );
     progressByUser.set(m.id, totalLessons > 0 ? Math.round((done.size / totalLessons) * 100) : 0);
+  }
+
+  // Attribution commerciale : qui a envoyé chaque invitation. Avec plusieurs
+  // administrateurs sur un même portefeuille, c'est la seule façon de savoir
+  // qui a amené quel client.
+  const nomPar = new Map<string, string>();
+  for (const m of members ?? []) nomPar.set(m.id, m.name || m.email || 'Membre');
+  const auteurInvitation = (id: string | null | undefined) => (id ? nomPar.get(id) ?? null : null);
+
+  const invitePar = new Map<string, string>();
+  for (const i of allInvites ?? []) {
+    const auteur = auteurInvitation(i.invited_by);
+    if (i.redeemed_user_id && auteur) invitePar.set(i.redeemed_user_id, auteur);
   }
 
   const clients      = (members ?? []).filter((m) => m.cabinet_role !== 'admin');
@@ -221,7 +234,7 @@ export default async function AdminCabinetDetailPage({ params }: { params: Promi
       <InviteCabinetAdminButton
         cabinetId={cabinet.id}
         contactEmail={cabinet.contact_email}
-        dejaAdmin={!!adminMember}
+        admins={(members ?? []).filter((m) => m.cabinet_role === 'admin').map((m) => m.email ?? '—')}
       />
 
       {/* ── Facturation à l'usage ──────────────────────────────────────── */}
@@ -317,6 +330,7 @@ export default async function AdminCabinetDetailPage({ params }: { params: Promi
                     <> · vu le {new Date(m.last_active).toLocaleDateString('fr-FR')}</>
                   )}
                   {!m.last_active && <> · jamais connecté</>}
+                  {invitePar.get(m.id) && <> · invité par {invitePar.get(m.id)}</>}
                 </p>
               </div>
               <div style={{ width: 120, flexShrink: 0 }}>
@@ -340,7 +354,12 @@ export default async function AdminCabinetDetailPage({ params }: { params: Promi
           }}>
             <Clock size={15} color="var(--color-text-muted)" style={{ flexShrink: 0 }} />
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: 14, color: 'var(--color-text-secondary)', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{inv.email}</p>
+              <p style={{ fontSize: 14, color: 'var(--color-text-secondary)', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {inv.email}
+                {auteurInvitation(inv.invited_by) && (
+                  <span style={{ fontSize: 12, color: 'var(--color-text-muted)' }}> · par {auteurInvitation(inv.invited_by)}</span>
+                )}
+              </p>
             </div>
             <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--color-text-muted)', flexShrink: 0 }}>
               Invitation en attente

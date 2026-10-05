@@ -7,7 +7,12 @@
  * migration SQL, par exemple — n'a aucune invitation : son contact ne peut
  * donc jamais entrer dans son espace. Cette route comble ce trou.
  *
- * Body: { cabinet_id: string, email?: string }
+ * Body: { cabinet_id: string, email?: string, co_admin?: boolean }
+ *
+ * co_admin : ajoute un administrateur supplémentaire à un cabinet qui en a
+ * déjà un — deux commerciaux partageant le même portefeuille, par exemple.
+ * Sans ce drapeau, la route refuse, pour éviter de créer par mégarde un
+ * second compte à quelqu'un qui a simplement perdu son mot de passe.
  */
 
 export const dynamic = 'force-dynamic';
@@ -27,7 +32,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Non autorisé' }, { status: 403 });
     }
 
-    const { cabinet_id, email } = await req.json() as { cabinet_id?: string; email?: string };
+    const { cabinet_id, email, co_admin } = await req.json() as
+      { cabinet_id?: string; email?: string; co_admin?: boolean };
     if (!cabinet_id) {
       return NextResponse.json({ error: 'cabinet_id manquant' }, { status: 400 });
     }
@@ -49,29 +55,39 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Email invalide' }, { status: 400 });
     }
 
-    // Un admin déjà inscrit n'a pas besoin d'une nouvelle invitation : la lui
-    // renvoyer créerait un second compte au lieu de lui rendre l'accès.
-    const { data: dejaAdmin } = await service
+    const { data: admins } = await service
       .from('users')
       .select('id, email')
       .eq('cabinet_id', cabinet_id)
-      .eq('cabinet_role', 'admin')
-      .maybeSingle();
+      .eq('cabinet_role', 'admin');
 
-    if (dejaAdmin) {
+    // Réinviter une adresse déjà administratrice lui créerait un second
+    // compte au lieu de lui rendre l'accès : c'est toujours une erreur.
+    const dejaLui = (admins ?? []).find((a) => a.email?.toLowerCase() === cible);
+    if (dejaLui) {
       return NextResponse.json(
-        { error: `Ce cabinet a deja un administrateur inscrit (${dejaAdmin.email}). Utilisez la reinitialisation de mot de passe plutot qu'une nouvelle invitation.` },
+        { error: `${cible} est deja administrateur de ce cabinet. Passez par la reinitialisation de mot de passe.` },
         { status: 409 },
       );
     }
 
-    // On périme les invitations admin encore en attente : deux liens valides
-    // pour la même personne, c'est deux comptes possibles.
+    // Un cabinet qui a déjà un administrateur n'en reçoit un second que si
+    // c'est demandé explicitement.
+    if ((admins?.length ?? 0) > 0 && !co_admin) {
+      return NextResponse.json(
+        { error: `Ce cabinet a deja un administrateur (${admins!.map((a) => a.email).join(', ')}). Cochez « ajouter un co-administrateur » si c'est voulu.` },
+        { status: 409 },
+      );
+    }
+
+    // On périme les invitations encore en attente pour CETTE adresse : deux
+    // liens valides pour la même personne, c'est deux comptes possibles.
+    // Celles des autres invités, administrateurs compris, ne bougent pas.
     await service
       .from('cabinet_invites')
       .update({ expires_at: new Date().toISOString() })
       .eq('cabinet_id', cabinet_id)
-      .eq('role', 'admin')
+      .eq('email', cible)
       .is('redeemed_at', null);
 
     const token = randomUUID();

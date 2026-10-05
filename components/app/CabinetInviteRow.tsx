@@ -7,9 +7,12 @@ interface Props {
   id: string;
   email: string;
   createdAt: string;
+  /** Qui a envoyé l'invitation — indispensable quand plusieurs commerciaux
+   *  partagent le même portefeuille. */
+  invitedBy?: string | null;
 }
 
-export function CabinetInviteRow({ id, email, createdAt }: Props) {
+export function CabinetInviteRow({ id, email, createdAt, invitedBy }: Props) {
   const [cancelling, setCancelling] = useState(false);
   const [cancelled, setCancelled] = useState(false);
 
@@ -47,6 +50,7 @@ export function CabinetInviteRow({ id, email, createdAt }: Props) {
         </p>
         <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 2 }}>
           Invitation envoyée le {new Date(createdAt).toLocaleDateString('fr-FR')}
+          {invitedBy && <> · par <strong style={{ fontWeight: 600 }}>{invitedBy}</strong></>}
         </p>
       </div>
       <span style={{

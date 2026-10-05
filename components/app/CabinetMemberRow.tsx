@@ -35,9 +35,12 @@ interface Props {
   email: string;
   pct: number;
   lastActive: string | null;
+  /** Qui a invité ce client — permet d'attribuer chaque client à son
+   *  commercial quand plusieurs partagent le portefeuille. */
+  invitedBy?: string | null;
 }
 
-export function CabinetMemberRow({ id, displayName, email, pct, lastActive }: Props) {
+export function CabinetMemberRow({ id, displayName, email, pct, lastActive, invitedBy }: Props) {
   const [revoking, setRevoking] = useState(false);
   const [revoked, setRevoked]   = useState(false);
 
@@ -124,6 +127,7 @@ export function CabinetMemberRow({ id, displayName, email, pct, lastActive }: Pr
           {/* Sub-line */}
           <p style={{ fontSize: 11, color: 'var(--color-text-muted)', margin: '0 0 8px' }}>
             {email} · {formatLastActive(lastActive)}
+            {invitedBy && <> · invité par {invitedBy}</>}
           </p>
 
           {/* Progress bar */}

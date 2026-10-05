@@ -55,11 +55,31 @@ export default async function CabinetDashboardPage() {
     .select('id, name, email, plan, cabinet_role, xp, last_active')
     .eq('cabinet_id', profile.cabinet_id);
 
-  const { data: pendingInvites } = await service
+  // Toutes les invitations, pas seulement celles en attente : les invitations
+  // utilisées disent qui a amené chaque client, ce qui compte dès qu'un
+  // cabinet confie son portefeuille à plusieurs commerciaux.
+  const { data: toutesInvites } = await service
     .from('cabinet_invites')
-    .select('id, email, created_at, role')
-    .eq('cabinet_id', profile.cabinet_id)
-    .is('redeemed_at', null);
+    .select('id, email, created_at, role, invited_by, redeemed_at, redeemed_user_id')
+    .eq('cabinet_id', profile.cabinet_id);
+
+  const pendingInvites = (toutesInvites ?? []).filter((i) => !i.redeemed_at);
+
+  // invited_by est un identifiant : on le traduit en nom lisible à partir des
+  // membres du cabinet (les administrateurs en font partie).
+  const nomPar = new Map<string, string>();
+  for (const m of members ?? []) {
+    nomPar.set(m.id, m.name || m.email || 'Membre du cabinet');
+  }
+  const auteurInvitation = (id: string | null | undefined) =>
+    (id ? nomPar.get(id) ?? null : null);
+
+  // Qui a invité chaque client déjà inscrit.
+  const invitePar = new Map<string, string>();
+  for (const i of toutesInvites ?? []) {
+    const auteur = auteurInvitation(i.invited_by);
+    if (i.redeemed_user_id && auteur) invitePar.set(i.redeemed_user_id, auteur);
+  }
 
   const memberIds = (members ?? []).map((m) => m.id);
   const { data: allProgress } = memberIds.length
@@ -79,10 +99,13 @@ export default async function CabinetDashboardPage() {
     progressByUser.set(member.id, pct);
   }
 
+  // max_invitations NULL = sièges illimités : il ne faut afficher ni plafond
+  // ni « 0 place restante », qui laisserait croire à un blocage.
+  const illimite       = cabinet?.max_invitations == null;
   const maxInvitations = cabinet?.max_invitations ?? 0;
   const activeMembers  = (members ?? []).filter((m) => m.cabinet_role !== 'admin');
   const used           = activeMembers.length + (pendingInvites?.length ?? 0);
-  const quotaReached   = maxInvitations > 0 && used >= maxInvitations;
+  const quotaReached   = !illimite && maxInvitations > 0 && used >= maxInvitations;
   const remaining      = Math.max(0, maxInvitations - used);
   const quotaPct       = maxInvitations > 0 ? Math.round((used / maxInvitations) * 100) : 0;
 
@@ -103,7 +126,9 @@ export default async function CabinetDashboardPage() {
     { label: 'Clients actifs', value: activeMembers.length, sub: `+ ${pendingInvites?.length ?? 0} en attente`,       green: false, red: false },
     { label: 'Progression moy.', value: `${avgPct}%`,       sub: 'sur tous les modules',                              green: false, red: false },
     { label: 'Prêts entretien', value: readyCount,           sub: '≥ 80% de complétion',                              green: readyCount > 0, red: false },
-    { label: 'Places restantes', value: remaining,           sub: `quota ${TIER_LABELS[cabinet?.tier ?? 'starter']}`, green: false, red: remaining === 0 },
+    illimite
+      ? { label: 'Places restantes', value: '∞', sub: 'invitations illimitées', green: false, red: false }
+      : { label: 'Places restantes', value: remaining, sub: `quota ${TIER_LABELS[cabinet?.tier ?? 'starter']}`, green: false, red: remaining === 0 },
   ];
 
   return (
@@ -208,14 +233,16 @@ export default async function CabinetDashboardPage() {
           {/* Quota bar */}
           <div style={{ marginTop: 22 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 7 }}>
-              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>Invitations utilisées</span>
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>
+                {illimite ? 'Clients invités' : 'Invitations utilisées'}
+              </span>
               <span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.8)' }}>
-                {used} / {maxInvitations}
+                {illimite ? `${used} · illimité` : `${used} / ${maxInvitations}`}
               </span>
             </div>
             <div style={{ height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 99, overflow: 'hidden' }}>
               <div style={{
-                height: '100%', borderRadius: 99, width: `${quotaPct}%`,
+                height: '100%', borderRadius: 99, width: illimite ? '100%' : `${quotaPct}%`,
                 background: quotaReached
                   ? 'linear-gradient(90deg,#EF4135,#CC1A1A)'
                   : 'linear-gradient(90deg,#4A90D9,#7CB8F0)',
@@ -304,6 +331,7 @@ export default async function CabinetDashboardPage() {
                 email={member.email ?? ''}
                 pct={pct}
                 lastActive={member.last_active ?? null}
+                invitedBy={invitePar.get(member.id) ?? null}
               />
             );
           })}
@@ -314,6 +342,7 @@ export default async function CabinetDashboardPage() {
               id={invite.id}
               email={invite.email}
               createdAt={invite.created_at}
+              invitedBy={auteurInvitation(invite.invited_by)}
             />
           ))}
 
