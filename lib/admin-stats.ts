@@ -66,6 +66,11 @@ export async function getAdminStats() {
       s.from('lifetime_consents').select('id, accepted_at'),
     ]);
 
+  // Table facultative : absente tant que la migration n'est pas passée.
+  const leads = await s
+    .from('leads_eligibilite')
+    .select('id, created_at, routage, consent, statut');
+
   const u = (users.data ?? []) as UserRow[];
   const j1 = joursDepuis(1), j7 = joursDepuis(7), j30 = joursDepuis(30);
   const apres = (d: string | null, seuil: Date) => !!d && new Date(d) >= seuil;
@@ -173,6 +178,55 @@ export async function getAdminStats() {
 
   const inv = invites.data ?? [];
 
+  // ── Signaux à traiter ──────────────────────────────────────────────────
+  // Un tableau de bord qui ne dit pas quoi faire oblige à relire toutes les
+  // lignes pour trouver les trois qui comptent. On isole ici ce qui appelle
+  // une action, et on garde les comptes concernés pour pouvoir agir dessus.
+  const estPayant = (x: UserRow) => (x.plan ?? 'free') !== 'free';
+
+  const payantsInactifs = b2c
+    .filter((x) => estPayant(x) && !apres(x.last_active, j30))
+    .slice(0, 50);
+
+  const jamaisConnectes = u.filter((x) => estPayant(x) && !x.last_active).slice(0, 50);
+
+  const dans30j = new Date();
+  dans30j.setDate(dans30j.getDate() + 30);
+  const echeancesProches = b2c
+    .filter((x) => estPayant(x) && x.sub_end_at && new Date(x.sub_end_at) <= dans30j)
+    .sort((a, b) => (a.sub_end_at ?? '').localeCompare(b.sub_end_at ?? ''));
+
+  // Une invitation qui dort depuis deux semaines ne se transformera pas seule.
+  const il14j = joursDepuis(14);
+  const invitationsDormantes = inv
+    .filter((i) => !i.redeemed_at && i.created_at && new Date(i.created_at) < il14j)
+    .map((i) => ({
+      ...i,
+      cabinet: cab.find((c) => c.id === i.cabinet_id)?.name ?? '—',
+    }));
+
+  const partenairesAFacturer = partenaires.filter((p) => p.montantDu > 0);
+
+  const aTraiter = {
+    payantsInactifs,
+    jamaisConnectes,
+    echeancesProches,
+    invitationsDormantes,
+    partenairesAFacturer,
+    total:
+      payantsInactifs.length + jamaisConnectes.length + echeancesProches.length +
+      invitationsDormantes.length + partenairesAFacturer.length,
+  };
+
+  // ── Rétention : part des inscrits d'un mois encore actifs sur 30 jours ──
+  const retention = (() => {
+    const il60 = joursDepuis(60);
+    const cohorte = u.filter((x) => x.created_at && new Date(x.created_at) < il60);
+    const revenus = cohorte.filter((x) => apres(x.last_active, j30));
+    return { cohorte: cohorte.length, revenus: revenus.length,
+             taux: cohorte.length ? (revenus.length / cohorte.length) * 100 : 0 };
+  })();
+
   return {
     users: u,
     totalUsers: u.length,
@@ -201,6 +255,9 @@ export async function getAdminStats() {
     membresPartenaires: membresPartenaires.length,
     invitations: { total: inv.length, utilisees: inv.filter((i) => i.redeemed_at).length },
     apercuLeads: apercuLeads.data ?? [],
+    leadsEligibilite: leads.data ?? [],
+    aTraiter,
+    retention,
     consentementsLifetime: (consents.data ?? []).length,
     prix: PRIX,
   };

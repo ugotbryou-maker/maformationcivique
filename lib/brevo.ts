@@ -348,3 +348,28 @@ export function adminNewPaymentTemplate(email: string, name: string, planLabel: 
     <p style="margin-top:20px;font-size:13px;color:#9ca3af">maformationcivique.fr</p>
   </div>`;
 }
+
+// 12. Relance manuelle depuis l'espace d'administration
+//
+// Le message est rédigé par l'administrateur, mais l'habillage reste celui du
+// site : un e-mail nu partant du domaine serait classé en indésirable.
+export function relanceTemplate(prenom: string, corps: string, lienLabel: string, lienHref: string): string {
+  const paragraphes = corps
+    .split(/\n{2,}/)
+    .map((p) => `<p style="margin:0 0 14px;">${p.replace(/\n/g, '<br/>')}</p>`)
+    .join('');
+
+  const content = `
+    <h1 style="font-family:Georgia,serif;font-size:clamp(24px,5vw,32px);font-weight:400;color:#ffffff;margin:0 0 28px;line-height:1.2;">
+      ${prenom ? `Bonjour ${prenom},` : 'Bonjour,'}
+    </h1>
+    <div style="font-family:Arial,sans-serif;color:rgba(255,255,255,0.9);font-size:16px;line-height:1.75;text-align:center;">
+      ${paragraphes}
+    </div>
+    ${ctaBtn(lienHref, lienLabel, '#002395')}
+    <p style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.55);margin:0;line-height:1.6;">
+      Vous recevez ce message parce que vous avez un compte sur maformationcivique.fr.
+    </p>
+  `;
+  return emailShell('#002395', `${CDN}/modules/republique.webp`, '0.74', content);
+}

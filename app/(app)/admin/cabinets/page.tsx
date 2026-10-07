@@ -1,233 +1,189 @@
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { Plus, Building2, ChevronRight, AlertTriangle } from 'lucide-react';
-import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
-import { isAdminEmail } from '@/lib/admin';
 import type { Metadata } from 'next';
+import { Plus, Building2, ChevronRight, AlertTriangle, Receipt, Users, Euro } from 'lucide-react';
+import { createServiceRoleClient } from '@/lib/supabase-server';
+import { Kpi, Carte, Identite, Jauge, Vide } from '@/components/admin/ui';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Admin — Portefeuille cabinets — maformationcivique.fr',
+  title: 'Partenaires — maformationcivique.fr',
+  robots: { index: false, follow: false, nocache: true },
 };
 
 const TIER_LABELS: Record<string, string> = {
-  essai:        'Essai',
-  starter:      'Starter',
-  pro:          'Pro',
-  cabinet_plus: 'Cabinet+',
-  reseau:       'Réseau',
+  essai: 'Essai', starter: 'Starter', pro: 'Pro', cabinet_plus: 'Cabinet+', reseau: 'Réseau',
 };
 
-// Prix annuel indicatif par palier (pour l'estimation de CA)
+// Prix annuel indicatif par palier — l'essai et l'usage ne valent rien ici.
 const TIER_PRICE: Record<string, number> = {
   starter: 390, pro: 990, cabinet_plus: 1990, reseau: 3990,
 };
 
-interface CabinetRow {
-  id: string;
-  name: string;
-  tier: string;
-  max_invitations: number | null;
-  billing_mode?: string | null;
-  prix_activation_cents?: number | null;
-  member_plan?: string | null;
-  sub_end_at: string | null;
-  created_at: string;
+function euro(n: number) {
+  return n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
 }
 
 export default async function AdminCabinetsPage() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!isAdminEmail(user?.email)) {
-    redirect('/dashboard');
-  }
-
   const service = createServiceRoleClient();
 
-  const [{ data: cabinets }, { data: cabUsers }, { data: pending }] = await Promise.all([
-    service.from('cabinets').select('id, name, tier, max_invitations, sub_end_at, created_at, billing_mode, prix_activation_cents, member_plan').order('created_at', { ascending: false }),
-    service.from('users').select('id, cabinet_id, cabinet_role').not('cabinet_id', 'is', null),
-    service.from('cabinet_invites').select('id, cabinet_id').is('redeemed_at', null),
+  const [{ data: cabinets }, { data: cabUsers }, { data: invites }] = await Promise.all([
+    service.from('cabinets')
+      .select('id, name, contact_email, tier, max_invitations, sub_end_at, created_at, billing_mode, prix_activation_cents, member_plan')
+      .order('created_at', { ascending: false }),
+    service.from('users').select('id, cabinet_id, cabinet_role, last_active').not('cabinet_id', 'is', null),
+    service.from('cabinet_invites').select('id, cabinet_id, redeemed_at, facture_le, created_at'),
   ]);
 
-  const rows = (cabinets ?? []) as CabinetRow[];
+  const rows = cabinets ?? [];
+  const il30j = Date.now() - 30 * 86400000;
 
-  // Agrégats par cabinet
-  const clientsByCab   = new Map<string, number>();
-  const seatsByCab     = new Map<string, number>(); // membres (admin inclus)
-  const pendingByCab   = new Map<string, number>();
+  const lignes = rows.map((c) => {
+    const membres = (cabUsers ?? []).filter((u) => u.cabinet_id === c.id);
+    const clients = membres.filter((u) => u.cabinet_role !== 'admin');
+    const siennes = (invites ?? []).filter((i) => i.cabinet_id === c.id);
+    const activations = siennes.filter((i) => i.redeemed_at);
+    const enAttente = siennes.filter((i) => !i.redeemed_at);
+    const pu = (c.prix_activation_cents ?? 0) / 100;
+    const aLUsage = c.billing_mode === 'usage';
 
-  for (const u of cabUsers ?? []) {
-    if (!u.cabinet_id) continue;
-    seatsByCab.set(u.cabinet_id, (seatsByCab.get(u.cabinet_id) ?? 0) + 1);
-    if (u.cabinet_role !== 'admin') {
-      clientsByCab.set(u.cabinet_id, (clientsByCab.get(u.cabinet_id) ?? 0) + 1);
-    }
-  }
-  for (const p of pending ?? []) {
-    pendingByCab.set(p.cabinet_id, (pendingByCab.get(p.cabinet_id) ?? 0) + 1);
-  }
+    return {
+      ...c,
+      clients: clients.length,
+      actifs: membres.filter((m) => m.last_active && new Date(m.last_active).getTime() >= il30j).length,
+      enAttente: enAttente.length,
+      activations: activations.length,
+      montantDu: aLUsage ? activations.filter((i) => !i.facture_le).length * pu : 0,
+      caAnnuel: aLUsage ? activations.length * pu : (TIER_PRICE[c.tier] ?? 0),
+      aLUsage,
+      illimite: c.max_invitations == null,
+      quota: c.max_invitations ?? 0,
+      expire: c.sub_end_at ? new Date(c.sub_end_at) : null,
+    };
+  });
 
-  const now = new Date();
-
-  // Totaux consolidés
-  const totalCabinets = rows.length;
-  const totalSeatsSold = rows.reduce((a, c) => a + (c.max_invitations ?? 0), 0);
-  const totalClients   = [...clientsByCab.values()].reduce((a, b) => a + b, 0);
-  // Un partenaire facturé à l'usage n'a ni palier annuel ni sièges vendus :
-  // son chiffre d'affaires se lit sur ses activations, pas sur son contrat.
-  const estRevenue     = rows
-    .filter((c) => c.billing_mode !== 'usage')
-    .reduce((a, c) => a + (TIER_PRICE[c.tier] ?? 0), 0);
-
-  const consolidated = [
-    { label: 'Cabinets actifs',  value: totalCabinets },
-    { label: 'Places vendues',   value: totalSeatsSold },
-    { label: 'Clients inscrits', value: totalClients },
-    { label: 'CA annuel est.',   value: `${estRevenue.toLocaleString('fr-FR')} €` },
-  ];
+  const totalClients = lignes.reduce((a, l) => a + l.clients, 0);
+  const totalDu = lignes.reduce((a, l) => a + l.montantDu, 0);
+  const caForfait = lignes.filter((l) => !l.aLUsage).reduce((a, l) => a + l.caAnnuel, 0);
 
   return (
-    <div style={{ maxWidth: 880 }}>
-      {/* En-tête */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', marginBottom: 24 }}>
+    <>
+      <header className="adm-head">
         <div>
-          <h1 style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text-primary)', marginBottom: 4 }}>
-            Portefeuille cabinets
-          </h1>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', margin: 0 }}>
-            Vision consolidée de tous vos partenaires B2B et de leurs attributions.
+          <h1 className="adm-title">Partenaires</h1>
+          <p className="adm-sub">Cabinets, associations et revendeurs — {rows.length} au total</p>
+        </div>
+        <Link href="/admin/cabinets/nouveau" className="adm-btn">
+          <Plus size={15} /> Nouveau partenaire
+        </Link>
+      </header>
+
+      <div className="adm-grid adm-grid-4">
+        <Kpi teinte="sky" icon={<Building2 size={16} />} label="Partenaires"
+             value={String(rows.length)} sub={`${lignes.filter((l) => l.aLUsage).length} à l'usage`} />
+        <Kpi teinte="violet" icon={<Users size={16} />} label="Clients apportés"
+             value={String(totalClients)} sub={`${lignes.reduce((a, l) => a + l.actifs, 0)} actifs sur 30 j`} />
+        <Kpi teinte="cream" icon={<Receipt size={16} />} label="À facturer"
+             value={euro(totalDu)} sub="Activations non encore facturées" />
+        <Kpi teinte="mint" icon={<Euro size={16} />} label="Licences annuelles"
+             value={euro(caForfait)} sub="Hors facturation à l'usage" />
+      </div>
+
+      <Carte flush titre="Portefeuille">
+        {lignes.length === 0 ? (
+          <Vide texte="Aucun partenaire enregistré." />
+        ) : (
+          <div className="adm-scroll">
+            <table className="adm-table adm-table-pad adm-table-rows">
+              <thead>
+                <tr>
+                  <th>Partenaire</th><th>Palier</th><th>Clients</th>
+                  <th>Sièges</th><th className="adm-num">Facturation</th><th />
+                </tr>
+              </thead>
+              <tbody>
+                {lignes.map((l) => {
+                  const joursRestants = l.expire
+                    ? Math.ceil((l.expire.getTime() - Date.now()) / 86400000)
+                    : null;
+                  return (
+                    <tr key={l.id}>
+                      <td>
+                        <Identite
+                          principal={l.name}
+                          secondaire={l.contact_email}
+                          href={`/admin/cabinets/${l.id}`}
+                        />
+                      </td>
+                      <td>
+                        <span className={`adm-tag ${l.tier === 'essai' ? 'adm-tag-warn' : 'adm-tag-vio'}`}>
+                          {TIER_LABELS[l.tier] ?? l.tier}
+                        </span>
+                        {joursRestants !== null && joursRestants < 30 && (
+                          <span className="adm-tag adm-tag-risk" style={{ marginLeft: 6 }}>
+                            {joursRestants < 0 ? 'expiré' : `${joursRestants} j`}
+                          </span>
+                        )}
+                      </td>
+                      <td>
+                        <span className="adm-strong">{l.clients}</span>
+                        {l.enAttente > 0 && <span className="adm-dim"> +{l.enAttente} en attente</span>}
+                        <p className="adm-dim" style={{ margin: '2px 0 0' }}>{l.actifs} actifs sur 30 j</p>
+                      </td>
+                      <td style={{ minWidth: 110 }}>
+                        {l.illimite ? (
+                          <span className="adm-tag adm-tag-paid">illimité</span>
+                        ) : (
+                          <>
+                            <p className="adm-dim" style={{ margin: '0 0 5px' }}>
+                              {l.clients + l.enAttente} / {l.quota}
+                            </p>
+                            <Jauge
+                              pct={l.quota ? ((l.clients + l.enAttente) / l.quota) * 100 : 0}
+                              couleur={l.quota && l.clients + l.enAttente >= l.quota ? '#C0332B' : undefined}
+                            />
+                          </>
+                        )}
+                      </td>
+                      <td className="adm-num">
+                        {l.aLUsage ? (
+                          <>
+                            <span className="adm-strong">{euro(l.montantDu)}</span>
+                            <p className="adm-dim" style={{ margin: '2px 0 0' }}>
+                              {l.activations} activation{l.activations > 1 ? 's' : ''}
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <span className="adm-strong">{euro(l.caAnnuel)}</span>
+                            <p className="adm-dim" style={{ margin: '2px 0 0' }}>par an</p>
+                          </>
+                        )}
+                      </td>
+                      <td className="adm-num">
+                        <Link href={`/admin/cabinets/${l.id}`} className="adm-link">
+                          Ouvrir <ChevronRight size={14} />
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Carte>
+
+      {totalDu > 0 && (
+        <div className="adm-callout adm-callout-warn" style={{ marginTop: 18, marginBottom: 0 }}>
+          <AlertTriangle size={15} style={{ flexShrink: 0, marginTop: 1 }} />
+          <p>
+            <strong>{euro(totalDu)} à facturer.</strong> Les activations restent marquées comme
+            dues tant qu&apos;elles ne sont pas pointées comme facturées sur la fiche du
+            partenaire.
           </p>
         </div>
-        <Link
-          href="/admin/cabinets/nouveau"
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: 6, flexShrink: 0,
-            padding: '10px 18px', borderRadius: 'var(--radius-pill)',
-            background: 'var(--gradient-primary)', color: '#fff',
-            fontSize: 'var(--font-size-sm)', fontWeight: 600, textDecoration: 'none',
-          }}
-        >
-          <Plus size={15} /> Nouveau cabinet
-        </Link>
-      </div>
-
-      {/* KPIs consolidés */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 12, marginBottom: 28 }}>
-        {consolidated.map(({ label, value }) => (
-          <div key={label} style={{
-            background: 'var(--color-surface)', border: 'var(--border-default)',
-            borderRadius: 'var(--radius-lg)', padding: '16px 18px',
-          }}>
-            <p style={{ fontSize: 11, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 6px' }}>
-              {label}
-            </p>
-            <p style={{ fontSize: 24, fontWeight: 800, margin: 0, color: 'var(--color-text-primary)' }}>
-              {value}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/* Liste cabinets */}
-      {rows.length === 0 ? (
-        <div style={{
-          textAlign: 'center', padding: '56px 0', color: 'var(--color-text-muted)',
-          border: '1.5px dashed var(--color-border)', borderRadius: 'var(--radius-xl)',
-        }}>
-          <Building2 size={28} style={{ opacity: 0.4, marginBottom: 10 }} />
-          <p style={{ fontSize: 14, margin: 0 }}>Aucun cabinet partenaire pour le moment.</p>
-        </div>
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {rows.map((c) => {
-            const clients   = clientsByCab.get(c.id) ?? 0;
-            const seats     = seatsByCab.get(c.id) ?? 0;
-            const pendingN  = pendingByCab.get(c.id) ?? 0;
-            const used      = seats + pendingN;
-            const illimite  = c.max_invitations == null;
-            const quota     = c.max_invitations ?? 0;
-            const quotaPct  = quota > 0 ? Math.round((used / quota) * 100) : 0;
-            const quotaFull = !illimite && quota > 0 && used >= quota;
-
-            const subEnd    = c.sub_end_at ? new Date(c.sub_end_at) : null;
-            const daysLeft  = subEnd ? Math.ceil((subEnd.getTime() - now.getTime()) / 86400000) : null;
-            const expired   = daysLeft !== null && daysLeft < 0;
-            const expiring  = daysLeft !== null && daysLeft >= 0 && daysLeft < 30;
-
-            return (
-              <Link
-                key={c.id}
-                href={`/admin/cabinets/${c.id}`}
-                className="admin-cab-row"
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 16,
-                  padding: '16px 20px', borderRadius: 'var(--radius-lg)',
-                  background: 'var(--color-surface)', border: 'var(--border-default)',
-                  textDecoration: 'none', transition: 'border-color 160ms, box-shadow 160ms',
-                }}
-              >
-                {/* Nom + palier */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                    <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--color-text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {c.name}
-                    </span>
-                    <span style={{
-                      flexShrink: 0, fontSize: 11, fontWeight: 600, color: 'var(--color-text-muted)',
-                      background: 'var(--color-off-white)', border: 'var(--border-default)',
-                      borderRadius: 100, padding: '2px 9px',
-                    }}>
-                      {TIER_LABELS[c.tier] ?? c.tier}
-                    </span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 12, color: 'var(--color-text-muted)' }}>
-                    <span>{clients} client{clients !== 1 ? 's' : ''}</span>
-                    {pendingN > 0 && <span>· {pendingN} en attente</span>}
-                    {expired && (
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#B91C1C', fontWeight: 600 }}>
-                        <AlertTriangle size={12} /> Abo expiré
-                      </span>
-                    )}
-                    {expiring && (
-                      <span style={{ color: '#B45309', fontWeight: 600 }}>Expire dans {daysLeft} j</span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Quota */}
-                <div style={{ width: 140, flexShrink: 0 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
-                    <span style={{ fontSize: 11, color: 'var(--color-text-muted)' }}>
-                      {illimite ? 'Comptes ouverts' : 'Places'}
-                    </span>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: quotaFull ? '#B91C1C' : 'var(--color-text-secondary)' }}>
-                      {illimite ? `${used} · illimité` : `${used} / ${quota}`}
-                    </span>
-                  </div>
-                  <div style={{ height: 4, background: 'var(--color-off-white)', borderRadius: 99, overflow: 'hidden' }}>
-                    <div style={{
-                      height: '100%', borderRadius: 99,
-                      width: illimite ? '100%' : `${Math.min(quotaPct, 100)}%`,
-                      background: illimite
-                        ? 'linear-gradient(90deg,var(--color-blue-france),#7CB8F0)'
-                        : (quotaFull ? '#EF4135' : 'var(--color-blue-france)'),
-                    }} />
-                  </div>
-                </div>
-
-                <ChevronRight size={18} color="var(--color-text-muted)" style={{ flexShrink: 0 }} />
-              </Link>
-            );
-          })}
-        </div>
       )}
-
-      <style>{`
-        .admin-cab-row:hover {
-          box-shadow: var(--shadow-card);
-          border-color: var(--color-blue-france) !important;
-        }
-      `}</style>
-    </div>
+    </>
   );
 }
