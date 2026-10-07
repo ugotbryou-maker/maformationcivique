@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { modules } from '@/data/modules';
-import { a2Modules, b1Modules, b2Modules, transversalModules } from '@/data/langue';
+import type { CompteursLangue } from '@/data/langue/compteurs';
 import { BookOpen, Clock, Lock, ArrowRight, CheckCircle } from 'lucide-react';
 import { GuillemetDecor } from '@/components/ui/BrandIcon';
 import { useEffect, useState } from 'react';
@@ -25,7 +25,7 @@ const LANG_LEVELS = [
     subtitle: 'Vie quotidienne · Démarches administratives',
     color: '#059669', colorEnd: '#047857',
     image: '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
-    modules: a2Modules,
+    cle: 'a2' as const,
   },
   {
     level: 'b1',
@@ -33,7 +33,7 @@ const LANG_LEVELS = [
     subtitle: 'Actualité · Société · Institutions',
     color: '#1D4ED8', colorEnd: '#1E3A8A',
     image: '/images/modules/hemicycle-parlement-europeen.jpg',
-    modules: b1Modules,
+    cle: 'b1' as const,
   },
   {
     level: 'b2',
@@ -41,7 +41,7 @@ const LANG_LEVELS = [
     subtitle: 'Expression avancée · Argumentation',
     color: '#6D28D9', colorEnd: '#5B21B6',
     image: '/images/modules/chateau-versailles.webp',
-    modules: b2Modules,
+    cle: 'b2' as const,
   },
   {
     level: 'transversal',
@@ -49,11 +49,16 @@ const LANG_LEVELS = [
     subtitle: 'Phonétique · Orthographe · Erreurs fréquentes',
     color: '#D97706', colorEnd: '#B45309',
     image: '/images/modules/Blv-haussmann-lafayette.jpg',
-    modules: transversalModules,
+    cle: 'transversal' as const,
   },
 ];
 
-export function ModulesSection() {
+/**
+ * Les compteurs de langue arrivent en props, calculés côté serveur : les
+ * importer ici expédierait 1,87 Mo d'exercices et de corrigés sur la page
+ * d'accueil publique.
+ */
+export function ModulesSection({ compteurs }: { compteurs: CompteursLangue }) {
   const [tab, setTab] = useState<'civique' | 'langue'>('civique');
   const [progress, setProgress] = useState<ProgressMap>({});
 
@@ -183,7 +188,7 @@ export function ModulesSection() {
           <>
             <div className="lang-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', maxWidth: '800px', margin: '0 auto' }}>
               {LANG_LEVELS.map((lvl) => {
-                const lessonCount = lvl.modules.reduce((s, m) => s + m.lessons.length, 0);
+                const compte = compteurs[lvl.cle];
                 return (
                   <Link key={lvl.level} href={`/moduleslinguistiques/${lvl.level}`} style={{ textDecoration: 'none' }}>
                     <article className="mod-card" style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', height: '180px', cursor: 'pointer' }}>
@@ -201,8 +206,8 @@ export function ModulesSection() {
                           <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)', marginBottom: '10px', lineHeight: 1.3 }}>{lvl.subtitle}</p>
                           <div style={{ display: 'flex', gap: '12px', alignItems: 'center', justifyContent: 'space-between' }}>
                             <div style={{ display: 'flex', gap: '10px' }}>
-                              <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontSize: '11px', color: 'rgba(255,255,255,0.65)' }}><BookOpen size={10} />{lvl.modules.length} modules</span>
-                              <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontSize: '11px', color: 'rgba(255,255,255,0.65)' }}><Clock size={10} />{lessonCount} leçons</span>
+                              <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontSize: '11px', color: 'rgba(255,255,255,0.65)' }}><BookOpen size={10} />{compte.modules} modules</span>
+                              <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontSize: '11px', color: 'rgba(255,255,255,0.65)' }}><Clock size={10} />{compte.lecons} leçons</span>
                             </div>
                             <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.8)', display: 'flex', alignItems: 'center', gap: '3px' }}>Explorer <ArrowRight size={10} /></span>
                           </div>

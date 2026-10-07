@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { modules } from '@/data/modules';
-import { a2Modules, b1Modules, b2Modules, transversalModules } from '@/data/langue';
+import type { CompteursLangue } from '@/data/langue/compteurs';
 import { ModuleList } from '@/components/app/ModuleList';
 import { BookOpen, ArrowRight } from 'lucide-react';
 
@@ -17,7 +17,7 @@ const LANG_LEVELS = [
     image: '/images/modules/Mairie-de-Paris-l-hotel-de-toutes-les-batailles.jpg',
     imagePos: 'center 40%',
     gradient: 'linear-gradient(135deg, #001A70E6 0%, #002395CC 100%)',
-    modules: a2Modules,
+    cle: 'a2' as const,
   },
   {
     level: 'b1',
@@ -27,7 +27,7 @@ const LANG_LEVELS = [
     image: '/images/modules/hemicycle-parlement-europeen.jpg',
     imagePos: 'center 35%',
     gradient: 'linear-gradient(135deg, #002395E6 0%, #0057A8CC 100%)',
-    modules: b1Modules,
+    cle: 'b1' as const,
   },
   {
     level: 'b2',
@@ -37,7 +37,7 @@ const LANG_LEVELS = [
     image: '/images/modules/palais-elysee.jpg',
     imagePos: 'center 30%',
     gradient: 'linear-gradient(135deg, #9F1239E6 0%, #CC1A1ACC 100%)',
-    modules: b2Modules,
+    cle: 'b2' as const,
   },
   {
     level: 'transversal',
@@ -47,18 +47,29 @@ const LANG_LEVELS = [
     image: '/images/modules/Ecole_-_Salle_de_Classe_2.webp',
     imagePos: 'center 20%',
     gradient: 'linear-gradient(135deg, #6D28D9E6 0%, #9333EACC 100%)',
-    modules: transversalModules,
+    cle: 'transversal' as const,
   },
 ];
 
-export function DashboardModulesClient() {
+/**
+ * Les compteurs de langue arrivent en props, calculés par le composant serveur.
+ * Les importer ici expédierait 1,87 Mo d'exercices — et leurs corrigés — dans
+ * le navigateur pour n'afficher que des nombres.
+ */
+export function DashboardModulesClient({
+  compteurs,
+  progression,
+}: {
+  compteurs: CompteursLangue;
+  progression?: Record<string, { completed: number; total: number; percent: number }>;
+}) {
   const [tab, setTab] = useState<'civique' | 'langue'>('civique');
 
   const totalLessons   = modules.reduce((acc, m) => acc + m.lessons.length, 0);
   const totalQuestions = modules.reduce((acc, m) => acc + m.questionCount, 0);
   const totalDuration  = modules.reduce((acc, m) => acc + m.lessons.reduce((a, l) => a + l.duration, 0), 0);
-  const langTotalLessons = [...a2Modules, ...b1Modules, ...b2Modules, ...transversalModules].reduce((s, m) => s + m.lessons.length, 0);
-  const langTotalModules = a2Modules.length + b1Modules.length + b2Modules.length + transversalModules.length;
+  const langTotalLessons = compteurs.totalLecons;
+  const langTotalModules = compteurs.totalModules;
 
   return (
     <div style={{ maxWidth: '900px' }}>
@@ -140,13 +151,13 @@ export function DashboardModulesClient() {
       </div>
 
       {/* ── Contenu Civique ── */}
-      {tab === 'civique' && <ModuleList />}
+      {tab === 'civique' && <ModuleList progressionInitiale={progression} />}
 
       {/* ── Contenu Langue — 4 cartes identiques à /moduleslinguistiques ── */}
       {tab === 'langue' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {LANG_LEVELS.map((lvl) => {
-            const lessonCount = lvl.modules.reduce((a, m) => a + m.lessons.length, 0);
+            const compte = compteurs[lvl.cle];
             return (
               <Link key={lvl.level} href={`/moduleslinguistiques/${lvl.level}`} style={{ display: 'block', textDecoration: 'none' }} className="lang-level-card-db">
                 <article style={{ position: 'relative', borderRadius: '18px', overflow: 'hidden', height: '170px' }}>
@@ -179,7 +190,7 @@ export function DashboardModulesClient() {
                         {lvl.desc}
                       </p>
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: 'rgba(255,255,255,0.85)' }}>
-                        <BookOpen size={12} /> {lvl.modules.length} modules · {lessonCount} leçons
+                        <BookOpen size={12} /> {compte.modules} modules · {compte.lecons} leçons
                       </span>
                     </div>
                   </div>

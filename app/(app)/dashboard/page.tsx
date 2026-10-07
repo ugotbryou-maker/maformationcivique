@@ -38,11 +38,20 @@ export default async function DashboardPage({
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/connexion');
 
-  const { data: profile } = await supabase
-    .from('users')
-    .select('*')
-    .eq('id', user.id)
-    .single();
+  // Les quatre lectures sont indépendantes les unes des autres : les
+  // enchaîner coûtait quatre allers-retours Supabase en série (~90 ms pièce,
+  // davantage sur une connexion lente). Elles partent désormais ensemble.
+  const [
+    { data: profile },
+    { data: progress },
+    { data: userBadges },
+    { count: referredCount },
+  ] = await Promise.all([
+    supabase.from('users').select('*').eq('id', user.id).single(),
+    supabase.from('progression').select('*').eq('user_id', user.id),
+    supabase.from('user_badges').select('badge_slug').eq('user_id', user.id),
+    supabase.from('users').select('*', { count: 'exact', head: true }).eq('referred_by', user.id),
+  ]);
 
   if (!profile) {
     const meta = user.user_metadata;
@@ -56,21 +65,6 @@ export default async function DashboardPage({
       last_active: new Date().toISOString().slice(0, 10),
     }, { onConflict: 'id', ignoreDuplicates: true });
   }
-
-  const { data: progress } = await supabase
-    .from('progression')
-    .select('*')
-    .eq('user_id', user.id);
-
-  const { data: userBadges } = await supabase
-    .from('user_badges')
-    .select('badge_slug')
-    .eq('user_id', user.id);
-
-  const { count: referredCount } = await supabase
-    .from('users')
-    .select('*', { count: 'exact', head: true })
-    .eq('referred_by', user.id);
 
   const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.maformationcivique.fr';
   const referralLink = `${siteUrl.replace(/\/$/, '')}/inscription?ref=${user.id}`;

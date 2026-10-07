@@ -30,6 +30,15 @@ export async function POST(req: NextRequest) {
 
     const label = INTENT_LABELS[intent];
     const isLoggedIn = !!userEmail;
+    const contactNet = typeof contact === 'string' ? contact.trim() : '';
+
+    // Sans coordonnée ni compte connecté, il n'y a rien à recontacter : la
+    // notification arrivait vide et polluait la boîte sans rien apporter.
+    // Le signal d'intention reste utile en journal, pas en e-mail.
+    if (!contactNet && !isLoggedIn) {
+      console.info('[lead/intent] intention sans coordonnée — aucun e-mail envoyé.', JSON.stringify({ intent }));
+      return NextResponse.json({ ok: true, envoye: false });
+    }
 
     // Email admin
     const htmlContent = `
@@ -53,12 +62,14 @@ export async function POST(req: NextRequest) {
         <a href="mailto:${userEmail}" style="color:#003189">${userEmail}</a>
       </td>
     </tr>` : ''}
-    ${contact ? `
+    ${contactNet ? `
     <tr>
       <td style="padding:10px 0;color:#6b7280;vertical-align:top">
         ${contactType === 'phone' ? 'Téléphone' : 'Email'}
       </td>
-      <td style="padding:10px 0;font-weight:600">${contact}</td>
+      <td style="padding:10px 0;font-weight:600">
+        <a href="${contactType === 'phone' ? 'tel:' : 'mailto:'}${contactNet}" style="color:#003189">${contactNet}</a>
+      </td>
     </tr>` : ''}
   </table>
   <hr style="border:none;border-top:1px solid #f1f5f9;margin:20px 0"/>

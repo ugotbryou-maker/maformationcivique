@@ -81,7 +81,11 @@ export function IntentPopup({ isLoggedIn }: Props) {
 
   async function submitContact(e: React.FormEvent) {
     e.preventDefault();
-    await submit(intent!, contact || undefined, contact ? contactType : undefined);
+    // Un envoi sans coordonnée ne produit pas un lead, seulement une
+    // notification vide et inexploitable. On ne soumet rien dans ce cas.
+    const valeur = contact.trim();
+    if (!valeur) return;
+    await submit(intent!, valeur, contactType);
     setStep('done');
   }
 
@@ -193,6 +197,8 @@ export function IntentPopup({ isLoggedIn }: Props) {
                 placeholder={contactType === 'email' ? 'votre@email.fr' : '+33 6 12 34 56 78'}
                 value={contact}
                 onChange={e => setContact(e.target.value)}
+                required
+                aria-label={contactType === 'email' ? 'Votre adresse e-mail' : 'Votre numéro de téléphone'}
                 style={{
                   width: '100%', padding: '9px 12px', borderRadius: 10,
                   border: '1.5px solid #E2E8F0', fontSize: 13,
@@ -211,7 +217,7 @@ export function IntentPopup({ isLoggedIn }: Props) {
                 </button>
                 <button
                   type="submit"
-                  disabled={sending}
+                  disabled={sending || !contact.trim()}
                   style={{
                     flex: 2, padding: '9px 0', borderRadius: 10, border: 'none',
                     background: 'linear-gradient(135deg, #001A70 0%, #002395 100%)',

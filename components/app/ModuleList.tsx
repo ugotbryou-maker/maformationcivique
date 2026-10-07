@@ -50,15 +50,25 @@ const MODULE_CONFIG = [
   },
 ];
 
-export function ModuleList() {
-  const [progress, setProgress] = useState<ProgressMap>({});
+/**
+ * `progressionInitiale` évite l'aller-retour après montage : sur le tableau
+ * de bord, les barres s'affichaient vides puis sautaient à leur valeur une
+ * fois la requête revenue. Quand la progression est connue du serveur, elle
+ * descend avec le HTML.
+ *
+ * Sans la prop — page publique, visiteur non connecté — on garde le
+ * comportement d'origine.
+ */
+export function ModuleList({ progressionInitiale }: { progressionInitiale?: ProgressMap } = {}) {
+  const [progress, setProgress] = useState<ProgressMap>(progressionInitiale ?? {});
 
   useEffect(() => {
+    if (progressionInitiale) return;
     fetch('/api/progress/summary')
       .then((r) => r.ok ? r.json() : {})
       .then(setProgress)
       .catch(() => {});
-  }, []);
+  }, [progressionInitiale]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
