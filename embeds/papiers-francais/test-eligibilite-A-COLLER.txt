@@ -1,0 +1,602 @@
+<!-- ══════════════════════════════════════════════════════════════════════
+     TEST D'ÉLIGIBILITÉ — PAPIERS FRANÇAIS
+     Bloc autonome à coller dans un Embed Webflow. Aucune dépendance externe.
+
+     ► SEULE CHOSE À RÉGLER : la constante PF_WEBHOOK ci-dessous (ligne ~20).
+       Tant qu'elle est vide, le test fonctionne et affiche le résultat, mais
+       n'envoie rien. Dès qu'on y met l'URL du webhook Make, chaque lead y est
+       transmis en JSON.
+
+     Tous les styles sont préfixés .pfel- et enfermés dans #pf-eligibilite :
+     rien ne peut déborder sur le reste du site Webflow.
+     ══════════════════════════════════════════════════════════════════════ -->
+
+<div id="pf-eligibilite"></div>
+
+<style>
+#pf-eligibilite{--pf-bleu:#002071;--pf-bleu-fonce:#001450;--pf-rouge:#E42314;--pf-encre:#0B1B3F;--pf-gris:#5A6B93;--pf-gris-clair:#8E9CBB;--pf-ligne:#E4EAF5;--pf-fond:#F6F8FD;--pf-ok:#0E7A58;--pf-warn:#B45309;--pf-ko:#C0332B;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;color:var(--pf-encre);line-height:1.6;max-width:660px;margin:0 auto;padding:8px 0;-webkit-font-smoothing:antialiased}
+#pf-eligibilite *{box-sizing:border-box}
+#pf-eligibilite p{margin:0}
+.pfel-carte{background:#fff;border:1px solid var(--pf-ligne);border-radius:18px;padding:30px 26px;box-shadow:0 1px 2px rgba(11,27,63,.04),0 10px 30px -18px rgba(11,27,63,.22)}
+.pfel-centre{text-align:center}
+.pfel-pastille{display:inline-flex;align-items:center;gap:7px;background:#EAF0FC;border-radius:100px;padding:6px 15px;margin-bottom:18px;font-size:11.5px;font-weight:700;color:var(--pf-bleu);text-transform:uppercase;letter-spacing:.06em}
+.pfel-h1{font-size:clamp(25px,4.4vw,34px);font-weight:800;line-height:1.2;letter-spacing:-.02em;margin:0 0 14px}
+.pfel-h2{font-size:20px;font-weight:800;line-height:1.3;letter-spacing:-.01em;margin:0 0 8px}
+.pfel-intro{font-size:16px;color:var(--pf-gris);max-width:470px;margin:0 auto 26px}
+.pfel-theme{font-size:10.5px;font-weight:800;color:var(--pf-bleu);text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px}
+.pfel-aide{font-size:13.5px;color:var(--pf-gris-clair);margin:0 0 20px}
+.pfel-btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--pf-bleu);color:#fff;border:none;border-radius:13px;padding:14px 26px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .15s,opacity .15s}
+.pfel-btn:hover{background:var(--pf-bleu-fonce)}
+.pfel-btn[disabled]{opacity:.5;cursor:default}
+.pfel-btn-plein{width:100%}
+.pfel-btn-rouge{background:var(--pf-rouge)}
+.pfel-btn-rouge:hover{background:#C41C10}
+.pfel-lien{background:none;border:none;color:var(--pf-gris-clair);font-size:13px;font-family:inherit;cursor:pointer;padding:0;margin-top:16px;display:block}
+.pfel-lien:hover{color:var(--pf-bleu)}
+.pfel-opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--pf-ligne);border-radius:13px;padding:14px 16px;margin-bottom:9px;font-size:14.5px;font-family:inherit;color:var(--pf-encre);cursor:pointer;transition:border-color .13s,background .13s}
+.pfel-opt:hover{border-color:var(--pf-bleu);background:#F6F9FF}
+.pfel-barre{height:6px;background:var(--pf-ligne);border-radius:100px;overflow:hidden;margin-bottom:9px}
+.pfel-barre-fill{height:100%;background:linear-gradient(90deg,var(--pf-bleu),#3D6FC4);border-radius:100px;transition:width .3s ease}
+.pfel-etape{font-size:12px;color:var(--pf-gris-clair);margin-bottom:18px;display:flex;justify-content:space-between}
+.pfel-champ{margin-bottom:13px}
+.pfel-label{display:block;font-size:12.5px;font-weight:700;margin-bottom:6px}
+.pfel-input{width:100%;padding:11px 13px;border:1.5px solid var(--pf-ligne);border-radius:11px;font-size:14.5px;font-family:inherit;color:var(--pf-encre);background:#FBFCFE;outline:none;transition:border-color .13s}
+.pfel-input:focus{border-color:var(--pf-bleu);background:#fff}
+.pfel-duo{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.pfel-rgpd{display:flex;gap:10px;align-items:flex-start;margin:15px 0 20px;cursor:pointer}
+.pfel-rgpd input{width:17px;height:17px;margin-top:2px;accent-color:var(--pf-bleu);flex-shrink:0}
+.pfel-rgpd span{font-size:12.5px;line-height:1.55;color:var(--pf-gris-clair)}
+.pfel-bandeau{border-radius:15px;padding:20px 22px;margin-bottom:20px;color:#fff}
+.pfel-b-ok{background:linear-gradient(135deg,#0E7A58,#13A074)}
+.pfel-b-warn{background:linear-gradient(135deg,#B45309,#D97B0C)}
+.pfel-b-ko{background:linear-gradient(135deg,#9B2820,var(--pf-rouge))}
+.pfel-b-bleu{background:linear-gradient(135deg,var(--pf-bleu-fonce),#0A3FA8)}
+.pfel-bandeau h2{font-size:21px;font-weight:800;line-height:1.25;margin:0 0 9px;color:#fff}
+.pfel-bandeau p{font-size:14px;line-height:1.65;color:rgba(255,255,255,.88)}
+.pfel-bloc-titre{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--pf-gris-clair);margin:0 0 12px}
+.pfel-check{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--pf-ligne);font-size:14px}
+.pfel-check:last-child{border-bottom:none}
+.pfel-puce{width:19px;height:19px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;margin-top:1px}
+.pfel-etapes{counter-reset:pfel;list-style:none;padding:0;margin:0}
+.pfel-etapes li{position:relative;padding:0 0 15px 36px;font-size:14px;line-height:1.6;color:var(--pf-gris)}
+.pfel-etapes li:before{counter-increment:pfel;content:counter(pfel);position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;background:#EAF0FC;color:var(--pf-bleu);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.pfel-cta{background:var(--pf-fond);border:1px solid var(--pf-ligne);border-radius:15px;padding:22px;text-align:center;margin-top:20px}
+.pfel-note{font-size:12px;color:var(--pf-gris-clair);margin-top:16px}
+.pfel-urgence{background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;padding:13px 16px;font-size:13px;line-height:1.6;color:#9B2820;margin-bottom:18px}
+@media(max-width:560px){.pfel-carte{padding:24px 18px}.pfel-duo{grid-template-columns:1fr}}
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  // ═══ RÉGLAGE ═══════════════════════════════════════════════════════════
+  // URL du webhook Make (scénario « Custom webhook »). Vide = aucun envoi.
+  var PF_WEBHOOK = '';
+  // Destination du bouton final si la personne veut être rappelée tout de suite.
+  var PF_RDV_URL = 'https://www.papiers-francais.com/';
+  // ═══════════════════════════════════════════════════════════════════════
+
+  // Références réglementaires — à ne modifier qu'en cas de changement de loi.
+  var NIVEAUX = { csp: 'A2', resident: 'B1', naturalisation: 'B2' };
+  var EXAMEN = { nbQuestions: 40, seuil: 32 };
+
+  var LABEL_DEMARCHE = {
+    csp: 'Carte de séjour pluriannuelle',
+    resident: 'Carte de résident (10 ans)',
+    naturalisation: 'Naturalisation française'
+  };
+
+  function niveauRequis(d) { return NIVEAUX[d] || 'B2'; }
+
+  // ═══ QUESTIONS ═════════════════════════════════════════════════════════
+  var QUESTIONS = [
+    {
+      id: 'demarche', theme: 'Votre objectif',
+      question: 'Quelle démarche souhaitez-vous préparer ?',
+      help: "Le test s'adapte à votre situation : les conditions et le niveau de français exigé ne sont pas les mêmes selon la démarche.",
+      options: [
+        { value: 'csp', label: 'Carte de séjour pluriannuelle (plusieurs années)' },
+        { value: 'resident', label: 'Carte de résident (10 ans)' },
+        { value: 'naturalisation', label: 'Naturalisation (devenir français·e)' }
+      ]
+    },
+    {
+      id: 'titre', theme: 'Situation actuelle',
+      question: 'Quel est votre titre de séjour actuel en France ?',
+      help: 'Votre titre actuel détermine où vous en êtes dans votre parcours.',
+      options: [
+        { value: 'vls_ts', label: 'Visa long séjour / première année (VLS-TS)' },
+        { value: 'temporaire', label: 'Carte de séjour temporaire (1 an)' },
+        { value: 'pluriannuelle', label: "Carte de séjour pluriannuelle (plus d'1 an)" },
+        { value: 'resident', label: 'Carte de résident (10 ans)' },
+        { value: 'refugie_ue', label: 'Réfugié·e / protection internationale / citoyen·ne UE' },
+        { value: 'sans_titre', label: 'Sans titre de séjour valide, ou sous OQTF' }
+      ]
+    },
+    {
+      id: 'situation', theme: 'Votre situation',
+      question: "Êtes-vous dans l'une de ces situations particulières ?",
+      help: 'Certaines situations réduisent, voire suppriment, la durée de résidence exigée — ou relèvent d’une autre procédure.',
+      options: [
+        { value: 'diplome_sup', label: "Diplôme d'un établissement supérieur français (2 ans d'études)" },
+        { value: 'refugie', label: 'Réfugié·e statutaire (protection reconnue)' },
+        { value: 'francophone', label: 'Pays francophone / 5 ans de scolarité en français' },
+        { value: 'conjoint_fr', label: 'Marié·e à un·e Français·e depuis 4 ans ou plus' },
+        { value: 'aucune', label: 'Aucune de ces situations' }
+      ],
+      showIf: function (a) { return a.demarche === 'naturalisation' && a.titre !== 'sans_titre'; }
+    },
+    {
+      id: 'duree', theme: 'Durée de séjour',
+      question: 'Depuis combien de temps résidez-vous de façon régulière et ininterrompue en France ?',
+      help: 'Le décompte commence à la date de votre 1er titre valide — pas à votre arrivée. Un séjour irrégulier peut interrompre le calcul.',
+      options: [
+        { value: 'lt2', label: 'Moins de 2 ans' },
+        { value: '2to4', label: 'Entre 2 et 4 ans' },
+        { value: '5plus', label: '5 ans ou plus' },
+        { value: 'unsure', label: 'Je ne sais pas exactement' }
+      ],
+      showIf: function (a) {
+        return a.titre !== 'sans_titre' && (a.demarche === 'resident' || a.demarche === 'naturalisation');
+      }
+    },
+    {
+      id: 'langue', theme: 'Niveau de français',
+      question: 'Pouvez-vous justifier du niveau de français exigé pour votre démarche ?',
+      help: '__LANGUE__',
+      options: [
+        { value: 'dip', label: 'Oui — diplôme français (Bac, BTS, Licence ou +)' },
+        { value: 'cert', label: 'Oui — attestation TCF / TEF / DELF récente (moins de 2 ans)' },
+        { value: 'noproof', label: "J'ai le niveau mais pas encore de justificatif officiel" },
+        { value: 'weak', label: 'Mon niveau est en dessous / je ne suis pas sûr·e' }
+      ],
+      showIf: function (a) { return a.titre !== 'sans_titre'; }
+    },
+    {
+      id: 'casier', theme: 'Casier judiciaire',
+      question: "Avez-vous été condamné·e à une peine d'emprisonnement ferme, en France ou à l'étranger ?",
+      help: "Une condamnation à 6 mois ou plus d'emprisonnement ferme est une cause d'indignité qui entraîne le rejet du dossier de naturalisation.",
+      options: [
+        { value: 'clean', label: 'Non, aucune condamnation à de la prison ferme' },
+        { value: 'minor', label: 'Sursis, amende, ou peine ancienne et isolée' },
+        { value: 'prison', label: 'Oui, prison ferme de 6 mois ou plus' },
+        { value: 'unsure', label: 'Je ne suis pas certain·e de ma situation' }
+      ],
+      showIf: function (a) { return a.titre !== 'sans_titre'; }
+    },
+    {
+      id: 'fiscal', theme: 'Situation fiscale',
+      question: "Êtes-vous à jour de vos déclarations d'impôts sur les dernières années ?",
+      help: 'La préfecture vérifie vos derniers avis d’imposition. Un retard non régularisé peut bloquer le dossier.',
+      options: [
+        { value: 'ok', label: 'Oui, je déclare et je suis à jour' },
+        { value: 'noincome', label: "Je n'ai pas encore de revenus imposables en France" },
+        { value: 'late', label: "J'ai eu des retards, en cours de régularisation" },
+        { value: 'bad', label: 'Non, je ne suis pas à jour' }
+      ],
+      showIf: function (a) { return a.titre !== 'sans_titre'; }
+    },
+    {
+      id: 'civique', theme: 'Connaissances civiques',
+      question: "Comment évaluez-vous votre connaissance des institutions, de l'histoire et des valeurs de la France ?",
+      help: '__CIVIQUE__',
+      options: [
+        { value: 'good', label: 'Bonne — institutions, grandes dates et valeurs' },
+        { value: 'partial', label: 'Partielle — je me prépare mais j’ai des lacunes' },
+        { value: 'low', label: "Limitée — je n'ai pas vraiment commencé" },
+        { value: 'none', label: "Très faible — je n'ai pas encore abordé le sujet" }
+      ],
+      showIf: function (a) { return a.titre !== 'sans_titre'; }
+    }
+  ];
+
+  function aide(q, a) {
+    if (q.help === '__LANGUE__') {
+      var d = a.demarche || 'naturalisation';
+      var n = niveauRequis(d);
+      var note = d === 'naturalisation'
+        ? ' Depuis le 1ᵉʳ janvier 2026, le niveau ' + n + ' (oral et écrit) est exigé pour la naturalisation.'
+        : '';
+      return 'Pour « ' + LABEL_DEMARCHE[d] + ' », le niveau requis est le ' + n + '.' + note;
+    }
+    if (q.help === '__CIVIQUE__') {
+      return "C'est le cœur de l'examen civique : " + EXAMEN.nbQuestions + ' questions, seuil de réussite '
+        + EXAMEN.seuil + '/' + EXAMEN.nbQuestions
+        + ". Il porte sur les institutions, l'histoire, la laïcité et les droits.";
+    }
+    return q.help;
+  }
+
+  function questionsVisibles(a) {
+    return QUESTIONS.filter(function (q) { return !q.showIf || q.showIf(a); });
+  }
+
+  // ═══ MOTEUR DE VERDICT ═════════════════════════════════════════════════
+  function verdict(a) {
+    var d = a.demarche || 'naturalisation';
+    var niv = niveauRequis(d);
+
+    // Priorité absolue : séjour à régulariser. Ce n'est pas un prospect
+    // « préparation » — les délais de recours sont la seule urgence.
+    if (a.titre === 'sans_titre') {
+      return {
+        status: 'regularisation', ton: 'ko', urgent: true,
+        titre: 'Votre situation nécessite un avocat, rapidement',
+        message: "Sans titre de séjour valide — ou sous obligation de quitter le territoire (OQTF) — les démarches de titre de séjour et de naturalisation supposent d'abord de régulariser votre séjour. Papiers Français vous met en relation avec un avocat partenaire spécialisé en droit des étrangers, qui évaluera un recours ou une voie de régularisation adaptée à votre situation.",
+        checklist: [],
+        etapes: [
+          "Restez joignable : un conseiller vous recontacte sous 48 h pour examiner votre dossier.",
+          "Rassemblez dès maintenant vos documents : notification de l'OQTF (avec sa date), passeport, justificatifs de présence en France.",
+          "Réunissez les preuves de vos attaches : travail, famille, scolarité des enfants, santé, ancienneté de présence.",
+          "Ne laissez pas filer les délais : un recours hors délai est irrecevable, même si votre dossier est solide."
+        ],
+        routage: 'avocat',
+        qualification: 'PRIORITAIRE — OQTF / sans titre : à traiter sans délai'
+      };
+    }
+
+    // Voie particulière : conjoint·e de Français·e → déclaration (art. 21-2),
+    // pas naturalisation par décret.
+    if (d === 'naturalisation' && a.situation === 'conjoint_fr') {
+      return {
+        status: 'autre_voie', ton: 'bleu',
+        titre: 'Une autre voie, plus rapide, vous concerne',
+        message: "Marié·e à un·e Français·e depuis 4 ans ou plus, vous relevez en principe de l'acquisition de la nationalité par déclaration (article 21-2 du Code civil) et non de la naturalisation par décret. La procédure est différente et souvent plus courte : pas de condition de 5 ans de résidence, mais une communauté de vie et un niveau de français exigés. L'examen civique et l'entretien restent au programme.",
+        checklist: [
+          { label: 'Niveau de français ' + niv + ' à justifier', ok: (a.langue === 'dip' || a.langue === 'cert') ? true : 'warn' },
+          { label: 'Communauté de vie à prouver', ok: 'warn' },
+          { label: 'Connaissances civiques à préparer', ok: a.civique === 'good' ? true : 'warn' }
+        ],
+        etapes: [
+          'Vérifiez les conditions de la déclaration par mariage (durée de communauté de vie, résidence).',
+          'Justifiez votre niveau de français ' + niv + ' par un diplôme ou un test certifié.',
+          "Préparez l'examen civique (objectif " + EXAMEN.seuil + '/' + EXAMEN.nbQuestions + ") et l'entretien.",
+          "Déposez votre déclaration auprès de l'autorité compétente."
+        ],
+        routage: 'mixte',
+        qualification: 'Voie déclaration par mariage (art. 21-2) — procédure spécifique'
+      };
+    }
+
+    var casierBloque = a.casier === 'prison';
+    var langueOk = a.langue === 'dip' || a.langue === 'cert';
+    var langueFaible = a.langue === 'weak';
+    // Dispenses et réductions de stage (service-public.fr F2213).
+    var dispenseTotale = a.situation === 'refugie' || a.situation === 'francophone';
+    var stageReduit = a.situation === 'diplome_sup';
+    var dureeOk = dispenseTotale || a.duree === '5plus' || (stageReduit && a.duree === '2to4');
+    var dureeInter = !dureeOk && a.duree === '2to4';
+    var fiscalOk = a.fiscal === 'ok' || a.fiscal === 'noincome';
+
+    var checklist = [];
+    if (d !== 'csp') {
+      checklist.push({
+        label: dispenseTotale
+          ? 'Durée de résidence : dispense applicable à votre situation'
+          : stageReduit
+            ? 'Durée de résidence (stage réduit à 2 ans — diplôme français)'
+            : (d === 'naturalisation' ? '5 ans de résidence régulière' : 'Ancienneté de séjour suffisante'),
+        ok: dureeOk ? true : (dureeInter ? 'warn' : false)
+      });
+    }
+    checklist.push({ label: 'Niveau de français ' + niv + ' justifié', ok: langueOk ? true : (a.langue === 'noproof' ? 'warn' : false) });
+    checklist.push({ label: 'Examen civique à préparer', ok: a.civique === 'good' ? true : 'warn' });
+    checklist.push({ label: 'Situation fiscale à jour', ok: fiscalOk ? true : (a.fiscal === 'late' ? 'warn' : false) });
+    checklist.push({ label: 'Casier compatible', ok: casierBloque ? false : (a.casier === 'unsure' ? 'warn' : true) });
+
+    var etapesBase = [
+      "Réunissez vos justificatifs : titre de séjour, preuve de niveau de français, avis d'imposition, état civil.",
+      "Entraînez-vous à l'examen civique jusqu'à dépasser " + EXAMEN.seuil + '/' + EXAMEN.nbQuestions + ' en conditions réelles.',
+      d === 'naturalisation'
+        ? "Préparez l'entretien d'assimilation (institutions, histoire, valeurs)."
+        : 'Vérifiez les pièces spécifiques demandées par votre préfecture.',
+      "Déposez votre dossier via l'ANEF (ou au guichet selon votre préfecture)."
+    ];
+
+    if (casierBloque) {
+      return {
+        status: 'bloque', ton: 'ko',
+        titre: 'Un point de vigilance majeur',
+        message: "Une condamnation à 6 mois ou plus d'emprisonnement ferme constitue une cause d'indignité qui entraîne, en principe, le rejet d'une demande de naturalisation. Tout n'est pas figé pour autant : réhabilitation, effacement de la condamnation, ancienneté des faits ou autre voie de séjour peuvent changer la donne. C'est typiquement une situation où l'avis d'un avocat est décisif — Papiers Français vous met en relation.",
+        checklist: checklist,
+        etapes: [
+          'Restez joignable : un conseiller vous recontacte sous 48 h pour qualifier votre situation.',
+          'Rassemblez les pièces utiles : décision de condamnation, date des faits, éventuelle réhabilitation.',
+          "N'engagez pas de démarche avant cet avis : un rejet laisse une trace dans votre dossier."
+        ],
+        routage: 'avocat',
+        qualification: 'Indignité (prison ferme ≥ 6 mois) — dossier juridique complexe'
+      };
+    }
+
+    if (langueFaible) {
+      return {
+        status: 'langue', ton: 'warn',
+        titre: 'Objectif prioritaire : atteindre le niveau ' + niv,
+        message: 'Pour « ' + LABEL_DEMARCHE[d] + ' », le niveau de français ' + niv + " est exigé. C'est aujourd'hui votre point bloquant : le reste de votre dossier pourra avancer une fois ce niveau atteint et justifié par un test certifié.",
+        checklist: checklist,
+        etapes: [
+          'Suivez une préparation ciblée pour atteindre le niveau ' + niv + ' (oral et écrit).',
+          'Passez un test certifié récent (TCF / TEF / DELF) pour obtenir votre justificatif.'
+        ].concat(etapesBase.slice(1)),
+        routage: 'langue',
+        qualification: 'Blocage langue — niveau ' + niv + ' non atteint'
+      };
+    }
+
+    if (d !== 'csp' && !dureeOk) {
+      return {
+        status: 'bientot', ton: 'warn',
+        titre: dureeInter ? "Vous approchez de l'éligibilité" : 'Il est encore un peu tôt',
+        message: d === 'naturalisation'
+          ? "La naturalisation par décret demande en principe 5 ans de résidence régulière (des réductions existent : diplôme supérieur français, statut de réfugié, etc.). En attendant, vous pouvez déjà préparer l'examen civique et votre niveau de français — c'est ce qui fait la différence le jour du dépôt."
+          : "La carte de résident suppose une ancienneté de séjour suffisante (souvent 3 à 5 ans selon votre situation, moins dans certains cas : conjoint·e de Français·e, parent d'enfant français…). Prenez de l'avance sur l'examen civique et le niveau de français.",
+        checklist: checklist,
+        etapes: etapesBase,
+        routage: 'mixte',
+        qualification: dureeInter
+          ? "Proche de l'éligibilité — vérification durée / dispense utile"
+          : 'Éligibilité future — durée insuffisante'
+      };
+    }
+
+    return {
+      status: 'pret', ton: 'ok',
+      titre: 'Bonne nouvelle : vous réunissez les conditions essentielles',
+      message: "D'après vos réponses, rien ne bloque votre démarche « " + LABEL_DEMARCHE[d] + " ». Il reste à consolider votre dossier et à préparer l'examen civique"
+        + (d === 'naturalisation' ? " et l'entretien d'assimilation" : '')
+        + ' pour mettre toutes les chances de votre côté. Papiers Français peut sécuriser le montage de votre dossier et vous mettre en relation avec un avocat partenaire.',
+      checklist: checklist,
+      etapes: etapesBase,
+      routage: fiscalOk ? 'formation' : 'mixte',
+      qualification: fiscalOk
+        ? 'CHAUD — conditions réunies : prospect prioritaire'
+        : 'Conditions réunies mais point fiscal à régler'
+    };
+  }
+
+  // ═══ ÉTAT ══════════════════════════════════════════════════════════════
+  var racine = document.getElementById('pf-eligibilite');
+  var phase = 'intro';
+  var reponses = {};
+  var index = 0;
+  var lead = { prenom: '', nom: '', email: '', telephone: '', rgpd: false };
+  var envoi = false;
+  var resultat = null;
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  // ═══ ENVOI DU LEAD ═════════════════════════════════════════════════════
+  function envoyer() {
+    var v = verdict(reponses);
+    resultat = v;
+
+    var charge = {
+      source: 'test-eligibilite-papiers-francais',
+      recu_le: new Date().toISOString(),
+      prenom: lead.prenom.trim(),
+      nom: lead.nom.trim(),
+      email: lead.email.trim().toLowerCase(),
+      telephone: lead.telephone.trim(),
+      consentement: lead.rgpd === true,
+      consentement_le: lead.rgpd ? new Date().toISOString() : null,
+      demarche: LABEL_DEMARCHE[reponses.demarche] || reponses.demarche || '',
+      verdict: v.titre,
+      statut: v.status,
+      routage: v.routage,
+      qualification: v.qualification,
+      urgent: v.status === 'regularisation',
+      reponses: reponses,
+      page: location.href,
+      referer: document.referrer || null,
+      utm_source: new URLSearchParams(location.search).get('utm_source'),
+      utm_medium: new URLSearchParams(location.search).get('utm_medium'),
+      utm_campaign: new URLSearchParams(location.search).get('utm_campaign')
+    };
+
+    // L'envoi ne doit jamais empêcher l'affichage du résultat : une panne
+    // réseau ferait perdre le lead ET la réponse promise à la personne.
+    if (PF_WEBHOOK) {
+      try {
+        fetch(PF_WEBHOOK, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(charge)
+        })['catch'](function () {});
+      } catch (e) { /* ignoré volontairement */ }
+    } else if (window.console) {
+      console.info('[PF éligibilité] PF_WEBHOOK non renseigné — lead non transmis :', charge);
+    }
+
+    if (window.dataLayer) {
+      window.dataLayer.push({ event: 'pf_lead_eligibilite', statut: v.status, routage: v.routage });
+    }
+  }
+
+  // ═══ RENDU ═════════════════════════════════════════════════════════════
+  function fleche() {
+    return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+  }
+
+  function rendre() {
+    var visibles = questionsVisibles(reponses);
+
+    if (phase === 'intro') {
+      racine.innerHTML =
+        '<div class="pfel-centre">' +
+          '<span class="pfel-pastille">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' +
+            'Test gratuit · 2 min</span>' +
+          '<h1 class="pfel-h1">Testez votre éligibilité</h1>' +
+          '<p class="pfel-intro">Carte de séjour, carte de résident ou naturalisation : répondez à quelques questions pour savoir où vous en êtes et ce qu’il vous reste à préparer.</p>' +
+          '<button class="pfel-btn" data-act="start">Commencer le test ' + fleche() + '</button>' +
+          '<p class="pfel-note">Outil informatif — ne remplace pas une décision de la préfecture ni un avis juridique.</p>' +
+        '</div>';
+      return;
+    }
+
+    if (phase === 'quiz') {
+      var q = visibles[index];
+      if (!q) { phase = 'contact'; return rendre(); }
+      var pct = Math.round((index / visibles.length) * 100);
+      var txt = aide(q, reponses);
+
+      racine.innerHTML =
+        '<div class="pfel-barre"><div class="pfel-barre-fill" style="width:' + pct + '%"></div></div>' +
+        '<div class="pfel-etape"><span>Question ' + (index + 1) + ' / ' + visibles.length + '</span><span>' + pct + ' %</span></div>' +
+        '<div class="pfel-carte">' +
+          '<p class="pfel-theme">' + esc(q.theme) + '</p>' +
+          '<h2 class="pfel-h2">' + esc(q.question) + '</h2>' +
+          (txt ? '<p class="pfel-aide">' + esc(txt) + '</p>' : '') +
+          q.options.map(function (o) {
+            return '<button class="pfel-opt" data-act="rep" data-val="' + esc(o.value) + '">' + esc(o.label) + '</button>';
+          }).join('') +
+          (index > 0 ? '<button class="pfel-lien" data-act="retour">← Question précédente</button>' : '') +
+        '</div>';
+      return;
+    }
+
+    if (phase === 'contact') {
+      var pret = lead.prenom && lead.nom && lead.email && lead.telephone && lead.rgpd;
+      racine.innerHTML =
+        '<div class="pfel-barre"><div class="pfel-barre-fill" style="width:100%"></div></div>' +
+        '<div class="pfel-etape"><span>Dernière étape</span><span>100 %</span></div>' +
+        '<div class="pfel-carte">' +
+          '<h2 class="pfel-h2">Votre résultat est prêt</h2>' +
+          '<p class="pfel-aide">Indiquez vos coordonnées pour l’afficher et être recontacté·e par un conseiller Papiers Français.</p>' +
+          '<div class="pfel-duo">' +
+            champ('prenom', 'Prénom', 'Marie', 'text') +
+            champ('nom', 'Nom', 'Dupont', 'text') +
+          '</div>' +
+          champ('email', 'Email', 'marie.dupont@email.com', 'email') +
+          champ('telephone', 'Téléphone', '06 12 34 56 78', 'tel') +
+          '<label class="pfel-rgpd">' +
+            '<input type="checkbox" data-act="rgpd"' + (lead.rgpd ? ' checked' : '') + '>' +
+            '<span>J’accepte d’être recontacté·e par <strong>Papiers Français</strong> au sujet de mes démarches, et que mes coordonnées soient transmises, si ma situation le justifie, à un <strong>avocat partenaire</strong> spécialisé en droit des étrangers. Je suis informé·e que mon adresse IP est enregistrée afin de vérifier la zone d\u2019intervention. Données traitées conformément au RGPD ; je peux retirer mon consentement à tout moment.</span>' +
+          '</label>' +
+          '<button class="pfel-btn pfel-btn-plein" data-act="voir"' + (pret && !envoi ? '' : ' disabled') + '>' +
+            (envoi ? 'Analyse en cours…' : 'Voir mon résultat ' + fleche()) +
+          '</button>' +
+          '<button class="pfel-lien" data-act="retour-quiz">← Revenir aux questions</button>' +
+        '</div>';
+      return;
+    }
+
+    // ── Résultat ──
+    var v = resultat;
+    var puces = { true: ['#0E7A58', '✓'], warn: ['#B45309', '!'], false: ['#C0332B', '×'] };
+
+    racine.innerHTML =
+      (v.urgent
+        ? '<div class="pfel-urgence"><strong>Délais de recours très courts.</strong> Contre une OQTF, le délai est souvent de 48 heures à 30 jours selon la mesure notifiée. Chaque jour compte.</div>'
+        : '') +
+      '<div class="pfel-bandeau pfel-b-' + v.ton + '">' +
+        '<h2>' + esc(v.titre) + '</h2>' +
+        '<p>' + esc(v.message) + '</p>' +
+      '</div>' +
+      (v.checklist.length
+        ? '<div class="pfel-carte" style="margin-bottom:18px">' +
+            '<p class="pfel-bloc-titre">Votre situation point par point</p>' +
+            v.checklist.map(function (c) {
+              var p = puces[String(c.ok)];
+              return '<div class="pfel-check">' +
+                '<span class="pfel-puce" style="background:' + p[0] + '">' + p[1] + '</span>' +
+                '<span>' + esc(c.label) + '</span></div>';
+            }).join('') +
+          '</div>'
+        : '') +
+      '<div class="pfel-carte">' +
+        '<p class="pfel-bloc-titre">Ce qu’il vous reste à faire</p>' +
+        '<ol class="pfel-etapes">' +
+          v.etapes.map(function (e) { return '<li>' + esc(e) + '</li>'; }).join('') +
+        '</ol>' +
+      '</div>' +
+      '<div class="pfel-cta">' +
+        '<h2 class="pfel-h2" style="font-size:18px">Un conseiller vous recontacte sous 48 h</h2>' +
+        '<p class="pfel-aide" style="margin:8px 0 16px">Votre demande est enregistrée. Pour aller plus vite, vous pouvez aussi prendre rendez-vous dès maintenant.</p>' +
+        '<a class="pfel-btn' + (v.urgent ? ' pfel-btn-rouge' : '') + '" href="' + PF_RDV_URL + '" target="_blank" rel="noopener">' +
+          (v.urgent ? 'Être rappelé en urgence ' : 'Prendre rendez-vous ') + fleche() +
+        '</a>' +
+      '</div>' +
+      '<p class="pfel-note pfel-centre">Résultat indicatif, fondé sur vos déclarations. Il ne constitue ni une décision de l’administration ni un avis juridique.</p>';
+  }
+
+  function champ(id, label, ph, type) {
+    return '<div class="pfel-champ">' +
+      '<label class="pfel-label" for="pfel-' + id + '">' + label + '</label>' +
+      '<input class="pfel-input" id="pfel-' + id + '" type="' + type + '" data-champ="' + id + '" ' +
+      'value="' + esc(lead[id]) + '" placeholder="' + esc(ph) + '" autocomplete="' +
+      ({ prenom: 'given-name', nom: 'family-name', email: 'email', telephone: 'tel' })[id] + '">' +
+    '</div>';
+  }
+
+  // ═══ ÉVÉNEMENTS ════════════════════════════════════════════════════════
+  racine.addEventListener('click', function (ev) {
+    var el = ev.target.closest('[data-act]');
+    if (!el) return;
+    var act = el.getAttribute('data-act');
+
+    if (act === 'start') { phase = 'quiz'; index = 0; return rendre(); }
+
+    if (act === 'rep') {
+      var visibles = questionsVisibles(reponses);
+      var q = visibles[index];
+      reponses[q.id] = el.getAttribute('data-val');
+      // La liste des questions dépend des réponses : on la recalcule avant
+      // d'avancer, sinon on saute ou on répète une question conditionnelle.
+      var apres = questionsVisibles(reponses);
+      if (index + 1 >= apres.length) { phase = 'contact'; } else { index = index + 1; }
+      return rendre();
+    }
+
+    if (act === 'retour') { index = Math.max(0, index - 1); return rendre(); }
+
+    if (act === 'retour-quiz') {
+      phase = 'quiz';
+      index = Math.max(0, questionsVisibles(reponses).length - 1);
+      return rendre();
+    }
+
+    if (act === 'voir') {
+      if (envoi) return;
+      if (!(lead.prenom && lead.nom && lead.email && lead.telephone && lead.rgpd)) return;
+      envoi = true;
+      rendre();
+      envoyer();
+      setTimeout(function () { phase = 'resultat'; envoi = false; rendre(); window.scrollTo({ top: racine.offsetTop - 40, behavior: 'smooth' }); }, 650);
+      return;
+    }
+  });
+
+  // On met à jour l'état sans re-rendre : un re-rendu à chaque frappe ferait
+  // perdre le focus et la position du curseur.
+  racine.addEventListener('input', function (ev) {
+    var c = ev.target.getAttribute && ev.target.getAttribute('data-champ');
+    if (c) {
+      lead[c] = ev.target.value;
+      majBouton();
+    }
+  });
+
+  racine.addEventListener('change', function (ev) {
+    if (ev.target.getAttribute && ev.target.getAttribute('data-act') === 'rgpd') {
+      lead.rgpd = ev.target.checked;
+      majBouton();
+    }
+  });
+
+  function majBouton() {
+    var b = racine.querySelector('[data-act="voir"]');
+    if (!b) return;
+    var pret = lead.prenom && lead.nom && lead.email && lead.telephone && lead.rgpd;
+    if (pret) b.removeAttribute('disabled'); else b.setAttribute('disabled', '');
+  }
+
+  rendre();
+})();
+</script>

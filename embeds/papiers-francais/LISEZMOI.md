@@ -62,10 +62,52 @@ Ajouter un **Router** juste après le webhook :
 - `routage = avocat` → file « mise en relation avocat ».
 - autres → file standard, rappel sous 48 h.
 
+### Récupérer l'adresse IP (localisation du prospect)
+
+**Aucun code à ajouter.** Le JavaScript d'une page ne peut pas lire l'IP du
+visiteur : le navigateur ne l'expose pas. Mais quand le navigateur appelle le
+webhook, c'est une requête HTTP classique — **Make voit l'IP de l'appelant**.
+
+Dans le module *Custom webhook* → **Show advanced settings** → cocher
+**Get request headers**. Chaque exécution contient alors les en-têtes, dont
+`x-forwarded-for` : son **premier** élément est l'IP du visiteur (les suivants
+sont les relais traversés). Dans Make : `{{1.headers.x-forwarded-for}}`, puis
+`split(...; ",")` et `first(...)` pour n'en garder que la première.
+
+Pour obtenir le pays et la ville, ajouter ensuite un module **HTTP → Make a
+request** vers un service de géolocalisation d'IP, et mapper le pays / la
+région / la ville dans le CRM.
+
+> ⚠️ **L'IP localise mal, et c'est structurel.** Sur 4G, elle pointe la
+> passerelle de l'opérateur — souvent une autre ville, parfois à des centaines
+> de kilomètres. Un VPN la masque entièrement. Une box peut être rattachée à un
+> nœud voisin. C'est un **indice**, utile pour repérer un prospect manifestement
+> hors zone (autre pays), jamais une preuve au niveau du département. Si le
+> télépro s'en sert pour écarter des leads, il en écartera de vrais. Le
+> département déclaré par la personne reste plus fiable que son IP.
+
 ### Point de vigilance RGPD
 
 Ne transmettre à un avocat partenaire que les leads dont `consentement = true`.
 Le champ est horodaté dans `consentement_le` : c'est la preuve à conserver.
+
+**Adresse IP.** C'est une donnée personnelle (CJUE, *Breyer*, 2016). Trois
+obligations, toutes remplies ou à remplir :
+
+1. **Information** — la case de consentement du formulaire annonce désormais
+   explicitement l'enregistrement de l'IP et sa finalité (vérification de la
+   zone d'intervention). Ne pas retirer cette phrase.
+2. **Mention dans la politique de confidentialité** de papiers-francais.com :
+   ajouter l'IP aux données collectées, avec la même finalité. À faire côté
+   Webflow, ce fichier ne peut pas le faire pour vous.
+3. **Durée de conservation** — l'IP ne sert qu'à qualifier la zone à la prise
+   de contact. La purger du CRM une fois le lead traité, et au plus tard au
+   bout de 12 mois. Une IP conservée indéfiniment sans finalité active est un
+   manquement.
+
+Si vous ajoutez un service tiers de géolocalisation dans Make, il devient
+**destinataire** des données : le nommer dans la politique de confidentialité,
+et le choisir hébergé dans l'UE de préférence.
 
 ## Contenu réglementaire
 
