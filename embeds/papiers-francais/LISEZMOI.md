@@ -62,29 +62,47 @@ Ajouter un **Router** juste après le webhook :
 - `routage = avocat` → file « mise en relation avocat ».
 - autres → file standard, rappel sous 48 h.
 
-### Récupérer l'adresse IP (localisation du prospect)
+### Récupérer l'adresse IP
 
-**Aucun code à ajouter.** Le JavaScript d'une page ne peut pas lire l'IP du
-visiteur : le navigateur ne l'expose pas. Mais quand le navigateur appelle le
-webhook, c'est une requête HTTP classique — **Make voit l'IP de l'appelant**.
+C'est **le même mécanisme que sur maformationcivique.fr**, où la route
+`/api/lead/eligibilite` lit l'en-tête `x-forwarded-for` et en garde le premier
+élément. Seul le serveur change : ici c'est Make qui joue ce rôle.
 
-Dans le module *Custom webhook* → **Show advanced settings** → cocher
-**Get request headers**. Chaque exécution contient alors les en-têtes, dont
-`x-forwarded-for` : son **premier** élément est l'IP du visiteur (les suivants
-sont les relais traversés). Dans Make : `{{1.headers.x-forwarded-for}}`, puis
-`split(...; ",")` et `first(...)` pour n'en garder que la première.
+Le JavaScript de la page ne peut pas lire l'IP — le navigateur ne l'expose
+pas. Mais l'appel au webhook est une requête HTTP ordinaire : **Make voit l'IP
+de l'appelant**. Rien à ajouter dans le code de l'embed.
 
-Pour obtenir le pays et la ville, ajouter ensuite un module **HTTP → Make a
-request** vers un service de géolocalisation d'IP, et mapper le pays / la
-région / la ville dans le CRM.
+**Mise en place — une case à cocher :**
 
-> ⚠️ **L'IP localise mal, et c'est structurel.** Sur 4G, elle pointe la
-> passerelle de l'opérateur — souvent une autre ville, parfois à des centaines
-> de kilomètres. Un VPN la masque entièrement. Une box peut être rattachée à un
-> nœud voisin. C'est un **indice**, utile pour repérer un prospect manifestement
-> hors zone (autre pays), jamais une preuve au niveau du département. Si le
-> télépro s'en sert pour écarter des leads, il en écartera de vrais. Le
-> département déclaré par la personne reste plus fiable que son IP.
+1. Module *Custom webhook* → **Show advanced settings** → cocher
+   **Get request headers**.
+2. Cliquer **Redetermine data structure**, puis refaire un test sur la page
+   pour que Make enregistre la nouvelle structure.
+3. Dans le module CRM, mapper le champ « IP » avec :
+
+   ```
+   {{first(split(1.headers.x-forwarded-for; ","))}}
+   ```
+
+   `x-forwarded-for` peut contenir plusieurs adresses séparées par des
+   virgules — l'IP du visiteur, puis les relais traversés. Seule la
+   **première** est celle du prospect ; prendre la chaîne entière donnerait
+   l'IP d'un proxy.
+
+Ça suffit pour le besoin principal : une ligne « adresse IP » dans le CRM, que
+l'on vérifie au cas par cas quand un télépro signale un contact hors cible.
+
+**Ajouter la région (optionnel).** Après le webhook, un module
+**HTTP → Make a request** vers un service de géolocalisation d'IP, en lui
+passant l'IP extraite ci-dessus. Mapper ensuite le pays et la région.
+
+> **Quelle précision attendre ?** Le pays est fiable. **La région l'est
+> raisonnablement** — distinguer un prospect en Île-de-France d'un prospect en
+> Occitanie fonctionne dans la grande majorité des cas, ce qui correspond au
+> besoin ici. En revanche la **ville et le département ne sont pas fiables** :
+> sur mobile l'IP pointe la passerelle de l'opérateur, souvent dans une autre
+> ville. Et un VPN fausse tout, y compris le pays. À utiliser comme indice de
+> cohérence, jamais comme critère automatique de rejet.
 
 ### Point de vigilance RGPD
 
