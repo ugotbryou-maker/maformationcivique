@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aperçu — Test d'éligibilité Papiers Français</title>
+<!-- Page d'aperçu local uniquement. Simule le contexte Webflow : une page
+     neutre dans laquelle l'embed est inséré tel quel. Ne pas copier CE
+     fichier dans Webflow — seul test-eligibilite.html doit l'être. -->
+<style>
+  body{margin:0;background:#F6F8FD;padding:40px 20px;font-family:system-ui,sans-serif}
+  .faux-site{max-width:900px;margin:0 auto}
+  .faux-nav{background:#002071;color:#fff;padding:14px 22px;border-radius:12px;font-weight:700;margin-bottom:34px}
+</style>
+</head>
+<body>
+<div class="faux-site">
+  <div class="faux-nav">Papiers Français — aperçu d'intégration</div>
+  <div id="zone-embed"></div>
+</div>
+<script>
+fetch('test-eligibilite.html').then(r=>r.text()).then(html=>{
+  const z=document.getElementById('zone-embed');
+  z.innerHTML=html;
+  // Un innerHTML n'exécute pas les <script> : on les ré-injecte, comme le
+  // fait Webflow au chargement d'un bloc Embed.
+  z.querySelectorAll('script').forEach(old=>{
+    const s=document.createElement('script');
+    s.textContent=old.textContent;
+    old.replaceWith(s);
+  });
+});
+</script>
+</body>
+</html>

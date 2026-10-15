@@ -82,6 +82,18 @@
       ],
       "port": 3005,
       "autoPort": true
+    },
+    {
+      "name": "embeds-papiers-francais",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "serve",
+        "/Users/ugotamburrini/MAFORMATIONCIVIQUE/embeds/papiers-francais",
+        "-l",
+        "5200"
+      ],
+      "port": 5200,
+      "autoPort": true
     }
   ]
 }
