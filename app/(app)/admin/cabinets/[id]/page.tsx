@@ -12,6 +12,7 @@ import { Kpi, Carte, Stat, Identite, Jauge, Vide } from '@/components/admin/ui';
 import { InviteCabinetAdminButton } from '@/components/app/InviteCabinetAdminButton';
 import { CloturerCabinetButton } from '@/components/app/CloturerCabinetButton';
 import { PointerFacture } from '@/components/admin/PointerFacture';
+import { BlocFacturation } from '@/components/admin/BlocFacturation';
 
 export const dynamic = 'force-dynamic';
 
@@ -232,6 +233,22 @@ export default async function FichePartenairePage({ params }: { params: Promise<
           </Carte>
         </div>
       )}
+
+      {/* ── Facturation ──────────────────────────────────────────────────── */}
+      <BlocFacturation
+        cabinetId={cabinet.id}
+        cabinetNom={cabinet.name}
+        client={{
+          fact_raison_sociale: cabinet.fact_raison_sociale, fact_adresse: cabinet.fact_adresse,
+          fact_code_postal: cabinet.fact_code_postal, fact_ville: cabinet.fact_ville,
+          fact_pays: cabinet.fact_pays, fact_siret: cabinet.fact_siret,
+          fact_tva_intracom: cabinet.fact_tva_intracom, fact_email: cabinet.fact_email,
+          fact_reference: cabinet.fact_reference,
+        }}
+        billingMode={cabinet.billing_mode}
+        aFacturer={nonFactures.length}
+        montantDu={euro(montantDu)}
+      />
 
       {/* ── Clients ──────────────────────────────────────────────────────── */}
       <Carte flush titre={`Clients (${clients.length})`} indice="Cliquez pour ouvrir la fiche complète">

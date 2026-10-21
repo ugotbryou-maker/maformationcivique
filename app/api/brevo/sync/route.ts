@@ -24,8 +24,12 @@ import {
 } from '@/lib/brevo-contacts';
 
 async function autorise(req: NextRequest): Promise<boolean> {
-  const secret = process.env.CRON_SECRET;
-  if (secret && req.headers.get('authorization') === `Bearer ${secret}`) return true;
+  // .trim() des deux côtés : une variable d'environnement collée avec un
+  // espace ou un retour à la ligne invisible ferait échouer la comparaison
+  // sans rien dire, et la tâche planifiée répondrait 403 tous les jours.
+  const secret = process.env.CRON_SECRET?.trim();
+  const fourni = req.headers.get('authorization')?.trim();
+  if (secret && fourni === `Bearer ${secret}`) return true;
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   return isAdminEmail(user?.email);

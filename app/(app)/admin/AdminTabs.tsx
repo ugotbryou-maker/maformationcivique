@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Gauge, Users, Building2, Inbox } from 'lucide-react';
+import { Gauge, Users, Building2, Inbox, Receipt } from 'lucide-react';
 
 const ONGLETS = [
   { href: '/admin',              label: 'Pilotage',     icon: Gauge,     exact: true },
   { href: '/admin/utilisateurs', label: 'Utilisateurs', icon: Users },
   { href: '/admin/cabinets',     label: 'Partenaires',  icon: Building2 },
   { href: '/admin/leads',        label: 'Leads',        icon: Inbox },
+  { href: '/admin/facturation',  label: 'Facturation',  icon: Receipt },
 ];
 
 export function AdminTabs({ compteurs }: { compteurs?: Record<string, number> }) {
