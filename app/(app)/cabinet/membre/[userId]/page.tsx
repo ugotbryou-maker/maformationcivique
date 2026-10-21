@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { redirect, notFound } from 'next/navigation';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { modules } from '@/data/modules';
+import { calculerProgression, voletDuPlan } from '@/lib/progression';
 import { CabinetMemberActions } from '@/components/app/CabinetMemberActions';
 import { ArrowLeft, CheckCircle2, Circle, Trophy, BookOpen, GraduationCap } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -60,9 +61,14 @@ export default async function CabinetMemberPage({
     (progress ?? []).filter((p) => p.completed).map((p) => `${p.module_slug}:${p.lesson_slug}`)
   );
 
-  const totalLessons = modules.reduce((a, m) => a + m.lessons.length, 0);
-  const totalCompleted = completedSet.size;
-  const globalPct = totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0;
+  // Progression sur le volet souscrit par le cabinet — et non sur les seules
+  // leçons civiques, qui donnaient 0 % à un élève travaillant le français.
+  const { data: cabinetDuMembre } = await service
+    .from('cabinets').select('member_plan').eq('id', member.cabinet_id).single();
+  const prog = calculerProgression(progress ?? [], voletDuPlan(null, cabinetDuMembre?.member_plan));
+  const totalLessons = prog.global.total;
+  const totalCompleted = prog.global.faites;
+  const globalPct = prog.global.pct;
 
   const isAdmin = member.cabinet_role === 'admin';
 

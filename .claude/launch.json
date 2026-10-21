@@ -94,6 +94,18 @@
       ],
       "port": 5200,
       "autoPort": true
+    },
+    {
+      "name": "apercu-mails",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "serve",
+        "/private/tmp/claude-501/-Users-ugotamburrini-MAFORMATIONCIVIQUE/a18df5b8-dbf8-4cc0-8350-62d5db38bb84/scratchpad/mails",
+        "-l",
+        "5300"
+      ],
+      "port": 5300,
+      "autoPort": true
     }
   ]
 }

@@ -382,6 +382,7 @@ export function relanceTemplate(prenom: string, corps: string, lienLabel: string
 export interface LigneRapport {
   nom: string;
   progression: number;
+  /** Activité en valeur absolue — c'est elle qu'on annonce en premier. */
   detail: string;
   joursInactif: number;
 }
@@ -389,7 +390,10 @@ export interface LigneRapport {
 export function rapportCabinetTemplate(
   cabinet: string,
   mois: string,
-  stats: { clients: number; actifs: number; prets: number; dormants: number; nouveaux: number },
+  stats: {
+    clients: number; actifs: number; prets: number; dormants: number;
+    nouveaux: number; lecons?: number; examens?: number;
+  },
   dormants: LigneRapport[],
   progressent: LigneRapport[],
   lien: string,
@@ -434,8 +438,8 @@ export function rapportCabinetTemplate(
       <tr>
         ${tuile(stats.clients, 'clients', '#002395')}
         ${tuile(stats.actifs, 'actifs ce mois', '#0E7A58')}
-        ${tuile(stats.prets, 'prêts (≥ 80 %)', '#0E7A58')}
-        ${tuile(stats.dormants, 'à relancer', stats.dormants > 0 ? '#B45309' : '#6b7280')}
+        ${tuile(stats.lecons ?? 0, 'leçons terminées', '#002395')}
+        ${tuile(stats.examens ?? 0, 'examens blancs passés', '#7C3AED')}
       </tr>
     </table>
 
@@ -446,7 +450,7 @@ export function rapportCabinetTemplate(
 
     <p style="font-size:11.5px;color:#9ca3af;line-height:1.6;margin:22px 0 0;text-align:center;">
       Envoyé une fois par mois à l'administrateur du cabinet.
-      Les pourcentages portent sur le parcours souscrit par votre cabinet.
+      Le compteur « à relancer » couvre les clients sans visite depuis plus de trois semaines.
     </p>
   </div>
 </div>`;

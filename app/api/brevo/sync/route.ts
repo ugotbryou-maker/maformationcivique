@@ -67,7 +67,7 @@ async function construire() {
 
     const cabinet = u.cabinet_id ? cab.get(u.cabinet_id) : null;
     const volet = voletDuPlan(u.plan, cabinet?.member_plan);
-    const prog = calculerProgression(progParUser.get(u.id) ?? [], volet);
+    const prog = calculerProgression(progParUser.get(u.id) ?? [], volet, u.demarche);
 
     const ex = examParUser.get(u.id) ?? [];
     const dernier = [...ex].sort((a, b) =>
@@ -96,6 +96,8 @@ async function construire() {
         PROGRESSION: prog.global.pct,
         PROGRESSION_CIV: prog.civique.pct,
         PROGRESSION_LNG: prog.langue.pct,
+        NIVEAU_LANGUE: prog.niveau,
+        LECONS_TERMINEES: prog.leconsTerminees,
         PALIER: palierDe(prog.global.pct),
         EXAMENS_PASSES: ex.length,
         EXAMENS_REUSSIS: ex.filter((e) => e.passed).length,

@@ -6,7 +6,11 @@
     },
     {
       "path": "/api/cabinet/rapport-mensuel",
-      "schedule": "0 8 1 * *"
+      "schedule": "0 17 1 * *"
+    },
+    {
+      "path": "/api/cabinet/rapport-mensuel",
+      "schedule": "0 18 1 * *"
     }
   ]
 }

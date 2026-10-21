@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { createServiceRoleClient } from '@/lib/supabase-server';
 import { modules } from '@/data/modules';
+import { calculerProgression, voletDuPlan, type ProgressionVolets } from '@/lib/progression';
 import { Kpi, Carte, Stat, Identite, Jauge, Vide } from '@/components/admin/ui';
 import { InviteCabinetAdminButton } from '@/components/app/InviteCabinetAdminButton';
 import { CloturerCabinetButton } from '@/components/app/CloturerCabinetButton';
@@ -67,14 +68,31 @@ export default async function FichePartenairePage({ params }: { params: Promise<
     ? await service.from('progression').select('user_id, module_slug, lesson_slug, completed').in('user_id', memberIds)
     : { data: [] as { user_id: string; module_slug: string; lesson_slug: string; completed: boolean }[] };
 
-  const totalLessons = modules.reduce((a, m) => a + m.lessons.length, 0);
-  const progressByUser = new Map<string, number>();
+  // Même calcul que partout ailleurs. Cette page rapportait la progression aux
+  // seules 22 leçons civiques : un cabinet en formule complète y voyait 18 %
+  // là où la fiche de l'élève affichait 10 %, et 0 % pour quelqu'un qui
+  // travaillait le français. Deux écrans, deux vérités.
+  const voletCabinet = voletDuPlan(null, cabinet.member_plan);
+  const progressByUser = new Map<string, ProgressionVolets>();
   for (const m of members ?? []) {
-    const done = new Set(
-      (allProgress ?? []).filter((p) => p.user_id === m.id && p.completed)
-        .map((p) => `${p.module_slug}:${p.lesson_slug}`),
+    progressByUser.set(
+      m.id,
+      calculerProgression((allProgress ?? []).filter((p) => p.user_id === m.id), voletCabinet),
     );
-    progressByUser.set(m.id, totalLessons > 0 ? Math.round((done.size / totalLessons) * 100) : 0);
+  }
+  const pctDe = (id: string) => progressByUser.get(id)?.global.pct ?? 0;
+
+  // Examens par élève — une épreuve blanche est un travail réel, au même titre
+  // qu'une leçon. Ne pas la compter faisait passer pour inactif quelqu'un qui
+  // s'entraînait.
+  const { data: examsClients } = memberIds.length
+    ? await service.from('exam_results').select('user_id, exam_level, score, total_q, passed').in('user_id', memberIds)
+    : { data: [] as { user_id: string; exam_level: string; score: number; total_q: number; passed: boolean }[] };
+  const examsParUser = new Map<string, NonNullable<typeof examsClients>>();
+  for (const e of examsClients ?? []) {
+    const l = examsParUser.get(e.user_id) ?? [];
+    l.push(e);
+    examsParUser.set(e.user_id, l);
   }
 
   // Attribution commerciale : qui a envoyé chaque invitation.
@@ -107,9 +125,11 @@ export default async function FichePartenairePage({ params }: { params: Promise<
   const expiring = daysLeft !== null && daysLeft >= 0 && daysLeft < 30;
 
   const avgPct = clients.length
-    ? Math.round(clients.reduce((s, m) => s + (progressByUser.get(m.id) ?? 0), 0) / clients.length)
+    ? Math.round(clients.reduce((s, m) => s + pctDe(m.id), 0) / clients.length)
     : 0;
-  const readyCount = clients.filter((m) => (progressByUser.get(m.id) ?? 0) >= 80).length;
+  const readyCount = clients.filter((m) => pctDe(m.id) >= 80).length;
+  const totalExamens = (examsClients ?? []).length;
+  const examensReussis = (examsClients ?? []).filter((e) => e.passed).length;
   const il30j = Date.now() - 30 * 86400000;
   const actifs = clients.filter((m) => m.last_active && new Date(m.last_active).getTime() >= il30j).length;
 
@@ -161,8 +181,9 @@ export default async function FichePartenairePage({ params }: { params: Promise<
              value={String(clients.length)} sub={`+ ${pendingN} en attente`} />
         <Kpi teinte="violet" icon={<TrendingUp size={16} />} label="Progression moyenne"
              value={`${avgPct} %`} sub={`${actifs} actifs sur 30 jours`} />
-        <Kpi teinte="mint" icon={<Target size={16} />} label="Prêts pour l'examen"
-             value={String(readyCount)} sub="≥ 80 % de complétion" />
+        <Kpi teinte="mint" icon={<Target size={16} />} label="Examens blancs"
+             value={String(totalExamens)}
+             sub={`${examensReussis} réussi${examensReussis > 1 ? 's' : ''} · ${readyCount} prêt${readyCount > 1 ? 's' : ''} (≥ 80 %)`} />
         {aLUsage
           ? <Kpi teinte="cream" icon={<Receipt size={16} />} label="À facturer"
                  value={euro(montantDu)} sub={`${nonFactures.length} × ${euro(pu)}`} />
@@ -220,11 +241,13 @@ export default async function FichePartenairePage({ params }: { params: Promise<
           <div className="adm-scroll">
             <table className="adm-table adm-table-pad adm-table-rows">
               <thead>
-                <tr><th>Client</th><th>Apporté par</th><th>Progression</th><th className="adm-num">Dernière visite</th></tr>
+                <tr><th>Client</th><th>Apporté par</th><th>Progression</th><th className="adm-num">Examens</th><th className="adm-num">Dernière visite</th></tr>
               </thead>
               <tbody>
                 {clients.map((m) => {
-                  const pct = progressByUser.get(m.id) ?? 0;
+                  const pr = progressByUser.get(m.id);
+                  const pct = pr?.global.pct ?? 0;
+                  const ex = examsParUser.get(m.id) ?? [];
                   return (
                     <tr key={m.id}>
                       <td>
@@ -235,9 +258,21 @@ export default async function FichePartenairePage({ params }: { params: Promise<
                         />
                       </td>
                       <td className="adm-dim">{invitePar.get(m.id) ?? '—'}</td>
-                      <td style={{ minWidth: 130 }}>
-                        <p className="adm-dim" style={{ margin: '0 0 5px' }}>{pct} %</p>
+                      <td style={{ minWidth: 150 }}>
+                        <p className="adm-dim" style={{ margin: '0 0 5px' }}>
+                          {pct} %
+                          {pr && voletCabinet === 'complet' && (
+                            <> · civique {pr.civique.pct} % · français {pr.langue.pct} %</>
+                          )}
+                        </p>
                         <Jauge pct={pct} />
+                      </td>
+                      <td className="adm-num">
+                        {ex.length === 0
+                          ? <span className="adm-dim">—</span>
+                          : <span className={`adm-tag ${ex.some((e) => e.passed) ? 'adm-tag-life' : ''}`}>
+                              {ex.filter((e) => e.passed).length}/{ex.length}
+                            </span>}
                       </td>
                       <td className="adm-num">
                         {m.last_active

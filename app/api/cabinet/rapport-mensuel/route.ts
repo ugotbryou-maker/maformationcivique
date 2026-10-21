@@ -9,6 +9,11 @@
  *
  * GET : simulation, ne poste aucun e-mail.
  * Authentification : administrateur connecté, ou CRON_SECRET (planificateur).
+ *
+ * Horaire : 19 h, heure de Paris. La tâche est déclenchée à deux heures UTC
+ * différentes — l'une correspond à 19 h en été, l'autre en hiver — et c'est
+ * ce code qui écarte le mauvais déclenchement. Un administrateur peut forcer
+ * l'envoi avec ?force=1.
  */
 
 export const dynamic = 'force-dynamic';
@@ -20,6 +25,7 @@ import { isAdminEmail } from '@/lib/admin';
 import { calculerProgression, voletDuPlan } from '@/lib/progression';
 import { sendEmail, rapportCabinetTemplate, type LigneRapport } from '@/lib/brevo';
 import { getAppUrl } from '@/lib/app-url';
+import { estHeureDEnvoi } from '@/lib/horaire-envoi';
 
 async function autorise(req: NextRequest): Promise<boolean> {
   const secret = process.env.CRON_SECRET;
@@ -38,9 +44,19 @@ async function construire(appUrl: string) {
 
   const [{ data: cabinets }, { data: membres }, { data: progression }] = await Promise.all([
     s.from('cabinets').select('id, name, member_plan, sub_end_at'),
-    s.from('users').select('id, name, email, cabinet_id, cabinet_role, last_active, created_at').not('cabinet_id', 'is', null),
+    s.from('users').select('id, name, email, cabinet_id, cabinet_role, last_active, created_at, demarche').not('cabinet_id', 'is', null),
     s.from('progression').select('user_id, module_slug, lesson_slug, completed'),
   ]);
+
+  const { data: examens } = await s
+    .from('exam_results').select('user_id, passed');
+  const examParUser = new Map<string, { passes: number; reussis: number }>();
+  for (const e of examens ?? []) {
+    const v = examParUser.get(e.user_id) ?? { passes: 0, reussis: 0 };
+    v.passes += 1;
+    if (e.passed) v.reussis += 1;
+    examParUser.set(e.user_id, v);
+  }
 
   const progParUser = new Map<string, NonNullable<typeof progression>>();
   for (const p of progression ?? []) {
@@ -66,13 +82,27 @@ async function construire(appUrl: string) {
 
     const volet = voletDuPlan(null, c.member_plan);
     const lignes = clients.map((m) => {
-      const p = calculerProgression(progParUser.get(m.id) ?? [], volet);
+      const p = calculerProgression(progParUser.get(m.id) ?? [], volet, m.demarche);
+      const ex = examParUser.get(m.id) ?? { passes: 0, reussis: 0 };
+
+      // On annonce ce qui a été fait, pas la part de ce qui reste. « 6 leçons
+      // et 3 examens blancs » décrit un client engagé ; « 11 % » décrit un
+      // échec. Les deux sont vrais, le premier est informatif.
+      const morceaux: string[] = [];
+      morceaux.push(p.leconsTerminees === 0
+        ? 'aucune leçon terminée'
+        : `${p.leconsTerminees} leçon${p.leconsTerminees > 1 ? 's' : ''} terminée${p.leconsTerminees > 1 ? 's' : ''}`);
+      if (ex.passes > 0) {
+        morceaux.push(`${ex.passes} examen${ex.passes > 1 ? 's' : ''} blanc${ex.passes > 1 ? 's' : ''}`);
+      }
+      if (volet === 'complet' && p.civique.pct > 0 && p.langue.pct > 0) {
+        morceaux.push(`civique ${p.civique.pct} % · ${p.niveau} ${p.langue.pct} %`);
+      }
+
       return {
         nom: m.name || m.email || 'Client',
         progression: p.global.pct,
-        detail: volet === 'complet'
-          ? `civique ${p.civique.pct} % · français ${p.langue.pct} %`
-          : `${p.global.faites} leçons sur ${p.global.total}`,
+        detail: morceaux.join(' · '),
         joursInactif: jours(m.last_active),
       } as LigneRapport;
     });
@@ -82,8 +112,12 @@ async function construire(appUrl: string) {
       .sort((a, b) => b.joursInactif - a.joursInactif)
       .slice(0, 12);
 
+    // « Ils progressent » : venus récemment ET ayant produit quelque chose —
+    // une leçon ou un examen. Se limiter au pourcentage excluait les clients
+    // qui ne font que s'entraîner aux examens blancs.
     const progressent = lignes
-      .filter((l) => l.joursInactif >= 0 && l.joursInactif <= 21 && l.progression > 0)
+      .filter((l) => l.joursInactif >= 0 && l.joursInactif <= 21
+        && !l.detail.startsWith('aucune leçon terminée'))
       .sort((a, b) => b.progression - a.progression)
       .slice(0, 8);
 
@@ -94,6 +128,9 @@ async function construire(appUrl: string) {
       prets: lignes.filter((l) => l.progression >= 80).length,
       dormants: lignes.filter((l) => l.joursInactif < 0 || l.joursInactif > 21).length,
       nouveaux: clients.filter((m) => m.created_at && new Date(m.created_at).getTime() >= il30j).length,
+      lecons: clients.reduce((a, m) =>
+        a + calculerProgression(progParUser.get(m.id) ?? [], volet, m.demarche).leconsTerminees, 0),
+      examens: clients.reduce((a, m) => a + (examParUser.get(m.id)?.passes ?? 0), 0),
     };
 
     rapports.push({
@@ -124,6 +161,14 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     if (!await autorise(req)) return NextResponse.json({ error: 'Non autorisé' }, { status: 403 });
+
+    // Le planificateur passe deux fois ; on ne retient que le passage qui
+    // tombe à 19 h à Paris.
+    const force = req.nextUrl.searchParams.get('force') === '1';
+    const { envoyer, heure } = estHeureDEnvoi(force);
+    if (!envoyer) {
+      return NextResponse.json({ ok: true, ignore: true, heureParis: heure, envoyes: [] });
+    }
 
     const rapports = await construire(await getAppUrl());
     const envoyes: string[] = [];

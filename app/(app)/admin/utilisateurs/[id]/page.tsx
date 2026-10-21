@@ -44,7 +44,7 @@ export default async function FicheUtilisateurPage({ params }: { params: Promise
 
   // Progression par volet : un élève venu pour le français seul affichait 0 %
   // tant qu'il n'avait pas ouvert une leçon civique.
-  const prog = calculerProgression(progression ?? [], voletDuPlan(u.plan, cabinet ? undefined : null));
+  const prog = calculerProgression(progression ?? [], voletDuPlan(u.plan, cabinet ? undefined : null), u.demarche);
 
   // Détail par module civique : la moyenne masque le module bloquant.
   const faites = new Set(
