@@ -373,3 +373,81 @@ export function relanceTemplate(prenom: string, corps: string, lienLabel: string
   `;
   return emailShell('#002395', `${CDN}/modules/republique.webp`, '0.74', content);
 }
+
+// 13. Rapport mensuel au cabinet partenaire
+//
+// Le cabinet est le client payant : c'est lui qu'il faut armer pour relancer
+// ses propres clients. Ce rapport lui donne la liste nominative de ceux qui
+// décrochent, et sert aussi d'argument au renouvellement.
+export interface LigneRapport {
+  nom: string;
+  progression: number;
+  detail: string;
+  joursInactif: number;
+}
+
+export function rapportCabinetTemplate(
+  cabinet: string,
+  mois: string,
+  stats: { clients: number; actifs: number; prets: number; dormants: number; nouveaux: number },
+  dormants: LigneRapport[],
+  progressent: LigneRapport[],
+  lien: string,
+): string {
+  const tuile = (n: string | number, l: string, c: string) => `
+    <td style="padding:0 6px;" width="25%" valign="top">
+      <div style="background:#F4F7FD;border-radius:10px;padding:14px 10px;text-align:center;">
+        <div style="font-family:Arial,sans-serif;font-size:24px;font-weight:bold;color:${c};line-height:1;">${n}</div>
+        <div style="font-family:Arial,sans-serif;font-size:11px;color:#6b7280;margin-top:5px;line-height:1.3;">${l}</div>
+      </div>
+    </td>`;
+
+  const liste = (titre: string, lignes: LigneRapport[], couleur: string, vide: string) => {
+    if (lignes.length === 0) {
+      return `<p style="font-family:Arial,sans-serif;font-size:13px;color:#9ca3af;margin:0 0 22px;">${vide}</p>`;
+    }
+    const rows = lignes.map((l) => `
+      <tr>
+        <td style="padding:9px 0;border-bottom:1px solid #eef2f7;font-family:Arial,sans-serif;font-size:14px;color:#111827;">
+          ${l.nom}
+          <div style="font-size:12px;color:#9ca3af;margin-top:2px;">${l.detail}</div>
+        </td>
+        <td align="right" style="padding:9px 0;border-bottom:1px solid #eef2f7;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:${couleur};white-space:nowrap;">
+          ${l.joursInactif < 0 ? 'jamais venu' : l.joursInactif + ' j'}
+        </td>
+      </tr>`).join('');
+    return `
+      <h3 style="font-family:Arial,sans-serif;font-size:14px;color:#111827;margin:0 0 10px;">${titre}</h3>
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">${rows}</table>`;
+  };
+
+  return `
+<div style="background:#f6f8fc;padding:28px 0;">
+  <div style="max-width:580px;margin:0 auto;background:#ffffff;border-radius:14px;padding:30px 28px;font-family:Arial,sans-serif;">
+    <p style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#6b7280;margin:0 0 6px;">Rapport mensuel · ${mois}</p>
+    <h1 style="font-size:22px;color:#002395;margin:0 0 6px;">${cabinet}</h1>
+    <p style="font-size:14px;color:#4b5563;line-height:1.6;margin:0 0 22px;">
+      L'avancement de vos clients sur la plateforme, et ceux qui ont besoin d'un coup de fil.
+    </p>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 -6px 26px;">
+      <tr>
+        ${tuile(stats.clients, 'clients', '#002395')}
+        ${tuile(stats.actifs, 'actifs ce mois', '#0E7A58')}
+        ${tuile(stats.prets, 'prêts (≥ 80 %)', '#0E7A58')}
+        ${tuile(stats.dormants, 'à relancer', stats.dormants > 0 ? '#B45309' : '#6b7280')}
+      </tr>
+    </table>
+
+    ${liste('À relancer en priorité', dormants, '#B45309', 'Aucun client dormant ce mois-ci. Rien à relancer.')}
+    ${liste('Ils progressent', progressent, '#0E7A58', 'Aucune progression enregistrée ce mois-ci.')}
+
+    ${ctaBtn(lien, 'Ouvrir mon espace →', '#002395')}
+
+    <p style="font-size:11.5px;color:#9ca3af;line-height:1.6;margin:22px 0 0;text-align:center;">
+      Envoyé une fois par mois à l'administrateur du cabinet.
+      Les pourcentages portent sur le parcours souscrit par votre cabinet.
+    </p>
+  </div>
+</div>`;
+}

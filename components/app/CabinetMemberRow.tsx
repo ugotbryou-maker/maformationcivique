@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Download, UserX } from 'lucide-react';
+import { JaugeVolets } from '@/components/app/JaugeVolets';
 
 const AVATAR_GRADIENTS = [
   'linear-gradient(135deg,#002395,#0057A8)',
@@ -29,18 +30,27 @@ function formatLastActive(dateStr: string | null): string {
   return `Actif il y a ${Math.floor(days / 30)} mois`;
 }
 
+interface ProgressionVolets {
+  volet: 'civique' | 'langue' | 'complet';
+  global: { faites: number; total: number; pct: number };
+  civique: { faites: number; total: number; pct: number };
+  langue: { faites: number; total: number; pct: number };
+}
+
 interface Props {
   id: string;
   displayName: string;
   email: string;
-  pct: number;
+  /** Progression par volet. Absente pour un compte sans donnée. */
+  progression?: ProgressionVolets;
   lastActive: string | null;
   /** Qui a invité ce client — permet d'attribuer chaque client à son
    *  commercial quand plusieurs partagent le portefeuille. */
   invitedBy?: string | null;
 }
 
-export function CabinetMemberRow({ id, displayName, email, pct, lastActive, invitedBy }: Props) {
+export function CabinetMemberRow({ id, displayName, email, progression, lastActive, invitedBy }: Props) {
+  const pct = progression?.global.pct ?? 0;
   const [revoking, setRevoking] = useState(false);
   const [revoked, setRevoked]   = useState(false);
 
@@ -130,21 +140,24 @@ export function CabinetMemberRow({ id, displayName, email, pct, lastActive, invi
             {invitedBy && <> · invité par {invitedBy}</>}
           </p>
 
-          {/* Progress bar */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ flex: 1, height: 5, borderRadius: 99, background: 'var(--color-border)', overflow: 'hidden' }}>
-              <div style={{
-                height: '100%', width: `${pct}%`, borderRadius: 99,
-                background: barColor, transition: 'width 400ms ease',
-              }} />
+          {/* Progression — détaillée par volet quand le cabinet a souscrit
+              les deux parcours, sinon une seule barre. */}
+          {progression ? (
+            <JaugeVolets
+              compact
+              volet={progression.volet}
+              global={progression.global}
+              civique={progression.civique}
+              langue={progression.langue}
+            />
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ flex: 1, height: 5, borderRadius: 99, background: 'var(--color-border)', overflow: 'hidden' }}>
+                <div style={{ height: '100%', width: '0%', borderRadius: 99, background: barColor }} />
+              </div>
+              <span style={{ fontSize: 12, fontWeight: 700, flexShrink: 0, color: 'var(--color-text-muted)' }}>0%</span>
             </div>
-            <span style={{
-              fontSize: 12, fontWeight: 700, flexShrink: 0, minWidth: 32, textAlign: 'right',
-              color: pct >= 80 ? '#0F6E56' : 'var(--color-text-muted)',
-            }}>
-              {pct}%
-            </span>
-          </div>
+          )}
         </div>
 
         {/* Actions */}

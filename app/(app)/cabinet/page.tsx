@@ -13,6 +13,7 @@ import { CabinetMemberRow } from '@/components/app/CabinetMemberRow';
 import { CabinetInviteRow } from '@/components/app/CabinetInviteRow';
 import { CabinetNav } from '@/components/app/CabinetNav';
 import { Kpi, Carte, Stat } from '@/components/admin/ui';
+import { calculerProgression, voletDuPlan, type ProgressionVolets } from '@/lib/progression';
 import '@/components/admin/kit.css';
 
 export const dynamic = 'force-dynamic';
@@ -88,15 +89,18 @@ export default async function CabinetDashboardPage() {
         .select('user_id, module_slug, lesson_slug, completed').in('user_id', memberIds)
     : { data: [] as { user_id: string; module_slug: string; lesson_slug: string; completed: boolean }[] };
 
-  const totalLessons = modules.reduce((a, m) => a + m.lessons.length, 0);
-  const progressByUser = new Map<string, number>();
+  // La progression se calcule sur le volet souscrit par le cabinet. Rapporter
+  // un élève inscrit au seul français aux 22 leçons civiques le ferait
+  // apparaître à 0 % alors qu'il peut avoir bien avancé.
+  const volet = voletDuPlan(null, cabinet?.member_plan);
+  const progressByUser = new Map<string, ProgressionVolets>();
   for (const member of members ?? []) {
-    const done = new Set(
-      (allProgress ?? []).filter((p) => p.user_id === member.id && p.completed)
-        .map((p) => `${p.module_slug}:${p.lesson_slug}`),
+    progressByUser.set(
+      member.id,
+      calculerProgression((allProgress ?? []).filter((p) => p.user_id === member.id), volet),
     );
-    progressByUser.set(member.id, totalLessons > 0 ? Math.round((done.size / totalLessons) * 100) : 0);
   }
+  const pctDe = (id: string) => progressByUser.get(id)?.global.pct ?? 0;
 
   // max_invitations NULL = sièges illimités : il ne faut afficher ni plafond
   // ni « 0 place restante », qui laisserait croire à un blocage.
@@ -113,9 +117,9 @@ export default async function CabinetDashboardPage() {
   const nextTier   = TIER_NEXT[cabinet?.tier ?? 'starter'];
 
   const avgPct = activeMembers.length
-    ? Math.round(activeMembers.reduce((s, m) => s + (progressByUser.get(m.id) ?? 0), 0) / activeMembers.length)
+    ? Math.round(activeMembers.reduce((s, m) => s + pctDe(m.id), 0) / activeMembers.length)
     : 0;
-  const readyCount = activeMembers.filter((m) => (progressByUser.get(m.id) ?? 0) >= 80).length;
+  const readyCount = activeMembers.filter((m) => pctDe(m.id) >= 80).length;
   const il30j = Date.now() - 30 * 86400000;
   const actifs = activeMembers.filter((m) => m.last_active && new Date(m.last_active).getTime() >= il30j).length;
 
@@ -231,7 +235,7 @@ export default async function CabinetDashboardPage() {
               id={member.id}
               displayName={member.name || member.email || 'Utilisateur'}
               email={member.email ?? ''}
-              pct={progressByUser.get(member.id) ?? 0}
+              progression={progressByUser.get(member.id)}
               lastActive={member.last_active ?? null}
               invitedBy={invitePar.get(member.id) ?? null}
             />

@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { getAdminStats, estLifetime } from '@/lib/admin-stats';
 import { Kpi, Carte, Stat, Identite, Repartition, Vide } from '@/components/admin/ui';
+import { SyncBrevo } from '@/components/admin/SyncBrevo';
 import { Courbe } from '@/components/admin/Courbe';
 
 export const dynamic = 'force-dynamic';
@@ -133,6 +134,8 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
       </div>
+
+      <SyncBrevo />
 
       {/* ── Revenus ──────────────────────────────────────────────────────── */}
       <div className="adm-grid adm-grid-2">

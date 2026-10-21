@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { createServiceRoleClient } from '@/lib/supabase-server';
 import { modules } from '@/data/modules';
+import { calculerProgression, voletDuPlan, LIBELLE_VOLET } from '@/lib/progression';
 import { Kpi, Carte, Stat, Jauge, Vide, degradeDe } from '@/components/admin/ui';
 import { ActionsUtilisateur } from '@/components/admin/ActionsUtilisateur';
 
@@ -41,7 +42,11 @@ export default async function FicheUtilisateurPage({ params }: { params: Promise
         : Promise.resolve({ data: null }),
     ]);
 
-  // Progression par module : la moyenne globale masque le module bloquant.
+  // Progression par volet : un élève venu pour le français seul affichait 0 %
+  // tant qu'il n'avait pas ouvert une leçon civique.
+  const prog = calculerProgression(progression ?? [], voletDuPlan(u.plan, cabinet ? undefined : null));
+
+  // Détail par module civique : la moyenne masque le module bloquant.
   const faites = new Set(
     (progression ?? []).filter((p) => p.completed).map((p) => `${p.module_slug}:${p.lesson_slug}`),
   );
@@ -49,8 +54,8 @@ export default async function FicheUtilisateurPage({ params }: { params: Promise
     const n = m.lessons.filter((l) => faites.has(`${m.slug}:${l.slug}`)).length;
     return { titre: m.title, n, total: m.lessons.length, pct: m.lessons.length ? Math.round((n / m.lessons.length) * 100) : 0 };
   });
-  const totalLecons = modules.reduce((a, m) => a + m.lessons.length, 0);
-  const pctGlobal = totalLecons ? Math.round((faites.size / totalLecons) * 100) : 0;
+  const totalLecons = prog.global.total;
+  const pctGlobal = prog.global.pct;
 
   const ex = exams ?? [];
   const meilleur = ex.reduce((a, e) => Math.max(a, (e.score / (e.total_q || 1)) * 100), 0);
@@ -112,7 +117,10 @@ export default async function FicheUtilisateurPage({ params }: { params: Promise
       {/* ── Performance ──────────────────────────────────────────────────── */}
       <div className="adm-grid adm-grid-4">
         <Kpi teinte="sky" icon={<BookOpen size={16} />} label="Progression"
-             value={`${pctGlobal} %`} sub={`${faites.size} / ${totalLecons} leçons`} />
+             value={`${pctGlobal} %`}
+             sub={prog.volet === 'complet'
+               ? `civique ${prog.civique.faites}/${prog.civique.total} · français ${prog.langue.faites}/${prog.langue.total}`
+               : `${prog.global.faites} / ${prog.global.total} leçons · ${LIBELLE_VOLET[prog.volet]}`} />
         <Kpi teinte="violet" icon={<Target size={16} />} label="Examens blancs"
              value={String(ex.length)}
              sub={`${ex.filter((e) => e.passed).length} réussi${ex.filter((e) => e.passed).length > 1 ? 's' : ''} · ${exLangue.length} linguistique${exLangue.length > 1 ? 's' : ''}`} />
