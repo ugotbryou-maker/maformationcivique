@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Shield, Star, Award, BookOpen, Clock, CheckCircle, ArrowRight, Languages, PenLine } from 'lucide-react';
+import { Shield, Star, Award, BookOpen, Clock, CheckCircle, ArrowRight, PenLine } from 'lucide-react';
 import { RESUME_EXAMENS_LANGUE } from '@/data/langue/examens-blancs/resume';
 
 const LEVELS = [
@@ -76,29 +76,34 @@ function ExamenIndex() {
         </p>
       </div>
 
-      {/* Bascule civique / linguistique */}
+      {/* Bascule civique / linguistique — même composant visuel que la
+          page d'accueil, pour que la bascule se reconnaisse d'un écran à
+          l'autre. */}
       <div style={{
-        display: 'inline-flex', gap: 4, padding: 4, marginBottom: 24,
-        background: 'var(--color-surface)', border: 'var(--border-default)',
-        borderRadius: 100, boxShadow: 'var(--shadow-card)',
+        display: 'inline-flex', alignItems: 'center',
+        background: 'var(--color-border)',
+        borderRadius: 'var(--radius-pill)',
+        padding: '4px', gap: '4px', marginBottom: 24,
       }}>
-        {([
-          { cle: 'civique' as const, label: 'Examen civique', Icon: Shield },
-          { cle: 'langue' as const,  label: 'Examen linguistique', Icon: Languages },
-        ]).map(({ cle, label, Icon: I }) => (
+        {(['civique', 'langue'] as const).map((t) => (
           <button
-            key={cle}
-            onClick={() => setType(cle)}
+            key={t}
+            onClick={() => setType(t)}
             style={{
-              display: 'inline-flex', alignItems: 'center', gap: 7,
-              padding: '9px 17px', borderRadius: 100, border: 'none',
-              fontSize: 13.5, fontWeight: 700, fontFamily: 'inherit', cursor: 'pointer',
-              background: type === cle ? 'var(--color-blue-france)' : 'transparent',
-              color: type === cle ? '#fff' : 'var(--color-text-secondary)',
-              transition: 'background 150ms, color 150ms',
+              padding: '9px 28px',
+              borderRadius: 'var(--radius-pill)',
+              background: type === t ? '#fff' : 'transparent',
+              border: 'none', cursor: 'pointer',
+              fontSize: 'var(--font-size-sm)',
+              fontWeight: type === t ? 700 : 400,
+              color: type === t ? 'var(--color-text-primary)' : 'var(--color-text-muted)',
+              boxShadow: type === t ? 'var(--shadow-card)' : 'none',
+              transition: 'all 180ms ease',
+              fontFamily: 'var(--font-sans)',
+              whiteSpace: 'nowrap',
             }}
           >
-            <I size={15} /> {label}
+            {t === 'civique' ? 'Examen civique' : 'Examen linguistique'}
           </button>
         ))}
       </div>

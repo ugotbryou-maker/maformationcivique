@@ -80,7 +80,7 @@ export function ExamenLangueClient({ niveau }: { niveau: string }) {
       const r = await fetch(`/api/examen-langue/${niveau}/corriger`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reponses }),
+        body: JSON.stringify({ reponses, ids: epreuve?.questions.map((q) => q.id) ?? [] }),
       });
       const j = await r.json();
       if (!r.ok) { setErreur({ message: j.error ?? 'Correction impossible' }); setPhase('erreur'); return; }

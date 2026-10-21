@@ -58,7 +58,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...b1Modules.flatMap((m) => m.lessons.map((l) => s(`/moduleslinguistiques/b1/${l.slug}`, 0.6))),
     ...b2Modules.flatMap((m) => m.lessons.map((l) => s(`/moduleslinguistiques/b2/${l.slug}`, 0.6))),
     ...transversalModules.flatMap((m) => m.lessons.map((l) => s(`/moduleslinguistiques/transversal/${l.slug}`, 0.6))),
-    ...examenModules.flatMap((m) => m.lessons.map((l) => s(`/moduleslinguistiques/examens/${l.slug}`, 0.6))),
+    // Les anciennes pages d'examen blanc redirigent vers /examen/langue :
+    // les laisser dans le sitemap reviendrait à proposer des redirections à
+    // l'indexation.
+    ...examenModules.map((m) => s(`/examen/langue/${m.level}`, 0.6)),
   ];
 
   // ── Pages locales examen civique (uniquement publiées + validées) ──

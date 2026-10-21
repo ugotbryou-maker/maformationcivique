@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
-import { examenLangue, type NiveauLangue } from '@/data/langue/examens-blancs';
+import { examenLangue, composerEpreuve, type NiveauLangue } from '@/data/langue/examens-blancs';
 
 const NIVEAUX = new Set(['A2', 'B1', 'B2']);
 
@@ -42,14 +42,18 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ nive
     const examen = examenLangue(n as NiveauLangue);
     if (!examen) return NextResponse.json({ error: 'Niveau inconnu' }, { status: 404 });
 
+    // Épreuve tirée du pool à chaque passage : repasser l'examen ne doit pas
+    // revenir à réciter les mêmes réponses.
+    const tirage = composerEpreuve(n as NiveauLangue);
+
     return NextResponse.json({
       niveau: examen.niveau,
       titre: examen.titre,
       demarche: examen.demarche,
       dureeMinutes: examen.dureeMinutes,
       seuilReussite: examen.seuilReussite,
-      seuilQuestions: Math.ceil(examen.questions.length * examen.seuilReussite),
-      questions: examen.questions.map((q) => ({
+      seuilQuestions: Math.ceil(tirage.length * examen.seuilReussite),
+      questions: tirage.map((q) => ({
         id: q.id,
         section: q.section,
         format: q.format,

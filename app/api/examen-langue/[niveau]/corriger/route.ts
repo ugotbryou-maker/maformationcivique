@@ -11,7 +11,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { XP_REWARDS } from '@/lib/gamification';
 import {
-  examenLangue, reponseCorrecte, corrige, LIBELLE_SECTION,
+  examenLangue, questionParId, reponseCorrecte, corrige, LIBELLE_SECTION,
   type NiveauLangue, type SectionExamen,
 } from '@/data/langue/examens-blancs';
 
@@ -30,8 +30,21 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ niv
     const examen = examenLangue(n as NiveauLangue);
     if (!examen) return NextResponse.json({ error: 'Niveau inconnu' }, { status: 404 });
 
-    const body = await req.json() as { reponses?: Record<string, string | number> };
+    const body = await req.json() as {
+      reponses?: Record<string, string | number>;
+      ids?: string[];
+    };
     const envoyees = body.reponses ?? {};
+
+    // L'épreuve étant tirée au hasard, la correction porte sur les questions
+    // effectivement servies — que le client renvoie. On les relit dans le
+    // pool côté serveur : seul l'identifiant vient du navigateur, jamais
+    // l'énoncé ni la réponse attendue.
+    const servies = (body.ids ?? [])
+      .map((id) => questionParId(examen.niveau, id))
+      .filter((q): q is NonNullable<typeof q> => !!q);
+
+    const aCorriger = servies.length > 0 ? servies : examen.questions;
 
     const supabase = await createServerSupabaseClient();
     const { data: { user } } = await supabase.auth.getUser();
@@ -46,7 +59,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ niv
 
     // ── Correction ────────────────────────────────────────────────────────
     const parSection = new Map<SectionExamen, { justes: number; total: number }>();
-    const detail = examen.questions.map((q) => {
+    const detail = aCorriger.map((q) => {
       const donnee = envoyees[q.id];
       const juste = reponseCorrecte(q, donnee);
       const e = parSection.get(q.section) ?? { justes: 0, total: 0 };
@@ -64,7 +77,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ niv
     });
 
     const score = detail.filter((d) => d.juste).length;
-    const total = examen.questions.length;
+    const total = aCorriger.length;
     const seuil = Math.ceil(total * examen.seuilReussite);
     const reussi = score >= seuil;
 

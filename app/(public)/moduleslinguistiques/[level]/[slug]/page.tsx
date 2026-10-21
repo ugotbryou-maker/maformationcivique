@@ -48,7 +48,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title: `${exam.title} — maformationcivique.fr`,
       description: exam.description,
-      alternates: { canonical: `https://www.maformationcivique.fr/moduleslinguistiques/examens/${slug}` },
+      // La page redirige vers l'épreuve : la canonique doit pointer la
+      // destination, pas l'URL de transit.
+      alternates: { canonical: `https://www.maformationcivique.fr/examen/langue/${exam.level}` },
     };
   }
   const found = findLessonAcrossModules(level, slug);
@@ -97,79 +99,17 @@ export default async function LangueLessonPage({ params }: Props) {
   const accent = LEVEL_COLOR[level];
   const bg = LEVEL_BG[level];
 
-  // ── Cas "examen blanc" : module entier avec ses sections ────────────────
+  // ── Cas "examen blanc" ─────────────────────────────────────────────────
+  // Ces modules présentaient les 60 questions d'un coup sur une seule page,
+  // sans chronomètre ni score. Leur contenu alimente désormais le pool des
+  // épreuves de /examen/langue, qui les sert une question à la fois. On
+  // redirige plutôt que de maintenir deux présentations du même contenu.
   if (level === 'examens') {
     const exam = examenModules.find((m) => m.slug === slug);
     if (!exam) notFound();
-    if (!hasAccess) {
-      redirect(isLoggedIn ? '/#tarifs' : `/inscription?plan=langue&next=/langue/examens/${slug}`);
-    }
-
-    const totalExercises = exam.lessons.reduce((a, l) => a + l.exercises.length, 0);
-    const totalDuration = exam.lessons.reduce((a, l) => a + l.duration, 0);
-
-    return (
-      <div style={{ minHeight: '100vh', background: 'var(--color-off-white)' }}>
-        <LangScrollProgress color="#CC1A1A" />
-        <div style={{ position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/images/modules/daumier-la-republique.webp)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(127,29,29,0.92) 0%, rgba(204,26,26,0.88) 100%)' }} />
-          <div style={{ position: 'relative', zIndex: 1, padding: '2.5rem 1.5rem 2rem' }}>
-            <div className="container">
-              <nav style={{ display: 'flex', gap: '6px', marginBottom: '16px', fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.7)' }}>
-                <Link href="/moduleslinguistiques" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Cours de français</Link>
-                <span>/</span>
-                <span style={{ color: '#fff' }}>{exam.title}</span>
-              </nav>
-              <h1 style={{ fontSize: 'clamp(24px, 4vw, 34px)', fontWeight: 800, color: '#fff', margin: '0 0 6px' }}>{exam.title}</h1>
-              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.8)', margin: '0 0 14px' }}>{exam.subtitle}</p>
-              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, color: 'rgba(255,255,255,0.85)' }}>
-                  <ListChecks size={13} /> {exam.lessons.length} sections · {totalExercises} questions
-                </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, color: 'rgba(255,255,255,0.85)' }}>
-                  <Clock size={13} /> {totalDuration} min recommandées
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="container" style={{ padding: '32px 24px 64px' }}>
-          {/* Sommaire des sections */}
-          <div style={{ display: 'flex', gap: '10px', marginBottom: '28px', flexWrap: 'wrap' }}>
-            {exam.lessons.map((section, i) => (
-              <a key={section.id} href={`#${section.slug}`} style={{
-                background: '#fff', border: 'var(--border-default)', borderRadius: 'var(--radius-pill)',
-                padding: '8px 16px', fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text-secondary)',
-                textDecoration: 'none', boxShadow: 'var(--shadow-card)',
-              }}>
-                {i + 1}. {section.title.replace(/^Section \d+ — /, '')}
-              </a>
-            ))}
-          </div>
-
-          {exam.lessons.map((section, i) => (
-            <div key={section.id} id={section.slug} style={{ marginBottom: '40px', scrollMarginTop: '24px' }}>
-              <div style={{ background: '#fff', borderRadius: 'var(--radius-xl)', border: 'var(--border-default)', boxShadow: 'var(--shadow-card)', padding: '24px 26px', marginBottom: '20px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '14px' }}>
-                  <span style={{ background: bg, color: accent, fontSize: 'var(--font-size-xs)', fontWeight: 700, padding: '3px 10px', borderRadius: 'var(--radius-pill)' }}>
-                    Section {i + 1}/{exam.lessons.length}
-                  </span>
-                </div>
-                <h2 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 700, color: 'var(--color-text-primary)', margin: '0 0 16px' }}>{section.title}</h2>
-                {renderLangMarkdown(section.dialogue, accent)}
-                <div style={{ marginTop: '8px', paddingTop: '16px', borderTop: 'var(--border-default)' }}>
-                  {renderLangMarkdown(section.linguisticPoint, accent)}
-                </div>
-              </div>
-              <LangLessonQuiz exercises={section.exercises} accent={accent} lessonSlug={section.slug} />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+    redirect(`/examen/langue/${exam.level}`);
   }
+
 
   // ── Cas leçon classique (A2 / B1 / B2 / transversal) ─────────────────────
   const found = findLessonAcrossModules(level, slug);

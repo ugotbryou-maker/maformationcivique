@@ -237,7 +237,7 @@ export default async function LangueLevelPage({ params }: Props) {
                 <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', margin: 0 }}>Prêt à tester votre niveau {level.toUpperCase()} ?</p>
                 <p style={{ fontSize: 12, color: 'var(--color-text-muted)', margin: '2px 0 0' }}>Passez l&apos;examen blanc en conditions réelles.</p>
               </div>
-              <Link href={`/moduleslinguistiques/examens/examen-blanc-${level}`} style={{ background: data.color, color: '#fff', padding: '9px 18px', borderRadius: 'var(--radius-md)', fontSize: 13, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+              <Link href={`/examen/langue/${level.toUpperCase()}`} style={{ background: data.color, color: '#fff', padding: '9px 18px', borderRadius: 'var(--radius-md)', fontSize: 13, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>
                 Examen blanc →
               </Link>
             </div>
