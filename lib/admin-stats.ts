@@ -172,6 +172,12 @@ export async function getAdminStats() {
   const prog = progression.data ?? [];
   const ex = exams.data ?? [];
   const examsReussis = ex.filter((e) => e.passed).length;
+  // Les examens linguistiques sont enregistrés sous LANG_A2 / LANG_B1 /
+  // LANG_B2 : les additionner aux civiques masquerait quelle filière est
+  // réellement utilisée.
+  const estLangue = (e: { exam_level: string | null }) => (e.exam_level ?? '').startsWith('LANG_');
+  const exLangue = ex.filter(estLangue);
+  const exCivique = ex.filter((e) => !estLangue(e));
   const scoreMoyen = ex.length
     ? Math.round(ex.reduce((a, e) => a + (e.score / (e.total_q || 1)) * 100, 0) / ex.length)
     : 0;
@@ -246,6 +252,11 @@ export async function getAdminStats() {
       leconsCompletees: prog.filter((p) => p.completed).length,
       examensPasses: ex.length,
       examensReussis: examsReussis,
+      examensCiviques: exCivique.length,
+      examensCiviquesReussis: exCivique.filter((e) => e.passed).length,
+      examensLangue: exLangue.length,
+      examensLangueReussis: exLangue.filter((e) => e.passed).length,
+      candidatsLangue: new Set(exLangue.map((e) => e.user_id)).size,
       scoreMoyen,
       badges: (badges.data ?? []).length,
     },

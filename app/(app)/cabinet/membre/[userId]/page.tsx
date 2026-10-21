@@ -3,7 +3,7 @@ import { redirect, notFound } from 'next/navigation';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { modules } from '@/data/modules';
 import { CabinetMemberActions } from '@/components/app/CabinetMemberActions';
-import { ArrowLeft, CheckCircle2, Circle, Trophy, BookOpen } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Circle, Trophy, BookOpen, GraduationCap } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = { title: 'Détail client — Espace cabinet' };
@@ -44,6 +44,17 @@ export default async function CabinetMemberPage({
     .from('progression')
     .select('module_slug, lesson_slug, completed')
     .eq('user_id', params.userId);
+
+  // Examens blancs du client — civiques et linguistiques. Le cabinet suit la
+  // préparation de bout en bout, pas seulement les leçons lues.
+  const { data: examens } = await service
+    .from('exam_results')
+    .select('exam_level, score, total_q, passed')
+    .eq('user_id', params.userId);
+
+  const tousExamens = examens ?? [];
+  const examensLangue = tousExamens.filter((e) => (e.exam_level ?? '').startsWith('LANG_'));
+  const examensReussis = tousExamens.filter((e) => e.passed).length;
 
   const completedSet = new Set(
     (progress ?? []).filter((p) => p.completed).map((p) => `${p.module_slug}:${p.lesson_slug}`)
@@ -95,6 +106,13 @@ export default async function CabinetMemberPage({
             {[
               { icon: BookOpen, label: `${totalCompleted} / ${totalLessons} leçons`, color: 'var(--color-blue-france)' },
               { icon: Trophy, label: `${member.xp ?? 0} XP`, color: '#F59E0B' },
+              {
+                icon: GraduationCap,
+                label: tousExamens.length === 0
+                  ? 'Aucun examen blanc'
+                  : `${examensReussis}/${tousExamens.length} examens réussis${examensLangue.length ? ` · ${examensLangue.length} langue` : ''}`,
+                color: '#7C3AED',
+              },
             ].map(({ icon: Icon, label, color }) => (
               <div key={label} style={{
                 display: 'flex', alignItems: 'center', gap: 6,

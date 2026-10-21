@@ -1,7 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { Shield, Star, Award, BookOpen, Clock, CheckCircle, ArrowRight } from 'lucide-react';
+import { Suspense, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Shield, Star, Award, BookOpen, Clock, CheckCircle, ArrowRight, Languages, PenLine } from 'lucide-react';
+import { RESUME_EXAMENS_LANGUE } from '@/data/langue/examens-blancs/resume';
 
 const LEVELS = [
   {
@@ -44,20 +47,66 @@ const LEVELS = [
 
 export default function ExamenIndexPage() {
   return (
+    <Suspense fallback={null}>
+      <ExamenIndex />
+    </Suspense>
+  );
+}
+
+function ExamenIndex() {
+  const params = useSearchParams();
+  // Le type sélectionné vient de l'URL quand on arrive depuis une épreuve :
+  // revenir en arrière doit ramener sur le bon onglet, pas sur le civique.
+  const [type, setType] = useState<'civique' | 'langue'>(
+    params.get('type') === 'langue' ? 'langue' : 'civique',
+  );
+
+  return (
     <div style={{ maxWidth: 780 }}>
 
       {/* Header */}
-      <div style={{ marginBottom: 28 }}>
+      <div style={{ marginBottom: 18 }}>
         <h1 style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text-primary)', marginBottom: 4 }}>
           Examens blancs
         </h1>
         <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)' }}>
-          Choisissez votre démarche — 40 questions · 30 minutes · Score requis 80 %
+          {type === 'civique'
+            ? 'Connaissance de la France — 40 questions · 30 minutes · score requis 80 %'
+            : 'Maîtrise du français — 40 questions · QCM et rédaction · niveau exigé par démarche'}
         </p>
       </div>
 
+      {/* Bascule civique / linguistique */}
+      <div style={{
+        display: 'inline-flex', gap: 4, padding: 4, marginBottom: 24,
+        background: 'var(--color-surface)', border: 'var(--border-default)',
+        borderRadius: 100, boxShadow: 'var(--shadow-card)',
+      }}>
+        {([
+          { cle: 'civique' as const, label: 'Examen civique', Icon: Shield },
+          { cle: 'langue' as const,  label: 'Examen linguistique', Icon: Languages },
+        ]).map(({ cle, label, Icon: I }) => (
+          <button
+            key={cle}
+            onClick={() => setType(cle)}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 7,
+              padding: '9px 17px', borderRadius: 100, border: 'none',
+              fontSize: 13.5, fontWeight: 700, fontFamily: 'inherit', cursor: 'pointer',
+              background: type === cle ? 'var(--color-blue-france)' : 'transparent',
+              color: type === cle ? '#fff' : 'var(--color-text-secondary)',
+              transition: 'background 150ms, color 150ms',
+            }}
+          >
+            <I size={15} /> {label}
+          </button>
+        ))}
+      </div>
+
+      {type === 'langue' && <ExamensLangue />}
+
       {/* Cards */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: type === 'civique' ? 'flex' : 'none', flexDirection: 'column', gap: '1rem' }}>
         {LEVELS.map(({ level, label, desc, difficulty, image, imagePosition, gradientFrom, gradientTo, Icon, themes }) => (
           <Link key={level} href={`/examen/${level}`} style={{ textDecoration: 'none', display: 'block' }}>
             <article
@@ -185,6 +234,95 @@ export default function ExamenIndexPage() {
         .exam-card-img { transform-origin: center; }
         article:hover .exam-card-img { transform: scale(1.03); }
       `}</style>
+    </div>
+  );
+}
+
+/**
+ * Cartes des trois épreuves linguistiques. Les niveaux A2 / B1 / B2 ne sont
+ * pas décoratifs : ce sont ceux exigés depuis le 1ᵉʳ janvier 2026 pour la
+ * carte de séjour pluriannuelle, la carte de résident et la naturalisation.
+ */
+function ExamensLangue() {
+  const COULEURS: Record<string, { de: string; a: string }> = {
+    A2: { de: '#0E7490', a: '#0891B2' },
+    B1: { de: '#002395', a: '#0057A8' },
+    B2: { de: '#7C2D12', a: '#C0332B' },
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      {RESUME_EXAMENS_LANGUE.map((e) => {
+        const c = COULEURS[e.niveau];
+        return (
+          <Link key={e.niveau} href={`/examen/langue/${e.niveau}`} style={{ textDecoration: 'none', display: 'block' }}>
+            <article style={{
+              position: 'relative', borderRadius: 16, overflow: 'hidden',
+              background: `linear-gradient(140deg, ${c.de} 0%, ${c.a} 100%)`,
+              padding: '22px 24px', color: '#fff',
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 14, flexWrap: 'wrap' }}>
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)', marginBottom: 6 }}>
+                    {e.demarche}
+                  </p>
+                  <h2 style={{ fontSize: 20, fontWeight: 800, color: '#fff', margin: '0 0 6px' }}>
+                    Niveau {e.niveau} exigé
+                  </h2>
+                  <p style={{ fontSize: 13.5, lineHeight: 1.6, color: 'rgba(255,255,255,0.82)', margin: '0 0 10px', maxWidth: 440 }}>
+                    {e.sousTitre}
+                  </p>
+                  <p style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.6)', margin: 0 }}>
+                    {e.sections}
+                  </p>
+                </div>
+                <div style={{
+                  width: 52, height: 52, borderRadius: '50%', flexShrink: 0,
+                  background: 'rgba(255,255,255,0.2)', border: '1.5px solid rgba(255,255,255,0.3)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 17, fontWeight: 800,
+                }}>
+                  {e.niveau}
+                </div>
+              </div>
+
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 0, marginTop: 16,
+                background: 'rgba(0,8,40,0.3)', borderRadius: 10,
+                border: '1px solid rgba(255,255,255,0.12)', overflow: 'hidden', width: 'fit-content',
+              }}>
+                {[
+                  { I: BookOpen, v: `${e.nbQuestions} questions` },
+                  { I: Clock, v: `${e.dureeMinutes} min` },
+                  { I: PenLine, v: 'QCM + rédaction' },
+                  { I: CheckCircle, v: `objectif ${e.seuilQuestions}/${e.nbQuestions}` },
+                ].map(({ I, v }, i) => (
+                  <div key={v} style={{
+                    display: 'flex', alignItems: 'center', gap: 5, padding: '8px 13px',
+                    borderRight: i < 3 ? '1px solid rgba(255,255,255,0.1)' : 'none',
+                    color: 'rgba(255,255,255,0.9)',
+                  }}>
+                    <I size={11} />
+                    <span style={{ fontSize: 11, fontWeight: 600, whiteSpace: 'nowrap' }}>{v}</span>
+                  </div>
+                ))}
+                <div style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  padding: '0 12px', alignSelf: 'stretch',
+                  background: 'rgba(255,255,255,0.15)', borderLeft: '1px solid rgba(255,255,255,0.1)',
+                }}>
+                  <ArrowRight size={14} color="#fff" />
+                </div>
+              </div>
+            </article>
+          </Link>
+        );
+      })}
+
+      <p style={{ fontSize: 12, color: 'var(--color-text-muted)', lineHeight: 1.6, marginTop: 4 }}>
+        Niveaux exigés depuis le 1ᵉʳ janvier 2026. Ces épreuves sont un entraînement :
+        le test officiel comporte aussi des épreuves orales, que nous ne reproduisons pas.
+      </p>
     </div>
   );
 }

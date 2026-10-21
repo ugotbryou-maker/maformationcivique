@@ -45,11 +45,13 @@ export default async function DashboardPage({
     { data: profile },
     { data: progress },
     { data: userBadges },
+    { data: examResults },
     { count: referredCount },
   ] = await Promise.all([
     supabase.from('users').select('*').eq('id', user.id).single(),
     supabase.from('progression').select('*').eq('user_id', user.id),
     supabase.from('user_badges').select('badge_slug').eq('user_id', user.id),
+    supabase.from('exam_results').select('exam_level, passed').eq('user_id', user.id),
     supabase.from('users').select('*', { count: 'exact', head: true }).eq('referred_by', user.id),
   ]);
 
@@ -65,6 +67,12 @@ export default async function DashboardPage({
       last_active: new Date().toISOString().slice(0, 10),
     }, { onConflict: 'id', ignoreDuplicates: true });
   }
+
+  // Examens blancs passés, toutes filières confondues — le compteur doit
+  // être visible sans ouvrir la page examens.
+  const exams = examResults ?? [];
+  const examensPasses = exams.length;
+  const examensReussis = exams.filter((e) => e.passed).length;
 
   const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.maformationcivique.fr';
   const referralLink = `${siteUrl.replace(/\/$/, '')}/inscription?ref=${user.id}`;
@@ -419,9 +427,13 @@ export default async function DashboardPage({
               >
                 <Trophy size={22} color={isPremium ? 'var(--color-blue-france)' : 'var(--color-text-muted)'} />
                 <div>
-                  <p style={{ fontWeight: 500, color: 'var(--color-text-primary)', marginBottom: '2px' }}>Examen blanc</p>
+                  <p style={{ fontWeight: 500, color: 'var(--color-text-primary)', marginBottom: '2px' }}>Examens blancs</p>
                   <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
-                    {isPremium ? '40 questions · 30 min' : 'Premium requis'}
+                    {!isPremium
+                      ? 'Premium requis'
+                      : examensPasses === 0
+                        ? 'Civique et linguistique'
+                        : `${examensReussis} réussi${examensReussis > 1 ? 's' : ''} sur ${examensPasses} passé${examensPasses > 1 ? 's' : ''}`}
                   </p>
                 </div>
               </div>

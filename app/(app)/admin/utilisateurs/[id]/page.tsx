@@ -54,6 +54,7 @@ export default async function FicheUtilisateurPage({ params }: { params: Promise
 
   const ex = exams ?? [];
   const meilleur = ex.reduce((a, e) => Math.max(a, (e.score / (e.total_q || 1)) * 100), 0);
+  const exLangue = ex.filter((e) => (e.exam_level ?? '').startsWith('LANG_'));
   const nom = u.name || u.email || 'Utilisateur';
   const jamaisVenu = !u.last_active;
 
@@ -113,7 +114,8 @@ export default async function FicheUtilisateurPage({ params }: { params: Promise
         <Kpi teinte="sky" icon={<BookOpen size={16} />} label="Progression"
              value={`${pctGlobal} %`} sub={`${faites.size} / ${totalLecons} leçons`} />
         <Kpi teinte="violet" icon={<Target size={16} />} label="Examens blancs"
-             value={String(ex.length)} sub={`${ex.filter((e) => e.passed).length} réussi${ex.filter((e) => e.passed).length > 1 ? 's' : ''}`} />
+             value={String(ex.length)}
+             sub={`${ex.filter((e) => e.passed).length} réussi${ex.filter((e) => e.passed).length > 1 ? 's' : ''} · ${exLangue.length} linguistique${exLangue.length > 1 ? 's' : ''}`} />
         <Kpi teinte="mint" icon={<Trophy size={16} />} label="Meilleur score"
              value={ex.length ? `${Math.round(meilleur)} %` : '—'} sub={meilleur >= 80 ? 'Prêt pour l’examen' : 'Sous le seuil de 80 %'} />
         <Kpi teinte="cream" icon={<Flame size={16} />} label="Série"
@@ -148,7 +150,11 @@ export default async function FicheUtilisateurPage({ params }: { params: Promise
               <tbody>
                 {ex.slice(0, 10).map((e, i) => (
                   <tr key={i}>
-                    <td>{e.exam_level ?? '—'}</td>
+                    <td>
+                      {(e.exam_level ?? '').startsWith('LANG_')
+                        ? <span className="adm-tag adm-tag-vio">Langue {(e.exam_level ?? '').replace('LANG_', '')}</span>
+                        : <span className="adm-tag">Civique {e.exam_level ?? '—'}</span>}
+                    </td>
                     <td className="adm-num adm-strong">{e.score}/{e.total_q}</td>
                     <td className="adm-num">
                       <span className={`adm-tag ${e.passed ? 'adm-tag-life' : 'adm-tag-risk'}`}>

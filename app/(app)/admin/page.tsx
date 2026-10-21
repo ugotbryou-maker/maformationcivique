@@ -199,6 +199,17 @@ export default async function AdminDashboardPage() {
             <Stat n={`${s.engagement.scoreMoyen} %`} l="Score moyen" />
             <Stat n={s.engagement.badges} l="Badges obtenus" />
           </div>
+          <div className="adm-stats" style={{ marginTop: 20, paddingTop: 18, borderTop: '1px solid var(--adm-line)' }}>
+            <Stat
+              n={`${s.engagement.examensCiviquesReussis}/${s.engagement.examensCiviques}`}
+              l="Examens civiques réussis"
+            />
+            <Stat
+              n={`${s.engagement.examensLangueReussis}/${s.engagement.examensLangue}`}
+              l="Examens linguistiques réussis"
+            />
+            <Stat n={s.engagement.candidatsLangue} l="Candidats sur la filière langue" />
+          </div>
         </Carte>
       </div>
 
