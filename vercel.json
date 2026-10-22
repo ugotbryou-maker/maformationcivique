@@ -1,16 +1,6 @@
 {
   "crons": [
-    {
-      "path": "/api/brevo/sync",
-      "schedule": "0 4 * * *"
-    },
-    {
-      "path": "/api/cabinet/rapport-mensuel",
-      "schedule": "0 17 1 * *"
-    },
-    {
-      "path": "/api/cabinet/rapport-mensuel",
-      "schedule": "0 18 1 * *"
-    }
+    { "path": "/api/brevo/sync", "schedule": "0 4 * * *" },
+    { "path": "/api/cabinet/rapport-mensuel", "schedule": "0 18 1 * *" }
   ]
 }

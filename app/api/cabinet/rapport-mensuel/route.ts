@@ -10,10 +10,10 @@
  * GET : simulation, ne poste aucun e-mail.
  * Authentification : administrateur connecté, ou CRON_SECRET (planificateur).
  *
- * Horaire : 19 h, heure de Paris. La tâche est déclenchée à deux heures UTC
- * différentes — l'une correspond à 19 h en été, l'autre en hiver — et c'est
- * ce code qui écarte le mauvais déclenchement. Un administrateur peut forcer
- * l'envoi avec ?force=1.
+ * Horaire : en soirée, heure de Paris — 19 h en hiver, 20 h en été, le
+ * décalage saisonnier ne permettant pas de viser une heure fixe avec une
+ * tâche quotidienne unique. Un administrateur peut forcer l'envoi avec
+ * ?force=1.
  */
 
 export const dynamic = 'force-dynamic';
@@ -173,8 +173,8 @@ export async function POST(req: NextRequest) {
   try {
     if (!await autorise(req)) return NextResponse.json({ error: 'Non autorisé' }, { status: 403 });
 
-    // Le planificateur passe deux fois ; on ne retient que le passage qui
-    // tombe à 19 h à Paris.
+    // Garde-fou : un déclenchement manuel hors soirée ne doit pas partir vers
+    // les cabinets sans qu'on l'ait voulu.
     const force = req.nextUrl.searchParams.get('force') === '1';
     const { envoyer, heure } = estHeureDEnvoi(force);
     if (!envoyer) {

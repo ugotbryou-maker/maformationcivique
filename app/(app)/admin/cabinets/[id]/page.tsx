@@ -267,7 +267,9 @@ export default async function FichePartenairePage({ params }: { params: Promise<
               <tbody>
                 {clients.map((m) => {
                   const pr = progressByUser.get(m.id);
-                  const pct = pr?.global.pct ?? 0;
+                  // La préparation, pas le parcours : sinon l'étiquette
+                  // « examen blanc » accompagnait le taux de leçons lues.
+                  const pct = pr?.preparation.pct ?? 0;
                   const ex = examsParUser.get(m.id) ?? [];
                   return (
                     <tr key={m.id}>

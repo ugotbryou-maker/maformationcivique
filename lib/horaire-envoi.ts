@@ -1,16 +1,20 @@
 /**
- * Fenêtre d'envoi des e-mails : 19 h, heure de Paris.
+ * Fenêtre d'envoi des e-mails : en soirée, heure de Paris.
  *
- * POURQUOI CE FICHIER : les tâches planifiées Vercel s'expriment en UTC, et
- * 19 h à Paris ne correspond pas à une heure UTC fixe — c'est 17 h UTC en été
- * (UTC+2) et 18 h UTC en hiver (UTC+1). Un horaire UTC figé enverrait donc à
- * 20 h la moitié de l'année.
+ * Les tâches planifiées Vercel s'expriment en UTC, et 19 h à Paris ne
+ * correspond pas à une heure UTC fixe : c'est 17 h UTC en été (UTC+2) et
+ * 18 h UTC en hiver (UTC+1).
  *
- * La tâche est déclenchée aux deux heures UTC possibles, et c'est le code qui
- * décide laquelle est la bonne, en lisant l'heure réelle à Paris.
+ * On ne peut pas déclencher la tâche aux deux heures possibles : le plan
+ * Hobby de Vercel n'autorise que deux tâches au total et une exécution par
+ * jour. On vise donc 18 h UTC, ce qui donne 19 h à Paris en hiver et 20 h en
+ * été, et la fenêtre acceptée couvre les deux. Dans tous les cas, l'envoi
+ * tombe en soirée — ce qui était l'objectif.
  */
 
 export const HEURE_ENVOI_PARIS = 19;
+/** Heures acceptées, pour absorber le décalage saisonnier. */
+const FENETRE = [18, 19, 20];
 
 /** Heure courante à Paris, décalage saisonnier compris. */
 export function heureParis(d: Date = new Date()): number {
@@ -31,5 +35,5 @@ export function heureParis(d: Date = new Date()): number {
  */
 export function estHeureDEnvoi(force = false): { envoyer: boolean; heure: number } {
   const heure = heureParis();
-  return { envoyer: force || heure === HEURE_ENVOI_PARIS, heure };
+  return { envoyer: force || FENETRE.includes(heure), heure };
 }
