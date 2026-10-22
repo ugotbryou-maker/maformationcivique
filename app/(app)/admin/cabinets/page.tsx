@@ -21,7 +21,7 @@ const TIER_PRICE: Record<string, number> = {
 };
 
 function euro(n: number) {
-  return n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+  return n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
 }
 
 interface LignePortefeuille {

@@ -222,7 +222,7 @@ export function BlocFacturation({ cabinetId, cabinetNom, client, billingMode, aF
 
           <p className="adm-note" style={{ marginTop: 10 }}>
             {coches.size} compte{coches.size > 1 ? 's' : ''} sélectionné{coches.size > 1 ? 's' : ''}
-            {totalSelection > 0 && ` — environ ${totalSelection.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })}`}.
+            {totalSelection > 0 && ` — environ ${totalSelection.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}`}.
             Leurs noms figureront sur la facture, pour que le partenaire sache pour qui il paie.
           </p>
         </div>
