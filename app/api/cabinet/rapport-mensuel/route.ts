@@ -53,13 +53,17 @@ async function construire(appUrl: string) {
   ]);
 
   const { data: examens } = await s
-    .from('exam_results').select('user_id, passed');
+    .from('exam_results').select('user_id, score, total_q, passed');
   const examParUser = new Map<string, { passes: number; reussis: number }>();
+  const examResultats = new Map<string, { score: number; total_q: number; passed: boolean | null }[]>();
   for (const e of examens ?? []) {
     const v = examParUser.get(e.user_id) ?? { passes: 0, reussis: 0 };
     v.passes += 1;
     if (e.passed) v.reussis += 1;
     examParUser.set(e.user_id, v);
+    const l = examResultats.get(e.user_id) ?? [];
+    l.push({ score: e.score, total_q: e.total_q, passed: e.passed });
+    examResultats.set(e.user_id, l);
   }
 
   const progParUser = new Map<string, NonNullable<typeof progression>>();
@@ -86,7 +90,8 @@ async function construire(appUrl: string) {
 
     const volet = voletDuPlan(null, c.member_plan);
     const lignes = clients.map((m) => {
-      const p = calculerProgression(progParUser.get(m.id) ?? [], volet, m.demarche);
+      const resultats = examResultats.get(m.id) ?? [];
+      const p = calculerProgression(progParUser.get(m.id) ?? [], volet, m.demarche, resultats);
       const ex = examParUser.get(m.id) ?? { passes: 0, reussis: 0 };
 
       // On annonce ce qui a été fait, pas la part de ce qui reste. « 6 leçons
@@ -97,7 +102,9 @@ async function construire(appUrl: string) {
         ? 'aucune leçon terminée'
         : `${p.leconsTerminees} leçon${p.leconsTerminees > 1 ? 's' : ''} terminée${p.leconsTerminees > 1 ? 's' : ''}`);
       if (ex.passes > 0) {
-        morceaux.push(`${ex.passes} examen${ex.passes > 1 ? 's' : ''} blanc${ex.passes > 1 ? 's' : ''}`);
+        morceaux.push(`${ex.passes} examen${ex.passes > 1 ? 's' : ''} blanc${ex.passes > 1 ? 's' : ''} · meilleur score ${p.preparation.pct} %`);
+      } else if (p.moduleEnCours) {
+        morceaux.push(`${p.moduleEnCours.titre} à ${p.moduleEnCours.pct} %`);
       }
       if (volet === 'complet' && p.civique.pct > 0 && p.langue.pct > 0) {
         morceaux.push(`civique ${p.civique.pct} % · ${p.niveau} ${p.langue.pct} %`);
@@ -105,7 +112,7 @@ async function construire(appUrl: string) {
 
       return {
         nom: m.name || m.email || 'Client',
-        progression: p.global.pct,
+        progression: p.preparation.pct,
         detail: morceaux.join(' · '),
         joursInactif: jours(m.last_active),
       } as LigneRapport;

@@ -35,6 +35,9 @@ export const ATTRIBUTS_BREVO = [
   { nom: 'PROGRESSION_LNG',   type: 'float' },
   { nom: 'NIVEAU_LANGUE',     type: 'text' },   // A2 | B1 | B2 — dénominateur retenu
   { nom: 'LECONS_TERMINEES',  type: 'float' },  // toutes filières confondues
+  { nom: 'PREPARATION',       type: 'float' },  // 0-100 — meilleur examen, sinon parcours
+  { nom: 'PREPARATION_SOURCE', type: 'text' },  // examen | parcours
+  { nom: 'MODULES_TERMINES',  type: 'float' },
   { nom: 'PALIER',            type: 'float' },  // 0 | 25 | 50 | 75 | 100
   { nom: 'EXAMENS_PASSES',    type: 'float' },
   { nom: 'EXAMENS_REUSSIS',   type: 'float' },

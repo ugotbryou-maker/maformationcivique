@@ -44,7 +44,9 @@ export default async function FicheUtilisateurPage({ params }: { params: Promise
 
   // Progression par volet : un élève venu pour le français seul affichait 0 %
   // tant qu'il n'avait pas ouvert une leçon civique.
-  const prog = calculerProgression(progression ?? [], voletDuPlan(u.plan, cabinet ? undefined : null), u.demarche);
+  const prog = calculerProgression(
+    progression ?? [], voletDuPlan(u.plan, cabinet ? undefined : null), u.demarche, exams ?? [],
+  );
 
   // Détail par module civique : la moyenne masque le module bloquant.
   const faites = new Set(
@@ -116,11 +118,9 @@ export default async function FicheUtilisateurPage({ params }: { params: Promise
 
       {/* ── Performance ──────────────────────────────────────────────────── */}
       <div className="adm-grid adm-grid-4">
-        <Kpi teinte="sky" icon={<BookOpen size={16} />} label="Progression"
-             value={`${pctGlobal} %`}
-             sub={prog.volet === 'complet'
-               ? `civique ${prog.civique.faites}/${prog.civique.total} · français ${prog.langue.faites}/${prog.langue.total}`
-               : `${prog.global.faites} / ${prog.global.total} leçons · ${LIBELLE_VOLET[prog.volet]}`} />
+        <Kpi teinte="sky" icon={<BookOpen size={16} />} label="Préparation"
+             value={`${prog.preparation.pct} %`}
+             sub={prog.preparation.libelle} />
         <Kpi teinte="violet" icon={<Target size={16} />} label="Examens blancs"
              value={String(ex.length)}
              sub={`${ex.filter((e) => e.passed).length} réussi${ex.filter((e) => e.passed).length > 1 ? 's' : ''} · ${exLangue.length} linguistique${exLangue.length > 1 ? 's' : ''}`} />

@@ -73,19 +73,8 @@ export default async function FichePartenairePage({ params }: { params: Promise<
   // seules 22 leçons civiques : un cabinet en formule complète y voyait 18 %
   // là où la fiche de l'élève affichait 10 %, et 0 % pour quelqu'un qui
   // travaillait le français. Deux écrans, deux vérités.
-  const voletCabinet = voletDuPlan(null, cabinet.member_plan);
-  const progressByUser = new Map<string, ProgressionVolets>();
-  for (const m of members ?? []) {
-    progressByUser.set(
-      m.id,
-      calculerProgression((allProgress ?? []).filter((p) => p.user_id === m.id), voletCabinet),
-    );
-  }
-  const pctDe = (id: string) => progressByUser.get(id)?.global.pct ?? 0;
-
-  // Examens par élève — une épreuve blanche est un travail réel, au même titre
-  // qu'une leçon. Ne pas la compter faisait passer pour inactif quelqu'un qui
-  // s'entraînait.
+  // Les examens blancs entrent dans le calcul : ils mesurent la préparation
+  // bien mieux que le nombre de leçons lues.
   const { data: examsClients } = memberIds.length
     ? await service.from('exam_results').select('user_id, exam_level, score, total_q, passed').in('user_id', memberIds)
     : { data: [] as { user_id: string; exam_level: string; score: number; total_q: number; passed: boolean }[] };
@@ -95,6 +84,21 @@ export default async function FichePartenairePage({ params }: { params: Promise<
     l.push(e);
     examsParUser.set(e.user_id, l);
   }
+
+  const voletCabinet = voletDuPlan(null, cabinet.member_plan);
+  const progressByUser = new Map<string, ProgressionVolets>();
+  for (const m of members ?? []) {
+    progressByUser.set(
+      m.id,
+      calculerProgression(
+        (allProgress ?? []).filter((p) => p.user_id === m.id),
+        voletCabinet,
+        null,
+        examsParUser.get(m.id) ?? [],
+      ),
+    );
+  }
+  const pctDe = (id: string) => progressByUser.get(id)?.preparation.pct ?? 0;
 
   // Attribution commerciale : qui a envoyé chaque invitation.
   const nomPar = new Map<string, string>();
@@ -180,7 +184,7 @@ export default async function FichePartenairePage({ params }: { params: Promise<
       <div className="adm-grid adm-grid-4">
         <Kpi teinte="sky" icon={<Users size={16} />} label="Clients inscrits"
              value={String(clients.length)} sub={`+ ${pendingN} en attente`} />
-        <Kpi teinte="violet" icon={<TrendingUp size={16} />} label="Progression moyenne"
+        <Kpi teinte="violet" icon={<TrendingUp size={16} />} label="Préparation moyenne"
              value={`${avgPct} %`} sub={`${actifs} actifs sur 30 jours`} />
         <Kpi teinte="mint" icon={<Target size={16} />} label="Examens blancs"
              value={String(totalExamens)}
@@ -275,14 +279,21 @@ export default async function FichePartenairePage({ params }: { params: Promise<
                         />
                       </td>
                       <td className="adm-dim">{invitePar.get(m.id) ?? '—'}</td>
-                      <td style={{ minWidth: 150 }}>
-                        <p className="adm-dim" style={{ margin: '0 0 5px' }}>
-                          {pct} %
-                          {pr && voletCabinet === 'complet' && (
-                            <> · civique {pr.civique.pct} % · français {pr.langue.pct} %</>
+                      <td style={{ minWidth: 190 }}>
+                        <p style={{ margin: '0 0 2px', display: 'flex', alignItems: 'baseline', gap: 7 }}>
+                          <strong style={{ fontSize: 15 }}>{pct} %</strong>
+                          {pr && (
+                            <span className={`adm-tag ${pr.preparation.source === 'examen' ? 'adm-tag-life' : 'adm-tag-free'}`}>
+                              {pr.preparation.source === 'examen' ? 'examen blanc' : 'parcours'}
+                            </span>
                           )}
                         </p>
-                        <Jauge pct={pct} />
+                        <p className="adm-dim" style={{ margin: '0 0 5px', fontSize: 11.5 }}>
+                          {pr?.leconsTerminees ?? 0} leçon{(pr?.leconsTerminees ?? 0) > 1 ? 's' : ''}
+                          {pr?.modulesTermines ? ` · ${pr.modulesTermines} module${pr.modulesTermines > 1 ? 's' : ''} terminé${pr.modulesTermines > 1 ? 's' : ''}` : ''}
+                          {pr?.moduleEnCours ? ` · ${pr.moduleEnCours.titre} ${pr.moduleEnCours.pct} %` : ''}
+                        </p>
+                        <Jauge pct={pct} couleur={pct >= 80 ? '#0E7A58' : undefined} />
                       </td>
                       <td className="adm-num">
                         {ex.length === 0

@@ -92,15 +92,30 @@ export default async function CabinetDashboardPage() {
   // La progression se calcule sur le volet souscrit par le cabinet. Rapporter
   // un élève inscrit au seul français aux 22 leçons civiques le ferait
   // apparaître à 0 % alors qu'il peut avoir bien avancé.
+  const { data: examens } = memberIds.length
+    ? await service.from('exam_results').select('user_id, score, total_q, passed').in('user_id', memberIds)
+    : { data: [] as { user_id: string; score: number; total_q: number; passed: boolean }[] };
+  const examParUser = new Map<string, NonNullable<typeof examens>>();
+  for (const e of examens ?? []) {
+    const l = examParUser.get(e.user_id) ?? [];
+    l.push(e);
+    examParUser.set(e.user_id, l);
+  }
+
   const volet = voletDuPlan(null, cabinet?.member_plan);
   const progressByUser = new Map<string, ProgressionVolets>();
   for (const member of members ?? []) {
     progressByUser.set(
       member.id,
-      calculerProgression((allProgress ?? []).filter((p) => p.user_id === member.id), volet),
+      calculerProgression(
+        (allProgress ?? []).filter((p) => p.user_id === member.id),
+        volet, null, examParUser.get(member.id) ?? [],
+      ),
     );
   }
-  const pctDe = (id: string) => progressByUser.get(id)?.global.pct ?? 0;
+  // La préparation prime sur le nombre de leçons : c'est elle qui dit si le
+  // client est prêt, et c'est la seule chose que le cabinet a à savoir.
+  const pctDe = (id: string) => progressByUser.get(id)?.preparation.pct ?? 0;
 
   // max_invitations NULL = sièges illimités : il ne faut afficher ni plafond
   // ni « 0 place restante », qui laisserait croire à un blocage.

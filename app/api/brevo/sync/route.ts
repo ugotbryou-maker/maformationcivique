@@ -71,9 +71,8 @@ async function construire() {
 
     const cabinet = u.cabinet_id ? cab.get(u.cabinet_id) : null;
     const volet = voletDuPlan(u.plan, cabinet?.member_plan);
-    const prog = calculerProgression(progParUser.get(u.id) ?? [], volet, u.demarche);
-
     const ex = examParUser.get(u.id) ?? [];
+    const prog = calculerProgression(progParUser.get(u.id) ?? [], volet, u.demarche, ex);
     const dernier = [...ex].sort((a, b) =>
       String(b.updated_at ?? '').localeCompare(String(a.updated_at ?? '')))[0];
     const meilleur = ex.reduce(
@@ -102,7 +101,12 @@ async function construire() {
         PROGRESSION_LNG: prog.langue.pct,
         NIVEAU_LANGUE: prog.niveau,
         LECONS_TERMINEES: prog.leconsTerminees,
-        PALIER: palierDe(prog.global.pct),
+        PREPARATION: prog.preparation.pct,
+        PREPARATION_SOURCE: prog.preparation.source,
+        MODULES_TERMINES: prog.modulesTermines,
+        // Le palier suit la préparation : c'est sur elle que doivent se
+        // déclencher les félicitations, pas sur la part du catalogue lue.
+        PALIER: palierDe(prog.preparation.pct),
         EXAMENS_PASSES: ex.length,
         EXAMENS_REUSSIS: ex.filter((e) => e.passed).length,
         MEILLEUR_SCORE: meilleur,

@@ -35,6 +35,10 @@ interface ProgressionVolets {
   global: { faites: number; total: number; pct: number };
   civique: { faites: number; total: number; pct: number };
   langue: { faites: number; total: number; pct: number };
+  leconsTerminees?: number;
+  modulesTermines?: number;
+  moduleEnCours?: { titre: string; faites: number; total: number; pct: number } | null;
+  preparation?: { pct: number; source: 'examen' | 'parcours'; libelle: string };
 }
 
 interface Props {
@@ -50,7 +54,9 @@ interface Props {
 }
 
 export function CabinetMemberRow({ id, displayName, email, progression, lastActive, invitedBy }: Props) {
-  const pct = progression?.global.pct ?? 0;
+  // On affiche la préparation — meilleur score d'examen blanc quand il y en
+  // a — plutôt que la part du catalogue lue.
+  const pct = progression?.preparation?.pct ?? progression?.global.pct ?? 0;
   const [revoking, setRevoking] = useState(false);
   const [revoked, setRevoked]   = useState(false);
 
@@ -143,13 +149,28 @@ export function CabinetMemberRow({ id, displayName, email, progression, lastActi
           {/* Progression — détaillée par volet quand le cabinet a souscrit
               les deux parcours, sinon une seule barre. */}
           {progression ? (
-            <JaugeVolets
-              compact
-              volet={progression.volet}
-              global={progression.global}
-              civique={progression.civique}
-              langue={progression.langue}
-            />
+            <div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 5 }}>
+                <strong style={{ fontSize: 14 }}>{pct} %</strong>
+                <span style={{
+                  fontSize: 10.5, fontWeight: 700, padding: '2px 8px', borderRadius: 100,
+                  background: progression.preparation?.source === 'examen' ? '#E4F3EC' : 'var(--color-off-white)',
+                  color: progression.preparation?.source === 'examen' ? '#0B6B4F' : 'var(--color-text-muted)',
+                }}>
+                  {progression.preparation?.source === 'examen' ? 'examen blanc' : 'parcours'}
+                </span>
+                <span style={{ fontSize: 11, color: 'var(--color-text-muted)' }}>
+                  {progression.leconsTerminees ?? 0} leçon{(progression.leconsTerminees ?? 0) > 1 ? 's' : ''}
+                  {progression.moduleEnCours ? ` · ${progression.moduleEnCours.titre} ${progression.moduleEnCours.pct} %` : ''}
+                </span>
+              </div>
+              <div style={{ height: 5, background: 'var(--color-border)', borderRadius: 99, overflow: 'hidden' }}>
+                <div style={{
+                  height: '100%', width: `${pct}%`, borderRadius: 99,
+                  background: pct >= 80 ? '#0F6E56' : barColor, transition: 'width 400ms ease',
+                }} />
+              </div>
+            </div>
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <div style={{ flex: 1, height: 5, borderRadius: 99, background: 'var(--color-border)', overflow: 'hidden' }}>

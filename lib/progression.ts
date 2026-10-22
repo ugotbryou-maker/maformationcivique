@@ -15,9 +15,36 @@
 import { modules } from '@/data/modules';
 import { a2Modules, b1Modules, b2Modules, transversalModules } from '@/data/langue';
 
+/** Catalogue à plat : slug, titre et nombre de leçons de chaque module. */
+const CATALOGUE = [
+  ...modules.map((m) => ({ slug: m.slug, titre: m.title, lecons: m.lessons.length, volet: 'civique' as const })),
+  ...[...a2Modules, ...b1Modules, ...b2Modules, ...transversalModules]
+    .map((m) => ({ slug: m.slug, titre: m.title, lecons: m.lessons.length, volet: 'langue' as const })),
+];
+
 export type Volet = 'civique' | 'langue' | 'complet';
 
 export interface DetailVolet {
+  faites: number;
+  total: number;
+  pct: number;
+}
+
+export interface ResultatExamen {
+  score: number;
+  total_q: number;
+  passed?: boolean | null;
+}
+
+export interface Preparation {
+  pct: number;
+  /** D'où vient le chiffre — à afficher, pour qu'il ne soit pas pris pour autre chose. */
+  source: 'examen' | 'parcours';
+  libelle: string;
+}
+
+export interface ModuleEnCours {
+  titre: string;
   faites: number;
   total: number;
   pct: number;
@@ -34,6 +61,18 @@ export interface ProgressionVolets {
   global: DetailVolet;
   /** Totaux bruts, utiles quand on préfère annoncer un nombre qu'un taux. */
   leconsTerminees: number;
+  /** Modules entièrement terminés. */
+  modulesTermines: number;
+  /** Module le plus avancé parmi ceux commencés et non finis. */
+  moduleEnCours: ModuleEnCours | null;
+  /**
+   * Indicateur mis en avant. Quand la personne a passé un examen blanc, c'est
+   * son meilleur score qui fait foi : l'épreuve reproduit l'examen réel et
+   * mesure donc directement ce qui intéresse le cabinet — est-elle prête ?
+   * Le taux de leçons lues mesure l'effort, pas le résultat, et sous-estime
+   * massivement quelqu'un qui réussit l'épreuve sans avoir lu tout le cours.
+   */
+  preparation: Preparation;
 }
 
 export interface LigneProgression {
@@ -109,6 +148,7 @@ export function calculerProgression(
   lignes: LigneProgression[],
   volet: Volet,
   demarche?: string | null,
+  examens: ResultatExamen[] = [],
 ): ProgressionVolets {
   const niveau = niveauCible(demarche, lignes);
   const slugsNiveau = new Set(MODULES_PAR_NIVEAU[niveau].map((m) => m.slug));
@@ -146,26 +186,71 @@ export function calculerProgression(
     pct: Math.min(100, pourcent(faitesLng.size, totalLangue)),
   };
 
-  // Pour un parcours complet, le pourcentage global est la MOYENNE des deux
-  // volets, pas le rapport brut des leçons terminées au total.
+  // Pour un parcours complet, le pourcentage global est la moyenne des volets
+  // RÉELLEMENT ENTAMÉS, et non des deux systématiquement.
   //
-  // Le volet linguistique compte 127 leçons contre 22 au civique : pondérer
-  // par le nombre de leçons laisserait le français écraser le civique. Un
-  // élève ayant terminé l'intégralité du programme civique afficherait 15 %,
-  // ce qui est faux de son point de vue comme de celui du cabinet. Chaque
-  // volet est un objectif en soi ; ils pèsent donc autant l'un que l'autre.
+  // Deux raisons. D'abord, pondérer par le nombre de leçons laisserait le
+  // français — 50 leçons et plus — écraser le civique et ses 22 : quelqu'un
+  // ayant terminé tout le programme civique afficherait 15 %. Ensuite, un
+  // élève qui travaille uniquement le français voyait son taux divisé par
+  // deux à cause d'un 0 % civique sur des leçons qu'il n'a jamais ouvertes —
+  // exactement la distorsion corrigée plus haut sur les niveaux de langue.
+  const entames = [civique, langue].filter((d) => d.faites > 0);
   const global: DetailVolet =
     volet === 'civique' ? civique
     : volet === 'langue' ? langue
     : {
         faites: civique.faites + langue.faites,
         total: civique.total + langue.total,
-        pct: Math.round((civique.pct + langue.pct) / 2),
+        pct: entames.length === 0
+          ? 0
+          : Math.round(entames.reduce((a, d) => a + d.pct, 0) / entames.length),
+      };
+
+  // ── Modules : terminés, et le plus avancé en cours ──────────────────
+  const parModule = new Map<string, Set<string>>();
+  for (const l of lignes) {
+    if (!l.completed || !l.module_slug || !l.lesson_slug) continue;
+    const e = parModule.get(l.module_slug) ?? new Set<string>();
+    e.add(l.lesson_slug);
+    parModule.set(l.module_slug, e);
+  }
+
+  let modulesTermines = 0;
+  let moduleEnCours: ModuleEnCours | null = null;
+
+  for (const [slug, faites] of parModule) {
+    const mod = CATALOGUE.find((m) => m.slug === slug);
+    if (!mod) continue;
+    if (faites.size >= mod.lecons) { modulesTermines += 1; continue; }
+    const pct = Math.round((faites.size / mod.lecons) * 100);
+    if (!moduleEnCours || pct > moduleEnCours.pct) {
+      moduleEnCours = { titre: mod.titre, faites: faites.size, total: mod.lecons, pct };
+    }
+  }
+
+  // ── Préparation ─────────────────────────────────────────────────────
+  const meilleur = examens.reduce(
+    (a, e) => Math.max(a, e.total_q > 0 ? Math.round((e.score / e.total_q) * 100) : 0), 0);
+
+  const preparation: Preparation = examens.length > 0
+    ? {
+        pct: meilleur,
+        source: 'examen',
+        libelle: `meilleur score sur ${examens.length} examen${examens.length > 1 ? 's' : ''} blanc${examens.length > 1 ? 's' : ''}`,
+      }
+    : {
+        pct: global.pct,
+        source: 'parcours',
+        libelle: 'parcours suivi — aucun examen blanc passé',
       };
 
   return {
     volet, niveau, civique, langue, global,
     leconsTerminees: faitesCiv.size + faitesLng.size,
+    modulesTermines,
+    moduleEnCours,
+    preparation,
   };
 }
 
