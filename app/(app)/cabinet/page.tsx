@@ -55,21 +55,27 @@ export default async function CabinetDashboardPage() {
 
   const service = createServiceRoleClient();
 
-  const { data: cabinet } = await service
+  // Les erreurs de lecture étaient ignorées : une colonne absente du projet
+  // de production donnait une exception nue, sans message exploitable depuis
+  // le navigateur — Next les masque en production.
+  const { data: cabinet, error: errCabinet } = await service
     .from('cabinets').select('*').eq('id', profile.cabinet_id).single();
+  if (errCabinet) throw new Error(`cabinets — ${errCabinet.message}`);
 
-  const { data: members } = await service
+  const { data: members, error: errMembres } = await service
     .from('users')
     .select('id, name, email, plan, cabinet_role, xp, last_active')
     .eq('cabinet_id', profile.cabinet_id);
+  if (errMembres) throw new Error(`users — ${errMembres.message}`);
 
   // Toutes les invitations, pas seulement celles en attente : les invitations
   // utilisées disent qui a amené chaque client, ce qui compte dès qu'un
   // cabinet confie son portefeuille à plusieurs commerciaux.
-  const { data: toutesInvites } = await service
+  const { data: toutesInvites, error: errInvites } = await service
     .from('cabinet_invites')
     .select('id, email, created_at, role, invited_by, redeemed_at, redeemed_user_id')
     .eq('cabinet_id', profile.cabinet_id);
+  if (errInvites) throw new Error(`cabinet_invites — ${errInvites.message}`);
 
   const pendingInvites = (toutesInvites ?? []).filter((i) => !i.redeemed_at);
 
