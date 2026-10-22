@@ -50,6 +50,16 @@
 .fact-table th.fact-num { padding-right: 0; }
 .fact-table td.fact-num { padding-right: 0; }
 
+.fact-benef { margin-top: 22px; }
+.fact-benef-liste { list-style: none; margin: 10px 0 0; padding: 0; }
+.fact-benef-liste li {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 6px 0; font-size: 12.5px; color: #4c5873;
+  border-bottom: 1px solid #f3f6fb;
+}
+.fact-benef-liste li:last-child { border-bottom: none; }
+.fact-benef-date { color: #7d889f; white-space: nowrap; }
+
 .fact-totaux { margin: 22px 0 0; margin-left: auto; max-width: 320px; }
 .fact-total-ligne {
   display: flex; justify-content: space-between; gap: 20px;

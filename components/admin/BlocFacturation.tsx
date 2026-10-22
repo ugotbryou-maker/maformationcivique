@@ -2,7 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Receipt, Save, FileText, AlertTriangle, Check } from 'lucide-react';
+import { useEffect } from 'react';
+import { Receipt, Save, FileText, AlertTriangle, Check, Users, RefreshCw } from 'lucide-react';
+
+interface Activation {
+  id: string; nom: string; email: string; date: string;
+  dejaFacturee: boolean; factureRef: string | null;
+}
 
 interface Props {
   cabinetId: string;
@@ -47,6 +53,37 @@ export function BlocFacturation({ cabinetId, cabinetNom, client, billingMode, aF
   const [etat, setEtat] = useState<'repos' | 'save' | 'creer'>('repos');
   const [retour, setRetour] = useState<{ ok: boolean; texte: string; manques?: string[] } | null>(null);
 
+  const [activations, setActivations] = useState<Activation[]>([]);
+  const [coches, setCoches] = useState<Set<string>>(new Set());
+  const [chargement, setChargement] = useState(false);
+
+  // Les comptes facturables de la période, rechargés dès qu'elle change.
+  useEffect(() => {
+    if (billingMode !== 'usage') return;
+    let annule = false;
+    setChargement(true);
+    fetch(`/api/admin/facturation/activations?cabinet=${cabinetId}&debut=${debut}&fin=${fin}`)
+      .then((r) => r.json())
+      .then((j) => {
+        if (annule || !j.activations) return;
+        setActivations(j.activations);
+        // Par défaut, tout ce qui n'a jamais été facturé.
+        setCoches(new Set(j.activations.filter((a: Activation) => !a.dejaFacturee).map((a: Activation) => a.id)));
+      })
+      .catch(() => {})
+      .finally(() => { if (!annule) setChargement(false); });
+    return () => { annule = true; };
+  }, [cabinetId, debut, fin, billingMode]);
+
+  function basculer(id: string) {
+    const n = new Set(coches);
+    if (n.has(id)) n.delete(id); else n.add(id);
+    setCoches(n);
+  }
+
+  const prixUnitaire = Number(montantDu.replace(/[^0-9,]/g, '').replace(',', '.')) / Math.max(1, aFacturer);
+  const totalSelection = coches.size * (Number.isFinite(prixUnitaire) ? prixUnitaire : 0);
+
   const complet = v.fact_raison_sociale && v.fact_adresse && v.fact_code_postal && v.fact_ville;
 
   async function enregistrer() {
@@ -73,6 +110,7 @@ export function BlocFacturation({ cabinetId, cabinetNom, client, billingMode, aF
         body: JSON.stringify({
           cabinet_id: cabinetId, periode_debut: debut, periode_fin: fin,
           marquer_facture: pointer,
+          ...(billingMode === 'usage' ? { activations: [...coches] } : {}),
         }),
       });
       const j = await r.json();
@@ -129,11 +167,73 @@ export function BlocFacturation({ cabinetId, cabinetNom, client, billingMode, aF
         )}
       </div>
 
+      {/* ── Comptes à faire figurer sur la facture ──────────────────── */}
+      {billingMode === 'usage' && (
+        <div style={{ marginTop: 18, paddingTop: 16, borderTop: '1px solid var(--adm-line)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', marginBottom: 12 }}>
+            <p style={{ fontSize: 12.5, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 7 }}>
+              <Users size={14} /> Comptes à facturer
+              {chargement && <RefreshCw size={13} style={{ opacity: .5 }} />}
+            </p>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+              <button className="adm-btn adm-btn-light adm-btn-sm"
+                      onClick={() => setCoches(new Set(activations.filter((a) => !a.dejaFacturee).map((a) => a.id)))}>
+                Tout cocher
+              </button>
+              <button className="adm-btn adm-btn-light adm-btn-sm" onClick={() => setCoches(new Set())}>
+                Tout décocher
+              </button>
+            </div>
+          </div>
+
+          {activations.length === 0 ? (
+            <p className="adm-dim" style={{ fontSize: 12.5 }}>
+              {chargement ? 'Chargement…' : 'Aucun compte activé sur cette période.'}
+            </p>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 2, maxHeight: 280, overflowY: 'auto' }}>
+              {activations.map((a) => (
+                <label key={a.id} style={{
+                  display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px',
+                  borderRadius: 9, cursor: a.dejaFacturee ? 'default' : 'pointer',
+                  background: coches.has(a.id) ? 'var(--adm-sky)' : 'transparent',
+                  opacity: a.dejaFacturee && !coches.has(a.id) ? 0.55 : 1,
+                }}>
+                  <input
+                    type="checkbox" checked={coches.has(a.id)} onChange={() => basculer(a.id)}
+                    style={{ width: 16, height: 16, accentColor: 'var(--adm-ink)', flexShrink: 0 }}
+                  />
+                  <span style={{ flex: 1, minWidth: 0, fontSize: 13 }}>
+                    {a.nom ? <strong>{a.nom}</strong> : null}
+                    {a.nom ? ' — ' : ''}{a.email}
+                  </span>
+                  {a.dejaFacturee && (
+                    <span className="adm-tag adm-tag-warn" style={{ flexShrink: 0 }}>
+                      déjà facturé{a.factureRef ? ` · ${a.factureRef}` : ''}
+                    </span>
+                  )}
+                  <span className="adm-dim" style={{ fontSize: 11.5, flexShrink: 0 }}>
+                    {new Date(a.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' })}
+                  </span>
+                </label>
+              ))}
+            </div>
+          )}
+
+          <p className="adm-note" style={{ marginTop: 10 }}>
+            {coches.size} compte{coches.size > 1 ? 's' : ''} sélectionné{coches.size > 1 ? 's' : ''}
+            {totalSelection > 0 && ` — environ ${totalSelection.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })}`}.
+            Leurs noms figureront sur la facture, pour que le partenaire sache pour qui il paie.
+          </p>
+        </div>
+      )}
+
       <div style={{ display: 'flex', gap: 9, flexWrap: 'wrap', marginTop: 16 }}>
         <button className="adm-btn adm-btn-light" onClick={enregistrer} disabled={etat !== 'repos'}>
           <Save size={15} /> {etat === 'save' ? 'Enregistrement…' : 'Enregistrer les coordonnées'}
         </button>
-        <button className="adm-btn" onClick={creer} disabled={etat !== 'repos' || !complet}>
+        <button className="adm-btn" onClick={creer}
+                disabled={etat !== 'repos' || !complet || (billingMode === 'usage' && coches.size === 0)}>
           <Receipt size={15} /> {etat === 'creer' ? 'Création…' : 'Créer la facture'}
         </button>
       </div>

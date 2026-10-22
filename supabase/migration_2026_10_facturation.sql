@@ -93,3 +93,11 @@ ALTER TABLE public.factures ENABLE ROW LEVEL SECURITY;
 -- ── Contrôle ─────────────────────────────────────────────────────
 -- SELECT numero, statut, total_ttc, date_emission FROM public.factures
 --  ORDER BY date_emission DESC;
+
+-- ── 4. Bénéficiaires nommés sur la facture ───────────────────────
+-- Le client doit pouvoir vérifier pour qui il paie : une ligne
+-- « 7 comptes activés » n'est pas contrôlable de son côté.
+ALTER TABLE public.factures
+  ADD COLUMN IF NOT EXISTS beneficiaires jsonb NOT NULL DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS envoyee_le    timestamptz,
+  ADD COLUMN IF NOT EXISTS envoyee_a     text;

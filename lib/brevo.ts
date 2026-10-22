@@ -21,6 +21,9 @@ interface SendEmailOptions {
   subject: string;
   htmlContent: string;
   from?: EmailRecipient;
+  /** Pièces jointes : contenu encodé en base64, nom affiché au destinataire. */
+  attachment?: { name: string; content: string }[];
+  replyTo?: EmailRecipient;
 }
 
 export async function sendEmail(options: SendEmailOptions): Promise<void> {
@@ -29,6 +32,8 @@ export async function sendEmail(options: SendEmailOptions): Promise<void> {
 
   const payload = {
     sender: options.from ?? { name: 'Ma Formation Civique', email: 'contact@maformationcivique.fr' },
+    ...(options.attachment?.length ? { attachment: options.attachment } : {}),
+    ...(options.replyTo ? { replyTo: options.replyTo } : {}),
     to: options.to,
     subject: options.subject,
     htmlContent: options.htmlContent,

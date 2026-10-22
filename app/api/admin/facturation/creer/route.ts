@@ -38,6 +38,8 @@ export async function POST(req: NextRequest) {
       cabinet_id?: string; periode_debut?: string; periode_fin?: string;
       lignes?: { libelle: string; quantite: number; prix_unitaire: number }[];
       marquer_facture?: boolean;
+      /** Activations cochées. Si absent, toutes celles de la période. */
+      activations?: string[];
     };
 
     if (!body.cabinet_id) {
@@ -77,6 +79,7 @@ export async function POST(req: NextRequest) {
     // ── Lignes ───────────────────────────────────────────────────────────
     let lignes: LigneFacture[];
     let activationsFacturees: string[] = [];
+    let beneficiaires: { nom: string; email: string; date: string | null }[] = [];
 
     if (body.lignes?.length) {
       lignes = body.lignes.map((l) => ({
@@ -86,13 +89,20 @@ export async function POST(req: NextRequest) {
         total: Math.round((Number(l.quantite) || 0) * (Number(l.prix_unitaire) || 0) * 100) / 100,
       }));
     } else if (cabinet.billing_mode === 'usage') {
+      // Sélection explicite si l'administrateur a coché des comptes ; sinon
+      // toutes les activations non facturées de la période.
       let q = s.from('cabinet_invites')
-        .select('id, redeemed_at')
+        .select('id, email, redeemed_at, redeemed_user_id')
         .eq('cabinet_id', cabinet.id)
-        .not('redeemed_at', 'is', null)
-        .is('facture_le', null);
-      if (body.periode_debut) q = q.gte('redeemed_at', body.periode_debut);
-      if (body.periode_fin) q = q.lte('redeemed_at', `${body.periode_fin}T23:59:59`);
+        .not('redeemed_at', 'is', null);
+
+      if (body.activations?.length) {
+        q = q.in('id', body.activations);
+      } else {
+        q = q.is('facture_le', null);
+        if (body.periode_debut) q = q.gte('redeemed_at', body.periode_debut);
+        if (body.periode_fin) q = q.lte('redeemed_at', `${body.periode_fin}T23:59:59`);
+      }
 
       const { data: activations } = await q;
       const n = activations?.length ?? 0;
@@ -103,6 +113,23 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           { error: 'Aucune activation à facturer sur cette période' }, { status: 422 });
       }
+
+      // Noms des comptes : le client doit pouvoir vérifier pour qui il paie.
+      const ids = (activations ?? []).map((a) => a.redeemed_user_id).filter((x): x is string => !!x);
+      const { data: comptes } = ids.length
+        ? await s.from('users').select('id, name, email').in('id', ids)
+        : { data: [] as { id: string; name: string | null; email: string | null }[] };
+      const parId = new Map((comptes ?? []).map((c) => [c.id, c]));
+
+      beneficiaires = (activations ?? []).map((a) => {
+        const u = a.redeemed_user_id ? parId.get(a.redeemed_user_id) : null;
+        return {
+          nom: u?.name ?? '',
+          email: u?.email ?? a.email ?? '',
+          date: a.redeemed_at,
+        };
+      }).sort((x, y) => (x.nom || x.email).localeCompare(y.nom || y.email));
+
       lignes = [{
         libelle: `Accès plateforme — ${n} compte${n > 1 ? 's' : ''} activé${n > 1 ? 's' : ''}`,
         quantite: n, prix_unitaire: pu, total: Math.round(n * pu * 100) / 100,
@@ -127,6 +154,7 @@ export async function POST(req: NextRequest) {
       // pas réécrire les factures déjà émises.
       emetteur: e,
       lignes,
+      beneficiaires,
       periode_debut: body.periode_debut ?? null,
       periode_fin: body.periode_fin ?? null,
       total_ht: t.ht,

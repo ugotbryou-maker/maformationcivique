@@ -5,6 +5,7 @@ import { ChevronLeft } from 'lucide-react';
 import { createServiceRoleClient } from '@/lib/supabase-server';
 import { euros, mentionTva, mentionsRetard, type Emetteur, type ClientFacture, type LigneFacture } from '@/lib/facturation';
 import { StatutFacture } from '@/components/admin/StatutFacture';
+import { ActionsFacture } from '@/components/admin/ActionsFacture';
 import './facture.css';
 
 export const dynamic = 'force-dynamic';
@@ -35,6 +36,16 @@ export default async function FacturePage({ params }: { params: Promise<{ id: st
           <ChevronLeft size={15} /> Factures
         </Link>
         <StatutFacture id={f.id} statut={f.statut} numero={f.numero} />
+      </div>
+
+      <div style={{ marginBottom: 20 }}>
+        <ActionsFacture
+          id={f.id}
+          numero={f.numero}
+          destinataireParDefaut={c.email ?? ''}
+          envoyeeLe={f.envoyee_le ?? null}
+          envoyeeA={f.envoyee_a ?? null}
+        />
       </div>
 
       <article className="fact">
@@ -96,6 +107,22 @@ export default async function FacturePage({ params }: { params: Promise<{ id: st
             ))}
           </tbody>
         </table>
+
+        {Array.isArray(f.beneficiaires) && f.beneficiaires.length > 0 && (
+          <section className="fact-benef">
+            <p className="fact-label">
+              Détail des {f.beneficiaires.length} comptes facturés
+            </p>
+            <ul className="fact-benef-liste">
+              {(f.beneficiaires as { nom: string; email: string; date: string | null }[]).map((b) => (
+                <li key={b.email}>
+                  <span>{b.nom && b.nom !== b.email ? `${b.nom} — ${b.email}` : b.email}</span>
+                  {b.date && <span className="fact-benef-date">activé le {jour(b.date)}</span>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         <div className="fact-totaux">
           <div className="fact-total-ligne"><span>Total HT</span><span>{euros(Number(f.total_ht))}</span></div>
