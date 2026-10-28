@@ -1,3 +1,5 @@
+import { melangerOptions, graineSession } from '@/lib/melange';
+
 export type ExamLevel = 'CSP' | 'CR' | 'NAT';
 export type Difficulty = 'facile' | 'moyen' | 'difficile';
 
@@ -1568,16 +1570,54 @@ export function getQuestionById(id: string): Question | undefined {
   return questions.find((q) => q.id === id);
 }
 
+const LETTRES = ['A', 'B', 'C', 'D'] as const;
+
+/**
+ * Repositionne les propositions d'une question.
+ *
+ * Dans la banque, 65 % des bonnes réponses sont en B et 2 % en D : cocher B
+ * sans lire rapporte déjà 65 %. La position doit donc changer à chaque
+ * génération, sans quoi l'examen mesure la mémoire d'une habitude de
+ * rédaction plutôt que la connaissance.
+ */
+function melangerQuestion(q: Question, graine: string): Question {
+  const valeurs = LETTRES.map((l) => q.options[l]);
+  const origine = LETTRES.indexOf(q.answer);
+  const { options, bonneReponse } = melangerOptions(valeurs, origine, `${graine}:${q.id}`);
+
+  return {
+    ...q,
+    options: { A: options[0], B: options[1], C: options[2], D: options[3] },
+    answer: LETTRES[bonneReponse],
+  };
+}
+
+/**
+ * Mélange de Fisher-Yates. Un tri par comparateur aléatoire, comme
+ * auparavant, ne produit pas une distribution uniforme : certaines questions
+ * revenaient plus souvent que d'autres.
+ */
+function melanger<T>(t: T[]): T[] {
+  const a = [...t];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 export function getExamQuestions(level: ExamLevel, count = 40): Question[] {
   const pool = questions.filter((q) => q.level.includes(level));
-  const shuffled = [...pool].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, Math.min(count, shuffled.length));
+  const graine = graineSession();
+  return melanger(pool)
+    .slice(0, Math.min(count, pool.length))
+    .map((q) => melangerQuestion(q, graine));
 }
 
 export function getFreeQuestions(count = 20): Question[] {
   const pool = questions.filter((q) => q.level.includes('CSP'));
-  const shuffled = [...pool].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count);
+  const graine = graineSession();
+  return melanger(pool).slice(0, count).map((q) => melangerQuestion(q, graine));
 }
 
 export function getQuestionStats() {

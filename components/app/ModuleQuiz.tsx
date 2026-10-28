@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useOptionsMelangees } from '@/components/app/useOptionsMelangees';
 import { CheckCircle, XCircle, ChevronRight, Trophy, RotateCcw } from 'lucide-react';
 import Link from 'next/link';
 import type { Exercise } from '@/data/exercises';
@@ -11,7 +12,11 @@ interface Props {
   moduleSlug: string;
 }
 
-export function ModuleQuiz({ questions, moduleTitle, moduleSlug }: Props) {
+export function ModuleQuiz({ questions: questionsBrutes, moduleTitle, moduleSlug }: Props) {
+  // Propositions repositionnées une fois pour tout le quiz : sans cela, la
+  // bonne réponse est en deuxième position sept fois sur dix.
+  const questions = useOptionsMelangees(questionsBrutes, (q, i) => (q as { id?: string }).id ?? String(i));
+
   const [currentQ, setCurrentQ] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [answers, setAnswers] = useState<(number | null)[]>(new Array(questions.length).fill(null));

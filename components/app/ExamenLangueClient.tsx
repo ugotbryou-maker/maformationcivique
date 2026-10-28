@@ -19,6 +19,7 @@ interface QuestionPublique {
 }
 
 interface Epreuve {
+  graine: string;
   niveau: string;
   titre: string;
   demarche: string;
@@ -31,7 +32,13 @@ interface Resultat {
   score: number; total: number; seuil: number; reussi: boolean;
   pourcentage: number; xpGagne: number; dejaCredite: boolean;
   sections: { section: string; libelle: string; justes: number; total: number; pourcentage: number }[];
-  detail: { id: string; section: string; juste: boolean; donnee: string | number | null; corrige: string; explication: string }[];
+  detail: {
+    id: string; section: string; juste: boolean;
+    donnee: string | number | null;
+    /** Texte de la réponse cochée, déjà résolu par le serveur. */
+    donneeTexte: string | null;
+    corrige: string; explication: string;
+  }[];
 }
 
 const LIBELLES: Record<string, string> = {
@@ -80,7 +87,13 @@ export function ExamenLangueClient({ niveau }: { niveau: string }) {
       const r = await fetch(`/api/examen-langue/${niveau}/corriger`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reponses, ids: epreuve?.questions.map((q) => q.id) ?? [] }),
+        body: JSON.stringify({
+          reponses,
+          ids: epreuve?.questions.map((q) => q.id) ?? [],
+          // La graine permet au serveur de retrouver l'ordre exact des
+          // propositions telles qu'elles ont été affichées.
+          graine: epreuve?.graine ?? '',
+        }),
       });
       const j = await r.json();
       if (!r.ok) { setErreur({ message: j.error ?? 'Correction impossible' }); setPhase('erreur'); return; }
@@ -229,7 +242,7 @@ export function ExamenLangueClient({ niveau }: { niveau: string }) {
                       </p>
                       {!d.juste && (
                         <p style={{ fontSize: 13, color: '#C0332B', margin: '0 0 3px' }}>
-                          Votre réponse : {formatReponse(q, d.donnee)}
+                          Votre réponse : {d.donneeTexte ?? '— (sans réponse)'}
                         </p>
                       )}
                       <p style={{ fontSize: 13, color: '#0E7A58', margin: '0 0 5px' }}>
@@ -360,12 +373,6 @@ export function ExamenLangueClient({ niveau }: { niveau: string }) {
       </div>
     </div>
   );
-}
-
-function formatReponse(q: QuestionPublique, v: string | number | null) {
-  if (v === null || v === '') return '— (sans réponse)';
-  if (q.format === 'qcm' && typeof v === 'number') return q.options?.[v] ?? '—';
-  return String(v);
 }
 
 const carte: React.CSSProperties = {

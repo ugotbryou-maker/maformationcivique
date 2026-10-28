@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useOptionsMelangees } from '@/components/app/useOptionsMelangees';
 import { ChevronLeft, ChevronRight, CheckCircle, XCircle } from 'lucide-react';
 import { renderLangMarkdown } from '@/lib/langue-markdown';
 import type { LangLesson, LangExercise } from '@/data/langue/types';
@@ -23,7 +24,9 @@ export function LangLessonReader({ lesson, accent, bg, modTitle, modIndex, modTo
   const [selected, setSelected] = useState<Record<number, number>>({});
   const [xpAwarded, setXpAwarded] = useState(false);
 
-  const exercises = lesson.exercises;
+  // Propositions repositionnées : dans la banque, 71 % des bonnes réponses
+  // sont en deuxième position.
+  const exercises = useOptionsMelangees(lesson.exercises, (e, i) => e.id ?? String(i));
   const totalQ = exercises.length;
   const currentQ: LangExercise | undefined = exercises[qIndex];
   const hasSelected = selected[qIndex] !== undefined;

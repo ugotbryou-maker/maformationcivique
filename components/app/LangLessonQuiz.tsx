@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useOptionsMelangees } from '@/components/app/useOptionsMelangees';
 import { CheckCircle, XCircle, RotateCcw, Trophy } from 'lucide-react';
 import type { LangExercise } from '@/data/langue/types';
 
@@ -10,8 +11,10 @@ interface Props {
   lessonSlug?: string;
 }
 
-export function LangLessonQuiz({ exercises, accent = 'var(--color-blue-france)', lessonSlug }: Props) {
+export function LangLessonQuiz({ exercises: exercicesBruts, accent = 'var(--color-blue-france)', lessonSlug }: Props) {
   const [selected, setSelected] = useState<Record<number, number>>({});
+  // Propositions repositionnées une fois pour toute la série.
+  const exercises = useOptionsMelangees(exercicesBruts, (e, i) => e.id ?? String(i));
   const [showResult, setShowResult] = useState(false);
   const [xpAwarded, setXpAwarded] = useState(false);
 

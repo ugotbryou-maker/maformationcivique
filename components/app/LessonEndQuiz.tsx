@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { melangerOptions, graineSession } from '@/lib/melange';
 import { CheckCircle, XCircle, ChevronRight, RotateCcw, Trophy, HelpCircle, Zap } from 'lucide-react';
 
 export interface QuizQuestion {
@@ -19,7 +20,25 @@ interface Props {
 
 const LABELS: Record<string, string> = { A: 'A', B: 'B', C: 'C', D: 'D' };
 
-export function LessonEndQuiz({ questions, lessonTitle, lessonSlug }: Props) {
+const LETTRES = ['A', 'B', 'C', 'D'] as const;
+
+export function LessonEndQuiz({ questions: questionsBrutes, lessonTitle, lessonSlug }: Props) {
+  // Les propositions sont désignées par une lettre : on permute les textes et
+  // on reporte la lettre de la bonne réponse sur sa nouvelle position.
+  const questions = useMemo(() => {
+    const graine = graineSession();
+    return questionsBrutes.map((q, i) => {
+      const valeurs = LETTRES.map((l) => q.options[l]);
+      const origine = LETTRES.indexOf(q.answer);
+      const m = melangerOptions<string>(valeurs, origine, `${graine}:${i}`);
+      return {
+        ...q,
+        options: { A: m.options[0], B: m.options[1], C: m.options[2], D: m.options[3] },
+        answer: LETTRES[m.bonneReponse],
+      };
+    });
+  }, [questionsBrutes]);
+
   const [idx, setIdx]           = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [score, setScore]       = useState(0);

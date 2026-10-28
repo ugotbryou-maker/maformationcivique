@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { melangerOptions, graineSession } from '@/lib/melange';
 import { CheckCircle, XCircle, Lightbulb } from 'lucide-react';
 import type { Exercise } from '@/data/exercises';
 
@@ -10,8 +11,17 @@ interface Props {
 
 export function LessonExercise({ exercise }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
+
+  // Les propositions sont repositionnées à l'ouverture : dans la banque,
+  // 71 % des bonnes réponses sont en deuxième position.
+  const exercice = useMemo(() => {
+    const m = melangerOptions<string>(
+      exercise.options, exercise.correctIndex, `${graineSession()}:${exercise.id}`,
+    );
+    return { ...exercise, options: m.options, correctIndex: m.bonneReponse };
+  }, [exercise]);
   const answered = selected !== null;
-  const isCorrect = selected === exercise.correctIndex;
+  const isCorrect = selected === exercice.correctIndex;
 
   return (
     <div style={{
@@ -42,13 +52,13 @@ export function LessonExercise({ exercise }: Props) {
 
       {/* Options */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        {exercise.options.map((option, i) => {
+        {exercice.options.map((option, i) => {
           let bg = '#fff';
           let border = '1px solid var(--color-border)';
           let textColor = 'var(--color-text-secondary)';
 
           if (answered) {
-            if (i === exercise.correctIndex) {
+            if (i === exercice.correctIndex) {
               bg = '#F0FDF4'; border = '1.5px solid #16A34A'; textColor = '#15803D';
             } else if (i === selected && !isCorrect) {
               bg = '#FEF2F2'; border = '1.5px solid #DC2626'; textColor = '#B91C1C';
@@ -75,17 +85,17 @@ export function LessonExercise({ exercise }: Props) {
             >
               <span style={{
                 width: 22, height: 22, borderRadius: '50%', flexShrink: 0,
-                background: answered && i === exercise.correctIndex ? '#16A34A' :
+                background: answered && i === exercice.correctIndex ? '#16A34A' :
                              answered && i === selected ? '#DC2626' : '#F3F4F6',
-                color: answered && (i === exercise.correctIndex || i === selected) ? '#fff' : 'var(--color-text-muted)',
+                color: answered && (i === exercice.correctIndex || i === selected) ? '#fff' : 'var(--color-text-muted)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: '11px', fontWeight: 700,
               }}>
-                {answered && i === exercise.correctIndex ? <CheckCircle size={13} /> :
+                {answered && i === exercice.correctIndex ? <CheckCircle size={13} /> :
                  answered && i === selected && !isCorrect ? <XCircle size={13} /> :
                  String.fromCharCode(65 + i)}
               </span>
-              <span style={{ fontSize: 'var(--font-size-sm)', color: textColor, fontWeight: answered && i === exercise.correctIndex ? 600 : 400 }}>
+              <span style={{ fontSize: 'var(--font-size-sm)', color: textColor, fontWeight: answered && i === exercice.correctIndex ? 600 : 400 }}>
                 {option}
               </span>
             </button>

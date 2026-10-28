@@ -14,6 +14,7 @@ import {
   examenLangue, questionParId, reponseCorrecte, corrige, LIBELLE_SECTION,
   type NiveauLangue, type SectionExamen,
 } from '@/data/langue/examens-blancs';
+import { indexOrigine } from '@/lib/melange';
 
 const NIVEAUX = new Set(['A2', 'B1', 'B2']);
 const PLANS_LANGUE = new Set(['langue', 'bundle']);
@@ -33,8 +34,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ niv
     const body = await req.json() as {
       reponses?: Record<string, string | number>;
       ids?: string[];
+      graine?: string;
     };
     const envoyees = body.reponses ?? {};
+    const graine = typeof body.graine === 'string' ? body.graine : '';
 
     // L'épreuve étant tirée au hasard, la correction porte sur les questions
     // effectivement servies — que le client renvoie. On les relit dans le
@@ -60,7 +63,15 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ niv
     // ── Correction ────────────────────────────────────────────────────────
     const parSection = new Map<SectionExamen, { justes: number; total: number }>();
     const detail = aCorriger.map((q) => {
-      const donnee = envoyees[q.id];
+      const brute = envoyees[q.id];
+
+      // Pour un QCM, le navigateur a renvoyé une position dans la liste
+      // qu'on lui a affichée, et non l'index d'origine. On remonte la
+      // permutation avant de comparer.
+      const donnee = (q.format === 'qcm' && typeof brute === 'number' && graine)
+        ? indexOrigine(graine, q.options?.length ?? 4, brute)
+        : brute;
+
       const juste = reponseCorrecte(q, donnee);
       const e = parSection.get(q.section) ?? { justes: 0, total: 0 };
       e.total += 1;
@@ -72,6 +83,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ niv
         juste,
         donnee: donnee ?? null,
         corrige: corrige(q),
+        // On renvoie le TEXTE de ce qui a été coché, pas un index : côté
+        // navigateur, les propositions sont dans l'ordre mélangé, et un
+        // index d'origine y désignerait la mauvaise ligne.
+        donneeTexte: q.format === 'qcm'
+          ? (typeof donnee === 'number' ? q.options?.[donnee] ?? null : null)
+          : (typeof brute === 'string' && brute.trim() ? brute : null),
         explication: q.explication,
       };
     });

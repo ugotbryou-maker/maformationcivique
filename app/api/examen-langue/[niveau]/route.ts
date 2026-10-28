@@ -13,6 +13,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { examenLangue, composerEpreuve, type NiveauLangue } from '@/data/langue/examens-blancs';
+import { melangerOptions, graineSession } from '@/lib/melange';
 
 const NIVEAUX = new Set(['A2', 'B1', 'B2']);
 
@@ -46,7 +47,14 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ nive
     // revenir à réciter les mêmes réponses.
     const tirage = composerEpreuve(n as NiveauLangue);
 
+    // Les propositions sont repositionnées à chaque génération : dans la
+    // banque, 66 % des bonnes réponses sont en B. La graine est renvoyée au
+    // navigateur pour que le serveur retrouve la même permutation au moment
+    // de corriger — la bonne réponse, elle, ne sort jamais d'ici.
+    const graine = graineSession();
+
     return NextResponse.json({
+      graine,
       niveau: examen.niveau,
       titre: examen.titre,
       demarche: examen.demarche,
@@ -59,7 +67,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ nive
         format: q.format,
         support: q.support ?? null,
         enonce: q.enonce,
-        options: q.options ?? null,
+        options: q.format === 'qcm' && q.options
+          ? melangerOptions(q.options, q.bonneReponse ?? 0, `${graine}:${q.id}`).options
+          : null,
         // ni bonneReponse, ni reponses, ni explication
       })),
     });
