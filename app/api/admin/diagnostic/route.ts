@@ -13,7 +13,7 @@
 
 export const dynamic = 'force-dynamic';
 
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { isAdminEmail } from '@/lib/admin';
 
@@ -33,7 +33,7 @@ async function essai(
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const rapport: Record<string, unknown> = {
     environnement: {
       NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'ABSENTE',
@@ -48,13 +48,24 @@ export async function GET() {
     },
   };
 
+  // Deux voies d'accès : une session administrateur depuis le navigateur, ou
+  // l'en-tête CRON_SECRET. La seconde permet de relever le diagnostic sans
+  // dépendre d'une connexion — ce qui compte quand c'est justement
+  // l'interface qui ne s'affiche plus.
+  const secret = process.env.CRON_SECRET?.trim();
+  const parSecret = !!secret && req.headers.get('authorization')?.trim() === `Bearer ${secret}`;
+
   try {
-    const supabase = await createServerSupabaseClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!isAdminEmail(user?.email)) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 403 });
+    if (parSecret) {
+      rapport.compte = 'accès par CRON_SECRET';
+    } else {
+      const supabase = await createServerSupabaseClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!isAdminEmail(user?.email)) {
+        return NextResponse.json({ error: 'Non autorisé' }, { status: 403 });
+      }
+      rapport.compte = user?.email;
     }
-    rapport.compte = user?.email;
   } catch (err) {
     rapport.authentification = err instanceof Error ? err.message : String(err);
     return NextResponse.json(rapport, { status: 500 });
