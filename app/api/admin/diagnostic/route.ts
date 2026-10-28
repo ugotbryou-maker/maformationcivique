@@ -105,9 +105,121 @@ export async function GET() {
     rapport.donnees = { erreur: err instanceof Error ? err.message : String(err) };
   }
 
+  // ── Chaîne de calcul des pages cabinet ────────────────────────────────
+  // Les lectures passent toutes, donc l'exception vient d'après : du calcul
+  // ou du rendu. On rejoue ici le calcul exact de chaque page, cabinet par
+  // cabinet, pour isoler lequel échoue et sur quoi.
+  try {
+    const { calculerProgression, voletDuPlan } = await import('@/lib/progression');
+    const { data: cabs } = await s.from('cabinets').select('*');
+    const { data: membres } = await s.from('users')
+      .select('id, name, email, plan, cabinet_id, cabinet_role, last_active, demarche, xp')
+      .not('cabinet_id', 'is', null);
+    const { data: prog } = await s.from('progression')
+      .select('user_id, module_slug, lesson_slug, completed');
+    const { data: exam } = await s.from('exam_results')
+      .select('user_id, exam_level, score, total_q, passed, updated_at');
+
+    const parCabinet: Record<string, unknown> = {};
+    for (const c of cabs ?? []) {
+      try {
+        const siens = (membres ?? []).filter((m) => m.cabinet_id === c.id);
+        const volet = voletDuPlan(null, c.member_plan);
+        const calculs = siens.map((m) => {
+          const pr = calculerProgression(
+            (prog ?? []).filter((x) => x.user_id === m.id),
+            volet, m.demarche,
+            (exam ?? []).filter((x) => x.user_id === m.id),
+          );
+          return {
+            membre: m.email,
+            preparation: pr.preparation.pct,
+            source: pr.preparation.source,
+            lecons: pr.leconsTerminees,
+            niveau: pr.niveau,
+          };
+        });
+        parCabinet[c.name] = { volet, membres: calculs.length, calculs };
+      } catch (err) {
+        parCabinet[c.name] = { ECHEC: err instanceof Error ? `${err.name}: ${err.message}` : String(err) };
+      }
+    }
+    rapport.calculsCabinets = parCabinet;
+  } catch (err) {
+    rapport.calculsCabinets = { ECHEC_GLOBAL: err instanceof Error ? `${err.name}: ${err.message}\n${err.stack?.split('\n').slice(0, 6).join(' | ')}` : String(err) };
+  }
+
+  // ── Formatages ───────────────────────────────────────────────────────
+  // Une erreur d'Intl ne dépend pas des données mais du moteur : elle se
+  // manifesterait ici et nulle part ailleurs.
+  const formats: Record<string, string> = {};
+  for (const [nom, fn] of [
+    ['euro sans fraction', () => (120).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 })],
+    ['euro deux décimales', () => (120.5).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })],
+    ['date courte', () => new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' })],
+    ['date longue', () => new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })],
+    ['mois', () => new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })],
+    ['heure Paris', () => new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', hour: 'numeric', hour12: false }).format(new Date())],
+  ] as [string, () => string][]) {
+    try { formats[nom] = fn(); }
+    catch (err) { formats[nom] = `ÉCHEC — ${err instanceof Error ? err.message : String(err)}`; }
+  }
+  rapport.formatages = formats;
+
+  // ── Rendu réel des composants partagés ───────────────────────────────
+  // Dernière zone non couverte : une exception levée pendant le rendu d'un
+  // composant enfant n'est pas rattrapée par le try du corps de page. On
+  // rend donc ici chaque brique avec des valeurs réalistes, y compris les
+  // cas limites (chaîne vide, zéro, NaN) qui pourraient venir des données.
+  const rendus: Record<string, string> = {};
+  try {
+    const { renderToStaticMarkup } = await import('react-dom/server');
+    const ui = await import('@/components/admin/ui');
+    const React = (await import('react')).default;
+
+    const cas: [string, () => React.ReactElement][] = [
+      ['Kpi', () => React.createElement(ui.Kpi, { teinte: 'sky', icon: null, label: 'Test', value: '42', sub: 'sous-titre' })],
+      ['Carte', () => React.createElement(ui.Carte, { titre: 'Titre', indice: 'indice', children: 'contenu' })],
+      ['Identite normale', () => React.createElement(ui.Identite, { principal: 'Edeline Cineus', secondaire: 'e@x.fr' })],
+      ['Identite vide', () => React.createElement(ui.Identite, { principal: '', secondaire: null })],
+      ['Jauge 0', () => React.createElement(ui.Jauge, { pct: 0 })],
+      ['Jauge NaN', () => React.createElement(ui.Jauge, { pct: Number.NaN })],
+      ['Stat', () => React.createElement(ui.Stat, { n: 12, l: 'libellé' })],
+      ['Repartition vide', () => React.createElement(ui.Repartition, { parts: [] })],
+      ['Vide', () => React.createElement(ui.Vide, { texte: 'rien' })],
+    ];
+
+    for (const [nom, fabrique] of cas) {
+      try {
+        const html = renderToStaticMarkup(fabrique());
+        rendus[nom] = `ok (${html.length} octets)`;
+      } catch (err) {
+        rendus[nom] = `ÉCHEC — ${err instanceof Error ? `${err.name}: ${err.message}` : String(err)}`;
+      }
+    }
+  } catch (err) {
+    rendus['chargement'] = `ÉCHEC — ${err instanceof Error ? err.message : String(err)}`;
+  }
+  rapport.rendus = rendus;
+
   const echecs = Object.entries(rapport.lectures as Record<string, Verdict>)
     .filter(([, v]) => !v.ok)
     .map(([k, v]) => `${k} → ${(v as { erreur: string }).erreur}`);
 
-  return NextResponse.json({ ...rapport, echecs, conclusion: echecs.length ? 'ÉCHECS DÉTECTÉS' : 'toutes les lectures passent' });
+  const autresEchecs = [
+    ...Object.entries(rapport.rendus as Record<string, string>)
+      .filter(([, v]) => v.startsWith('ÉCHEC')).map(([k, v]) => `rendu ${k} → ${v}`),
+    ...Object.entries(rapport.formatages as Record<string, string>)
+      .filter(([, v]) => v.startsWith('ÉCHEC')).map(([k, v]) => `format ${k} → ${v}`),
+    ...Object.entries((rapport.calculsCabinets ?? {}) as Record<string, { ECHEC?: string }>)
+      .filter(([, v]) => v && typeof v === 'object' && 'ECHEC' in v)
+      .map(([k, v]) => `calcul ${k} → ${v.ECHEC}`),
+  ];
+
+  const tous = [...echecs, ...autresEchecs];
+  return NextResponse.json({
+    ...rapport,
+    echecs: tous,
+    conclusion: tous.length ? 'ÉCHECS DÉTECTÉS' : 'tout passe côté données, calcul, formatage et rendu',
+  });
 }
