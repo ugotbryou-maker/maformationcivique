@@ -1,24 +1,31 @@
 import Link from 'next/link';
 import { redirect, notFound } from 'next/navigation';
+import type { Metadata } from 'next';
+import {
+  ChevronLeft, Trophy, BookOpen, Flame, Target, Mail, CalendarDays,
+} from 'lucide-react';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { modules } from '@/data/modules';
+import { a2Modules, b1Modules, b2Modules, transversalModules } from '@/data/langue';
 import { calculerProgression, voletDuPlan } from '@/lib/progression';
+import { Kpi, Carte, Stat, Jauge, Vide, degradeDe } from '@/components/admin/ui';
 import { CabinetMemberActions } from '@/components/app/CabinetMemberActions';
-import { ArrowLeft, CheckCircle2, Circle, Trophy, BookOpen, GraduationCap } from 'lucide-react';
-import type { Metadata } from 'next';
+import { CabinetNav } from '@/components/app/CabinetNav';
+import '@/components/admin/kit.css';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = { title: 'Détail client — Espace cabinet' };
 
-export default async function CabinetMemberPage({
-  params,
-}: {
-  params: { userId: string };
-}) {
+function dateLongue(d: string | null) {
+  return d ? new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '—';
+}
+
+export default async function CabinetMemberPage({ params }: { params: { userId: string } }) {
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/connexion');
 
-  // Vérif admin
   const { data: adminProfile } = await supabase
     .from('users')
     .select('cabinet_id, cabinet_role')
@@ -31,203 +38,191 @@ export default async function CabinetMemberPage({
 
   const service = createServiceRoleClient();
 
-  // Charge le profil du membre
-  const { data: member } = await service
+  const { data: membre } = await service
     .from('users')
-    .select('id, name, email, plan, cabinet_role, cabinet_id, xp, streak_days, last_active')
+    .select('id, name, email, plan, cabinet_role, cabinet_id, xp, streak_days, last_active, created_at, demarche, langue_niveau, telephone')
     .eq('id', params.userId)
     .single();
 
-  if (!member || member.cabinet_id !== adminProfile.cabinet_id) notFound();
+  // Un cabinet ne voit que son propre portefeuille : le contrôle porte sur le
+  // cabinet du client, jamais sur l'identifiant passé dans l'URL.
+  if (!membre || membre.cabinet_id !== adminProfile.cabinet_id) notFound();
 
-  // Progression par leçon
-  const { data: progress } = await service
-    .from('progression')
-    .select('module_slug, lesson_slug, completed')
-    .eq('user_id', params.userId);
+  const [{ data: progression }, { data: examens }, { data: badges }, { data: cabinet }] =
+    await Promise.all([
+      service.from('progression').select('module_slug, lesson_slug, completed').eq('user_id', params.userId),
+      service.from('exam_results').select('exam_level, score, total_q, passed, updated_at')
+        .eq('user_id', params.userId).order('updated_at', { ascending: false }),
+      service.from('user_badges').select('id').eq('user_id', params.userId),
+      service.from('cabinets').select('name, member_plan').eq('id', membre.cabinet_id).single(),
+    ]);
 
-  // Examens blancs du client — civiques et linguistiques. Le cabinet suit la
-  // préparation de bout en bout, pas seulement les leçons lues.
-  const { data: examens } = await service
-    .from('exam_results')
-    .select('exam_level, score, total_q, passed')
-    .eq('user_id', params.userId);
+  const volet = voletDuPlan(null, cabinet?.member_plan);
+  const ex = examens ?? [];
 
-  const tousExamens = examens ?? [];
-  const examensLangue = tousExamens.filter((e) => (e.exam_level ?? '').startsWith('LANG_'));
-  const examensReussis = tousExamens.filter((e) => e.passed).length;
+  // Les examens blancs entrent dans le calcul : ils disent mieux que le
+  // nombre de leçons lues si le client est prêt à se présenter.
+  const prog = calculerProgression(progression ?? [], volet, membre.demarche, ex);
 
-  const completedSet = new Set(
-    (progress ?? []).filter((p) => p.completed).map((p) => `${p.module_slug}:${p.lesson_slug}`)
+  const faites = new Set(
+    (progression ?? []).filter((p) => p.completed).map((p) => `${p.module_slug}:${p.lesson_slug}`),
   );
+  interface ModuleAffiche { slug: string; title: string; lessons: { slug: string }[] }
+  const detailler = (liste: readonly ModuleAffiche[]) => liste.map((m) => {
+    const n = m.lessons.filter((l) => faites.has(`${m.slug}:${l.slug}`)).length;
+    return {
+      titre: m.title, n, total: m.lessons.length,
+      pct: m.lessons.length ? Math.round((n / m.lessons.length) * 100) : 0,
+    };
+  });
 
-  // Progression sur le volet souscrit par le cabinet — et non sur les seules
-  // leçons civiques, qui donnaient 0 % à un élève travaillant le français.
-  const { data: cabinetDuMembre } = await service
-    .from('cabinets').select('member_plan').eq('id', member.cabinet_id).single();
-  const prog = calculerProgression(progress ?? [], voletDuPlan(null, cabinetDuMembre?.member_plan));
-  const totalLessons = prog.global.total;
-  const totalCompleted = prog.global.faites;
-  const globalPct = prog.global.pct;
+  // Le détail suit le volet souscrit : afficher les seuls modules civiques à
+  // un cabinet en formule complète laissait invisible tout le travail de
+  // français de ses clients.
+  const modulesLangue = [...a2Modules, ...b1Modules, ...b2Modules, ...transversalModules];
+  const blocs = [
+    ...(volet !== 'langue' ? [{ cle: 'civique', titre: 'Progression — modules civiques', lignes: detailler(modules) }] : []),
+    ...(volet !== 'civique' ? [{ cle: 'langue', titre: 'Progression — modules de français', lignes: detailler(modulesLangue).filter((m) => m.n > 0) }] : []),
+  ];
 
-  const isAdmin = member.cabinet_role === 'admin';
+  const meilleur = ex.reduce((a, e) => Math.max(a, (e.score / (e.total_q || 1)) * 100), 0);
+  const reussis = ex.filter((e) => e.passed).length;
+  const exLangue = ex.filter((e) => (e.exam_level ?? '').startsWith('LANG_')).length;
+  const nom = membre.name || membre.email || 'Client';
+  const estAdmin = membre.cabinet_role === 'admin';
+  const jamaisVenu = !membre.last_active;
 
   return (
-    <div style={{ maxWidth: 760 }}>
-      {/* Retour */}
-      <Link
-        href="/cabinet"
-        style={{
-          display: 'inline-flex', alignItems: 'center', gap: 6,
-          fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)',
-          textDecoration: 'none', marginBottom: 24,
-        }}
-      >
-        <ArrowLeft size={15} /> Retour au cabinet
+    <div className="adm" style={{ maxWidth: 940 }}>
+      <CabinetNav />
+
+      <Link href="/cabinet" className="adm-link" style={{ marginBottom: 12 }}>
+        <ChevronLeft size={15} /> Retour au portefeuille
       </Link>
 
-      {/* Header membre */}
-      <div style={{
-        background: 'var(--color-surface)', border: 'var(--border-default)',
-        borderRadius: 'var(--radius-xl)', padding: '24px', marginBottom: 24,
-        display: 'flex', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap',
-      }}>
-        <div style={{
-          width: 52, height: 52, flexShrink: 0, borderRadius: '50%',
-          background: 'var(--gradient-primary)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 20, fontWeight: 800, color: '#fff',
-        }}>
-          {(member.name || member.email || 'U')[0].toUpperCase()}
-        </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontWeight: 700, fontSize: 18, color: 'var(--color-text-primary)', marginBottom: 4 }}>
-            {member.name || member.email}
-          </p>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', marginBottom: 12 }}>
-            {member.email} · {isAdmin ? 'Administrateur' : 'Client'}
-          </p>
-          {/* Stats rapides */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-            {[
-              { icon: BookOpen, label: `${totalCompleted} / ${totalLessons} leçons`, color: 'var(--color-blue-france)' },
-              { icon: Trophy, label: `${member.xp ?? 0} XP`, color: '#F59E0B' },
-              {
-                icon: GraduationCap,
-                label: tousExamens.length === 0
-                  ? 'Aucun examen blanc'
-                  : `${examensReussis}/${tousExamens.length} examens réussis${examensLangue.length ? ` · ${examensLangue.length} langue` : ''}`,
-                color: '#7C3AED',
-              },
-            ].map(({ icon: Icon, label, color }) => (
-              <div key={label} style={{
-                display: 'flex', alignItems: 'center', gap: 6,
-                background: 'var(--color-off-white)', borderRadius: 'var(--radius-pill)',
-                padding: '5px 12px', fontSize: 'var(--font-size-sm)', fontWeight: 500,
-                color: 'var(--color-text-secondary)',
-              }}>
-                <Icon size={14} color={color} /> {label}
-              </div>
-            ))}
-            {/* Badge progression */}
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: 6,
-              background: globalPct >= 80 ? '#ECFDF5' : 'var(--color-off-white)',
-              borderRadius: 'var(--radius-pill)', padding: '5px 12px',
-              fontSize: 'var(--font-size-sm)', fontWeight: 600,
-              color: globalPct >= 80 ? '#1D9E75' : 'var(--color-text-secondary)',
-            }}>
-              {globalPct >= 80 ? '✓ Prêt pour l\'entretien' : `${globalPct}% global`}
-            </div>
+      {/* ── Identité ─────────────────────────────────────────────────────── */}
+      <div className="adm-card" style={{ marginBottom: 16, display: 'flex', gap: 18, alignItems: 'center', flexWrap: 'wrap' }}>
+        <span className="adm-av" style={{ background: degradeDe(nom), width: 60, height: 60, borderRadius: 20, fontSize: 22 }}>
+          {nom.trim()[0]?.toUpperCase() ?? '?'}
+        </span>
+        <div style={{ flex: 1, minWidth: 220 }}>
+          <h1 className="adm-title" style={{ fontSize: 24 }}>{nom}</h1>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 18px', marginTop: 7, fontSize: 12.5, color: 'var(--adm-ink-soft)' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}><Mail size={13} /> {membre.email ?? '—'}</span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}><CalendarDays size={13} /> Inscrit le {dateLongue(membre.created_at)}</span>
+            <span>{estAdmin ? 'Administrateur du cabinet' : 'Client'}</span>
           </div>
         </div>
-
-        {/* Actions (client component) */}
-        {!isAdmin && (
-          <CabinetMemberActions userId={params.userId} memberEmail={member.email ?? ''} />
-        )}
+        <div style={{ textAlign: 'right' }}>
+          <span className="adm-tag adm-tag-paid">
+            {volet === 'complet' ? 'Civique + linguistique' : volet === 'langue' ? 'Linguistique' : 'Civique'}
+          </span>
+          <p className="adm-dim" style={{ marginTop: 6 }}>
+            Dernière visite {membre.last_active ? dateLongue(membre.last_active) : 'jamais'}
+          </p>
+        </div>
       </div>
 
-      {/* Progression par module */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        {modules.map((mod) => {
-          const modCompleted = mod.lessons.filter((l) =>
-            completedSet.has(`${mod.slug}:${l.slug}`)
-          ).length;
-          const modPct = mod.lessons.length > 0
-            ? Math.round((modCompleted / mod.lessons.length) * 100)
-            : 0;
+      {jamaisVenu && (
+        <div className="adm-callout adm-callout-risk">
+          <Flame size={15} style={{ flexShrink: 0, marginTop: 1 }} />
+          <p>
+            <strong>Ce client ne s&apos;est jamais connecté.</strong> Son compte est ouvert et
+            son accès actif : un appel maintenant vaut mieux qu&apos;une place qui dort.
+          </p>
+        </div>
+      )}
 
-          return (
-            <div key={mod.slug} style={{
-              background: 'var(--color-surface)', border: 'var(--border-default)',
-              borderRadius: 'var(--radius-xl)', overflow: 'hidden',
-            }}>
-              {/* En-tête module */}
-              <div style={{
-                padding: '16px 20px',
-                borderBottom: mod.lessons.length > 0 ? 'var(--border-default)' : 'none',
-                display: 'flex', alignItems: 'center', gap: 12,
-              }}>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontWeight: 600, fontSize: 14, color: 'var(--color-text-primary)', marginBottom: 6 }}>
-                    {mod.title}
-                  </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div style={{ flex: 1, height: 5, borderRadius: 99, background: 'var(--color-border)', overflow: 'hidden' }}>
-                      <div style={{
-                        height: '100%', width: `${modPct}%`,
-                        background: modPct === 100 ? '#1D9E75' : 'var(--gradient-primary)',
-                        borderRadius: 99, transition: 'width 400ms ease',
-                      }} />
-                    </div>
-                    <span style={{
-                      fontSize: 12, fontWeight: 700, flexShrink: 0,
-                      color: modPct === 100 ? '#1D9E75' : 'var(--color-text-muted)',
-                    }}>
-                      {modCompleted}/{mod.lessons.length}
-                    </span>
-                  </div>
-                </div>
-              </div>
+      {!estAdmin && (
+        <CabinetMemberActions userId={params.userId} memberEmail={membre.email ?? ''} />
+      )}
 
-              {/* Leçons */}
-              <div style={{ padding: '8px 0' }}>
-                {mod.lessons.map((lesson) => {
-                  const done = completedSet.has(`${mod.slug}:${lesson.slug}`);
-                  return (
-                    <div key={lesson.slug} style={{
-                      display: 'flex', alignItems: 'center', gap: 10,
-                      padding: '8px 20px',
-                    }}>
-                      {done
-                        ? <CheckCircle2 size={15} color="#1D9E75" />
-                        : <Circle size={15} color="var(--color-border)" />
-                      }
-                      <span style={{
-                        fontSize: 'var(--font-size-sm)',
-                        color: done ? 'var(--color-text-secondary)' : 'var(--color-text-muted)',
-                        textDecoration: done ? 'none' : 'none',
-                      }}>
-                        {lesson.title}
-                      </span>
-                      {done && (
-                        <span style={{
-                          marginLeft: 'auto', fontSize: 11, fontWeight: 600,
-                          color: '#1D9E75', background: '#ECFDF5',
-                          padding: '2px 8px', borderRadius: 'var(--radius-pill)',
-                        }}>
-                          ✓
+      {/* ── Performance ──────────────────────────────────────────────────── */}
+      <div className="adm-grid adm-grid-4">
+        <Kpi teinte="sky" icon={<BookOpen size={16} />} label="Préparation"
+             value={`${prog.preparation.pct} %`} sub={prog.preparation.libelle} />
+        <Kpi teinte="violet" icon={<Target size={16} />} label="Examens blancs"
+             value={String(ex.length)}
+             sub={`${reussis} réussi${reussis > 1 ? 's' : ''} · ${exLangue} linguistique${exLangue > 1 ? 's' : ''}`} />
+        <Kpi teinte="mint" icon={<Trophy size={16} />} label="Meilleur score"
+             value={ex.length ? `${Math.round(meilleur)} %` : '—'}
+             sub={ex.length ? (meilleur >= 80 ? 'Prêt pour l’examen' : 'Sous le seuil de 80 %') : 'Aucun examen passé'} />
+        <Kpi teinte="cream" icon={<Flame size={16} />} label="Série"
+             value={`${membre.streak_days ?? 0} j`}
+             sub={`${membre.xp ?? 0} XP · ${(badges ?? []).length} badge${(badges ?? []).length > 1 ? 's' : ''}`} />
+      </div>
+
+      <div className="adm-grid adm-grid-2">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          {blocs.map((bloc) => (
+            <Carte key={bloc.cle} titre={bloc.titre}
+                   indice={bloc.cle === 'civique'
+                     ? 'La moyenne globale masque le module bloquant'
+                     : 'Seuls les modules entamés sont listés'}>
+              {bloc.lignes.length === 0 ? (
+                <Vide texte="Aucun module entamé pour l’instant." />
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                  {bloc.lignes.map((m) => (
+                    <div key={m.titre}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, gap: 12 }}>
+                        <span style={{ fontSize: 13, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {m.titre}
                         </span>
-                      )}
+                        <span className="adm-dim" style={{ flexShrink: 0 }}>{m.n}/{m.total}</span>
+                      </div>
+                      <Jauge pct={m.pct} />
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
+                  ))}
+                </div>
+              )}
+            </Carte>
+          ))}
+        </div>
+
+        <Carte titre="Historique des examens blancs">
+          {ex.length === 0 ? (
+            <Vide texte="Aucun examen blanc passé." />
+          ) : (
+            <table className="adm-table">
+              <thead>
+                <tr><th>Niveau</th><th className="adm-num">Score</th><th className="adm-num">Résultat</th><th className="adm-num">Date</th></tr>
+              </thead>
+              <tbody>
+                {ex.slice(0, 10).map((e, i) => (
+                  <tr key={i}>
+                    <td>
+                      {(e.exam_level ?? '').startsWith('LANG_')
+                        ? <span className="adm-tag adm-tag-vio">Langue {(e.exam_level ?? '').replace('LANG_', '')}</span>
+                        : <span className="adm-tag">Civique {e.exam_level ?? '—'}</span>}
+                    </td>
+                    <td className="adm-num adm-strong">{e.score}/{e.total_q}</td>
+                    <td className="adm-num">
+                      <span className={`adm-tag ${e.passed ? 'adm-tag-life' : 'adm-tag-risk'}`}>
+                        {e.passed ? 'réussi' : 'échoué'}
+                      </span>
+                    </td>
+                    <td className="adm-num adm-dim">
+                      {e.updated_at ? new Date(e.updated_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' }) : '—'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </Carte>
       </div>
+
+      <Carte titre="Dossier">
+        <div className="adm-stats">
+          <Stat n={membre.demarche ?? '—'} l="Démarche déclarée" />
+          <Stat n={membre.langue_niveau ?? '—'} l="Niveau de langue" />
+          <Stat n={prog.leconsTerminees} l="Leçons terminées" />
+          <Stat n={prog.modulesTermines} l="Modules terminés" />
+          <Stat n={membre.telephone ?? '—'} l="Téléphone" />
+          <Stat n={membre.last_active ? dateLongue(membre.last_active) : 'Jamais'} l="Dernière visite" />
+        </div>
+      </Carte>
     </div>
   );
 }

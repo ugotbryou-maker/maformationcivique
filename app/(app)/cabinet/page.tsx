@@ -3,16 +3,14 @@ import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import {
   AlertTriangle, ArrowUpRight, Users, Target, TrendingUp, Infinity as InfinityIcon,
-  Clock, UserPlus,
+  Clock, UserPlus, Mail,
 } from 'lucide-react';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
-import { modules } from '@/data/modules';
 import { CabinetInviteForm } from '@/components/app/CabinetInviteForm';
 import { CabinetExportBtn } from '@/components/app/CabinetExportBtn';
-import { CabinetMemberRow } from '@/components/app/CabinetMemberRow';
-import { CabinetInviteRow } from '@/components/app/CabinetInviteRow';
+import { CabinetClientActions } from '@/components/app/CabinetClientActions';
 import { CabinetNav } from '@/components/app/CabinetNav';
-import { Kpi, Carte, Stat } from '@/components/admin/ui';
+import { Kpi, Carte, Stat, Identite, Jauge, Vide } from '@/components/admin/ui';
 import { calculerProgression, voletDuPlan, type ProgressionVolets } from '@/lib/progression';
 import '@/components/admin/kit.css';
 
@@ -31,6 +29,10 @@ const TIER_NEXT: Record<string, { label: string; price: string }> = {
   pro:          { label: 'Cabinet+', price: '1 990 €/an' },
   cabinet_plus: { label: 'Réseau',   price: 'sur devis'  },
 };
+
+function dateCourte(d: string | null) {
+  return d ? new Date(d).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' }) : '—';
+}
 
 const PLAN_LABELS: Record<string, string> = {
   premium: 'Formation civique',
@@ -99,8 +101,8 @@ export default async function CabinetDashboardPage() {
   // un élève inscrit au seul français aux 22 leçons civiques le ferait
   // apparaître à 0 % alors qu'il peut avoir bien avancé.
   const { data: examens } = memberIds.length
-    ? await service.from('exam_results').select('user_id, score, total_q, passed').in('user_id', memberIds)
-    : { data: [] as { user_id: string; score: number; total_q: number; passed: boolean }[] };
+    ? await service.from('exam_results').select('user_id, exam_level, score, total_q, passed').in('user_id', memberIds)
+    : { data: [] as { user_id: string; exam_level: string; score: number; total_q: number; passed: boolean }[] };
   const examParUser = new Map<string, NonNullable<typeof examens>>();
   for (const e of examens ?? []) {
     const l = examParUser.get(e.user_id) ?? [];
@@ -244,38 +246,106 @@ export default async function CabinetDashboardPage() {
       </div>
 
       {/* ── Liste clients ────────────────────────────────────────────────── */}
+      {/* Le même tableau que la fiche partenaire côté administration : un
+          cabinet doit voir de ses clients exactement ce que nous en voyons,
+          préparation, examens blancs et dernière visite compris. */}
       <Carte
+        flush
         titre={`Clients (${activeMembers.length})`}
-        indice="Cliquez sur un client pour voir son détail et télécharger son attestation"
+        indice="Cliquez sur un client pour ouvrir sa fiche complète"
         action={<CabinetExportBtn />}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {activeMembers.map((member) => (
-            <CabinetMemberRow
-              key={member.id}
-              id={member.id}
-              displayName={member.name || member.email || 'Utilisateur'}
-              email={member.email ?? ''}
-              progression={progressByUser.get(member.id)}
-              lastActive={member.last_active ?? null}
-              invitedBy={invitePar.get(member.id) ?? null}
-            />
-          ))}
+        {activeMembers.length === 0 && pendingInvites.length === 0 ? (
+          <Vide texte="Aucun client invité pour le moment." />
+        ) : (
+          <div className="adm-scroll">
+            <table className="adm-table adm-table-pad adm-table-rows">
+              <thead>
+                <tr>
+                  <th>Client</th><th>Apporté par</th><th>Progression</th>
+                  <th className="adm-num">Examens</th><th className="adm-num">Dernière visite</th><th />
+                </tr>
+              </thead>
+              <tbody>
+                {activeMembers.map((m) => {
+                  const pr = progressByUser.get(m.id);
+                  const pct = pr?.preparation.pct ?? 0;
+                  const ex = examParUser.get(m.id) ?? [];
+                  const exLangue = ex.filter((e) => (e.exam_level ?? '').startsWith('LANG_')).length;
+                  return (
+                    <tr key={m.id}>
+                      <td>
+                        <Identite
+                          principal={m.name || m.email || 'Client'}
+                          secondaire={m.name ? m.email : null}
+                          href={`/cabinet/membre/${m.id}`}
+                        />
+                      </td>
+                      <td className="adm-dim">{invitePar.get(m.id) ?? '—'}</td>
+                      <td style={{ minWidth: 190 }}>
+                        <p style={{ margin: '0 0 2px', display: 'flex', alignItems: 'baseline', gap: 7 }}>
+                          <strong style={{ fontSize: 15 }}>{pct} %</strong>
+                          {pr && (
+                            <span className={`adm-tag ${pr.preparation.source === 'examen' ? 'adm-tag-life' : 'adm-tag-free'}`}>
+                              {pr.preparation.source === 'examen' ? 'examen blanc' : 'parcours'}
+                            </span>
+                          )}
+                        </p>
+                        <p className="adm-dim" style={{ margin: '0 0 5px', fontSize: 11.5 }}>
+                          {pr?.leconsTerminees ?? 0} leçon{(pr?.leconsTerminees ?? 0) > 1 ? 's' : ''}
+                          {pr?.modulesTermines ? ` · ${pr.modulesTermines} module${pr.modulesTermines > 1 ? 's' : ''} terminé${pr.modulesTermines > 1 ? 's' : ''}` : ''}
+                          {pr?.moduleEnCours ? ` · ${pr.moduleEnCours.titre} ${pr.moduleEnCours.pct} %` : ''}
+                        </p>
+                        <Jauge pct={pct} couleur={pct >= 80 ? '#0E7A58' : undefined} />
+                      </td>
+                      <td className="adm-num">
+                        {ex.length === 0
+                          ? <span className="adm-dim">—</span>
+                          : <span className={`adm-tag ${ex.some((e) => e.passed) ? 'adm-tag-life' : ''}`}
+                                  title={exLangue ? `dont ${exLangue} linguistique${exLangue > 1 ? 's' : ''}` : undefined}>
+                              {ex.filter((e) => e.passed).length}/{ex.length}
+                            </span>}
+                      </td>
+                      <td className="adm-num">
+                        {m.last_active
+                          ? <span className="adm-dim">{dateCourte(m.last_active)}</span>
+                          : <span className="adm-tag adm-tag-risk">jamais</span>}
+                      </td>
+                      <td className="adm-num">
+                        <CabinetClientActions
+                          userId={m.id}
+                          nom={m.name || m.email || 'ce client'}
+                          pct={pr?.global.pct ?? 0}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
 
-          {pendingInvites.map((invite) => (
-            <CabinetInviteRow
-              key={invite.id}
-              id={invite.id}
-              email={invite.email}
-              createdAt={invite.created_at}
-              invitedBy={auteurInvitation(invite.invited_by)}
-            />
-          ))}
-
-          {activeMembers.length === 0 && pendingInvites.length === 0 && (
-            <p className="adm-empty">Aucun client invité pour le moment.</p>
-          )}
-        </div>
+                {pendingInvites.map((inv) => (
+                  <tr key={inv.id}>
+                    <td>
+                      <div className="adm-id">
+                        <span className="adm-av" style={{ background: '#EEF2FA', color: '#8E9CBB' }}>
+                          <Clock size={15} />
+                        </span>
+                        <div style={{ minWidth: 0 }}>
+                          <p className="adm-id-main" style={{ color: 'var(--adm-ink-soft)' }}>{inv.email}</p>
+                          <p className="adm-id-sub">Invité le {dateCourte(inv.created_at)}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="adm-dim">{auteurInvitation(inv.invited_by) ?? '—'}</td>
+                    <td><span className="adm-tag adm-tag-warn">en attente</span></td>
+                    <td className="adm-num adm-dim" colSpan={3}>
+                      <Mail size={13} style={{ verticalAlign: '-2px' }} /> non activée
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </Carte>
 
       <div style={{ marginTop: 16 }}>
