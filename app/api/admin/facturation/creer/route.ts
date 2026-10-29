@@ -91,9 +91,12 @@ export async function POST(req: NextRequest) {
     } else if (cabinet.billing_mode === 'usage') {
       // Sélection explicite si l'administrateur a coché des comptes ; sinon
       // toutes les activations non facturées de la période.
+      // Seuls les clients sont facturés : le compte d'administration du
+      // partenaire est son poste de pilotage, pas une place vendue.
       let q = s.from('cabinet_invites')
         .select('id, email, redeemed_at, redeemed_user_id')
         .eq('cabinet_id', cabinet.id)
+        .eq('role', 'member')
         .not('redeemed_at', 'is', null);
 
       if (body.activations?.length) {

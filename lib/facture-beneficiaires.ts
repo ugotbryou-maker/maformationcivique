@@ -66,6 +66,8 @@ export async function detailComptesFacture(
     .from('cabinet_invites')
     .select('email, redeemed_at, redeemed_user_id')
     .eq('cabinet_id', f.cabinet_id!)
+    // Le compte d'administration du partenaire n'est pas un client facturé.
+    .eq('role', 'member')
     .not('redeemed_at', 'is', null);
 
   const { data: pointees } = await base().eq('facture_ref', f.numero);

@@ -29,9 +29,14 @@ export async function GET(req: NextRequest) {
 
     const s = createServiceRoleClient();
 
+    // Le compte de pilotage du partenaire n'est pas un client : il lui sert à
+    // suivre son portefeuille et à tester les leçons qu'il vend. Partout
+    // ailleurs dans l'application il est écarté du décompte des clients ; le
+    // facturer revenait à lui vendre son propre tableau de bord.
     let q = s.from('cabinet_invites')
       .select('id, email, redeemed_at, redeemed_user_id, facture_le, facture_ref')
       .eq('cabinet_id', cabinetId)
+      .eq('role', 'member')
       .not('redeemed_at', 'is', null)
       .order('redeemed_at', { ascending: false });
 
