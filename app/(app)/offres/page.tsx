@@ -3,6 +3,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Check, Infinity as InfinityIcon, ShieldCheck } from 'lucide-react';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
+import { accesCivique, accesLangue } from '@/lib/acces';
 import { LifetimeOfferButton } from '@/components/app/LifetimeOfferButton';
 
 export const metadata: Metadata = {
@@ -119,7 +120,7 @@ export default async function OffresPage() {
           ]}
           href="/api/stripe/start?plan=premium"
           cta="Choisir — 6 €/mois"
-          owned={plan === 'premium'}
+          owned={accesCivique(plan)}
         />
 
         {/* ── Langue seule ───────────────────────────────────────────── */}
@@ -137,7 +138,7 @@ export default async function OffresPage() {
           ]}
           href="/api/stripe/start?plan=langue"
           cta="Choisir — 6 €/mois"
-          owned={plan === 'langue'}
+          owned={accesLangue(plan)}
         />
       </div>
 

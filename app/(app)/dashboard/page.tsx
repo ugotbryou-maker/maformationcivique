@@ -12,6 +12,7 @@ import { LifetimeOfferButton } from '@/components/app/LifetimeOfferButton';
 import { getLevel, getLevelProgress, BADGES } from '@/lib/gamification';
 import { BookOpen, ChevronRight, Trophy, Target, Wrench } from 'lucide-react';
 import { isAdminEmail } from '@/lib/admin';
+import { accesCivique } from '@/lib/acces';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -80,7 +81,7 @@ export default async function DashboardPage({
   const isAdmin = isAdminEmail(user.email);
   const xp = profile?.xp ?? 0;
   const streak = profile?.streak_days ?? 0;
-  const isPremium = profile?.plan === 'premium' || profile?.plan === 'langue' || profile?.plan === 'bundle' || isAdmin;
+  const isPremium = accesCivique(profile?.plan, user.email);
 
   // Valeur réellement encaissée, transmise à Meta via l'événement Purchase.
   // Un achat « à vie » se reconnaît à son absence d'échéance (sub_end_at nul).

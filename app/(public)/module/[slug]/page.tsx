@@ -8,6 +8,7 @@ import { LessonCard } from '@/components/app/LessonCard';
 import { ProgressBar } from '@/components/app/ProgressBar';
 import { ArrowLeft, Target, Shield, Star, Award, ArrowRight, Trophy } from 'lucide-react';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
+import { accesCivique } from '@/lib/acces';
 import type { Metadata } from 'next';
 
 const MODULE_HERO = {
@@ -71,7 +72,7 @@ export default async function ModulePage({ params }: Props) {
       if (progressionRes.error) {
         console.error('[module/page] progression query error:', progressionRes.error.message);
       }
-      isPremiumUser = profileRes.data?.plan === 'premium';
+      isPremiumUser = accesCivique(profileRes.data?.plan, user.email);
       completedSlugs = new Set(
         (progressionRes.data ?? []).map((p: { lesson_slug: string }) => p.lesson_slug)
       );

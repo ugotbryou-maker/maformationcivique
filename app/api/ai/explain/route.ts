@@ -3,9 +3,10 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { anthropic, buildExplanationPrompt, type Lang } from '@/lib/anthropic';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
+import { accesPayant } from '@/lib/acces';
 
 export async function POST(req: Request) {
-  // Only premium users can access AI explanations
+  // Réservé aux offres payantes, quel que soit le volet souscrit.
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
       .eq('id', user.id)
       .single();
 
-    if (profile?.plan !== 'premium') {
+    if (!accesPayant(profile?.plan, user.email)) {
       return NextResponse.json({ error: 'Premium required' }, { status: 403 });
     }
   }

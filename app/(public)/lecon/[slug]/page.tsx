@@ -13,6 +13,7 @@ import { LessonEndQuiz, type QuizQuestion } from '@/components/app/LessonEndQuiz
 import { FreeLessonSignupModal } from '@/components/app/FreeLessonSignupModal';
 import { questions as allQuestions } from '@/data/questions';
 import { renderInline } from '@/lib/markdown';
+import { accesCivique } from '@/lib/acces';
 import {
   ChevronRight, ChevronLeft, Clock,
   Flag, Scale, Map, Landmark, Shield, Globe,
@@ -206,7 +207,7 @@ export default async function LessonPage({ params }: Props) {
         if (planError) {
           console.error('[lecon/page] plan query error:', planError.message, planError.code);
         }
-        isPremium = data?.plan === 'premium';
+        isPremium = accesCivique(data?.plan, user.email);
       }
     }
   } catch (err) {

@@ -4,6 +4,7 @@ import { modules } from '@/data/modules';
 import { a2Modules, b1Modules, b2Modules, transversalModules } from '@/data/langue';
 import { ProgressBar } from '@/components/app/ProgressBar';
 import { getLevel, getLevelProgress } from '@/lib/gamification';
+import { accesCivique } from '@/lib/acces';
 import { CheckCircle, Clock, Target } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -27,7 +28,7 @@ export default async function ProgressionPage() {
   const results = resultsRes.data ?? [];
 
   const xp = profile?.xp ?? 0;
-  const isPremium = profile?.plan === 'premium';
+  const isPremium = accesCivique(profile?.plan, user.email);
   const level = getLevel(xp);
   const levelProgress = getLevelProgress(xp);
 
