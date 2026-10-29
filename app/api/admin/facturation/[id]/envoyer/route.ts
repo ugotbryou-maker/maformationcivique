@@ -13,6 +13,7 @@ import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supab
 import { isAdminEmail } from '@/lib/admin';
 import { sendEmail } from '@/lib/brevo';
 import { genererFacturePdf, type DonneesFacture } from '@/lib/facture-pdf';
+import { detailComptesEtFiger } from '@/lib/facture-beneficiaires';
 import { euros, type ClientFacture, type Emetteur } from '@/lib/facturation';
 
 function jour(d: string | null) {
@@ -46,7 +47,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       );
     }
 
-    const pdf = await genererFacturePdf(f as unknown as DonneesFacture);
+    const comptes = await detailComptesEtFiger(s, f);
+    const pdf = await genererFacturePdf({
+      ...(f as unknown as DonneesFacture),
+      beneficiaires: comptes.liste,
+      origine_beneficiaires: comptes.origine,
+    });
 
     const corps = (message ?? '').trim();
     const html = `

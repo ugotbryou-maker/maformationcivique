@@ -9,6 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { isAdminEmail } from '@/lib/admin';
 import { genererFacturePdf, type DonneesFacture } from '@/lib/facture-pdf';
+import { detailComptesEtFiger } from '@/lib/facture-beneficiaires';
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -23,7 +24,14 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     const { data: f } = await s.from('factures').select('*').eq('id', id).single();
     if (!f) return NextResponse.json({ error: 'Facture introuvable' }, { status: 404 });
 
-    const pdf = await genererFacturePdf(f as unknown as DonneesFacture);
+    // Les factures antérieures au détail nominatif, et les licences au
+    // forfait, n'ont pas de liste figée : on la reconstitue ici.
+    const comptes = await detailComptesEtFiger(s, f);
+    const pdf = await genererFacturePdf({
+      ...(f as unknown as DonneesFacture),
+      beneficiaires: comptes.liste,
+      origine_beneficiaires: comptes.origine,
+    });
 
     return new NextResponse(Buffer.from(pdf), {
       headers: {

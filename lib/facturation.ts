@@ -44,6 +44,16 @@ export interface ClientFacture {
   reference?: string | null;
 }
 
+/**
+ * Compte nominatif couvert par la facture. Le client doit pouvoir vérifier
+ * pour qui il paie : une ligne « 6 comptes activés » ne se contrôle pas.
+ */
+export interface Beneficiaire {
+  nom: string;
+  email: string;
+  date?: string | null;
+}
+
 export interface LigneFacture {
   libelle: string;
   quantite: number;

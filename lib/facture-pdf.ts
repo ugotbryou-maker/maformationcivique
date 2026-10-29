@@ -12,14 +12,10 @@
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from 'pdf-lib';
 import {
   euros, mentionTva, mentionsRetard,
-  type Emetteur, type ClientFacture, type LigneFacture,
+  type Emetteur, type ClientFacture, type LigneFacture, type Beneficiaire,
 } from '@/lib/facturation';
 
-export interface Beneficiaire {
-  nom: string;
-  email: string;
-  date?: string | null;
-}
+export type { Beneficiaire };
 
 export interface DonneesFacture {
   numero: string;
@@ -27,6 +23,9 @@ export interface DonneesFacture {
   client: ClientFacture;
   lignes: LigneFacture[];
   beneficiaires?: Beneficiaire[];
+  /** 'facturees' : comptes pointés sur la facture. 'periode' : comptes du
+   *  partenaire activés pendant la période couverte. */
+  origine_beneficiaires?: 'facturees' | 'periode';
   periode_debut?: string | null;
   periode_fin?: string | null;
   total_ht: number;
@@ -119,8 +118,8 @@ export async function genererFacturePdf(f: DonneesFacture): Promise<Uint8Array> 
   ].filter(Boolean);
 
   const lignesRef = [
-    `Emise le ${jour(f.date_emission)}`,
-    f.date_echeance ? `Echeance ${jour(f.date_echeance)}` : null,
+    `Émise le ${jour(f.date_emission)}`,
+    f.date_echeance ? `Échéance ${jour(f.date_echeance)}` : null,
   ].filter(Boolean);
 
   const hautBloc = y;
@@ -137,7 +136,7 @@ export async function genererFacturePdf(f: DonneesFacture): Promise<Uint8Array> 
   y -= 24;
 
   // ── Client ───────────────────────────────────────────────────────────
-  txt('FACTURE A', MARGE, 8, gras, tenu);
+  txt('FACTURÉ À', MARGE, 8, gras, tenu);
   y -= 14;
   txt(c.raison_sociale, MARGE, 12, gras);
   y -= 14;
@@ -147,12 +146,12 @@ export async function genererFacturePdf(f: DonneesFacture): Promise<Uint8Array> 
     c.pays && c.pays !== 'France' ? c.pays : null,
     c.siret ? `SIRET ${c.siret}` : null,
     c.tva_intracom ? `TVA ${c.tva_intracom}` : null,
-    c.reference ? `Reference : ${c.reference}` : null,
+    c.reference ? `Référence : ${c.reference}` : null,
   ].filter(Boolean)) { txt(l, MARGE, 8.5, normal, doux); y -= 11; }
 
   if (f.periode_debut || f.periode_fin) {
     y -= 6;
-    txt(`Periode du ${jour(f.periode_debut)} au ${jour(f.periode_fin)}`, MARGE, 9, normal, doux);
+    txt(`Période du ${jour(f.periode_debut)} au ${jour(f.periode_fin)}`, MARGE, 9, normal, doux);
     y -= 12;
   }
 
@@ -163,8 +162,8 @@ export async function genererFacturePdf(f: DonneesFacture): Promise<Uint8Array> 
   const COL_PU = MARGE + 410;
   const COL_TOT = MARGE + LARGEUR;
 
-  txt('DESIGNATION', MARGE, 8, gras, tenu);
-  droite('QTE', COL_QTE, 8, gras, tenu);
+  txt('DÉSIGNATION', MARGE, 8, gras, tenu);
+  droite('QTÉ', COL_QTE, 8, gras, tenu);
   droite('PRIX UNIT.', COL_PU, 8, gras, tenu);
   droite('TOTAL HT', COL_TOT, 8, gras, tenu);
   y -= 8;
@@ -182,24 +181,17 @@ export async function genererFacturePdf(f: DonneesFacture): Promise<Uint8Array> 
     y -= 14;
   }
 
-  // ── Détail nominatif ─────────────────────────────────────────────────
-  // Le client veut savoir pour qui il paie. Sans cette liste, une ligne
-  // « 7 comptes activés » n'est pas vérifiable de son côté.
+  // ── Renvoi vers l'annexe ─────────────────────────────────────────────
+  // Le détail nominatif tient sur sa propre page : la facture garde sa page
+  // unique, et le client reçoit la liste de ceux pour qui il paie.
   if (f.beneficiaires?.length) {
-    place(60);
-    y -= 4;
-    txt(`DETAIL DES ${f.beneficiaires.length} COMPTES FACTURES`, MARGE, 8, gras, tenu);
-    y -= 14;
-    for (const b of f.beneficiaires) {
-      place(26);
-      const nom = b.nom && b.nom !== b.email ? `${b.nom} — ${b.email}` : b.email;
-      txt(nom, MARGE + 10, 8.5, normal, doux);
-      if (b.date) droite(`active le ${jour(b.date)}`, COL_TOT, 8.5, normal, tenu);
-      y -= 12;
-    }
-    y -= 10;
-    ligne();
-    y -= 14;
+    place(30);
+    y -= 2;
+    txt(
+      `Détail nominatif des ${f.beneficiaires.length} comptes : voir l'annexe en dernière page.`,
+      MARGE, 8.5, normal, tenu,
+    );
+    y -= 28;
   }
 
   // ── Totaux ───────────────────────────────────────────────────────────
@@ -216,7 +208,7 @@ export async function genererFacturePdf(f: DonneesFacture): Promise<Uint8Array> 
     thickness: 1.2, color: encre,
   });
   y -= 18;
-  txt('TOTAL A PAYER', totalGauche, 12, gras);
+  txt('TOTAL À PAYER', totalGauche, 12, gras);
   droite(euros(f.total_ttc), COL_TOT, 14, gras);
   y -= 34;
 
@@ -228,12 +220,12 @@ export async function genererFacturePdf(f: DonneesFacture): Promise<Uint8Array> 
       color: rgb(0.965, 0.973, 0.988),
     });
     y -= 12;
-    txt('REGLEMENT PAR VIREMENT', MARGE + 14, 8, gras, tenu);
+    txt('RÈGLEMENT PAR VIREMENT', MARGE + 14, 8, gras, tenu);
     y -= 13;
     if (e.banque) { txt(e.banque, MARGE + 14, 9, normal, doux); y -= 12; }
     if (e.iban) { txt(`IBAN ${e.iban}`, MARGE + 14, 9, gras); y -= 12; }
     if (e.bic) { txt(`BIC ${e.bic}`, MARGE + 14, 9, normal, doux); y -= 12; }
-    txt(`Merci d'indiquer ${f.numero} en reference.`, MARGE + 14, 8.5, normal, tenu);
+    txt(`Merci d'indiquer ${f.numero} en référence.`, MARGE + 14, 8.5, normal, tenu);
     y -= 26;
   }
 
@@ -245,6 +237,92 @@ export async function genererFacturePdf(f: DonneesFacture): Promise<Uint8Array> 
     place(16);
     txt(m, MARGE, 7.5, normal, tenu);
     y -= 10;
+  }
+
+  // ── Annexe : le détail nominatif, sur sa propre page ─────────────────
+  // Une ligne « 6 comptes activés » n'est pas vérifiable par le client. La
+  // liste est tenue à part pour que la facture elle-même reste d'une page,
+  // et pour que l'annexe puisse en occuper plusieurs si le partenaire en
+  // compte beaucoup.
+  if (f.beneficiaires?.length) {
+    const comptes = f.beneficiaires;
+    const parPeriode = f.origine_beneficiaires === 'periode';
+
+    page = doc.addPage([...A4]);
+    y = A4[1] - MARGE;
+
+    txt('ANNEXE', MARGE, 8, gras, tenu);
+    droite(`FACTURE ${f.numero}`, MARGE + LARGEUR, 8, gras, tenu);
+    y -= 20;
+    txt(
+      parPeriode ? 'Comptes couverts par la période' : 'Détail nominatif des comptes facturés',
+      MARGE, 15, gras,
+    );
+    y -= 15;
+    txt(
+      `${c.raison_sociale ?? ''} — ${comptes.length} compte${comptes.length > 1 ? 's' : ''}`
+      + (f.periode_debut || f.periode_fin
+        ? ` — période du ${jour(f.periode_debut)} au ${jour(f.periode_fin)}`
+        : ''),
+      MARGE, 9, normal, doux,
+    );
+    y -= 16;
+    ligne(1.4, encre);
+    y -= 20;
+
+    const COL_RANG = MARGE + 16;
+    const COL_NOM = MARGE + 26;
+    const COL_MAIL = MARGE + 190;
+
+    const enTeteAnnexe = () => {
+      droite('N°', COL_RANG, 8, gras, tenu);
+      txt('NOM ET PRÉNOM', COL_NOM, 8, gras, tenu);
+      txt('ADRESSE E-MAIL', COL_MAIL, 8, gras, tenu);
+      droite('ACTIVÉ LE', MARGE + LARGEUR, 8, gras, tenu);
+      y -= 8;
+      ligne();
+      y -= 15;
+    };
+    enTeteAnnexe();
+
+    comptes.forEach((b, i) => {
+      if (place(30)) {
+        droite(`ANNEXE — FACTURE ${f.numero} (SUITE)`, MARGE + LARGEUR, 8, gras, tenu);
+        y -= 24;
+        enTeteAnnexe();
+      }
+      droite(String(i + 1), COL_RANG, 9, normal, tenu);
+      txt(b.nom || '—', COL_NOM, 9.5, gras);
+      txt(b.email, COL_MAIL, 9, normal, doux);
+      droite(b.date ? jour(b.date) : '—', MARGE + LARGEUR, 9, normal, doux);
+      y -= 10;
+      ligne(0.5);
+      y -= 14;
+    });
+
+    y -= 6;
+    txt(
+      parPeriode
+        ? `${comptes.length} compte${comptes.length > 1 ? 's' : ''} rattaché${comptes.length > 1 ? 's' : ''} au partenaire sur la période facturée.`
+        : `${comptes.length} compte${comptes.length > 1 ? 's' : ''} facturé${comptes.length > 1 ? 's' : ''} au titre de la facture ${f.numero}, pour un total de ${euros(f.total_ht)} HT.`,
+      MARGE, 8.5, normal, tenu,
+    );
+  }
+
+  // ── Pagination ───────────────────────────────────────────────────────
+  // Utile dès que l'annexe existe : le client doit voir qu'il ne lui manque
+  // pas une page.
+  const pages = doc.getPages();
+  if (pages.length > 1) {
+    pages.forEach((pg, i) => {
+      const gauche = net(`Facture ${f.numero}`);
+      const droit = net(`Page ${i + 1} / ${pages.length}`);
+      pg.drawText(gauche, { x: MARGE, y: MARGE - 16, size: 7.5, font: normal, color: tenu });
+      pg.drawText(droit, {
+        x: MARGE + LARGEUR - normal.widthOfTextAtSize(droit, 7.5),
+        y: MARGE - 16, size: 7.5, font: normal, color: tenu,
+      });
+    });
   }
 
   return doc.save();

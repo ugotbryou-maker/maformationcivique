@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { ChevronLeft } from 'lucide-react';
 import { createServiceRoleClient } from '@/lib/supabase-server';
 import { euros, mentionTva, mentionsRetard, type Emetteur, type ClientFacture, type LigneFacture } from '@/lib/facturation';
+import { detailComptesFacture } from '@/lib/facture-beneficiaires';
 import { StatutFacture } from '@/components/admin/StatutFacture';
 import { ActionsFacture } from '@/components/admin/ActionsFacture';
 import './facture.css';
@@ -24,6 +25,10 @@ export default async function FacturePage({ params }: { params: Promise<{ id: st
   const s = createServiceRoleClient();
   const { data: f } = await s.from('factures').select('*').eq('id', id).single();
   if (!f) notFound();
+
+  // La liste nominative est figée à la création ; pour les factures émises
+  // avant qu'elle existe, et pour les licences au forfait, on la reconstitue.
+  const comptes = await detailComptesFacture(s, f);
 
   const e = f.emetteur as Emetteur;
   const c = f.client as ClientFacture;
@@ -108,20 +113,11 @@ export default async function FacturePage({ params }: { params: Promise<{ id: st
           </tbody>
         </table>
 
-        {Array.isArray(f.beneficiaires) && f.beneficiaires.length > 0 && (
-          <section className="fact-benef">
-            <p className="fact-label">
-              Détail des {f.beneficiaires.length} comptes facturés
-            </p>
-            <ul className="fact-benef-liste">
-              {(f.beneficiaires as { nom: string; email: string; date: string | null }[]).map((b) => (
-                <li key={b.email}>
-                  <span>{b.nom && b.nom !== b.email ? `${b.nom} — ${b.email}` : b.email}</span>
-                  {b.date && <span className="fact-benef-date">activé le {jour(b.date)}</span>}
-                </li>
-              ))}
-            </ul>
-          </section>
+        {comptes.liste.length > 0 && (
+          <p className="fact-renvoi">
+            Détail nominatif des {comptes.liste.length} comptes : voir l&apos;annexe ci-dessous,
+            imprimée en seconde page de la facture.
+          </p>
         )}
 
         <div className="fact-totaux">
@@ -150,6 +146,59 @@ export default async function FacturePage({ params }: { params: Promise<{ id: st
           {e.mentions_pied && <p>{e.mentions_pied}</p>}
         </footer>
       </article>
+
+      {comptes.liste.length > 0 && (
+        <article className="fact fact-annexe">
+          <header className="fact-tete">
+            <div>
+              <p className="fact-titre">Annexe</p>
+              <p className="fact-emetteur-nom">
+                {comptes.origine === 'periode'
+                  ? 'Comptes couverts par la période'
+                  : 'Détail nominatif des comptes facturés'}
+              </p>
+              <p className="fact-ligne">
+                {c.raison_sociale} — {comptes.liste.length} compte{comptes.liste.length > 1 ? 's' : ''}
+                {(f.periode_debut || f.periode_fin) &&
+                  ` — période du ${jour(f.periode_debut)} au ${jour(f.periode_fin)}`}
+              </p>
+            </div>
+            <div className="fact-ref">
+              <p className="fact-titre">Facture</p>
+              <p className="fact-numero">{f.numero}</p>
+            </div>
+          </header>
+
+          <table className="fact-table fact-table-benef">
+            <thead>
+              <tr>
+                <th className="fact-rang">N°</th>
+                <th>Nom et prénom</th>
+                <th>Adresse e-mail</th>
+                <th className="fact-num">Activé le</th>
+              </tr>
+            </thead>
+            <tbody>
+              {comptes.liste.map((b, i) => (
+                <tr key={b.email || i}>
+                  <td className="fact-rang">{i + 1}</td>
+                  <td className="fact-benef-nom">{b.nom || '—'}</td>
+                  <td className="fact-benef-mail">{b.email}</td>
+                  <td className="fact-num">{b.date ? jour(b.date) : '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <footer className="fact-pied">
+            <p>
+              {comptes.origine === 'periode'
+                ? `${comptes.liste.length} compte${comptes.liste.length > 1 ? 's' : ''} rattaché${comptes.liste.length > 1 ? 's' : ''} au partenaire sur la période facturée.`
+                : `${comptes.liste.length} compte${comptes.liste.length > 1 ? 's' : ''} facturé${comptes.liste.length > 1 ? 's' : ''} au titre de la facture ${f.numero}, pour un total de ${euros(Number(f.total_ht))} HT.`}
+            </p>
+          </footer>
+        </article>
+      )}
     </>
   );
 }
