@@ -19,6 +19,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { isAdminEmail } from '@/lib/admin';
 import { calculerProgression, voletDuPlan } from '@/lib/progression';
+import { realignerMembresCabinet } from '@/lib/acces-cabinet';
 import {
   creerAttributs, envoyerContacts, palierDe, dateBrevo, type ContactBrevo,
 } from '@/lib/brevo-contacts';
@@ -37,6 +38,15 @@ async function autorise(req: NextRequest): Promise<boolean> {
 
 async function construire() {
   const s = createServiceRoleClient();
+
+  // Avant de décrire les comptes, on s'assure qu'ils ont bien l'accès que
+  // leur cabinet leur promet : un membre resté en deçà fausserait à la fois
+  // son parcours et les relances calculées sur sa progression.
+  const correctionsAcces = await realignerMembresCabinet(s);
+  if (correctionsAcces.length) {
+    console.log('[brevo/sync] accès cabinet réalignés :',
+      correctionsAcces.map((c) => `${c.email} ${c.avant}->${c.apres}`).join(', '));
+  }
 
   const [{ data: users }, { data: cabinets }, { data: progression }, { data: exams }] =
     await Promise.all([

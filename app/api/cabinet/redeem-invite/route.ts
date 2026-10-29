@@ -52,6 +52,8 @@ export async function POST(req: NextRequest) {
     // Un partenaire dont l'offre inclut le linguistique (member_plan =
     // 'bundle') doit ouvrir les deux parcours à ses clients. Coder 'premium'
     // en dur revenait à leur vendre un accès qu'ils ne recevaient pas.
+    // À défaut de plan déclaré, c'est l'accès complet : la promesse faite
+    // aux partenaires est que leurs invités ont tout.
     const { data: cabinet } = await service
       .from('cabinets')
       .select('name, member_plan, sub_end_at')
@@ -72,7 +74,7 @@ export async function POST(req: NextRequest) {
       .update({
         cabinet_id: invite.cabinet_id,
         cabinet_role: invite.role,
-        plan: cabinet?.member_plan ?? 'premium',
+        plan: cabinet?.member_plan ?? 'bundle',
         // L'accès du membre suit l'échéance du partenariat. NULL = pas
         // d'échéance tant que le partenariat court.
         sub_end_at: cabinet?.sub_end_at ?? null,
