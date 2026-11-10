@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { ADMIN_EMAILS } from '@/lib/admin';
 import { getTenantConfig } from '@/lib/tenants';
+import { estRobotIndesirable } from '@/lib/robots-indesirables';
 
 const TENANT_ALLOWED_PREFIXES = [
   '/modulesciviques', '/moduleslinguistiques', '/examen',
@@ -38,6 +39,17 @@ const TENANT_ONLY_PATHS: Record<string, string> = {
 };
 
 export async function middleware(request: NextRequest) {
+  // ── Robots indésirables : refusés avant tout le reste ────────────────────
+  // En premier, délibérément : un aspirateur ne doit coûter qu'une
+  // comparaison de chaîne, jamais le rendu d'une page. C'est le temps
+  // processeur de ces requêtes qui a fait suspendre l'hébergement.
+  if (estRobotIndesirable(request.headers.get('user-agent'))) {
+    return new NextResponse('Accès automatisé refusé.', {
+      status: 403,
+      headers: { 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex' },
+    });
+  }
+
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   const pathname = request.nextUrl.pathname;

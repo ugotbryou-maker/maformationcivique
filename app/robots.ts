@@ -1,8 +1,12 @@
 import type { MetadataRoute } from 'next';
+import { ROBOTS_A_ECARTER } from '@/lib/robots-indesirables';
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
+      // Moissonneurs et outils SEO : refusés poliment ici, et pour de bon
+      // dans le middleware pour ceux qui ne lisent pas ce fichier.
+      ...ROBOTS_A_ECARTER.map((userAgent) => ({ userAgent, disallow: '/' })),
       {
         userAgent: '*',
         allow: '/',
