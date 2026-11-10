@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { X, GraduationCap, FileText, Building2, CheckCircle } from 'lucide-react';
+import { createClient } from '@/lib/supabase';
 
 const COOKIE = 'mfc_intent';
 const SCROLL_THRESHOLD = 0.45;
@@ -23,12 +24,13 @@ const INTENTS = [
   { key: 'naturalisation', label: 'Demande de naturalisation',      sub: 'Dossier préfecture, entretien, formation B2',    Icon: Building2,     color: '#CC1A1A' },
 ];
 
-interface Props {
-  isLoggedIn: boolean;
-}
-
-export function IntentPopup({ isLoggedIn }: Props) {
+export function IntentPopup() {
   const [visible, setVisible]     = useState(false);
+  // Résolu côté navigateur, et seulement une fois le popup déclenché.
+  // Le layout public interrogeait Supabase à chaque page vue du site pour
+  // renseigner ce seul booléen, utile à un popup que la plupart des
+  // visiteurs ne voient jamais.
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [step, setStep]           = useState<'intent' | 'contact' | 'done'>('intent');
   const [intent, setIntent]       = useState<string | null>(null);
   const [contact, setContact]     = useState('');
@@ -49,6 +51,15 @@ export function IntentPopup({ isLoggedIn }: Props) {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!visible) return;
+    let vivant = true;
+    createClient().auth.getSession()
+      .then(({ data }) => { if (vivant) setIsLoggedIn(!!data.session?.user); })
+      .catch(() => { /* Supabase indisponible : on traite en visiteur */ });
+    return () => { vivant = false; };
+  }, [visible]);
 
   function dismiss() {
     setCookie(COOKIE, 'dismissed', 30);
