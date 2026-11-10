@@ -1,0 +1,14 @@
+# Déploiement Netlify.
+#
+# Le vercel.json est conservé à côté : le retour sur Vercel reste possible
+# sans rien réécrire. Les deux fichiers coexistent sans se gêner.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Les tâches planifiées de vercel.json n'existent pas chez Netlify : elles
+# sont reprises en fonctions planifiées dans netlify/functions/.
