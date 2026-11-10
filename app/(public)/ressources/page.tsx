@@ -1,4 +1,9 @@
-export const dynamic = 'force-dynamic';
+// Articles Sanity : même fraîcheur que les pages d'article (`[slug]`), une
+// heure. En `force-dynamic`, la liste était réinterrogée et réaffichée à
+// chaque visiteur pour un contenu qui change quelques fois par mois ; le
+// webhook Sanity appelle de toute façon `revalidatePath` à chaque
+// publication, donc rien n'attend l'expiration du cache.
+export const revalidate = 3600;
 
 import Link from 'next/link';
 import type { Metadata } from 'next';

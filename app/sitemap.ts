@@ -1,7 +1,9 @@
 import type { MetadataRoute } from 'next';
 import { modules } from '@/data/modules';
 import { fiches } from '@/data/fiches';
-import { a2Modules, b1Modules, b2Modules, transversalModules, examenModules } from '@/data/langue';
+import {
+  a2Catalogue, b1Catalogue, b2Catalogue, transversalCatalogue, examensCatalogue,
+} from '@/data/langue/catalogue';
 import { departementsPublies, derniereVerification } from '@/data/departements';
 import { getAllPosts } from '@/lib/sanity/queries';
 
@@ -54,14 +56,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // ── Leçons de français (FLE) ───────────────────────────────────────
   const langueRoutes: MetadataRoute.Sitemap = [
-    ...a2Modules.flatMap((m) => m.lessons.map((l) => s(`/moduleslinguistiques/a2/${l.slug}`, 0.6))),
-    ...b1Modules.flatMap((m) => m.lessons.map((l) => s(`/moduleslinguistiques/b1/${l.slug}`, 0.6))),
-    ...b2Modules.flatMap((m) => m.lessons.map((l) => s(`/moduleslinguistiques/b2/${l.slug}`, 0.6))),
-    ...transversalModules.flatMap((m) => m.lessons.map((l) => s(`/moduleslinguistiques/transversal/${l.slug}`, 0.6))),
+    ...a2Catalogue.flatMap((m) => m.lecons.map((slug) => s(`/moduleslinguistiques/a2/${slug}`, 0.6))),
+    ...b1Catalogue.flatMap((m) => m.lecons.map((slug) => s(`/moduleslinguistiques/b1/${slug}`, 0.6))),
+    ...b2Catalogue.flatMap((m) => m.lecons.map((slug) => s(`/moduleslinguistiques/b2/${slug}`, 0.6))),
+    ...transversalCatalogue.flatMap((m) => m.lecons.map((slug) => s(`/moduleslinguistiques/transversal/${slug}`, 0.6))),
     // Les anciennes pages d'examen blanc redirigent vers /examen/langue :
     // les laisser dans le sitemap reviendrait à proposer des redirections à
     // l'indexation.
-    ...examenModules.map((m) => s(`/examen/langue/${m.level}`, 0.6)),
+    ...examensCatalogue.map((m) => s(`/examen/langue/${m.niveau}`, 0.6)),
   ];
 
   // ── Pages locales examen civique (uniquement publiées + validées) ──

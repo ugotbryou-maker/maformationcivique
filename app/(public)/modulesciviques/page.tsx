@@ -1,4 +1,6 @@
-export const dynamic = 'force-dynamic';
+// Page entièrement statique : son contenu ne dépend ni de l'utilisateur ni
+// de la base. Elle était en `force-dynamic` et se faisait donc recalculer à
+// chaque visite, sans qu'une seule ligne de son rendu puisse changer.
 
 import { modules } from '@/data/modules';
 import { ModuleList } from '@/components/app/ModuleList';

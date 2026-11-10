@@ -1,7 +1,10 @@
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { redirect } from 'next/navigation';
 import { modules } from '@/data/modules';
-import { a2Modules, b1Modules, b2Modules, transversalModules } from '@/data/langue';
+// Catalogue léger : cette page ne montre que des titres et des compteurs.
+import {
+  a2Catalogue, b1Catalogue, b2Catalogue, transversalCatalogue,
+} from '@/data/langue/catalogue';
 import { ProgressBar } from '@/components/app/ProgressBar';
 import { getLevel, getLevelProgress } from '@/lib/gamification';
 import { accesCivique } from '@/lib/acces';
@@ -40,10 +43,10 @@ export default async function ProgressionPage() {
   );
 
   const langLevels = [
-    { label: 'Niveau A2', key: 'a2', color: '#059669', mods: a2Modules },
-    { label: 'Niveau B1', key: 'b1', color: '#1D4ED8', mods: b1Modules },
-    { label: 'Niveau B2', key: 'b2', color: '#CC1A1A', mods: b2Modules },
-    { label: 'Transversal', key: 'transversal', color: '#7C3AED', mods: transversalModules },
+    { label: 'Niveau A2', key: 'a2', color: '#059669', mods: a2Catalogue },
+    { label: 'Niveau B1', key: 'b1', color: '#1D4ED8', mods: b1Catalogue },
+    { label: 'Niveau B2', key: 'b2', color: '#CC1A1A', mods: b2Catalogue },
+    { label: 'Transversal', key: 'transversal', color: '#7C3AED', mods: transversalCatalogue },
   ];
 
   const totalAnswered = results.length;
@@ -161,7 +164,7 @@ export default async function ProgressionPage() {
         </h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
           {langLevels.map(({ label, key, color, mods }) => {
-            const lvlSlugs = mods.flatMap((m) => m.lessons.map((l) => l.slug));
+            const lvlSlugs = mods.flatMap((m) => m.lecons);
             const lvlDone = lvlSlugs.filter((s) => completedSlugSet.has(s)).length;
             const lvlPct = lvlSlugs.length > 0 ? Math.round((lvlDone / lvlSlugs.length) * 100) : 0;
             return (
@@ -179,14 +182,13 @@ export default async function ProgressionPage() {
                 {/* Barres par module */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '12px', paddingLeft: '12px', borderLeft: `2px solid ${color}22` }}>
                   {mods.map((mod) => {
-                    const modSlugs = mod.lessons.map((l) => l.slug);
-                    const modDone = modSlugs.filter((s) => completedSlugSet.has(s)).length;
-                    const modPct = mod.lessons.length > 0 ? Math.round((modDone / mod.lessons.length) * 100) : 0;
+                    const modDone = mod.lecons.filter((s) => completedSlugSet.has(s)).length;
+                    const modPct = mod.lecons.length > 0 ? Math.round((modDone / mod.lecons.length) * 100) : 0;
                     return (
                       <div key={mod.slug}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                          <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>{mod.title}</span>
-                          <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{modDone}/{mod.lessons.length}</span>
+                          <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>{mod.titre}</span>
+                          <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{modDone}/{mod.lecons.length}</span>
                         </div>
                         <ProgressBar value={modPct} height={4} color={color} />
                       </div>

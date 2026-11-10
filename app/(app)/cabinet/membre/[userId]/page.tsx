@@ -6,7 +6,9 @@ import {
 } from 'lucide-react';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { modules } from '@/data/modules';
-import { a2Modules, b1Modules, b2Modules, transversalModules } from '@/data/langue';
+import {
+  a2Catalogue, b1Catalogue, b2Catalogue, transversalCatalogue,
+} from '@/data/langue/catalogue';
 import { calculerProgression, voletDuPlan } from '@/lib/progression';
 import { Kpi, Carte, Stat, Jauge, Vide, degradeDe } from '@/components/admin/ui';
 import { CabinetMemberActions } from '@/components/app/CabinetMemberActions';
@@ -67,21 +69,28 @@ export default async function CabinetMemberPage({ params }: { params: { userId: 
   const faites = new Set(
     (progression ?? []).filter((p) => p.completed).map((p) => `${p.module_slug}:${p.lesson_slug}`),
   );
-  interface ModuleAffiche { slug: string; title: string; lessons: { slug: string }[] }
+  interface ModuleAffiche { slug: string; titre: string; lecons: readonly string[] }
   const detailler = (liste: readonly ModuleAffiche[]) => liste.map((m) => {
-    const n = m.lessons.filter((l) => faites.has(`${m.slug}:${l.slug}`)).length;
+    const n = m.lecons.filter((l) => faites.has(`${m.slug}:${l}`)).length;
     return {
-      titre: m.title, n, total: m.lessons.length,
-      pct: m.lessons.length ? Math.round((n / m.lessons.length) * 100) : 0,
+      titre: m.titre, n, total: m.lecons.length,
+      pct: m.lecons.length ? Math.round((n / m.lecons.length) * 100) : 0,
     };
   });
 
   // Le détail suit le volet souscrit : afficher les seuls modules civiques à
   // un cabinet en formule complète laissait invisible tout le travail de
   // français de ses clients.
-  const modulesLangue = [...a2Modules, ...b1Modules, ...b2Modules, ...transversalModules];
+  const modulesLangue = [
+    ...a2Catalogue, ...b1Catalogue, ...b2Catalogue, ...transversalCatalogue,
+  ];
   const blocs = [
-    ...(volet !== 'langue' ? [{ cle: 'civique', titre: 'Progression — modules civiques', lignes: detailler(modules) }] : []),
+    ...(volet !== 'langue' ? [{
+      cle: 'civique', titre: 'Progression — modules civiques',
+      lignes: detailler(modules.map((m) => ({
+        slug: m.slug, titre: m.title, lecons: m.lessons.map((l) => l.slug),
+      }))),
+    }] : []),
     ...(volet !== 'civique' ? [{ cle: 'langue', titre: 'Progression — modules de français', lignes: detailler(modulesLangue).filter((m) => m.n > 0) }] : []),
   ];
 

@@ -5,14 +5,21 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { XP_REWARDS } from '@/lib/gamification';
 import { modules } from '@/data/modules';
-import { a2Modules, b1Modules, b2Modules, transversalModules } from '@/data/langue';
+// Catalogue léger : cette route n'a besoin que des slugs. Importer
+// `@/data/langue` y tirait 1,87 Mo d'exercices, analysés à chaque démarrage
+// à froid — pour une route appelée à chaque leçon terminée.
+import {
+  a2Catalogue, b1Catalogue, b2Catalogue, transversalCatalogue, tousCatalogue,
+} from '@/data/langue/catalogue';
 
-const a2Slugs  = new Set(a2Modules.flatMap((m) => m.lessons.map((l) => l.slug)));
-const b1Slugs  = new Set(b1Modules.flatMap((m) => m.lessons.map((l) => l.slug)));
-const b2Slugs  = new Set(b2Modules.flatMap((m) => m.lessons.map((l) => l.slug)));
-const langSlugs = new Set([...a2Slugs, ...b1Slugs, ...b2Slugs, ...transversalModules.flatMap((m) => m.lessons.map((l) => l.slug))]);
+const a2Slugs  = new Set(a2Catalogue.flatMap((m) => m.lecons));
+const b1Slugs  = new Set(b1Catalogue.flatMap((m) => m.lecons));
+const b2Slugs  = new Set(b2Catalogue.flatMap((m) => m.lecons));
+const langSlugs = new Set([
+  ...a2Slugs, ...b1Slugs, ...b2Slugs, ...transversalCatalogue.flatMap((m) => m.lecons),
+]);
 
-const allLangModules = [...a2Modules, ...b1Modules, ...b2Modules, ...transversalModules];
+const allLangModules = tousCatalogue;
 
 export async function POST(req: Request) {
   try {
@@ -51,7 +58,7 @@ export async function POST(req: Request) {
     }
     if (!moduleSlug) {
       for (const m of allLangModules) {
-        if (m.lessons.find((l) => l.slug === lessonSlug)) {
+        if (m.lecons.includes(lessonSlug)) {
           moduleSlug = m.slug;
           break;
         }

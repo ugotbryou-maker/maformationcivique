@@ -8,18 +8,29 @@
  * était, il disait ce qu'il n'avait pas acheté. Un cabinet qui lit ce chiffre
  * en conclut que son client décroche, à tort.
  *
- * ⚠️ Module serveur : il importe les données de langue (1,87 Mo). Ne jamais
- * l'importer depuis un composant « use client ».
+ * ⚠️ Module serveur : il importe le catalogue civique. Ne jamais l'importer
+ * depuis un composant « use client ».
+ *
+ * Il ne lit du français que le catalogue léger : ce fichier n'a besoin que
+ * des titres et des nombres de leçons, et importer `@/data/langue` pour cela
+ * tirait 1,87 Mo d'exercices dans toutes les fonctions serveur qui calculent
+ * une progression — tableau de bord, espace cabinet, fiches client.
  */
 
 import { modules } from '@/data/modules';
-import { a2Modules, b1Modules, b2Modules, transversalModules } from '@/data/langue';
+import {
+  a2Catalogue, b1Catalogue, b2Catalogue, transversalCatalogue,
+} from '@/data/langue/catalogue';
+
+const CATALOGUE_LANGUE = [
+  ...a2Catalogue, ...b1Catalogue, ...b2Catalogue, ...transversalCatalogue,
+];
 
 /** Catalogue à plat : slug, titre et nombre de leçons de chaque module. */
 const CATALOGUE = [
   ...modules.map((m) => ({ slug: m.slug, titre: m.title, lecons: m.lessons.length, volet: 'civique' as const })),
-  ...[...a2Modules, ...b1Modules, ...b2Modules, ...transversalModules]
-    .map((m) => ({ slug: m.slug, titre: m.title, lecons: m.lessons.length, volet: 'langue' as const })),
+  ...CATALOGUE_LANGUE
+    .map((m) => ({ slug: m.slug, titre: m.titre, lecons: m.lecons.length, volet: 'langue' as const })),
 ];
 
 export type Volet = 'civique' | 'langue' | 'complet';
@@ -82,9 +93,7 @@ export interface LigneProgression {
 }
 
 const SLUGS_CIVIQUES = new Set(modules.map((m) => m.slug));
-const SLUGS_LANGUE = new Set(
-  [...a2Modules, ...b1Modules, ...b2Modules, ...transversalModules].map((m) => m.slug),
-);
+const SLUGS_LANGUE = new Set(CATALOGUE_LANGUE.map((m) => m.slug));
 
 /**
  * Le parcours linguistique est organisé par niveau : un candidat ne suit que
@@ -97,9 +106,9 @@ const SLUGS_LANGUE = new Set(
  * les niveaux : il compte toujours.
  */
 const MODULES_PAR_NIVEAU = {
-  A2: [...a2Modules, ...transversalModules],
-  B1: [...b1Modules, ...transversalModules],
-  B2: [...b2Modules, ...transversalModules],
+  A2: [...a2Catalogue, ...transversalCatalogue],
+  B1: [...b1Catalogue, ...transversalCatalogue],
+  B2: [...b2Catalogue, ...transversalCatalogue],
 } as const;
 
 export type NiveauCible = 'A2' | 'B1' | 'B2';
@@ -125,9 +134,7 @@ export function niveauCible(
 }
 
 export const TOTAL_LECONS_CIVIQUES = modules.reduce((a, m) => a + m.lessons.length, 0);
-export const TOTAL_LECONS_LANGUE =
-  [...a2Modules, ...b1Modules, ...b2Modules, ...transversalModules]
-    .reduce((a, m) => a + m.lessons.length, 0);
+export const TOTAL_LECONS_LANGUE = CATALOGUE_LANGUE.reduce((a, m) => a + m.lecons.length, 0);
 
 /**
  * Volet souscrit. Pour un membre de cabinet, c'est le contrat du cabinet qui
@@ -152,7 +159,7 @@ export function calculerProgression(
 ): ProgressionVolets {
   const niveau = niveauCible(demarche, lignes);
   const slugsNiveau = new Set(MODULES_PAR_NIVEAU[niveau].map((m) => m.slug));
-  const totalLangue = MODULES_PAR_NIVEAU[niveau].reduce((a, m) => a + m.lessons.length, 0);
+  const totalLangue = MODULES_PAR_NIVEAU[niveau].reduce((a, m) => a + m.lecons.length, 0);
   // On déduplique : une leçon reprise plusieurs fois ne compte qu'une fois,
   // et la table peut contenir plusieurs lignes pour un même couple.
   const faitesCiv = new Set<string>();
